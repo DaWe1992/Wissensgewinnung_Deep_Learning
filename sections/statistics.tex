@@ -1,0 +1,20 @@
+\section{Grundlagen der Statistik}
+
+\subsection{Transformationssatz}
+
+\begin{frame}{Transformationssatz für Dichten}{}
+	\begin{theo}[th:transformationssatz]
+		Es seien $\bx$ und $\by$ $n$-dimensionale Zufallsvektoren mit $\by = \bT(\bx)$. Die Abbildung $\bT : \R^n \rightarrow \R^n$ sei bijektiv,
+		sodass die Umkehrabbildung $\bx = \bT^{-1}(\by)$ existiert und eindeutig ist. Dann gilt für die Dichte $p_{\by}(\by)$ von $\by$
+		\begin{equation*}
+			p_{\by}(\by) = p_{\bx}\bigl( \bT^{-1}(\by) \bigr) \cdot \bigl\vert \det J\bT^{-1}(\by) \bigr\vert,
+		\end{equation*}
+		wobei $p_{\bx}$ die Dichte von $\bx$ und $J$ die Jacobi-Matrix bezeichnen.
+	\end{theo}
+	
+	\begin{prf}
+		Für den Beweis werden Argumente aus der Maß- und Integrationstheorie benötigt, deren Behandlung den Rahmen dieses Kurses übersteigen.
+	\end{prf}
+
+	$$\sum_{i=1}^n x_i \prod_{i=1}^n p_i \int_\R$$
+\end{frame}

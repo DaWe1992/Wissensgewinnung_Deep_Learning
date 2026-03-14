@@ -1,0 +1,32 @@
+% commands
+
+% define counter
+\newcounter{mycounter}
+% reset counter for each section
+\counterwithin{mycounter}{section}
+% print counter
+\newcommand{\printmycounter}{%
+    \refstepcounter{mycounter}%
+    \themycounter
+}
+
+% theorem
+\NewDocumentEnvironment{theo}{o}{%
+	\textbf{\printmycounter\IfNoValueTF{#1}{}{\label{#1}} Satz:}
+}{}
+
+% proof
+\NewDocumentEnvironment{prf}{}{%
+	\footnotesize
+	\color{violet}
+	\textbf{Beweis:}
+}{\hfill $\bm{\square}$}
+
+% math commands
+\newcommand{\bx}{\bm{x}}
+\newcommand{\by}{\bm{y}}
+
+\newcommand{\bT}{\bm{T}}
+
+
+\newcommand{\R}{\mathbb{R}}
