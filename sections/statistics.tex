@@ -47,10 +47,11 @@
 
 % Wahrscheinlichkeitsdichten
 \begin{frame}{Wahrscheinlichkeitsdichten}{}
+	In der Regel wollen wir mit Dichten rechnen:
 	\begin{mydef}[def:dichte]
 		Es seien $(\Omega, \sA, \Prob)$ und $(\sX, \sB, \Prob^x)$ Wahrscheinlichkeitsräume. Dabei ist $\Prob^x$ die Verteilung der Zufallsvariablen $x : \Omega \rightarrow \sX$.
-		Wir nennen die nichtnegative Funktion $$p_x : \R \rightarrow [0, 1]$$ eine \keyword{(Wahrscheinlichkeits-)Dichte} von $\Prob^x$, falls
-		$$\Prob^x(B) = \int_B p_x(\xi)\,\diff\xi \qquad \forall B \in \sB.$$ Die Wahrscheinlichkeiten aller Mengen $B \in \sB$ müssen sich also als Integral der Dichte $p_x$
+		Wir nennen eine nichtnegative Funktion $$p_x : \R \rightarrow [0, 1]$$ eine \keyword{(Wahrscheinlichkeits-)Dichte} von $\Prob^x$, falls
+		$$\Prob^x(B) = \int_B p_x(\xi)\,\diff\xi \qquad \forall B \in \sB.$$ Die Wahrscheinlichkeiten der Mengen $B \in \sB$ müssen sich also allesamt als Integral der Dichte $p_x$
 		darstellen lassen können.
 	\end{mydef}
 \end{frame}
