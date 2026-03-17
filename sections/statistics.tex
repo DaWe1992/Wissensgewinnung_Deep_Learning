@@ -1,20 +1,112 @@
 \section{Grundlagen der Statistik}
 
+\subsection{Grundbegriffe der Wahrscheinlichkeitstheorie}
+
+% Wahrscheinlichkeitsräume
+\begin{frame}{Wahrscheinlichkeitsräume}{}
+	Wir definieren zunächst, was man unter einem \keyword{Wahrscheinlichkeitsraum} versteht.
+	\begin{itemize}
+		\item Ein Wahrscheinlichkeitsraum ist ein Tripel $(\Omega, \sA, \Prob)$.
+		\item $\Omega$ ist der \keyword{Ereignisraum}, also die Menge aller Elemantarereignisse.
+			Beim Werfen eines sechsseitigen Würfels betrachten wir $\Omega \coloneqq \{ 1, 2, 3, 4, 5, 6 \}$.
+		\item Mit $\sA$ bezeichnen wir die zugehörige \keyword{Sigma-Algebra}, einer Menge von Teilmengen von $\Omega$. Im einfachsten Fall könnten wir
+			$\sA \coloneqq \Pot(\Omega)$ wählen, jedoch kann man zeigen, dass die Potenzmenge im Allgemeinen nicht messbare Mengen enthält,
+			denen keine Wahrscheinlichkeit zugeordnet werden kann. Die Sigma-Algebra $\B$ auf $\R$ heißt \keyword{Borel-Sigma-Algebra}.
+		\item $\Prob : \sA \rightarrow [0, 1]$ ist ein \keyword{Wahrscheinlichkeitsmaß}, das jedem Element aus $\sA$ eine Wahrscheinlichkeit zuordnet.
+	\end{itemize}
+\end{frame}
+
+
+% Zufallsvariablen
+\begin{frame}{Zufallsvariablen}{}
+	Im Folgenden sei $(\Omega, \sA, \Prob)$ ein Wahrscheinlichkeitsraum und $(\sX, \sB)$ ein messbarer Raum.
+	
+	\begin{mydef}[def:zufallsvariable]
+		Die Abbildung $x : \Omega \rightarrow \sX$ heißt \keyword{Zufallsvariable}, falls
+		$$\forall B \in \sB : x^{-1}(B) \coloneqq \{ \omega \in \Omega : x(\omega) \in B \} \in \sA$$ gilt.
+		Das Urbild von $B$ unter $x$ muss also eine messbare Menge in $\sA$ sein, der durch $\Prob$ eine Wahrscheinlichkeit zugeordnet werden kann.
+		Ferner heißt für jede Zufallsvariable $x : \Omega \rightarrow \sX$ die Funktion $$\Prob^x : \sB \rightarrow [0, 1] \qquad\text{mit}\qquad B \mapsto \Prob\bigl( x^{-1}(B) \bigr)$$
+		die \keyword{Verteilung} der Zufallsvariablen $x$. $\Prob^x$ ist das \keyword{Bildmaß} von $\Prob$ unter $x$.
+	\end{mydef}
+\end{frame}
+
+
+% Zufallsvariablen (Forts.)
+\begin{frame}{Zufallsvariablen (Forts.)}{}
+	Sei $(\sX, \sB, \Q)$ ein Wahrscheinlichkeitsraum. Man sagt, die Zufallsgröße $x : \Omega \rightarrow \sX$ ist \textit{verteilt gemäß $\Q$} oder kurz \textit{$\Q$-verteilt}, 
+	falls es einen Wahrscheinlichkeitsraum $(\Omega, \sA, \Prob)$ gibt, sodass $\Prob^x = \Q$ gilt.
+	
+	\textbf{Beispiele:}
+	\begin{itemize}
+		\item $x$ ist $N_{\mu, \sigma^2}$-verteilt genau dann, wenn es einen Wahrscheinlichkeitsraum $(\Omega, \sA, \Prob)$ gibt, sodass
+			$\forall B \in \B : \Prob(x \in B) = N_{\mu, \sigma^2}(B)$. Wir schreiben kurz $x \sim N_{\mu, \sigma^2}$.
+		\item 
+	\end{itemize}
+\end{frame}
+
+
+% Wahrscheinlichkeitsdichten
+\begin{frame}{Wahrscheinlichkeitsdichten}{}
+	\begin{mydef}[def:dichte]
+		Es seien $(\Omega, \sA, \Prob)$ und $(\sX, \sB, \Prob^x)$ Wahrscheinlichkeitsräume. Dabei ist $\Prob^x$ die Verteilung der Zufallsvariablen $x : \Omega \rightarrow \sX$.
+		Wir nennen die nichtnegative Funktion $$p_x : \R \rightarrow [0, 1]$$ eine \keyword{(Wahrscheinlichkeits-)Dichte} von $\Prob^x$, falls
+		$$\Prob^x(B) = \int_B p_x(\xi)\,\diff\xi \qquad \forall B \in \sB.$$ Die Wahrscheinlichkeiten aller Mengen $B \in \sB$ müssen sich also als Integral der Dichte $p_x$
+		darstellen lassen können.
+	\end{mydef}
+\end{frame}
+
+
+% Diskrete Verteilungen
+\begin{frame}{Diskrete Verteilungen}{}
+
+\end{frame}
+
+
+% Absolutstetige Verteilungen
+\begin{frame}{Absolutstetige Verteilungen}{}
+
+\end{frame}
+
+
 \subsection{Transformationssatz}
 
-\begin{frame}{Transformationssatz für Dichten}{}
-	\begin{theo}[th:transformationssatz]
+% Transformationssatz für Lebsgue-Dichten
+\begin{frame}{Transformationssatz für Lebesgue-Dichten}{}
+	\begin{mytheo}[th:transformationssatz]
 		Es seien $\bx$ und $\by$ $n$-dimensionale Zufallsvektoren mit $\by = \bT(\bx)$. Die Abbildung $\bT : \R^n \rightarrow \R^n$ sei bijektiv,
 		sodass die Umkehrabbildung $\bx = \bT^{-1}(\by)$ existiert und eindeutig ist. Dann gilt für die Dichte $p_{\by}(\by)$ von $\by$
 		\begin{equation*}
 			p_{\by}(\by) = p_{\bx}\bigl( \bT^{-1}(\by) \bigr) \cdot \bigl\vert \det J\bT^{-1}(\by) \bigr\vert,
 		\end{equation*}
-		wobei $p_{\bx}$ die Dichte von $\bx$ und $J$ die Jacobi-Matrix bezeichnen.
-	\end{theo}
+		wobei $p_{\bx}$ die Dichte von $\bx$ und $J \bT^{-1}$ die Jacobi-Matrix der Abbildung $\bT^{-1}$ bezeichnet.
+	\end{mytheo}
 	
 	\begin{prf}
 		Für den Beweis werden Argumente aus der Maß- und Integrationstheorie benötigt, deren Behandlung den Rahmen dieses Kurses übersteigen.
 	\end{prf}
-
-	$$\sum_{i=1}^n x_i \prod_{i=1}^n p_i \int_\R$$
 \end{frame}
+
+
+% Beispiel I
+\begin{frame}{Beispiel I}{}
+Es sei $x \sim \Exp_2$ eine reellwertige exponentialverteilte Zufallsvariable mit Ankunftsrate $\lambda = 2$. \\
+Gesucht ist die Dichte der Zufallsvariablen $y \coloneqq 5x + 2$.
+
+\textbf{Lösung:} Es ist $T(x) \coloneqq 5x + 2$ eine bijektive Transformation mit der Umkehrabbildung $T^{-1}(y) = \frac{1}{5}(y - 2)$. Zusammen mit der Dichte $p_x(x) = 2e^{-2x} \indicator_{[0, \infty)}(x)$ der $\Exp_2$-Verteilung erhalten wir für die Dichte $p_y(y)$ der transformierten Zufallsvariablen $y$
+\begin{align*}
+	p_y(y)
+		&= p_x\bigl( T^{-1}(y) \bigr) \cdot \bigl( T^{-1} \bigr)'(y)
+\\[2mm]
+		&= 2 e^{-2\left( \frac{y}{5} - \frac{2}{5} \right)} \cdot \indicator_{[0, \infty)}\left( \frac{1}{5} y - \frac{2}{5} \right) \cdot \frac{1}{5}
+\\[2mm]
+		&= \frac{2}{5} e^{\frac{4}{5}} e^{-\frac{2y}{5}} \indicator_{[2, \infty)}(y).
+\end{align*}
+\end{frame}
+
+
+% Beispiel II
+\begin{frame}{Beispiel II}{}
+
+\end{frame}
+
+
