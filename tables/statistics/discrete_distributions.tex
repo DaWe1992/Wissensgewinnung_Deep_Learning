@@ -1,0 +1,13 @@
+\begin{table}
+	\renewcommand{\arraystretch}{1.8}
+	\centering
+	\begin{tabular}{l | c | c | c | c}
+		Name der Verteilung			&	$\Prob^x$		& 	Zähldichte $p_x$										& $\E[x]$ 				&	$\V[x]$
+	\\ \hline
+		Binomialverteilung			&	$B_{n, p}$ 	& 	${n \choose k} \cdot p^k \cdot (1 - p)^{n - k}$ 					& $n \cdot p$ 			&	$n \cdot p \cdot (1 - p)$
+	\\
+		Hypergeometrische Verteilung	&	$H_{n, K, N}$	& 	$\frac{{K \choose k} \cdot {N - K \choose n - k}}{{N \choose n}}$ 		& $n \cdot \frac{K}{N}$	&	$n \cdot \frac{K}{N} \cdot (1 - \frac{K}{N}) \cdot \frac{N - n}{N - 1}$
+	\\
+		Poisson-Verteilung			&	$P_\lambda$ 	& 	$e^{-\lambda} \cdot \frac{\lambda^k}{k!}$						& $\lambda$ 			& 	$\lambda$
+	\end{tabular}
+\end{table}
