@@ -66,7 +66,7 @@
 
 % Absolutstetige Verteilungen
 \begin{frame}{Absolutstetige Verteilungen}{}
-
+	\input{./tables/statistics/continuous_distributions}
 \end{frame}
 
 
@@ -75,8 +75,8 @@
 % Transformationssatz für Lebsgue-Dichten
 \begin{frame}{Transformationssatz für Lebesgue-Dichten}{}
 	\begin{mytheo}[th:transformationssatz]
-		Es seien $\bx$ und $\by$ $n$-dimensionale Zufallsvektoren mit $\by = \bT(\bx)$. Die Abbildung $\bT : \R^n \rightarrow \R^n$ sei bijektiv,
-		sodass die Umkehrabbildung $\bx = \bT^{-1}(\by)$ existiert und eindeutig ist. Dann gilt für die Dichte $p_{\by}(\by)$ von $\by$
+		Es seien $\bx$ und $\by$ $n$-dimensionale Zufallsvektoren mit dem Zusammenhang $$\by = \bT(\bx).$$ Die Abbildung $\bT : \R^n \rightarrow \R^n$ sei \textit{bijektiv},
+		sodass die Umkehrabbildung $\bx = \bT^{-1}(\by)$ existiert und eindeutig ist. Dann gilt für die Dichte $p_{\by}$ der transformierten Zufallsvariablen $\by$
 		\begin{equation*}
 			p_{\by}(\by) = p_{\bx}\bigl( \bT^{-1}(\by) \bigr) \cdot \bigl\vert \det J\bT^{-1}(\by) \bigr\vert,
 		\end{equation*}
@@ -84,31 +84,53 @@
 	\end{mytheo}
 	
 	\begin{prf}
-		Für den Beweis werden Argumente aus der Maß- und Integrationstheorie benötigt, deren Behandlung den Rahmen dieses Kurses übersteigen.
+		Für den Beweis werden Argumente aus der Maß- und Integrationstheorie benötigt, deren Behandlung den Rahmen dieses Kurses übersteigt.
 	\end{prf}
 \end{frame}
 
 
 % Beispiel I
 \begin{frame}{Beispiel I}{}
-Es sei $x \sim \Exp_2$ eine reellwertige exponentialverteilte Zufallsvariable mit Ankunftsrate $\lambda = 2$. \\
+Es sei $x \sim Exp_2$ eine reellwertige exponentialverteilte Zufallsvariable mit Ankunftsrate $\lambda = 2$. \\
 Gesucht ist die Dichte der Zufallsvariablen $y \coloneqq 5x + 2$.
 
-\textbf{Lösung:} Es ist $T(x) \coloneqq 5x + 2$ eine bijektive Transformation mit der Umkehrabbildung $T^{-1}(y) = \frac{1}{5}(y - 2)$. Zusammen mit der Dichte $p_x(x) = 2e^{-2x} \indicator_{[0, \infty)}(x)$ der $\Exp_2$-Verteilung erhalten wir für die Dichte $p_y(y)$ der transformierten Zufallsvariablen $y$
+\textbf{Lösung:} Es ist $T(x) \coloneqq 5x + 2$ eine bijektive Transformation mit der Umkehrabbildung $T^{-1}(y) = \frac{1}{5}(y - 2)$. Zusammen mit der Dichte $p_x(x) = 2 \cdot e^{-2x} \cdot \indicator_{[0, \infty)}(x)$ der $Exp_2$-Verteilung erhalten wir für die Dichte $p_y(y)$ der transformierten Zufallsvariablen $y$
 \begin{align*}
 	p_y(y)
 		&= p_x\bigl( T^{-1}(y) \bigr) \cdot \bigl( T^{-1} \bigr)'(y)
 \\[2mm]
-		&= 2 e^{-2\left( \frac{y}{5} - \frac{2}{5} \right)} \cdot \indicator_{[0, \infty)}\left( \frac{1}{5} y - \frac{2}{5} \right) \cdot \frac{1}{5}
+		&= 2 \cdot e^{-2\left( \frac{y}{5} - \frac{2}{5} \right)} \cdot \indicator_{[0, \infty)}\left( \frac{1}{5} y - \frac{2}{5} \right) \cdot \frac{1}{5}
 \\[2mm]
-		&= \frac{2}{5} e^{\frac{4}{5}} e^{-\frac{2y}{5}} \indicator_{[2, \infty)}(y).
+		&= \frac{2}{5} \cdot e^{\frac{4}{5}} \cdot e^{-\frac{2y}{5}} \cdot \indicator_{[2, \infty)}(y).
 \end{align*}
 \end{frame}
 
 
 % Beispiel II
 \begin{frame}{Beispiel II}{}
+	Falls die Transformation $\bT$ linear und bijektiv ist, also $\by = \bT(\bx) = \bA \bx$, so ist $\bx = \bT^{-1}(\by) = \bA^{-1} \by$.
+	In diesem Fall reduziert sich die Transformationsformel aus Satz \ref{th:transformationssatz} zu
+	$$p_{\by}(\by) = \frac{1}{\vert \det \bA \vert} p_{\bx}(\bA^{-1} \by).$$
+\end{frame}
 
+
+\subsection{Multivariate Normalverteilung}
+
+% Multivariate Normalverteilung
+\begin{frame}{Multivariate Normalverteilung}{}
+	Die multivariate Normalverteilung spielt im weiteren Verlauf eine zentrale Rolle:
+	\begin{mydef}[def:multivar-nv]
+		Es seien $\bmu \in \R^n$ und $\bSigma \in \R^{n \times n}$ eine \textit{positiv definite} Matrix. Die Dichte der \keyword{multivariaten Normalverteilung} der Dimension $n \in \N$
+		ist gegeben durch
+		$$p_{\bx}(\bx) \coloneqq \frac{1}{(2 \pi)^{\frac{n}{2}} \cdot (\det \bSigma)^{\frac{1}{2}}} \cdot \exp\left(
+			-\frac{1}{2} (\bx - \bmu)^\top \bSigma^{-1} (\bx - \bmu) \right).$$
+	\end{mydef}
+	
+	\textbf{Bemerkungen:}
+	\begin{itemize}
+		\item Die Parameter $\bmu$ und $\bSigma$ stellen Erwartungswert und Kovarianzmatrix der Verteilung dar.
+		\item Die Forderung der positiven Definitheit der Matrix $\bSigma$ impliziert deren Invertierbarkeit.
+	\end{itemize}
 \end{frame}
 
 

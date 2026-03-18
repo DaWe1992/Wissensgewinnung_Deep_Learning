@@ -48,10 +48,10 @@
 
 % theorem
 \NewDocumentEnvironment{mytheo}{o}{%
-	%\begin{tcolorbox}[theorembox]
+	\begin{tcolorbox}[theorembox]
 	\textbf{\printmycounter\IfNoValueTF{#1}{}{\label{#1}} Satz:}
 }{%
-	%\end{tcolorbox}
+	\end{tcolorbox}
 }
 
 % proof
@@ -68,7 +68,13 @@
 \newcommand{\bx}{\bm{x}}
 \newcommand{\by}{\bm{y}}
 
+\newcommand{\bA}{\bm{A}}
 \newcommand{\bT}{\bm{T}}
+
+\newcommand{\bmu}{\bm{\mu}}
+\newcommand{\bxi}{\bm{\xi}}
+
+\newcommand{\bSigma}{\bm{\Sigma}}
 
 % script
 \newcommand{\sA}{\mathcal{A}}
@@ -77,13 +83,11 @@
 
 \newcommand{\B}{\mathbb{B}}
 \newcommand{\E}{\mathbb{E}}
+\newcommand{\N}{\mathbb{N}}
 \newcommand{\Prob}{\mathbb{P}}
 \newcommand{\Q}{\mathbb{Q}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\V}{\mathbb{V}}
-
-% densities
-\newcommand{\Exp}{\text{Exp}}
 
 
 \newcommand{\indicator}{\bm{1}}
