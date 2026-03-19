@@ -57,6 +57,38 @@
 \end{frame}
 
 
+% Erwartungswert von Zufallsvariablen
+\begin{frame}{Erwartungswert von Zufallsvariablen}{}
+	\begin{mydef}[def:erwartungswert]
+		Sei $x$ eine Zufallsvariable. Wir definieren den \keyword{Erwartungswert} (1. Moment) von $x$ als
+		$$\E[x] \coloneqq \int_{\R} \xi \cdot p_x(\xi)\,\diff\xi.$$
+	\end{mydef}
+
+	Aus der Linearität des Integrals folgt die des Erwartungswerts, d.\,h. für zwei Zufallsvariablen $x$ und $y$ und eine beliebige aber feste Zahl $a \in \R$ (keine Zufallsvariable!) gelten
+	$$\E[x + y] = \E[x] + \E[y] \qquad\text{und}\qquad \E[a \cdot x] = a \cdot \E[x].$$ Wir definieren den Erwartungswert einer vektorwertigen Zufallsvariablen
+	$\bx = (x_1, x_2, \ldots, x_n)^\top$ als $\E[\bx] = \bigl( \E[x_1], \E[x_2], \ldots, \E[x_n] \bigr)^\top$.
+\end{frame}
+
+
+% Varianz von Zufallsvariablen
+\begin{frame}{Varianz von Zufallsvariablen}{}
+	\begin{mydef}[def:varianz]
+		Die Varianz einer Zufallsvariablen $x$ ist definiert als die erwartete quadratische Abweichung vom Erwartungswert, also
+		$$\V[x] \coloneqq \E\bigl[ (x - \E[x])^2 \bigr] = \int_\R \bigl( \xi - \E[x] \bigr)^2 \cdot p_x(\xi)\,\diff\xi.$$
+	\end{mydef}
+
+	Unter Ausnutzung der Linearität des Erwartungswerts können wir die Varianz folgendermaßen umschreiben:
+	\begin{align*}
+		\V[x]
+			&= \E\bigl[ (x - \E[x])^2 \bigr] = \E\bigl[ x^2 - 2x \cdot \E[x] + \bigl( \E[x] \bigr)^2 \bigr]
+	\\[2mm]
+			&= \E[x^2] - 2 \bigl( \E[x] \bigr)^2 + \bigl( \E[x] \bigr)^2
+	\\[2mm]
+			&= \E[x^2] - \bigl( \E[x] \bigr)^2
+	\end{align*}
+\end{frame}
+
+
 % Diskrete Verteilungen
 \begin{frame}{Diskrete Verteilungen}{}
 	Einige bekannte diskrete Verteilungen lauten:
