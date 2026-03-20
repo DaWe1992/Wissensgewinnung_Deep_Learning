@@ -60,20 +60,20 @@
 % Erwartungswert von Zufallsvariablen
 \begin{frame}{Erwartungswert von Zufallsvariablen}{}
 	\begin{mydef}[def:erwartungswert]
-		Sei $x$ eine Zufallsvariable. Wir definieren den \keyword{Erwartungswert} (1. Moment) von $x$ als
+		Sei $x \in \R$ eine Zufallsvariable. Wir definieren den \keyword{Erwartungswert} (erstes Moment) von $x$ als
 		$$\E[x] \coloneqq \int_{\R} \xi \cdot p_x(\xi)\,\diff\xi.$$
 	\end{mydef}
 
-	Aus der Linearität des Integrals folgt die des Erwartungswerts, d.\,h. für zwei Zufallsvariablen $x$ und $y$ und eine beliebige aber feste Zahl $a \in \R$ (keine Zufallsvariable!) gelten
-	$$\E[x + y] = \E[x] + \E[y] \qquad\text{und}\qquad \E[a \cdot x] = a \cdot \E[x].$$ Wir definieren den Erwartungswert einer vektorwertigen Zufallsvariablen
-	$\bx = (x_1, x_2, \ldots, x_n)^\top$ als $\E[\bx] = \bigl( \E[x_1], \E[x_2], \ldots, \E[x_n] \bigr)^\top$.
+	Aus der Linearität des Integrals folgt die des Erwartungswerts, d.\,h. für zwei Zufallsvariablen $x$ und $y$ und eine beliebige aber feste Zahl $\alpha \in \R$ (keine Zufallsvariable!) gelten
+	$$\E[x + y] = \E[x] + \E[y] \qquad\text{und}\qquad \E[\alpha \cdot x] = \alpha \cdot \E[x].$$ Wir definieren den Erwartungswert einer vektorwertigen Zufallsvariablen
+	$\bx = (x_1, x_2, \ldots, x_n)^\top$ als $$\E[\bx] \coloneqq \bigl( \E[x_1], \E[x_2], \ldots, \E[x_n] \bigr)^\top.$$
 \end{frame}
 
 
 % Varianz von Zufallsvariablen
 \begin{frame}{Varianz von Zufallsvariablen}{}
 	\begin{mydef}[def:varianz]
-		Die Varianz einer Zufallsvariablen $x$ ist definiert als die erwartete quadratische Abweichung vom Erwartungswert, also
+		Die Varianz einer Zufallsvariablen $x \in \R$ ist definiert als die erwartete quadratische Abweichung vom Erwartungswert (zweites zentriertes Moment), also
 		$$\V[x] \coloneqq \E\bigl[ (x - \E[x])^2 \bigr] = \int_\R \bigl( \xi - \E[x] \bigr)^2 \cdot p_x(\xi)\,\diff\xi.$$
 	\end{mydef}
 
@@ -91,14 +91,21 @@
 
 % Varianz von Zufallsvariablen (Forts.)
 \begin{frame}{Varianz von Zufallsvariablen (Forts.)}{}
-	Ein paar Bemerkungen:
+	Ein paar Bemerkungen. Seien dazu $x$ und $y$ reelle Zufallsvariablen und $\alpha \in \R$ beliebig aber fest.
 	\begin{itemize}
-		\item Die Varianz ist \textbf{nicht} linear. Seien $x$ und $y$ reelle Zufallsvariablen und $a \in \R$ beliebig aber fest.
+		\item Die Varianz ist \textbf{nicht} linear:
 		\begin{itemize}
 			\item Es gilt $\V[x + y] = \V[x] + \V[y]$ nur, wenn $x$ und $y$ unkorreliert sind (Satz von Bienaymé).
-			\item $\V[a \cdot x] = a^2 \cdot \V[x]$
+			\item $\V[\alpha \cdot x] = \alpha^2 \cdot \V[x]$
 		\end{itemize}
+		\item Eine Verschiebung verändert die Varianz nicht, also $\V[x + \alpha] = \V[x]$
 	\end{itemize}
+\end{frame}
+
+
+% Kovarianz und Streuungsmatrix
+\begin{frame}{Kovarianz und Streuungsmatrix}{}
+	tbd
 \end{frame}
 
 
@@ -211,15 +218,14 @@
 
 % Multivariate Normalverteilung (Forts.)
 \begin{frame}{Multivariate Normalverteilung (Forts.)}{}
-	Die multivariate Standardnormalverteilung hat Erwartungswertvektor $\E[\bx] = \0$ und Streuungsmatrix $\D[\bx] = \bI$.
+	Für die multivariate Standardnormalverteilung gilt $\E[\bx] = \0$ und $\D[\bx] = \bI$.
 
 	Wir verallgemeinern dies auf beliebige Erwartungswertvektoren $\bmu \in \R^n$ und Streuungsmatrizen $\bSigma \in \R^{n \times n}$.
-	Hierbei nehmen wir an, dass die Streuungsmatrix $\bSigma$ \textit{positiv definit} ist, also $\bz^\top \bSigma \bz > 0\, \forall \bz \in \R^n \backslash \{ \0 \}$ gilt.
-	Die Schritte sind:
+	Wir fordern lediglich, dass die Streuungsmatrix $\bSigma$ \textit{positiv definit} ist, dass also $\bz^\top \bSigma \bz > 0\, \forall \bz \in \R^n \backslash \{ \0 \}$ gilt.
 
 	\begin{enumerate}
 		\item Aufgrund der positiven Definitheit von $\bSigma$ gibt es eine untere Dreiecksmatrix $\bA$ mit $\bSigma = \bA \bA^\top$ (Stichwort: \keyword{Cholesky-Zerlegung}).
-		\item Wir betrachten die Transformation $\by = \bA \bx + \bmu$. Es gilt $$\E[\by] = \E[\bA \bx + \bmu] = \bA \E[\bx] + \bmu = \bmu \qquad\text{und}\qquad
+		\item Wir betrachten die Transformation $\by \coloneqq \bA \bx + \bmu$. Es gilt $$\E[\by] = \E[\bA \bx + \bmu] = \bA \E[\bx] + \bmu = \bmu \qquad\text{und}\qquad
 		\D[\by] = \D[\bA \bx + \bmu] = \bA \D[\bx] \bA^\top = \bA \bA^\top = \bSigma.$$
 		\item Nun wenden wir die Transformationsformel \ref{th:transformationssatz} an.
 	\end{enumerate}
@@ -228,13 +234,13 @@
 
 % Multivariate Normalverteilung (Forts.)
 \begin{frame}{Multivariate Normalverteilung (Forts.)}{}
-	\textbf{Zu Schritt 3:} Es ist $\bT^{-1}(\bx) = \bA^{-1} (\by - \bmu)$. Mit obigem Beispiel erhalten wir
+	Es ist $\bT^{-1}(\bx) = \bA^{-1} (\by - \bmu)$. Mit obigem Beispiel II zum Transformationssatz erhalten wir
 	$$\bigl\vert \det J \bT^{-1}(\bgamma) \bigr\vert = \bigl\vert \det \bA^{-1} \bigr\vert = \frac{1}{\vert \det \bA \vert}.$$ Außerdem gilt mit dem
 	Determinantenmultiplikationssatz\footnote{Für zwei $n \times n$ Matrizen $\bA$ und $\bB$ gilt $\det(\bA \bB) = \det \bA \cdot \det \bB$.}
 	die Identität $\det \bSigma = \det\bigl( \bA \bA^\top \bigr) = \det \bA \cdot \det \bA = \det^2 \bA$. Durch Ziehen der Wurzel auf beiden Seiten erhalten wir also
-	$\vert \det \bA \vert = \sqrt{\det \bSigma}$. Die Dichte $p_{\by}$ hat also die Form
-	$$p_{\by}(\bgamma) = \frac{1}{\sqrt{\det \bSigma}} \cdot p_{\bx}\bigl( \bA^{-1} (\bgamma - \bmu) \bigr),$$
-	wobei $p_{\bx}$ die Dichte der Standardnormalverteilung aus Satz \ref{th:multivar-stdnv} ist. Wir setzen $\bxi \coloneqq \bA^{-1} (\bgamma - \bmu)$, sodass
+	$\vert \det \bA \vert = (\det \bSigma)^{\frac{1}{2}}$. Die Dichte $p_{\by}$ nimmt damit die Form
+	$$p_{\by}(\bgamma) = \frac{1}{(\det \bSigma)^\frac{1}{2}} \cdot p_{\bx}\bigl( \bA^{-1} (\bgamma - \bmu) \bigr)$$ an,
+	wobei $p_{\bx}$ die Dichte der Standardnormalverteilung aus Satz \ref{th:multivar-stdnv} ist. Wir setzen dort $\bxi \coloneqq \bA^{-1} (\bgamma - \bmu)$, sodass
 	$\Vert \bxi \Vert^2 = (\bgamma - \bmu)^\top \bigl(\bA^{-1})^\top \bA^{-1} (\bgamma - \bmu) = (\bgamma - \bmu)^\top \bSigma^{-1} (\bgamma - \bmu)$ gilt. 
 \end{frame}
 
@@ -255,3 +261,15 @@
 \end{frame}
 
 
+% Visualisierung der multivariaten NV
+\begin{frame}{Visualisierung der multivariaten NV}{}
+	tbd
+\end{frame}
+
+
+% Partitionierte Normalverteilung
+\begin{frame}{Partitionierte Normalverteilung}{}
+	Es seien $\bx \in \R^d$ und $\by \in \R^{(n - d)}$ Zufallsvektoren. Wir fassen diese zu einem neuen Zufallsvektor $\bz \coloneqq \bigl( \bx^\top, \by^\top \bigr)^\top \in \R^n$
+	mit $\bz \sim N_{\bmu, \bSigma}$ zusammen. Hierbei sei $$\bmu \coloneqq \begin{pmatrix} \bmu_{\bx} \\ \bmu_{\by} \end{pmatrix} \qquad\text{und}\qquad \bSigma \coloneqq
+	\begin{pmatrix} \bSigma_{\bx\bx} & \bSigma_{\bx\by} \\ \bSigma_{\by\bx} & \bSigma_{\by\by} \end{pmatrix}.$$
+\end{frame}
