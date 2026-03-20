@@ -89,6 +89,35 @@
 \end{frame}
 
 
+% Varianz von Zufallsvariablen (Forts.)
+\begin{frame}{Varianz von Zufallsvariablen (Forts.)}{}
+	Ein paar Bemerkungen:
+	\begin{itemize}
+		\item Die Varianz ist \textbf{nicht} linear. Seien $x$ und $y$ reelle Zufallsvariablen und $a \in \R$ beliebig aber fest.
+		\begin{itemize}
+			\item Es gilt $\V[x + y] = \V[x] + \V[y]$ nur, wenn $x$ und $y$ unkorreliert sind (Satz von Bienaymé).
+			\item $\V[a \cdot x] = a^2 \cdot \V[x]$
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
+% Stochastische Unabhängigkeit
+\begin{frame}{Stochastische Unabhängigkeit}{}
+	Mit Dichten können wir auch die \keyword{stochastische Unabhängigkeit} von Zufallsvariablen definieren:
+	
+	\begin{mydef}[def:stoch-unab]
+		Es seien $x \in \R$ und $y \in \R$ reelle Zufallsvariablen mit den Verteilungen $\Prob^x, \Prob^y$ und den Dichten $p_x$ bzw. $p_y$.
+
+		$x$ und $y$ heißen \keyword{stochastisch unabhängig} genau dann wenn $p_{x, y} \coloneqq p_x \cdot p_y$ eine Produktdichte der Verteilung $\Prob^{x, y}$ ist,
+		d.\,h. die gemeinsame Dichte von $x$ und $y$ ergibt sich als Produkt der Einzeldichten. 
+	\end{mydef}
+
+	\textbf{Bemerkung:} Stochastisch unabhängige Zufallsvariablen sind auch unkorreliert. Die Umkehrung gilt im Allgemeinen nicht. Somit ist die stochastische Unabhängigkeit
+	eine stärkere Forderung als Unkorreliertheit.
+\end{frame}
+
+
 % Diskrete Verteilungen
 \begin{frame}{Diskrete Verteilungen}{}
 	Einige bekannte diskrete Verteilungen lauten:
@@ -221,6 +250,8 @@
 		$$p_{\bx}(\bxi) \coloneqq \frac{1}{(2 \pi)^{\frac{n}{2}} \cdot (\det \bSigma)^{\frac{1}{2}}} \cdot \exp\left(
 			-\frac{1}{2} (\bxi - \bmu)^\top \bSigma^{-1} (\bxi - \bmu) \right).$$
 	\end{mydef}
+	
+	\textbf{Bemerkung:} Die positive Definitheit der Matrix $\bSigma$ impliziert deren Invertierbarkeit.
 \end{frame}
 
 
