@@ -110,39 +110,46 @@
 		Es seien $\bx$ und $\by$ $n$-dimensionale Zufallsvektoren mit dem Zusammenhang $$\by = \bT(\bx).$$ Die Abbildung $\bT : \R^n \rightarrow \R^n$ sei \textit{bijektiv},
 		sodass die Umkehrabbildung $\bx = \bT^{-1}(\by)$ existiert und eindeutig ist. Dann gilt für die Dichte $p_{\by}$ der transformierten Zufallsvariablen $\by$
 		\begin{equation*}
-			p_{\by}(\by) = p_{\bx}\bigl( \bT^{-1}(\by) \bigr) \cdot \bigl\vert \det J\bT^{-1}(\by) \bigr\vert,
+			p_{\by}(\bgamma) = p_{\bx}\bigl( \bT^{-1}(\bgamma) \bigr) \cdot \bigl\vert \det J\bT^{-1}(\bgamma) \bigr\vert,
 		\end{equation*}
 		wobei $p_{\bx}$ die Dichte von $\bx$ und $J \bT^{-1}$ die Jacobi-Matrix der Abbildung $\bT^{-1}$ bezeichnet.
 	\end{mytheo}
 	
-	\begin{prf}
+	\begin{myproof}
 		Für den Beweis werden Argumente aus der Maß- und Integrationstheorie benötigt, deren Behandlung den Rahmen dieses Kurses übersteigt.
-	\end{prf}
+	\end{myproof}
 \end{frame}
 
 
 % Beispiel I
 \begin{frame}{Beispiel I}{}
-Es sei $x \sim Exp_2$ eine reellwertige exponentialverteilte Zufallsvariable mit Ankunftsrate $\lambda = 2$. \\
-Gesucht ist die Dichte der Zufallsvariablen $y \coloneqq 5x + 2$.
-
-\textbf{Lösung:} Es ist $T(x) \coloneqq 5x + 2$ eine bijektive Transformation mit der Umkehrabbildung $T^{-1}(y) = \frac{1}{5}(y - 2)$. Zusammen mit der Dichte $p_x(x) = 2 \cdot e^{-2x} \cdot \indicator_{[0, \infty)}(x)$ der $Exp_2$-Verteilung erhalten wir für die Dichte $p_y(y)$ der transformierten Zufallsvariablen $y$
-\begin{align*}
-	p_y(y)
-		&= p_x\bigl( T^{-1}(y) \bigr) \cdot \bigl( T^{-1} \bigr)'(y)
-\\[2mm]
-		&= 2 \cdot e^{-2\left( \frac{y}{5} - \frac{2}{5} \right)} \cdot \indicator_{[0, \infty)}\left( \frac{1}{5} y - \frac{2}{5} \right) \cdot \frac{1}{5}
-\\[2mm]
-		&= \frac{2}{5} \cdot e^{\frac{4}{5}} \cdot e^{-\frac{2y}{5}} \cdot \indicator_{[2, \infty)}(y).
-\end{align*}
+	Es sei $x \sim Exp_2$ eine reellwertige exponentialverteilte Zufallsvariable mit Ankunftsrate $\lambda = 2$. \\
+	Gesucht ist die Dichte der Zufallsvariablen $y \coloneqq 5x + 2$.
+	
+	\textbf{Lösung:} Es ist $T(x) \coloneqq 5 x + 2$ eine bijektive Transformation mit der Umkehrabbildung $x = T^{-1}(y) = \frac{1}{5}(y - 2)$.
+	Zusammen mit der Dichte $p_x(\xi) = 2 \cdot e^{-2 \xi} \cdot \indicator_{[0, \infty)}(\xi)$ der $Exp_2$-Verteilung erhalten wir für die Dichte $p_y(\gamma)$
+	der transformierten Zufallsvariablen $y$
+	\begin{align*}
+		p_y(\gamma)
+			&= p_x\bigl( T^{-1}(\gamma) \bigr) \cdot \bigl( T^{-1} \bigr)'(\gamma)
+	\\[2mm]
+			&= 2 \cdot e^{-2 \left( \frac{\gamma}{5} - \frac{2}{5} \right)} \cdot \indicator_{[0, \infty)}\left( \frac{1}{5} \gamma - \frac{2}{5} \right) \cdot \frac{1}{5}
+	\\[2mm]
+			&= \frac{2}{5} \cdot e^{\frac{4}{5}} \cdot e^{-\frac{2 \gamma}{5}} \cdot \indicator_{[2, \infty)}(\gamma).
+	\end{align*}
 \end{frame}
 
 
 % Beispiel II
 \begin{frame}{Beispiel II}{}
-	Falls die Transformation $\bT$ linear und bijektiv ist, also $\by = \bT(\bx) = \bA \bx$, so ist $\bx = \bT^{-1}(\by) = \bA^{-1} \by$.
-	In diesem Fall reduziert sich die Transformationsformel aus Satz \ref{th:transformationssatz} zu
-	$$p_{\by}(\by) = \frac{1}{\vert \det \bA \vert} p_{\bx}(\bA^{-1} \by).$$
+	Der Zufallsvektor $\bx \in \R^n$ habe eine beliebige Lebesgue-Dichte $p_{\bx}$. Die Transformation $\bT$ sei linear und bijektiv,
+	also von der Form $\by = \bT(\bx) = \bA \bx + \bb$. Insbesondere ist $\bA$ in diesem Fall invertierbar.
+	Dann existiert die Umkehrfunktion und ist gegeben durch $\bx = \bT^{-1}(\by) = \bA^{-1} (\by - \bb)$.
+	Als Jacobi-Matrix erhält man $J\bT^{-1}(\bgamma) = \bA^{-1}$.
+	
+	Die Anwendung der Transformationsformel \ref{th:transformationssatz} ergibt daher für die Dichte $p_{\by}$ von $\by$ den Ausdruck
+	$$p_{\by}(\bgamma) = \frac{1}{\vert \det \bA \vert} \cdot p_{\bx}\bigl( \bA^{-1} (\bgamma - \bb) \bigr),$$ wobei wir den Zusammenhang
+	$\det\bigl( \bA^{-1} \bigr) = \frac{1}{\det \bA}$ benutzt haben.
 \end{frame}
 
 
@@ -151,18 +158,69 @@ Gesucht ist die Dichte der Zufallsvariablen $y \coloneqq 5x + 2$.
 % Multivariate Normalverteilung
 \begin{frame}{Multivariate Normalverteilung}{}
 	Die multivariate Normalverteilung spielt im weiteren Verlauf eine zentrale Rolle:
-	\begin{mydef}[def:multivar-nv]
-		Es seien $\bmu \in \R^n$ und $\bSigma \in \R^{n \times n}$ eine \textit{positiv definite} Matrix. Die Dichte der \keyword{multivariaten Normalverteilung} der Dimension $n \in \N$
-		ist gegeben durch
-		$$p_{\bx}(\bx) \coloneqq \frac{1}{(2 \pi)^{\frac{n}{2}} \cdot (\det \bSigma)^{\frac{1}{2}}} \cdot \exp\left(
-			-\frac{1}{2} (\bx - \bmu)^\top \bSigma^{-1} (\bx - \bmu) \right).$$
-	\end{mydef}
+	\begin{mytheo}[th:multivar-stdnv]
+		Es sei $\bx \coloneqq (x_1, x_2, \ldots, x_n)^\top \in \R^n$ ein Zufallsvektor, dessen Komponenten $x_i \in \R$ unabhängig und identisch standardnormalverteilt sind,
+		d.\,h. $x_i \sim N_{0, 1}\,\forall i \in \{ 1, \ldots, n \}$.
+		
+		Die Dichte der \keyword{multivariaten Standardnormalverteilung} ist dann gegeben durch
+		$$p_{\bx}(\bxi) \coloneqq \frac{1}{(2 \pi)^{\frac{n}{2}}} \cdot \exp\left( -\frac{\Vert \bxi \Vert^2}{2} \right).$$
+	\end{mytheo}
+
+	\begin{myproof}
+		Wegen der Unabhängigkeit der Komponenten gilt für die Verbunddichte
+		\begin{equation*}
+			p_{\bx}(\bxi)
+				= \prod_{i=1}^n p_{x_i}(\xi_i)
+				= \prod_{i=1}^n \frac{1}{\sqrt{2 \pi}} \cdot \exp\left( -\frac{\xi_i^2}{2} \right)
+				= \frac{1}{(2 \pi)^{\frac{n}{2}}} \cdot \exp\left( -\frac{\sum_{i=1}^n \xi_i^2}{2} \right)
+				= \frac{1}{(2 \pi)^{\frac{n}{2}}} \cdot \exp\left( -\frac{\bxi^\top \bxi}{2} \right)
+				= \frac{1}{(2 \pi)^{\frac{n}{2}}} \cdot \exp\left( -\frac{\Vert \bxi \Vert^2}{2} \right).
+		\end{equation*}
+	\end{myproof}
+\end{frame}
+
+
+% Multivariate Normalverteilung (Forts.)
+\begin{frame}{Multivariate Normalverteilung (Forts.)}{}
+	Die multivariate Standardnormalverteilung hat Erwartungswertvektor $\E[\bx] = \0$ und Streuungsmatrix $\D[\bx] = \bI$.
+
+	Wir verallgemeinern dies auf beliebige Erwartungswertvektoren $\bmu \in \R^n$ und Streuungsmatrizen $\bSigma \in \R^{n \times n}$.
+	Hierbei nehmen wir an, dass die Streuungsmatrix $\bSigma$ \textit{positiv definit} ist, also $\bz^\top \bSigma \bz > 0\, \forall \bz \in \R^n \backslash \{ \0 \}$ gilt.
+	Die Schritte sind:
+
+	\begin{enumerate}
+		\item Aufgrund der positiven Definitheit von $\bSigma$ gibt es eine untere Dreiecksmatrix $\bA$ mit $\bSigma = \bA \bA^\top$ (Stichwort: \keyword{Cholesky-Zerlegung}).
+		\item Wir betrachten die Transformation $\by = \bA \bx + \bmu$. Es gilt $$\E[\by] = \E[\bA \bx + \bmu] = \bA \E[\bx] + \bmu = \bmu \qquad\text{und}\qquad
+		\D[\by] = \D[\bA \bx + \bmu] = \bA \D[\bx] \bA^\top = \bA \bA^\top = \bSigma.$$
+		\item Nun wenden wir die Transformationsformel \ref{th:transformationssatz} an.
+	\end{enumerate}
+\end{frame}
+
+
+% Multivariate Normalverteilung (Forts.)
+\begin{frame}{Multivariate Normalverteilung (Forts.)}{}
+	\textbf{Zu Schritt 3:} Es ist $\bT^{-1}(\bx) = \bA^{-1} (\by - \bmu)$. Mit obigem Beispiel erhalten wir
+	$$\bigl\vert \det J \bT^{-1}(\bgamma) \bigr\vert = \bigl\vert \det \bA^{-1} \bigr\vert = \frac{1}{\vert \det \bA \vert}.$$ Außerdem gilt mit dem
+	Determinantenmultiplikationssatz\footnote{Für zwei $n \times n$ Matrizen $\bA$ und $\bB$ gilt $\det(\bA \bB) = \det \bA \cdot \det \bB$.}
+	die Identität $\det \bSigma = \det\bigl( \bA \bA^\top \bigr) = \det \bA \cdot \det \bA = \det^2 \bA$. Durch Ziehen der Wurzel auf beiden Seiten erhalten wir also
+	$\vert \det \bA \vert = \sqrt{\det \bSigma}$. Die Dichte $p_{\by}$ hat also die Form
+	$$p_{\by}(\bgamma) = \frac{1}{\sqrt{\det \bSigma}} \cdot p_{\bx}\bigl( \bA^{-1} (\bgamma - \bmu) \bigr),$$
+	wobei $p_{\bx}$ die Dichte der Standardnormalverteilung aus Satz \ref{th:multivar-stdnv} ist. Wir setzen $\bxi \coloneqq \bA^{-1} (\bgamma - \bmu)$, sodass
+	$\Vert \bxi \Vert^2 = (\bgamma - \bmu)^\top \bigl(\bA^{-1})^\top \bA^{-1} (\bgamma - \bmu) = (\bgamma - \bmu)^\top \bSigma^{-1} (\bgamma - \bmu)$ gilt. 
+\end{frame}
+
+
+% Multivariate Normalverteilung (Forts.)
+\begin{frame}{Multivariate Normalverteilung (Forts.)}{}
+	Wir fassen zusammen:
 	
-	\textbf{Bemerkungen:}
-	\begin{itemize}
-		\item Die Parameter $\bmu$ und $\bSigma$ stellen Erwartungswert und Kovarianzmatrix der Verteilung dar.
-		\item Die Forderung der positiven Definitheit der Matrix $\bSigma$ impliziert deren Invertierbarkeit.
-	\end{itemize}
+	\begin{mydef}[def:multivar-nv]
+		Es sei $\bmu \in \R^n$ und $\bSigma \in \R^{n \times n}$ eine \textit{positiv definite} Matrix.
+		
+		Die Dichte der multivariaten Normalverteilung $N_{\bmu, \bSigma}$ ist gegeben durch
+		$$p_{\bx}(\bxi) \coloneqq \frac{1}{(2 \pi)^{\frac{n}{2}} \cdot (\det \bSigma)^{\frac{1}{2}}} \cdot \exp\left(
+			-\frac{1}{2} (\bxi - \bmu)^\top \bSigma^{-1} (\bxi - \bmu) \right).$$
+	\end{mydef}
 \end{frame}
 
 
