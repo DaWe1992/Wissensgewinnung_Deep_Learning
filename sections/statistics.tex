@@ -25,7 +25,8 @@
 		Die Abbildung $x : \Omega \rightarrow \sX$ heißt \keyword{Zufallsvariable}, falls
 		$$\forall B \in \sB : x^{-1}(B) \coloneqq \{ \omega \in \Omega : x(\omega) \in B \} \in \sA$$ gilt.
 		Das Urbild von $B$ unter $x$ muss also eine messbare Menge in $\sA$ sein, der durch $\Prob$ eine Wahrscheinlichkeit zugeordnet werden kann.
-		Ferner heißt für jede Zufallsvariable $x : \Omega \rightarrow \sX$ die Funktion $$\Prob^x : \sB \rightarrow [0, 1] \qquad\text{mit}\qquad B \mapsto \Prob\bigl( x^{-1}(B) \bigr)$$
+		Ferner heißt für jede Zufallsvariable $x : \Omega \rightarrow \sX$ die Funktion
+		$$\Prob^x : \sB \rightarrow [0, 1] \qquad\text{mit}\qquad B \mapsto \Prob\bigl( x^{-1}(B) \bigr)$$
 		die \keyword{Verteilung} der Zufallsvariablen $x$. $\Prob^x$ ist das \keyword{Bildmaß} von $\Prob$ unter $x$.
 	\end{mydef}
 \end{frame}
@@ -33,8 +34,9 @@
 
 % Zufallsvariablen (Forts.)
 \begin{frame}{Zufallsvariablen (Forts.)}{}
-	Sei $(\sX, \sB, \Q)$ ein Wahrscheinlichkeitsraum. Man sagt, die Zufallsgröße $x : \Omega \rightarrow \sX$ ist \textit{verteilt gemäß $\Q$} oder kurz \textit{$\Q$-verteilt}, 
-	falls es einen Wahrscheinlichkeitsraum $(\Omega, \sA, \Prob)$ gibt, sodass $\Prob^x = \Q$ gilt.
+	Sei $(\sX, \sB, \Q)$ ein Wahrscheinlichkeitsraum. Man sagt, die Zufallsgröße $x : \Omega \rightarrow \sX$ ist
+	\textit{verteilt gemäß $\Q$} oder kurz \textit{$\Q$-verteilt}, falls es einen Wahrscheinlichkeitsraum $(\Omega, \sA, \Prob)$ gibt,
+	sodass $\Prob^x = \Q$ gilt.
 	
 	\textbf{Beispiele:}
 	\begin{itemize}
@@ -49,10 +51,11 @@
 \begin{frame}{Wahrscheinlichkeitsdichten}{}
 	In der Regel wollen wir mit Dichten rechnen:
 	\begin{mydef}[def:dichte]
-		Es seien $(\Omega, \sA, \Prob)$ und $(\sX, \sB, \Prob^x)$ Wahrscheinlichkeitsräume. Dabei ist $\Prob^x$ die Verteilung der Zufallsvariablen $x : \Omega \rightarrow \sX$.
+		Es seien $(\Omega, \sA, \Prob)$ und $(\sX, \sB, \Prob^x)$ Wahrscheinlichkeitsräume. Dabei ist $\Prob^x$ die Verteilung der Zufallsvariablen
+		$x : \Omega \rightarrow \sX$.
 		Wir nennen eine nichtnegative Funktion $$p_x : \R \rightarrow [0, 1]$$ eine \keyword{(Wahrscheinlichkeits-)Dichte} von $\Prob^x$, falls
-		$$\Prob^x(B) = \int_B p_x(\xi)\,\diff\xi \qquad \forall B \in \sB.$$ Die Wahrscheinlichkeiten der Mengen $B \in \sB$ müssen sich also allesamt als Integral der Dichte $p_x$
-		darstellen lassen können.
+		$$\Prob^x(B) = \int_B p_x(\xi)\,\diff\xi \qquad \forall B \in \sB.$$ Die Wahrscheinlichkeiten der Mengen $B \in \sB$ müssen sich also allesamt als
+		Integral der Dichte $p_x$ darstellen lassen können.
 	\end{mydef}
 \end{frame}
 
@@ -64,17 +67,18 @@
 		$$\E[x] \coloneqq \int_{\R} \xi \cdot p_x(\xi)\,\diff\xi.$$
 	\end{mydef}
 
-	Aus der Linearität des Integrals folgt die des Erwartungswerts, d.\,h. für zwei Zufallsvariablen $x$ und $y$ und eine beliebige aber feste Zahl $\alpha \in \R$ (keine Zufallsvariable!) gelten
-	$$\E[x + y] = \E[x] + \E[y] \qquad\text{und}\qquad \E[\alpha \cdot x] = \alpha \cdot \E[x].$$ Wir definieren den Erwartungswert einer vektorwertigen Zufallsvariablen
-	$\bx = (x_1, x_2, \ldots, x_n)^\top$ als $$\E[\bx] \coloneqq \bigl( \E[x_1], \E[x_2], \ldots, \E[x_n] \bigr)^\top.$$
+	Aus der Linearität des Integrals folgt die des Erwartungswerts, d.\,h. für zwei Zufallsvariablen $x$ und $y$ und eine beliebige aber feste Zahl
+	$\alpha \in \R$ (keine Zufallsvariable!) gelten $$\E[x + y] = \E[x] + \E[y] \qquad\text{und}\qquad \E[\alpha \cdot x] = \alpha \cdot \E[x].$$
+	Wir definieren den Erwartungswert einer vektorwertigen Zufallsvariablen $\bx = (x_1, x_2, \ldots, x_n)^\top$ als
+	$$\E[\bx] \coloneqq \bigl( \E[x_1], \E[x_2], \ldots, \E[x_n] \bigr)^\top.$$
 \end{frame}
 
 
 % Varianz von Zufallsvariablen
 \begin{frame}{Varianz von Zufallsvariablen}{}
 	\begin{mydef}[def:varianz]
-		Die Varianz einer Zufallsvariablen $x \in \R$ ist definiert als die erwartete quadratische Abweichung vom Erwartungswert (zweites zentriertes Moment), also
-		$$\V[x] \coloneqq \E\bigl[ (x - \E[x])^2 \bigr] = \int_\R \bigl( \xi - \E[x] \bigr)^2 \cdot p_x(\xi)\,\diff\xi.$$
+		Die Varianz einer Zufallsvariablen $x \in \R$ ist definiert als die erwartete quadratische Abweichung vom Erwartungswert
+		(zweites zentriertes Moment), also $$\V[x] \coloneqq \E\bigl[ (x - \E[x])^2 \bigr] = \int_\R \bigl( \xi - \E[x] \bigr)^2 \cdot p_x(\xi)\,\diff\xi.$$
 	\end{mydef}
 
 	Unter Ausnutzung der Linearität des Erwartungswerts können wir die Varianz folgendermaßen umschreiben:
@@ -116,12 +120,12 @@
 	\begin{mydef}[def:stoch-unab]
 		Es seien $x \in \R$ und $y \in \R$ reelle Zufallsvariablen mit den Verteilungen $\Prob^x, \Prob^y$ und den Dichten $p_x$ bzw. $p_y$.
 
-		$x$ und $y$ heißen \keyword{stochastisch unabhängig} genau dann wenn $p_{x, y} \coloneqq p_x \cdot p_y$ eine Produktdichte der Verteilung $\Prob^{x, y}$ ist,
-		d.\,h. die gemeinsame Dichte von $x$ und $y$ ergibt sich als Produkt der Einzeldichten. 
+		$x$ und $y$ heißen \keyword{stochastisch unabhängig} genau dann wenn $p_{x, y} \coloneqq p_x \cdot p_y$ eine Produktdichte der Verteilung
+		$\Prob^{x, y}$ ist, d.\,h. die gemeinsame Dichte von $x$ und $y$ ergibt sich als Produkt der Einzeldichten. 
 	\end{mydef}
 
-	\textbf{Bemerkung:} Stochastisch unabhängige Zufallsvariablen sind auch unkorreliert. Die Umkehrung gilt im Allgemeinen nicht. Somit ist die stochastische Unabhängigkeit
-	eine stärkere Forderung als Unkorreliertheit.
+	\textbf{Bemerkung:} Stochastisch unabhängige Zufallsvariablen sind auch unkorreliert. Die Umkehrung gilt im Allgemeinen nicht.
+	Somit ist die stochastische Unabhängigkeit eine stärkere Forderung als Unkorreliertheit.
 \end{frame}
 
 
@@ -143,10 +147,11 @@
 % Transformationssatz für Lebsgue-Dichten
 \begin{frame}{Transformationssatz für Lebesgue-Dichten}{}
 	\begin{mytheo}[th:transformationssatz]
-		Es seien $\bx$ und $\by$ $n$-dimensionale Zufallsvektoren mit dem Zusammenhang $$\by = \bT(\bx).$$ Die Abbildung $\bT : \R^n \rightarrow \R^n$ sei \textit{bijektiv},
-		sodass die Umkehrabbildung $\bx = \bT^{-1}(\by)$ existiert und eindeutig ist. Dann gilt für die Dichte $p_{\by}$ der transformierten Zufallsvariablen $\by$
+		Es seien $\bx$ und $\by$ $n$-dimensionale Zufallsvektoren mit dem Zusammenhang $$\by = \bT(\bx).$$
+		Die Abbildung $\bT : \R^n \rightarrow \R^n$ sei \textit{bijektiv}, sodass die Umkehrabbildung $\bx = \bT^{-1}(\by)$ existiert und eindeutig ist.
+		Dann gilt für die Dichte $p_{\by}$ der transformierten Zufallsvariablen $\by$
 		\begin{equation*}
-			p_{\by}(\bgamma) = p_{\bx}\bigl( \bT^{-1}(\bgamma) \bigr) \cdot \bigl\vert \det J\bT^{-1}(\bgamma) \bigr\vert,
+			p_{\by}(\by) = p_{\bx}\bigl( \bT^{-1}(\by) \bigr) \cdot \bigl\vert \det J\bT^{-1}(\by) \bigr\vert,
 		\end{equation*}
 		wobei $p_{\bx}$ die Dichte von $\bx$ und $J \bT^{-1}$ die Jacobi-Matrix der Abbildung $\bT^{-1}$ bezeichnet.
 	\end{mytheo}
@@ -163,15 +168,15 @@
 	Gesucht ist die Dichte der Zufallsvariablen $y \coloneqq 5x + 2$.
 	
 	\textbf{Lösung:} Es ist $T(x) \coloneqq 5 x + 2$ eine bijektive Transformation mit der Umkehrabbildung $x = T^{-1}(y) = \frac{1}{5}(y - 2)$.
-	Zusammen mit der Dichte $p_x(\xi) = 2 \cdot e^{-2 \xi} \cdot \indicator_{[0, \infty)}(\xi)$ der $Exp_2$-Verteilung erhalten wir für die Dichte $p_y(\gamma)$
+	Zusammen mit der Dichte $p_x(x) = 2 \cdot e^{-2 x} \cdot \indicator_{[0, \infty)}(x)$ der $Exp_2$-Verteilung erhalten wir für die Dichte $p_y(y)$
 	der transformierten Zufallsvariablen $y$
 	\begin{align*}
-		p_y(\gamma)
-			&= p_x\bigl( T^{-1}(\gamma) \bigr) \cdot \bigl( T^{-1} \bigr)'(\gamma)
+		p_y(y)
+			&= p_x\bigl( T^{-1}(y) \bigr) \cdot \bigl( T^{-1} \bigr)'(y)
 	\\[2mm]
-			&= 2 \cdot e^{-2 \left( \frac{\gamma}{5} - \frac{2}{5} \right)} \cdot \indicator_{[0, \infty)}\left( \frac{1}{5} \gamma - \frac{2}{5} \right) \cdot \frac{1}{5}
+			&= 2 \cdot e^{-2 \left( \frac{y}{5} - \frac{2}{5} \right)} \cdot \indicator_{[0, \infty)}\left( \frac{1}{5} y - \frac{2}{5} \right) \cdot \frac{1}{5}
 	\\[2mm]
-			&= \frac{2}{5} \cdot e^{\frac{4}{5}} \cdot e^{-\frac{2 \gamma}{5}} \cdot \indicator_{[2, \infty)}(\gamma).
+			&= \frac{2}{5} \cdot e^{\frac{4}{5}} \cdot e^{-\frac{2 y}{5}} \cdot \indicator_{[2, \infty)}(y).
 	\end{align*}
 \end{frame}
 
@@ -181,10 +186,10 @@
 	Der Zufallsvektor $\bx \in \R^n$ habe eine beliebige Lebesgue-Dichte $p_{\bx}$. Die Transformation $\bT$ sei linear und bijektiv,
 	also von der Form $\by = \bT(\bx) = \bA \bx + \bb$. Insbesondere ist $\bA$ in diesem Fall invertierbar.
 	Dann existiert die Umkehrfunktion und ist gegeben durch $\bx = \bT^{-1}(\by) = \bA^{-1} (\by - \bb)$.
-	Als Jacobi-Matrix erhält man $J\bT^{-1}(\bgamma) = \bA^{-1}$.
+	Als Jacobi-Matrix erhält man $J\bT^{-1}(\by) = \bA^{-1}$.
 	
 	Die Anwendung der Transformationsformel \ref{th:transformationssatz} ergibt daher für die Dichte $p_{\by}$ von $\by$ den Ausdruck
-	$$p_{\by}(\bgamma) = \frac{1}{\vert \det \bA \vert} \cdot p_{\bx}\bigl( \bA^{-1} (\bgamma - \bb) \bigr),$$ wobei wir den Zusammenhang
+	$$p_{\by}(\by) = \frac{1}{\vert \det \bA \vert} \cdot p_{\bx}\bigl( \bA^{-1} (\by - \bb) \bigr),$$ wobei wir den Zusammenhang
 	$\det\bigl( \bA^{-1} \bigr) = \frac{1}{\det \bA}$ benutzt haben.
 \end{frame}
 
@@ -195,22 +200,22 @@
 \begin{frame}{Multivariate Normalverteilung}{}
 	Die multivariate Normalverteilung spielt im weiteren Verlauf eine zentrale Rolle:
 	\begin{mytheo}[th:multivar-stdnv]
-		Es sei $\bx \coloneqq (x_1, x_2, \ldots, x_n)^\top \in \R^n$ ein Zufallsvektor, dessen Komponenten $x_i \in \R$ unabhängig und identisch standardnormalverteilt sind,
-		d.\,h. $x_i \sim N_{0, 1}\,\forall i \in \{ 1, \ldots, n \}$.
+		Es sei $\bx \coloneqq (x_1, x_2, \ldots, x_n)^\top \in \R^n$ ein Zufallsvektor, dessen Komponenten $x_i \in \R$ unabhängig und
+		identisch standardnormalverteilt sind, d.\,h. $x_i \sim N_{0, 1}\,\forall i \in \{ 1, \ldots, n \}$.
 		
 		Die Dichte der \keyword{multivariaten Standardnormalverteilung} ist dann gegeben durch
-		$$p_{\bx}(\bxi) \coloneqq \frac{1}{(2 \pi)^{\frac{n}{2}}} \cdot \exp\left( -\frac{\Vert \bxi \Vert^2}{2} \right).$$
+		$$p_{\bx}(\bx) \coloneqq \frac{1}{(2 \pi)^{\frac{n}{2}}} \cdot \exp\left( -\frac{\Vert \bx \Vert^2}{2} \right).$$
 	\end{mytheo}
 
 	\begin{myproof}
 		Wegen der Unabhängigkeit der Komponenten gilt für die Verbunddichte
 		\begin{equation*}
-			p_{\bx}(\bxi)
-				= \prod_{i=1}^n p_{x_i}(\xi_i)
-				= \prod_{i=1}^n \frac{1}{\sqrt{2 \pi}} \cdot \exp\left( -\frac{\xi_i^2}{2} \right)
-				= \frac{1}{(2 \pi)^{\frac{n}{2}}} \cdot \exp\left( -\frac{\sum_{i=1}^n \xi_i^2}{2} \right)
-				= \frac{1}{(2 \pi)^{\frac{n}{2}}} \cdot \exp\left( -\frac{\bxi^\top \bxi}{2} \right)
-				= \frac{1}{(2 \pi)^{\frac{n}{2}}} \cdot \exp\left( -\frac{\Vert \bxi \Vert^2}{2} \right).
+			p_{\bx}(\bx)
+				= \prod_{i=1}^n p_{x_i}(x_i)
+				= \prod_{i=1}^n \frac{1}{\sqrt{2 \pi}} \cdot \exp\left( -\frac{x_i^2}{2} \right)
+				= \frac{1}{(2 \pi)^{\frac{n}{2}}} \cdot \exp\left( -\frac{\sum_{i=1}^n x_i^2}{2} \right)
+				= \frac{1}{(2 \pi)^{\frac{n}{2}}} \cdot \exp\left( -\frac{\bx^\top \bx}{2} \right)
+				= \frac{1}{(2 \pi)^{\frac{n}{2}}} \cdot \exp\left( -\frac{\Vert \bx \Vert^2}{2} \right).
 		\end{equation*}
 	\end{myproof}
 \end{frame}
@@ -221,12 +226,15 @@
 	Für die multivariate Standardnormalverteilung gilt $\E[\bx] = \0$ und $\D[\bx] = \bI$.
 
 	Wir verallgemeinern dies auf beliebige Erwartungswertvektoren $\bmu \in \R^n$ und Streuungsmatrizen $\bSigma \in \R^{n \times n}$.
-	Wir fordern lediglich, dass die Streuungsmatrix $\bSigma$ \textit{positiv definit} ist, dass also $\bz^\top \bSigma \bz > 0\, \forall \bz \in \R^n \backslash \{ \0 \}$ gilt.
+	Wir fordern lediglich, dass die Streuungsmatrix $\bSigma$ \textit{positiv definit} ist, dass also
+	$\bz^\top \bSigma \bz > 0\, \forall \bz \in \R^n \backslash \{ \0 \}$ gilt.
 
 	\begin{enumerate}
-		\item Aufgrund der positiven Definitheit von $\bSigma$ gibt es eine untere Dreiecksmatrix $\bA$ mit $\bSigma = \bA \bA^\top$ (Stichwort: \keyword{Cholesky-Zerlegung}).
-		\item Wir betrachten die Transformation $\by \coloneqq \bA \bx + \bmu$. Es gilt $$\E[\by] = \E[\bA \bx + \bmu] = \bA \E[\bx] + \bmu = \bmu \qquad\text{und}\qquad
-		\D[\by] = \D[\bA \bx + \bmu] = \bA \D[\bx] \bA^\top = \bA \bA^\top = \bSigma.$$
+		\item Aufgrund der positiven Definitheit von $\bSigma$ gibt es eine untere Dreiecksmatrix $\bA$ mit $\bSigma = \bA \bA^\top$
+			(Stichwort: \keyword{Cholesky-Zerlegung}).
+		\item Wir betrachten die Transformation $\by \coloneqq \bA \bx + \bmu$. Es gilt
+			$$\E[\by] = \E[\bA \bx + \bmu] = \bA \E[\bx] + \bmu = \bmu \qquad\text{und}\qquad
+			\D[\by] = \D[\bA \bx + \bmu] = \bA \D[\bx] \bA^\top = \bA \bA^\top = \bSigma.$$
 		\item Nun wenden wir die Transformationsformel \ref{th:transformationssatz} an.
 	\end{enumerate}
 \end{frame}
@@ -235,13 +243,15 @@
 % Multivariate Normalverteilung (Forts.)
 \begin{frame}{Multivariate Normalverteilung (Forts.)}{}
 	Es ist $\bT^{-1}(\bx) = \bA^{-1} (\by - \bmu)$. Mit obigem Beispiel II zum Transformationssatz erhalten wir
-	$$\bigl\vert \det J \bT^{-1}(\bgamma) \bigr\vert = \bigl\vert \det \bA^{-1} \bigr\vert = \frac{1}{\vert \det \bA \vert}.$$ Außerdem gilt mit dem
+	$$\bigl\vert \det J \bT^{-1}(\by) \bigr\vert = \bigl\vert \det \bA^{-1} \bigr\vert = \frac{1}{\vert \det \bA \vert}.$$ Außerdem gilt mit dem
 	Determinantenmultiplikationssatz\footnote{Für zwei $n \times n$ Matrizen $\bA$ und $\bB$ gilt $\det(\bA \bB) = \det \bA \cdot \det \bB$.}
-	die Identität $\det \bSigma = \det\bigl( \bA \bA^\top \bigr) = \det \bA \cdot \det \bA = \det^2 \bA$. Durch Ziehen der Wurzel auf beiden Seiten erhalten wir also
-	$\vert \det \bA \vert = (\det \bSigma)^{\frac{1}{2}}$. Die Dichte $p_{\by}$ nimmt damit die Form
-	$$p_{\by}(\bgamma) = \frac{1}{(\det \bSigma)^\frac{1}{2}} \cdot p_{\bx}\bigl( \bA^{-1} (\bgamma - \bmu) \bigr)$$ an,
-	wobei $p_{\bx}$ die Dichte der Standardnormalverteilung aus Satz \ref{th:multivar-stdnv} ist. Wir setzen dort $\bxi \coloneqq \bA^{-1} (\bgamma - \bmu)$, sodass
-	$\Vert \bxi \Vert^2 = (\bgamma - \bmu)^\top \bigl(\bA^{-1})^\top \bA^{-1} (\bgamma - \bmu) = (\bgamma - \bmu)^\top \bSigma^{-1} (\bgamma - \bmu)$ gilt. 
+	die Identität $\det \bSigma = \det\bigl( \bA \bA^\top \bigr) = \det \bA \cdot \det \bA = \det^2 \bA$.
+	Durch Ziehen der Wurzel auf beiden Seiten erhalten wir also $\vert \det \bA \vert = (\det \bSigma)^{\frac{1}{2}}$. 
+	Die Dichte $p_{\by}$ nimmt damit die Form
+	$$p_{\by}(\by) = \frac{1}{(\det \bSigma)^\frac{1}{2}} \cdot p_{\bx}\bigl( \bA^{-1} (\by - \bmu) \bigr)$$ an,
+	wobei $p_{\bx}$ die Dichte der Standardnormalverteilung aus Satz \ref{th:multivar-stdnv} ist. Wir setzen dort
+	$\bx \coloneqq \bA^{-1} (\by - \bmu)$, sodass
+	$\Vert \bx \Vert^2 = (\by - \bmu)^\top \bigl(\bA^{-1})^\top \bA^{-1} (\by - \bmu) = (\by - \bmu)^\top \bSigma^{-1} (\by - \bmu)$ gilt. 
 \end{frame}
 
 
@@ -253,23 +263,107 @@
 		Es sei $\bmu \in \R^n$ und $\bSigma \in \R^{n \times n}$ eine \textit{positiv definite} Matrix.
 		
 		Die Dichte der multivariaten Normalverteilung $N_{\bmu, \bSigma}$ ist gegeben durch
-		$$p_{\bx}(\bxi) \coloneqq \frac{1}{(2 \pi)^{\frac{n}{2}} \cdot (\det \bSigma)^{\frac{1}{2}}} \cdot \exp\left(
-			-\frac{1}{2} (\bxi - \bmu)^\top \bSigma^{-1} (\bxi - \bmu) \right).$$
+		$$p_{\bx}(\bx) \coloneqq \frac{1}{(2 \pi)^{\frac{n}{2}} \cdot (\det \bSigma)^{\frac{1}{2}}} \cdot \exp\left(
+			-\frac{1}{2} (\bx - \bmu)^\top \bSigma^{-1} (\bx - \bmu) \right).$$
 	\end{mydef}
 	
 	\textbf{Bemerkung:} Die positive Definitheit der Matrix $\bSigma$ impliziert deren Invertierbarkeit.
 \end{frame}
 
 
-% Visualisierung der multivariaten NV
-\begin{frame}{Visualisierung der multivariaten NV}{}
+% Visualisierung: Multivariate Normalverteilung
+\begin{frame}{Visualisierung: Multivariate Normalverteilung}{}
 	tbd
 \end{frame}
 
 
 % Partitionierte Normalverteilung
 \begin{frame}{Partitionierte Normalverteilung}{}
-	Es seien $\bx \in \R^d$ und $\by \in \R^{(n - d)}$ Zufallsvektoren. Wir fassen diese zu einem neuen Zufallsvektor $\bz \coloneqq \bigl( \bx^\top, \by^\top \bigr)^\top \in \R^n$
-	mit $\bz \sim N_{\bmu, \bSigma}$ zusammen. Hierbei sei $$\bmu \coloneqq \begin{pmatrix} \bmu_{\bx} \\ \bmu_{\by} \end{pmatrix} \qquad\text{und}\qquad \bSigma \coloneqq
-	\begin{pmatrix} \bSigma_{\bx\bx} & \bSigma_{\bx\by} \\ \bSigma_{\by\bx} & \bSigma_{\by\by} \end{pmatrix}.$$
+	\begin{mydef}[def:partitionierte-nv]
+		Es seien $\bx \in \R^d$ und $\by \in \R^{(n - d)}$ Zufallsvektoren.
+		Wir fassen diese zu einem neuen Zufallsvektor $\bz \coloneqq \bigl( \bx^\top, \by^\top \bigr)^\top \in \R^n$
+		mit $\bz \sim N_{\bmu, \bSigma}$ zusammen. Hierbei seien
+		$$\bmu \coloneqq \begin{pmatrix} \bmu_{\bx} \\ \bmu_{\by} \end{pmatrix} \qquad\text{und}\qquad \bSigma \coloneqq
+		\begin{pmatrix} \bSigma_{\bx\bx} & \bSigma_{\bx\by} \\ \bSigma_{\by\bx} & \bSigma_{\by\by} \end{pmatrix}.$$
+		Wir nennen dieses Modell \keyword{partitionierte Normalverteilung}.
+	\end{mydef}
+	
+	\textbf{Bemerkungen:}
+	\begin{itemize}
+		\item Aus der Symmetrie von $\bSigma$ folgt die von $\bSigma_{\bx\bx}$ und $\bSigma_{\by\by}$.
+			Außerdem gilt $\bSigma_{\bx\by} = \bSigma_{\by\bx}^\top$.
+		\item Oft ist es einfacher mit der Inversen der Kovarianzmatrix zu arbeiten. Wir definieren daher $\bLambda \coloneqq \bSigma^{-1}$.
+			Man nennt diese Matrix \keyword{Präzisionsmatrix}.
+	\end{itemize}
 \end{frame}
+
+
+% Bedingte Normalverteilung
+\begin{frame}{Bedingte Normalverteilung}{}
+	\begin{mytheo}[th:bedingte-nv]
+		Wir betrachten die partitionierte Normalverteilung aus Definition \ref{def:partitionierte-nv}. Dann ist die Verteilung von $\bx \mid \by$
+		ebenfalls normalverteilt mit den Parametern
+		\begin{align*}
+			\bmu_{\bx \mid \by}
+				&\coloneqq \bmu_{\bx} + \bSigma_{\bx\by} \bSigma_{\by\by}^{-1}(\by - \mu_{\by})
+		\\[2mm]
+			\bSigma_{\bx \mid \by}
+				&\coloneqq \bSigma_{\bx\bx} - \bSigma_{\bx\by} \bSigma_{\by\by}^{-1} \bSigma_{\by\bx}
+		\end{align*}
+		Die Dichte dieser Verteilung bezeichnen wir mit $p_{\bx \mid \by}$.
+	\end{mytheo}
+
+	\begin{myproof}
+		Einen Beweis dieser Aussage finden Sie in Bishop (2006) auf den Seiten 85--87.
+	\end{myproof}
+\end{frame}
+
+
+% Visualisierung: Bedingte Normalverteilung
+\begin{frame}{Visualisierung: Bedingte Normalverteilung}{}
+	tbd
+\end{frame}
+
+
+% Normale Randverteilung
+\begin{frame}{Normale Randverteilung}
+	\begin{mytheo}[th:rand-nv]
+		Wieder betrachten wir die partitionierte Normalverteilung aus Definition \ref{def:partitionierte-nv}. Dann sind auch die Randverteilungen von $\bx$ und
+		$\by$ normalverteilt. Es gilt
+		\begin{align*}
+			\bx
+				&\sim N_{\bmu_{\bx}, \bSigma_{\bx\bx}}
+		\\[2mm]
+			\by
+				&\sim N_{\bmu_{\by}, \bSigma_{\by\by}}
+		\end{align*}
+		Die Dichten der Randverteilung bezeichnen wir mit $p_{\bx}$ und $p_{\by}$.
+	\end{mytheo}
+
+	\begin{myproof}
+		Man erhält dieses Ergebnis durch \keyword{Marginalisierung} der Verbunddichte, d.\,h. wir integrieren über alle Variablen, die uns nicht interessieren.
+		Für die Randverteilung von $\bx$ gilt zum Beispiel $$p_{\bx}(\bx) = \int p_{\bx, \by}(\bx, \by)\,\diff \by.$$
+		Einen ausführlichen Beweis finden Sie in Bishop (2006) auf den Seiten 88--89.
+	\end{myproof}
+\end{frame}
+
+
+% Visualisierung: Normale Randverteilung
+\begin{frame}{Visualisierung: Normale Randverteilung}{}
+	tbd
+\end{frame}
+
+
+% Satz von Bayes für Normalverteilungen
+\begin{frame}{Satz von Bayes für Normalverteilungen}{}
+	tbd
+\end{frame}
+
+
+\subsection{Maximum-Likelihood-Schätzer}
+
+% Maximum-Likelihood-Methode
+\begin{frame}{Maximum-Likelihood-Methode}{}
+	tbd
+\end{frame}
+
