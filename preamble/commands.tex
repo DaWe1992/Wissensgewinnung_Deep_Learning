@@ -20,7 +20,8 @@
 	boxsep=9pt,
 	left=0pt, right=0pt,
 	top=0pt, bottom=0pt,
-	parbox=false
+	parbox=false,
+	drop small lifted shadow
 }}
 
 % boxes for definitions
@@ -37,6 +38,13 @@
 	borderline west={2pt}{0pt}{darkblue},
 }}
 
+% boxes for tasks
+\tcbset{taskbox/.style={
+	common,
+	colback=lightgreen,
+	borderline west={2pt}{0pt}{darkgreen},
+}}
+
 % definition
 \NewDocumentEnvironment{mydef}{o}{%
 	\begin{tcolorbox}[defbox]
@@ -50,6 +58,14 @@
 \NewDocumentEnvironment{mytheo}{o}{%
 	\begin{tcolorbox}[theorembox]
 	\textbf{\printmycounter\IfNoValueTF{#1}{}{\label{#1}} Satz:}
+}{%
+	\end{tcolorbox}
+}
+
+% theorem
+\NewDocumentEnvironment{mytask}{o}{%
+	\begin{tcolorbox}[taskbox]
+	\textbf{\printmycounter\IfNoValueTF{#1}{}{\label{#1}} Aufgabe:}
 }{%
 	\end{tcolorbox}
 }
@@ -100,13 +116,36 @@
 \newcommand{\0}{\bm{0}}
 \newcommand{\indicator}{\bm{1}}
 \newcommand{\diff}{\text{d}}
+\newcommand{\MSE}{\text{MSE}}
 \newcommand{\Pot}{\text{Pot}}
 
 % estimators
+\newcommand{\thetaest}{\hat{\theta}}
 \newcommand{\bthetaest}{\bm{\hat{\theta}}}
 \newcommand{\thetaestML}{\hat{\theta}_{ML}}
 \newcommand{\bthetaestML}{\bm{\hat{\theta}}_{ML}}
+\newcommand{\muML}{\hat{\mu}_{ML}}
+\newcommand{\sigmasquML}{\hat{\sigma}^2_{ML}}
+\newcommand{\lambdaML}{\hat{\lambda}_{ML}}
+
+\newcommand{\bthetaestMAP}{\bm{\hat{\theta}}_{MAP}}
 
 % argmin, argmax
 \DeclareMathOperator{\argmax}{arg\,max}
 \DeclareMathOperator{\argmin}{arg\,min}
+
+% matrix spacing
+\makeatletter
+\renewcommand*\env@matrix[1][\arraystretch]{%
+	\edef\arraystretch{#1}%
+  	\hskip -\arraycolsep
+  	\let\@ifnextchar\new@ifnextchar
+  	\array{*\c@MaxMatrixCols c}}
+\makeatother
+
+% spacing after comma in math mode
+\AtBeginDocument{%
+  \mathchardef\stdcomma=\mathcode`,
+  \mathcode`,="8000
+}
+\begingroup\lccode`~=`, \lowercase{\endgroup\def~}{\stdcomma\,}

@@ -113,6 +113,19 @@
 \end{frame}
 
 
+% Diskrete Verteilungen
+\begin{frame}{Diskrete Verteilungen}{}
+	Einige bekannte diskrete Verteilungen lauten:
+	\input{./tables/statistics/discrete_distributions}
+\end{frame}
+
+
+% Absolutstetige Verteilungen
+\begin{frame}{Absolutstetige Verteilungen}{}
+	\input{./tables/statistics/continuous_distributions}
+\end{frame}
+
+
 % Stochastische Unabhängigkeit
 \begin{frame}{Stochastische Unabhängigkeit}{}
 	Mit Dichten können wir auch die \keyword{stochastische Unabhängigkeit} von Zufallsvariablen definieren:
@@ -129,16 +142,15 @@
 \end{frame}
 
 
-% Diskrete Verteilungen
-\begin{frame}{Diskrete Verteilungen}{}
-	Einige bekannte diskrete Verteilungen lauten:
-	\input{./tables/statistics/discrete_distributions}
+% Bedingte Wahrscheinlichkeiten
+\begin{frame}{Bedingte Wahrscheinlichkeiten}{}
+	tbd
 \end{frame}
 
 
-% Absolutstetige Verteilungen
-\begin{frame}{Absolutstetige Verteilungen}{}
-	\input{./tables/statistics/continuous_distributions}
+% Satz von Bayes
+\begin{frame}{Satz von Bayes}{}
+	tbd
 \end{frame}
 
 
@@ -365,11 +377,12 @@
 % Maximum-Likelihood Methode
 \begin{frame}{Maximum-Likelihood Methode}{}
 	\begin{itemize}
-		\item Im Folgenden sei ein Beobachtungsvektor $\bx \coloneqq \bigl( x_1, x_2, \ldots, x_N \bigr)^\top$ bestehend aus $N$ \textit{unabhängig und identisch verteilten} (i.\,i.\,d.)
-			Datenpunkten gegeben.
-		\item Wir möchten Aussagen über die Parameter $\btheta \coloneqq \bigl( \theta_1, \theta_2, \ldots, \theta_M \bigr)^\top$ der zugrundeliegenden Verteilung machen.
+		\item Im Folgenden sei ein Beobachtungsvektor $\bx \coloneqq \bigl( x_1, x_2, \ldots, x_N \bigr)^\top$
+			bestehend aus $N$ \textit{unabhängig und identisch verteilten} (i.\,i.\,d.) Datenpunkten gegeben.
+		\item Wir möchten Aussagen über die Parameter $\btheta \coloneqq \bigl( \theta_1, \theta_2, \ldots, \theta_M \bigr)^\top$
+			der zugrundeliegenden Verteilung machen.
 		\item Dies erledigen wir durch eine Punktschätzung des Parametervektors $\btheta$. Den Schätzer für $\btheta$ bezeichnen wir mit $\bthetaest$.
-		\item Eine der am häufigsten angewendete Methode ist die \keyword{Maximum-Likelihood Methode}.
+		\item Eine der am häufigsten angewendete Methode ist die \keyword{Maximum-Likelihood Methode}, die wir im Folgenden näher beleuchten werden.
 	\end{itemize}
 \end{frame}
 
@@ -392,8 +405,8 @@
 % (Log-)Likelihood Funktion (Forts.)
 \begin{frame}{(Log-)Likelihood Funktion (Forts.)}{}
 	\begin{itemize}
-		\item Im Allgemeinen kann es schwer sein, die Liklihood Funktion zu bestimmen.
-		\item Die Annahme der Unabhängigkeit der Beobachtungen vereinfacht dies maßgeblich, denn
+		\item Im Allgemeinen kann es schwer sein, die Liklihood Funktion zu bestimmen (vor allem wenn die Beobachtungen voneinander abhängen).
+		\item Die Annahme der \textbf{Unabhängigkeit der Beobachtungen} vereinfacht dies maßgeblich, denn
 		\begin{align*}
 			L(\btheta)
 				&= p(x_1, x_2, \ldots, x_N; \btheta)
@@ -401,7 +414,8 @@
 			\\[2mm]
 				&= \prod_{n=1}^N p(x_n; \btheta).
 		\end{align*}
-		\item Für die Log-Likelihood Funktion ergibt sich durch Anwendung der Logarithmengesetze $$l(\btheta) = \ln \prod_{n=1}^N p(x_n; \btheta) = \sum_{n=1}^N \ln p(x_n; \btheta).$$
+		\item Für die Log-Likelihood Funktion ergibt sich durch Anwendung der Logarithmengesetze
+		$$l(\btheta) = \ln \prod_{n=1}^N p(x_n; \btheta) = \sum_{n=1}^N \ln p(x_n; \btheta).$$
 	\end{itemize}
 \end{frame}
 
@@ -409,7 +423,7 @@
 % Maximum-Likelihood Gleichung
 \begin{frame}{Maximum-Likelihood Gleichung}{}
 	\begin{itemize}
-		\item Falls die Likelihood Funktion differenzierbar ist, so erfüllt der Maximum-Likelihood Schätzer $\bthetaestML$ zwingend die \keyword{Likelihood Gleichung}
+		\item Falls die Likelihood Funktion differenzierbar ist, so erfüllt der Maximum-Likelihood Schätzer $\bthetaestML$ notwendig die \keyword{Likelihood Gleichung}
 			$$\frac{\partial}{\partial \btheta} \ln p(\bx; \btheta)\,\bigg\vert_{\btheta = \bthetaestML} = \0.$$
 		\item Diese sagt aus, dass $\bthetaestML$ ein stationärer Punkt der (Log-)Likelihood Funktion sein muss.
 		\item Es handelt sich dabei um ein System von $M$, im Allgemeinen nicht-linearen, Gleichungen der Form
@@ -419,30 +433,33 @@
 \end{frame}
 
 
-% Beispiel: Binomialverteilung
-\begin{frame}{Beispiel: Binomialverteilung}{}
-	Es sei eine binomialverteilte Zufallsvariable $x$ (Anzahl Erfolge) mit Stichprobenumfang $N$ gegeben.
-	Wir möchten den ML Schätzer $\thetaestML$ für die unbekannte Erfolgswahrscheinlichkeit $\theta \in (0, 1)$ bestimmen.
+% Beispiel I: Binomialverteilung
+\begin{frame}{Beispiel I: Binomialverteilung}{}
+	\begin{mytheo}[th:mle-binomial]
+		Es sei die binomialverteilte Zufallsvariable $x$ (beobachtete Anzahl der Erfolge) und der Stichprobenumfang $N$ gegeben.
+
+		Der Maximum-Likelihood Schätzer $\thetaestML$ für die unbekannte Erfolgswahrscheinlichkeit $\theta \in (0, 1)$ lautet $\thetaestML = \frac{x}{N}$.
+	\end{mytheo}
 	
-	\begin{enumerate}
-		\item Die Likelihood Funktion lautet $L(\theta) = {N \choose x} \cdot \theta^x \cdot (1 - \theta)^{N - x}.$
-		\item Durch Anwendung des Logarithmus erhalten wir die Log-Likelihood Funktion $$l(\theta) = \ln{N \choose x} + x \cdot \ln \theta + (N - x) \cdot \ln(1 - \theta).$$
-		\item Durch Ableiten nach $\theta$ und Nullsetzen erhalten wir
-			$$\frac{\diff}{\diff \theta} l(\theta) = \frac{x}{\theta} + \frac{N - x}{1 - \theta} \overset{!}{=} 0 \quad\Longleftrightarrow\quad \thetaestML = \frac{x}{N}.$$
-		\item Es ist $\frac{\diff^2}{\diff \theta^2} l(\theta) = -\frac{x}{\theta^2} - \frac{N - x}{(1 - \theta)^2} < 0\,\forall \theta \in (0, 1)$, sodass $\thetaestML$ ein Maximum ist.
-	\end{enumerate}
+	\begin{myproof}
+		Die Likelihood Funktion ist $L(\theta) = {N \choose x} \cdot \theta^x \cdot (1 - \theta)^{N - x}.$
+		Durch Anwendung des Logarithmus erhalten wir die Log-Likelihood Funktion $$l(\theta) = \ln{N \choose x} + x \cdot \ln \theta + (N - x) \cdot \ln(1 - \theta).$$
+		Diese leiten wir nach $\theta$ ab und setzen sie Null. Auflösen nach $\theta$ ergibt
+		$$\frac{\diff}{\diff \theta} l(\theta) = \frac{x}{\theta} + \frac{N - x}{1 - \theta} \overset{!}{=} 0 \quad\Longleftrightarrow\quad \thetaestML = \frac{x}{N}.$$
+		Zudem ist $\frac{\diff^2}{\diff \theta^2} l(\theta) = -\frac{x}{\theta^2} - \frac{N - x}{(1 - \theta)^2} < 0\,\forall \theta \in (0, 1)$, sodass $\thetaestML$
+		tatsächlich ein Maximum ist.
+	\end{myproof}
 \end{frame}
 
 
-% Beispiel: Normalverteilung
-\begin{frame}{Beispiel: Normalverteilung}{}
+% Beispiel II: Normalverteilung
+\begin{frame}{Beispiel II: Normalverteilung}{}
 	\begin{mytheo}[th:mle-nv]
-		\newline Es seien $\bx = (x_1, x_2, \ldots, x_N)^\top$ unabhängig und identisch normalverteilte Beobachtungen mit unbekanntem Erwartungswert $\mu \in \R$
-		und unbekannter Varianz $\sigma^2 > 0$.
-		Der Parametervektor $\btheta$ ist damit $\btheta \coloneqq \bigl( \mu, \sigma^2 \bigr)^\top$.
+		Es seien $$\bx = (x_1, x_2, \ldots, x_N)^\top$$ \textit{unabhängig und identisch normalverteilte} Beobachtungen mit unbekanntem Erwartungswert $\mu \in \R$
+		und unbekannter Varianz $\sigma^2 > 0$. Der Parametervektor $\btheta$ ist in diesem Fall $\btheta \coloneqq \bigl( \mu, \sigma^2 \bigr)^\top$.
 		
-		Die Maximum-Likelihood Schätzer $\hat{\mu}_{ML}$ und $\hat{\sigma}^2_{ML}$ sind gegeben durch
-		$$\hat{\mu}_{ML} = \frac{1}{N} \sum_{n=1}^n x_n \qquad\text{und}\qquad \hat{\sigma}^2_{ML} = \frac{1}{N} \sum_{n=1}^N \bigl( x_n - \hat{\mu}_{ML} \bigr)^2.$$
+		Die Maximum-Likelihood Schätzer $\muML$ und $\sigmasquML$ für die unbekannten Parameter $\mu$ und $\sigma^2$ sind gegeben durch
+		$$\muML = \frac{1}{N} \sum_{n=1}^n x_n \qquad\text{und}\qquad \sigmasquML = \frac{1}{N} \sum_{n=1}^N \bigl( x_n - \muML \bigr)^2.$$
 	\end{mytheo}
 \end{frame}
 
@@ -450,30 +467,102 @@
 % Beweis
 \begin{frame}{}{}
 	\begin{myproof}
-		Die gemeinsame (Lebesgue-)Dichte der Produktverteilung lautet aufgrund der Unabhängigkeit der Beobachtungen
-		$$p\bigl( \bx; \mu, \sigma^2 \bigr) = \prod_{n=1}^N \frac{1}{\sqrt{2 \pi} \sigma} \cdot \exp\left( -\frac{(x_n - \mu)^2}{2 \sigma^2} \right)
-		= \left( \frac{1}{2 \pi} \right)^{\frac{N}{2}} \frac{1}{\sigma^N} \cdot \exp\left( -\frac{\sum_{n=1}^N (x_i - \mu)^2}{2 \sigma^2} \right).$$ Aufgrund der auftretenden
-		Exponentialverteilung bietet sich die Betrachtung der Log-Likelihood Funktion an. Wir erhalten
+		Die Dichte der Produktverteilung lautet aufgrund der Unabhängigkeit der Beobachtungen
+		\begin{equation*}
+			p\bigl( \bx; \mu, \sigma^2 \bigr)
+				= \prod_{n=1}^N \frac{1}{\sqrt{2 \pi} \sigma} \cdot \exp\left( -\frac{(x_n - \mu)^2}{2 \sigma^2} \right)
+				= \frac{1}{(2 \pi)^{\frac{N}{2}}} \cdot \frac{1}{\sigma^N} \cdot \exp\left( -\frac{\sum_{n=1}^N (x_i - \mu)^2}{2 \sigma^2} \right).
+		\end{equation*}
+		Aufgrund der auftretenden Exponentialverteilung bietet sich die Betrachtung der Log-Likelihood Funktion an. Wir erhalten
 		\begin{equation*}
 			l\bigl( \mu, \sigma^2 \bigr)
-				= \ln\bigl( p\bigl( \bx; \mu, \sigma^2 \bigr) \bigr)
-				= -\frac{N}{2} \cdot \ln(2 \pi) - N \ln \sigma - \frac{\sum_{n=1}^N (x_n - \mu)^2}{2 \sigma^2}.
+				= -\frac{N}{2} \cdot \ln(2 \pi) - N \ln(\sigma) - \frac{\sum_{n=1}^N (x_n - \mu)^2}{2 \sigma^2}.
 		\end{equation*}
-		Nun berechnen wir die partiellen Ableitungen von $l$ nach $\mu$ und $\sigma^2$ und erhalten
-		$\frac{\partial}{\partial \mu} l\bigl( \mu, \sigma^2 \bigr) = \frac{1}{\sigma^2} \sum_{n=1}^N (x_n - \mu)$ beziehungsweise
-		$\frac{\partial}{\partial \sigma^2} l\bigl( \mu, \sigma^2 \bigr) = -\frac{N}{2 \sigma^2} + \frac{1}{2 \sigma^4} \sum_{n=1}^N (x_n - \mu)$. Durch Nullsetzen und auflösen
-		erhalten wir die im Satz angegebenen Maximum-Likelihood Schätzer $\hat{\mu}_{ML}$ und $\hat{\sigma}^2_{ML}$.
-		
+		Nun berechnen wir die partiellen Ableitungen von $l$ nach $\mu$ und $\sigma^2$. Es ist
+		\begin{equation*}
+			\frac{\partial}{\partial \mu} l\bigl( \mu, \sigma^2 \bigr) = \frac{1}{\sigma^2} \sum_{n=1}^N (x_n - \mu)
+		\qquad\text{und}\qquad
+			\frac{\partial}{\partial \sigma^2} l\bigl( \mu, \sigma^2 \bigr) = -\frac{N}{2 \sigma^2} + \frac{1}{2 \sigma^4} \sum_{n=1}^N (x_n - \mu).
+		\end{equation*}
+		Durch Nullsetzen und auflösen erhalten wir die im Satz angegebenen Maximum-Likelihood Schätzer $\muML$ und $\sigmasquML$.
 		Es bleibt noch zu zeigen, dass es sich tatsächlich um ein Maximum handelt. Man rechnet nach,
-		dass die Hesse-Matrix von $l\bigl( \mu, \sigma^2 \bigr)$ and der Stelle $(\hat{\mu}_{ML}, \hat{\sigma}^2_{ML})$ gegeben ist durch
-		$$\frac{\partial^2}{\partial \btheta \partial \btheta} l\bigl( \mu, \sigma^2 \bigr) =
-		\begin{pmatrix} -\frac{N}{\hat{\sigma}^2_{ML}} & 0 \\ 0 & -\frac{N}{\hat{\sigma}^4_{ML}} \end{pmatrix}.$$ Diese Matrix ist
-		negativ definit, weshalb wir tatsächlich ein Maximum gefunden haben.
+		dass die Hesse-Matrix von $l\bigl( \mu, \sigma^2 \bigr)$ and der Stelle $\bigl( \muML, \sigmasquML \bigr)$ gegeben ist durch
+		\begin{equation*}
+			\nabla^2 l\bigl( \mu, \sigma^2 \bigr) =
+			\begin{pmatrix}[1.3] -\frac{N}{\sigmasquML} & 0 \\ 0 & -\frac{N}{\bigl( \sigmasquML \bigr)^2} \end{pmatrix}.
+		\end{equation*}
+		Diese Matrix ist negativ definit, weshalb wir tatsächlich ein Maximum gefunden haben.
 	\end{myproof}
 \end{frame}
 
 
-% Aufgabe
-\begin{frame}{Aufgabe}{}
-	Bestimmen Sie den Maximum-Likelihood Schätzer $\hat{\lambda}_{ML}$ für die Poisson-Verteilung, welche die Dichte $$p(x) = e^{-\lambda} \cdot \frac{\lambda^x}{x!}$$ besitzt.
+% Erwartungstreue Schätzer
+\begin{frame}{Erwartungstreue Schätzer}{}
+	Wir definieren den Begriff der Erwartungstreue:
+	\begin{mydef}[def:erwartungstreue]
+		Wir nennen einen Schätzer $\bthetaest$ \textbf{erwartungstreu}, falls $\E\bigl[ \bthetaest \bigr] = \btheta$ gilt.
+	\end{mydef}
+	
+	\begin{itemize}
+		\item Der Schätzer $\muML$ ist erwartungstreu für den Erwartungswert $\mu$ im Normalverteilungsmodell \\ \vspace*{2mm}
+		\begin{myproof}
+			Es gilt
+			\begin{equation*}
+				\E\bigl[ \muML \bigr]
+					= \E\left[ \frac{1}{N} \sum_{n=1}^N x_n \right]
+					= \frac{1}{N} \sum_{n=1}^N \E[x_n]
+					= \frac{1}{N} \cdot N \cdot \mu
+					= \mu.
+			\end{equation*}
+		\end{myproof}
+		\item Demgegenüber ist $\sigmasquML$ \textbf{nicht} erwartungstreu. Man kann diesen Schätzer jedoch durch eine geeignete Transformation zu einem
+			erwartungstreuen Schätzer machen. Dies führt auf die \keyword{empirische Varianz}
+			$\frac{n}{n - 1} \sigmasquML = \frac{1}{n - 1} \sum_{n=1}^N \bigl( x_n - \muML \bigr)^2$.
+	\end{itemize}
+\end{frame}
+
+
+% Aufgabe zur Maximum-Likelihood Schätzung
+\begin{frame}{Aufgabe zur Maximum-Likelihood Schätzung}{}
+	\begin{mytask}
+		Gegeben seien die $N$ Beobachtungen $x_1, x_2, \ldots, x_N$, wobei $x_n \in \N, n = 1, 2, \ldots, N$. Sie legen den Daten eine Poisson-Verteilung zugrunde.
+		Diese hat die Dichte $$p(x) \coloneqq e^{-\lambda} \cdot \frac{\lambda^x}{x!}.$$
+		
+		\begin{enumerate}
+			\item Bestimmen Sie den Maximum-Likelihood Schätzer $\lambdaML$ für die Poisson-Verteilung.
+				Vergessen Sie dabei nicht zu überprüfen, ob es sich tatsächlich um ein Maximum handelt.
+			\item Prüfen Sie den Schätzer auf Erwartungstreue.
+		\end{enumerate}
+	\end{mytask}
+\end{frame}
+
+
+% Erwartete quadratische Abweichung (MSE)
+\begin{frame}{Erwartete quadratische Abweichung (MSE)}{}
+	Ein weiteres Qualitätsmerkmal eines Schätzers $\thetaest$ ist seine erwartete quadratische Abweichung vom wahren Parameter $\theta$.
+	
+	\begin{mydef}[def:mse]
+		Die \keyword{erwartete quadratische Abweichung} von $\thetaest$ zu $\theta$ ist $$\MSE\bigl[ \thetaest, \theta \bigr] = \E\left[ \bigl( \thetaest - \theta \bigr)^2 \right].$$
+	\end{mydef}
+	
+	Die $\MSE\bigl[ \thetaest, \theta \bigr]$ reduziert sich für erwartungstreue Schätzer $\thetaest$ auf die Varianz $\V\bigl[ \thetaest \bigr]$. \\ \vspace*{2mm}
+	\begin{myproof}
+		Man rechnet nach, dass $\MSE\bigl[ \thetaest, \theta \bigr] = \V\bigl[ \thetaest \bigr] + \bigl( \E\bigl[ \thetaest \bigr] - \theta \bigr)^2$ gilt
+		(multipliziere hierzu aus und nutze die Linearität des Erwartungswerts).
+		Der zweite Summand (Quadrat der Verzerrung/Bias) verschwindet aber für erwartungstreue Schätzer, da $\E\bigl[ \thetaest \bigr] = \theta$ gilt.
+		Es folgt die Behauptung.
+	\end{myproof}
+\end{frame}
+
+
+\subsection{Maximum-Aposteriori Schätzer}
+
+% Maximum-Aposteriori Schätzer (MAP)
+\begin{frame}{Maximum-Aposteriori Schätzer (MAP)}{}
+	\begin{itemize}
+		\item ML Schätzer laufen Gefahr, sich übermäßig stark an die Daten anzupassen (\keyword{Overfitting}).
+		\item Wir erweitern daher das Konzept der ML Schätzung, indem wir zusätzlich eine \textit{Apriori-Verteilung} für die zu schätzenden Parameter mit einbeziehen.
+		\item Wir nutzen den Satz von Bayes, um damit zusammen mit der Likelihood eine \textit{Aposteriori-Verteilung} über die Parameter zu erhalten.
+		\item Ein Schätzer $\bthetaestMAP$ heißt \keyword{Maximum-Aposteriori Schätzer} für den Parameter $\btheta$, falls dieser die Aposteriori-Wahrscheinlichkeit maximiert.
+	\end{itemize}
 \end{frame}
