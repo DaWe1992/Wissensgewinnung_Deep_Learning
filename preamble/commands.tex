@@ -1,5 +1,8 @@
 % commands
 
+% counter
+% ====================================================
+
 % define counter
 \newcounter{mycounter}
 % reset counter for each section
@@ -11,6 +14,8 @@
 }
 
 % boxes
+% ====================================================
+
 % common box styles
 \tcbset{common/.style={
 	breakable,
@@ -45,6 +50,9 @@
 	borderline west={2pt}{0pt}{darkgreen},
 }}
 
+% custom environments
+% ====================================================
+
 % definition
 \NewDocumentEnvironment{mydef}{o}{%
 	\begin{tcolorbox}[defbox]
@@ -62,7 +70,7 @@
 	\end{tcolorbox}
 }
 
-% theorem
+% task
 \NewDocumentEnvironment{mytask}{o}{%
 	\begin{tcolorbox}[taskbox]
 	\textbf{\printmycounter\IfNoValueTF{#1}{}{\label{#1}} Aufgabe:}
@@ -77,32 +85,42 @@
 	\textbf{Beweis:}
 }{\hfill $\bm{\square}$}
 
+% general commands
+% ====================================================
+
+% keyword
 \newcommand{\keyword}[1]{\textbf{#1}}
 
 % math commands
-% bold
+% ====================================================
+
+% bold lowercase letters
 \newcommand{\bb}{\bm{b}}
 \newcommand{\bx}{\bm{x}}
 \newcommand{\by}{\bm{y}}
 \newcommand{\bz}{\bm{z}}
 
+% bold uppercase latters
 \newcommand{\bA}{\bm{A}}
 \newcommand{\bB}{\bm{B}}
 \newcommand{\bI}{\bm{I}}
 \newcommand{\bT}{\bm{T}}
 \newcommand{\bX}{\bm{X}}
 
+% bold lowercase greek letters
 \newcommand{\btheta}{\bm{\theta}}
 \newcommand{\bmu}{\bm{\mu}}
 
+% bold uppercase greek letters
 \newcommand{\bLambda}{\bm{\Lambda}}
 \newcommand{\bSigma}{\bm{\Sigma}}
 
-% script
+% script letters
 \newcommand{\sA}{\mathcal{A}}
 \newcommand{\sB}{\mathcal{B}}
 \newcommand{\sX}{\mathcal{X}}
 
+% double letters
 \newcommand{\B}{\mathbb{B}}
 \newcommand{\D}{\mathbb{D}}
 \newcommand{\E}{\mathbb{E}}
@@ -112,27 +130,33 @@
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\V}{\mathbb{V}}
 
+% functions and miscellaneous
+\newcommand{\0}{\bm{0}} 						% vector zero
+\newcommand{\indicator}{\bm{1}} 					% indicator function
 
-\newcommand{\0}{\bm{0}}
-\newcommand{\indicator}{\bm{1}}
-\newcommand{\diff}{\text{d}}
-\newcommand{\MSE}{\text{MSE}}
-\newcommand{\Pot}{\text{Pot}}
+\newcommand{\diff}{\text{d}} 						% differential
+\newcommand{\MSE}{\text{MSE}} 					% mean square error
+\newcommand{\Pot}{\text{Pot}} 					% power set
 
 % estimators
-\newcommand{\thetaest}{\hat{\theta}}
-\newcommand{\bthetaest}{\bm{\hat{\theta}}}
-\newcommand{\thetaestML}{\hat{\theta}_{ML}}
-\newcommand{\bthetaestML}{\bm{\hat{\theta}}_{ML}}
-\newcommand{\muML}{\hat{\mu}_{ML}}
-\newcommand{\sigmasquML}{\hat{\sigma}^2_{ML}}
-\newcommand{\lambdaML}{\hat{\lambda}_{ML}}
+% scalar estimators
+\newcommand{\thetaest}{\hat{\theta}}				% estimator for theta
+\newcommand{\thetaestML}{\hat{\theta}_{ML}}			% ML estimator for theta
+\newcommand{\muML}{\hat{\mu}_{ML}} 				% ML estimator for mu
+\newcommand{\sigmasquML}{\hat{\sigma}^2_{ML}} 		% ML estimator for sigma^2
+\newcommand{\lambdaML}{\hat{\lambda}_{ML}} 		% ML estimator for lambda
 
-\newcommand{\bthetaestMAP}{\bm{\hat{\theta}}_{MAP}}
+% vector estimators
+\newcommand{\bthetaest}{\bm{\hat{\theta}}} 			% estimator for theta
+\newcommand{\bthetaestML}{\bm{\hat{\theta}}_{ML}} 	% ML estimator for theta
+\newcommand{\bthetaestMAP}{\bm{\hat{\theta}}_{MAP}}	% MAP estimator for theta
 
 % argmin, argmax
 \DeclareMathOperator{\argmax}{arg\,max}
 \DeclareMathOperator{\argmin}{arg\,min}
+
+% math settings
+% ====================================================
 
 % matrix spacing
 \makeatletter
@@ -145,7 +169,7 @@
 
 % spacing after comma in math mode
 \AtBeginDocument{%
-  \mathchardef\stdcomma=\mathcode`,
-  \mathcode`,="8000
+	\mathchardef\stdcomma=\mathcode`,
+	\mathcode`,="8000
 }
 \begingroup\lccode`~=`, \lowercase{\endgroup\def~}{\stdcomma\,}
