@@ -1,0 +1,75 @@
+\section{Regression}
+
+\subsection{Wiederholung: Lineare Regression}
+
+% Lineare Regression
+\begin{frame}{Lineare Regression}{}
+	Wir wiederholen die wichtigsten Aussagen zur linearen Regression:
+
+	\begin{itemize}
+		\item Wir betrachten einen Datensatz bestehend aus $N$ Featurevektoren $\bx^n \in \R^m, n = 1, 2, \ldots, N$.
+		\item Jeder Vektor $\bx^n$ ist mit einem zugehörigen Label $y_n \in \R, n = 1, 2, \ldots, N$ versehen.
+		\item Das lineare Regressionsmodell hat die Form $$h(\bx; \btheta) = \theta_0 + \sum_{m=1}^M \theta_m x_m.$$
+		\item Im Folgenden bietet es sich an, die Dummy-Komponente $x_0 \coloneqq 1$ einzuführen, sodass gilt $$h(\bx; \btheta) = \sum_{m=0}^M \theta_m x_m = \btheta^\top \bx.$$
+	\end{itemize}
+\end{frame}
+
+
+% Design Matrix
+\begin{frame}{Design Matrix}{}
+	Wir fassen die Featurevektoren $\bx^n$ zeilenweise zu der Matrix
+	\begin{equation*}
+		\bX \coloneqq
+		\begin{pmatrix}
+			\horzbar 	& \bx^1 	& \horzbar 	\\
+			\horzbar 	& \bx^2 	& \horzbar 	\\
+			\vdots 	&\vdots 	& \vdots 		\\
+			\horzbar 	& \bx^N 	& \horzbar
+		\end{pmatrix} \in \R^{N \times (M + 1)}
+	\end{equation*}
+	zusammen. Die erste Spalte ist hierbei konstant 1 (wegen der Dummy-Komponente). Wir nennen diese Matrix \keyword{Design Matrix}.
+	
+	Analog sammeln wir alle Labels in einem Vektor $$\by \coloneqq \bigl( y_1, y_2, \ldots, y_N \bigr)^\top \in \R^N.$$
+\end{frame}
+
+
+% Methode der kleinsten Quadrate
+\begin{frame}{Methode der kleinsten Quadrate}{}
+	\begin{itemize}
+		\item Der Vektor $\btheta \in R^{M+1}$ beinhaltet die Modellparameter.
+		\item Diese möchten wir so wählen, dass unser Modell die Daten möglichst gut erklärt, d.\,h. die Abweichung der Regressionsfunktion zu den Trainingsdaten sollte möglichst klein sein.
+	\end{itemize}
+
+	\begin{mydef}[def:kleinste-quadrate-fehler]
+		Mit den obigen Definitionen ist der \keyword{Least-Squares-Fehler} gegeben durch $$\JLS(\btheta) \coloneqq \frac{1}{2N} \Vert \bX \btheta - \by \Vert^2.$$
+	\end{mydef}
+
+	\textbf{Bemerkung:} Der Vektor $\bX \btheta \in \R^N$ beinhaltet die Modellvorhersagen, wenn man dem Modell die Parameter $\btheta$ zugrunde legt.
+	$\JLS$ misst also die mittlere quadratische Abweichung der Vorhersagen zu den wahren Werten.
+\end{frame}
+
+
+% Minimierung der Fehlerfunktion
+\begin{frame}{Minimierung der Fehlerfunktion}{}
+	Unser Ziel ist die Minimierung von $\JLS$. Hierzu schreiben $\JLS$ unter Ausnutzung der Transpositionsregeln $(\bA + \bB)^\top = \bA^\top + \bB^\top$ und
+	$(\bA \bB)^\top = \bB^\top \bA^\top$ um:
+	\begin{align*}
+		\JLS(\btheta)
+			&= \frac{1}{2N} \Vert \bX \btheta - \by \Vert^2
+				= \frac{1}{2N} \bigl( \bX \btheta - \by \bigr)^\top \bigl( \bX \btheta - \by \bigr)
+	\\[2mm]
+			&= \frac{1}{2N} \bigl( (\bX \btheta)^\top - \by^\top \bigr) \bigl( \bX \btheta - \by \bigr)
+	\\[2mm]
+			&= \frac{1}{2N} \bigl( (\bX \btheta)^\top \bX \btheta - (\bX \btheta)^\top \by - \by^\top (\bX \btheta) + \by^\top \by \bigr)
+	\\[2mm]
+			&= \frac{1}{2N} \bigl( \btheta^\top \bX^\top \bX \btheta - 2 (\bX \btheta)^\top \by + \by^\top \by \bigr)
+	\\[2mm]
+			&= \frac{1}{2N} \bigl( \btheta^\top \bX^\top \bX \btheta - 2 \btheta^\top \bX^\top \by + \by^\top \by \bigr)
+	\end{align*}
+\end{frame}
+
+
+% Minimierung der Fehlerfunktion (Forts.)
+\begin{frame}{Minimierung der Fehlerfunktion (Forts.)}{}
+	Um einen stationären Punkt zu finden, müssen wir $\JLS$ nach $\btheta$ ableiten und Null setzen.
+\end{frame}
