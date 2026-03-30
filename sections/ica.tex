@@ -119,23 +119,23 @@
 		\textbf{Eigenschaften orthogonaler Matrizen:}
 		\begin{itemize}
 			\item Orthogonale Matrizen beschreiben eine Drehung/Spiegelung im Raum.
-			\item Es gilt stets $\bR \bR^\top = \bR^\top \bR = \bI.$
+			\item Es gilt stets $\bR \bR^\top = \bR^\top \bR = \bI.$ Es ist also $\bR^{-1} = \bR^\top$.
 			\item Es ist $\det \bR = 1$ für alle orthogonalen Matrizen $\bR$.
 			\item Da $\bR$ nur eine Drehung beschreibt, gilt für alle $\bx \in \R^N$ die Identität $\Vert \bR \bx \Vert = \Vert \bx \Vert$.
 		\end{itemize}
-		\item Sei ferner $\bm{\tilde{A}} \coloneqq \bA \bR$ die Matrix, welche mit der von $\bR$ beschriebenen Drehung aus $\bA$ hervorgeht.
-		\item Dann hat der Vektor $\bm{\tilde{x}} = \bm{\tilde{A}} \bs$ dieselbe Verteilung wie $\bx$. \\ \vspace*{2mm}
+		\item Sei ferner $\bAtilde \coloneqq \bA \bR$ die Matrix, welche mit der von $\bR$ beschriebenen Drehung aus $\bA$ hervorgeht.
+		\item Dann hat der Vektor $\bxtilde = \bAtilde \bs$ dieselbe Verteilung wie $\bx$. \\ \vspace*{2mm}
 		\begin{myproof}
 			Den Erwartungswert rechnet man analog zu oben aus. Aufgrund der Orthogonalität von $\bR$ gilt
 			\begin{equation*}
-				\E_{\bs}\bigl[ \bm{\tilde{x}} \bm{\tilde{x}}^\top \bigr]
-					= \E_{\bs}\bigl[ \bm{\tilde{A}} \bs \bs^\top \bm{\tilde{A}}^\top \bigr]
+				\E_{\bs}\bigl[ \bxtilde \bxtilde^\top \bigr]
+					= \E_{\bs}\bigl[ \bAtilde \bs \bs^\top \bAtilde^\top \bigr]
 					= \E_{\bs}\bigl[ \bA \bR \bs \bs^\top \bR^\top \bA^\top \bigr]
 					= \bA \bR \cdot \D[\bs] \cdot \bR^\top \bA^\top
 					= \bA \bR \bR^\top \bA
 					= \bA \bA^\top,
 			\end{equation*}
-			sodass $\bm{\tilde{x}} \sim N_{\0, \bA \bA^\top}$ wie behauptet gilt.
+			sodass $\bxtilde \sim N_{\0, \bA \bA^\top}$ wie behauptet gilt.
 		\end{myproof}
 	\end{itemize}
 \end{frame}
@@ -145,16 +145,192 @@
 \begin{frame}{Warum sind Normalverteilungen verboten? (Forts.)}{}
 	\begin{itemize}
 		\item Die voranstehenden Ausführungen zeigen, können wir in diesem Fall nicht rekonstruieren, ob die Daten mit der Matrix
-			$\bA$ oder $\bm{\tilde{A}}$ gemixt wurden.
+			$\bA$ oder $\bAtilde$ gemixt wurden.
 		\item Für normalverteilte Daten können wir folglich die Komponenten \textit{nur bis auf eine Drehung rekonstruieren}.
 	\end{itemize}
 \end{frame}
 
 
-\subsection{Visualisierung der ICA}
-
 % Ein einfaches Beispiel
 \begin{frame}{Ein einfaches Beispiel}{}
+	Wir betrachten ein einfaches zweidimensionales Beispiel für den Fall, dass die Quellsignale $s_1$ und $s_2$ gleichverteilt sind:
+	\begin{equation*}
+		p(s_i) \coloneqq \begin{cases}
+			\frac{1}{2 \sqrt{3}} 	& \text{wenn}\ \vert s_i \vert \le \sqrt{3} \\
+			0 				& \text{sonst}
+		\end{cases}
+	\end{equation*}
 
+	\textbf{Bemerkungen:}
+	\begin{itemize}
+		\item Der Erwartungswert der Zufallsvariablen $s_i$ $(i = 1, 2)$ ist jeweils 0. \\ \vspace*{2mm}
+		\begin{myproof}
+			Für die Gleichverteilung gilt $\E[s_i] = \frac{-\sqrt{3} + \sqrt{3}}{2} = 0$ (siehe Tabelle im Kapitel `Statistik').
+		\end{myproof} \\ \vspace*{1mm}
+		\item Die Varianzen sind jeweils 1. \\ \vspace*{2mm}
+		\begin{myproof}
+			Es ist $\V[s_i] = \frac{\bigl( \sqrt{3} + \sqrt{3} \bigr)^2}{12} = \frac{\bigl( 2 \sqrt{3} \bigr)^2}{12} = \frac{12}{12} = 1$
+			(siehe Tabelle im Kapitel `Statistik').
+		\end{myproof}
+	\end{itemize}
 \end{frame}
 
+
+% Ein einfaches Beispiel (Forts.)
+\begin{frame}{Ein einfaches Beispiel (Forts.)}{Ausgangsdaten}
+	\begin{figure}
+		\centering
+		\includegraphics[scale=0.3]{./img/ica/uniform_data_indep.png}
+		\caption{Gemeinsame Verteilung der unabhängigen Komponenten $s_1$ (horizontal) und $s_2$ (vertikal).}
+	\end{figure}
+\end{frame}
+
+
+% Ein einfaches Beispiel (Forts.)
+\begin{frame}{Ein einfaches Beispiel (Forts.)}{Gemischte Daten}
+	\begin{figure}
+		\centering
+		\includegraphics[scale=0.3]{./img/ica/uniform_data_mixed.png}
+		\caption{Gemeinsame Verteilung der gemischten/beobachteten Komponenten $x_1$ (horizontal) und $x_2$ (vertikal) nach Anwendung der
+		Matrix $\bA \coloneqq \begin{pmatrix} 5 & 10 \\ 10 & 2 \end{pmatrix}$.}
+	\end{figure}
+\end{frame}
+
+
+\subsection{Whitening}
+
+% Whitening
+\begin{frame}{Whitening}{}
+	Whitening wird häufig vor dem eigentlichen ICA-Algorithmus angewendet:
+	\begin{mydef}[def:whitening]
+		\keyword{Whitening} bezeichnet eine \textit{lineare Transformation} $\bV$, bei der zentrierte Zufallsvariablen $\bx \in \R^N$
+		(zentriert bedeutet $\E[\bx] = \0$) so zu neuen Zufallsvariablen $\bz \coloneqq \bV \bx \in \R^N$ transformiert werden, dass
+		$\D[\bz] = \E\bigl[ \bz \bz^\top \bigr] = \bI$ gilt.
+	\end{mydef}
+
+	In Worten bedeutet dies, dass die Komponenten von $\bz$ untereinander unkorreliert und die Varianzen jeweils Eins sind,
+	also $$\E[z_i z_j] = \delta_{ij},$$ wobei $\delta_{ij} \coloneqq \begin{cases} 1 & \text{falls}\ i = j \\ 0 & \text{falls}\ i \ne j \end{cases}$
+	das \keyword{Kronecker-Delta} bezeichnet.
+\end{frame}
+
+
+% Whitening (Forts.)
+\begin{frame}{Whitening (Forts.)}{}
+	\begin{itemize}
+		\item Eine solche lineare Transformation ist z.\,B. gegeben durch $\bV \coloneqq \bD^{-\frac{1}{2}} \bE^\top$, wobei $\bE \in \R^{N \times N}$
+			eine orthogonale Matrix ist, deren Spalten aus \textit{normalisierten Eigenvektoren} von $\D[\bx]$ bestehen und
+			$\bD \coloneqq \diag\bigl( d_1, d_2, \ldots, d_N \bigr) \in \R^{N \times N}$ eine Diagonalmatrix mit den zugehörigen \textit{Eigenwerten} ist.
+			\\ \vspace*{2mm}
+		\begin{myproof}
+			Wir rechnen nach, dass die Kovarianzmatrix von $\bz = \bV \bx$ tatsächlich die Einheitsmatrix ist. Da $\E\bigl[ \bx \bx^\top \bigr]$
+			in praktischen Anwendungsfällen in der Regel positiv definit ist, gilt $\E\bigl[ \bx \bx^\top \bigr] = \bE \bD \bE^\top$. Damit gilt tatsächlich
+			\begin{equation*}
+				\E\bigl[ \bz \bz^\top \bigr]
+					= \E\bigl[ \bV \bx \bx^\top \bV^\top \bigr]
+					= \bV \E\bigl[ \bx \bx^\top \bigr] \bV^\top
+					= \bD^{-\frac{1}{2}} \bE^\top \bE \bD \bE^\top \bE \bD^{-\frac{1}{2}}
+					= \bI.
+			\end{equation*}
+		\end{myproof}
+		\item Aus der Zentriertheit von $\bx$ folgt, dass auch $\bz$ zentriert ist. \\ \vspace*{2mm}
+		\begin{myproof}
+			Wieder mit der Linearität des Erwartungswerts gilt $\E[\bz] = \E[\bV \bx] = \bV \E[\bx] = \0$.
+		\end{myproof}
+	\end{itemize}
+\end{frame}
+
+
+% Fortsetzung des Beispiels
+\begin{frame}{Fortsetzung des Beispiels}{Nach Anwendung von Whitening}
+	\begin{figure}
+		\centering
+		\includegraphics[scale=0.3]{./img/ica/uniform_data_whitened.png}
+		\caption{Gemeinsame Verteilung der Komponenten $z_1$ (horizontal) und $z_2$ (vertikal) nach dem Whitening.}
+	\end{figure}
+\end{frame}
+
+
+% Whitening löst bereits das halbe Problem
+\begin{frame}{Whitening löst bereits das halbe Problem}{}
+	\begin{itemize}
+		\item Wir nehmen im Folgenden an, dass bereits ein Whitening stattgefunden hat.
+		\item Whitening transformiert die Mixing Matrix $\bA$ in eine neue Matrix $\bAtilde$, denn
+			$$\bz = \bV \bx = \bV \bA \bs = \bAtilde \bs.$$
+		\item Man könnte nun hoffen, dass Whitening das Problem bereits löst, da Unkorreliertheit und Unabhängigkeit verwandt sind.
+			\textbf{Dem ist jedoch nicht so!}
+		\item Sei dazu $\bU$ eine orthogonale Matrix und $\by \coloneqq \bU \bz$.
+		\item Aufgrund der Orthogonalität von $\bU$ gilt
+			$$\E\bigl[ \by \by^\top \bigr] = \E\bigl[ \bU \by \by^\top \bU^\top \bigr] = \bU \bI \bU^\top = \bI.$$
+			Somit ist auch $\by$ white. Die Komponenten sind durch Whitening nur bis auf eine Drehung eindeutig!
+	\end{itemize}
+\end{frame}
+
+
+% Whitening als Vorverarbeitungsschritt
+\begin{frame}{Whitening als Vorverarbeitungsschritt}{}
+	\begin{itemize}
+		\item Die Whitening Operation eignet sich jedoch sehr gut als Vorverarbeitungsschritt, denn durch sie wird die Mixing Matrix
+			$\bAtilde = \bV \bA$ orthogonal. \\ \vspace*{2mm}
+		\begin{myproof}
+			Da die Daten $\bz$ white sind, gilt $\E\bigl[ \bz \bz^\top \bigr] = \bI$. Es gilt aber auch
+			\begin{equation*}
+				\E\bigl[ \bz \bz^\top \bigr]
+					= \E\bigl[ \bAtilde \bs \bs^\top \bAtilde^\top \bigr]
+					= \bAtilde \bAtilde^\top.
+			\end{equation*}
+			Also gilt $\bAtilde \bAtilde^\top = \bI$, woraus die Orthogonalität von $\bAtilde$ folgt.
+		\end{myproof} \\ \vspace*{1mm}
+		\item Das heißt wir können uns bei der Suche nach der Mixing Matrix \textbf{auf orthogonale Matrizen beschränken!}
+		\item Eine orthogonale $N \times N$ Matrix hat nur $N (N - 1) / 2$ Freiheitsgrade
+			(im Gegensatz zu $N^2$ Freiheitsgraden für die ursprüngliche Matrix),
+			z.\,B. wird eine zweidimensionale orthogonale Matrix eindeutig durch den Winkel der Drehung beschrieben.
+	\end{itemize}
+\end{frame}
+
+
+% Warum Normalverteilungen verboten sind!
+\begin{frame}{Warum Normalverteilungen verboten sind!}{}
+	\begin{itemize}
+		\item Durch Whitening können wir eine weitere Begründung dafür angeben, warum Normalverteilungen verboten sind.
+		\item Wir nehmen an, dass die gemeinsame Verteilung der Quellsignale $s_1$ und $s_2$ durch eine Normalverteilung beschrieben werden:
+		\begin{equation*}
+			p(s_1, s_2)
+				= \frac{1}{2 \pi} \exp\left( -\frac{s_1^2 + s_2^2}{2} \right)
+				= \frac{1}{2 \pi} \exp\left( -\frac{\Vert \bs \Vert^2}{2} \right)
+		\end{equation*}
+		\item Die Mixing Matrix $\bA$ kann als orthogonal angenommen werden, da die Daten $\bx$ als white vorausgesetzt sind.
+	\end{itemize}
+\end{frame}
+
+
+% Warum Normalverteilungen verboten sind! (Forts.)
+\begin{frame}{Warum Normalverteilungen verboten sind! (Forts.)}{}
+	Mit dem Transformationssatz \ref{th:transformationssatz} für Dichten erhalten wir daraus die Verteilung von $x_1$ und $x_2$:
+	\begin{align*}
+		p(x_1, x_2)
+			&= \frac{1}{2 \pi} \exp\left( -\frac{\Vert \bA^{-1} \bx \Vert^2}{2} \right) \vert \det \bA^{-1} \vert
+	\intertext{[Aufgrund der Orthogonalität gilt $\bA^{-1} = \bA^\top$.]}
+			&= \frac{1}{2 \pi} \exp\left( -\frac{\Vert \bA^\top \bx \Vert^2}{2} \right) \vert \det \bA^\top \vert
+	\intertext{[Wieder aufgrund der Orthogonalität gilt $\Vert \bA^\top \bx \Vert = \Vert \bx \Vert$ und $\det \bA^\top = 1$.]}
+			&= \frac{1}{2 \pi} \exp\left( -\frac{\Vert \bx \Vert^2}{2} \right)
+	\end{align*}
+\end{frame}
+
+
+% Warum Normalverteilungen verboten sind! (Forts.)
+\begin{frame}{Warum Normalverteilungen verboten sind! (Forts.)}{}
+	\begin{itemize}
+		\item Wir sehen also, dass die Dichte der Quellsignale und der gemischten Signale identisch ist.
+		\item Damit haben wir keine Chance, die Mixing Matrix aus den Daten zu schätzen.
+	\end{itemize}
+\end{frame}
+
+
+% Warum Normalverteilungen verboten sind! (Forts.)
+\begin{frame}{Warum Normalverteilungen verboten sind! (Forts.)}{}
+	\begin{figure}
+		\centering
+		\includegraphics[scale=0.4]{./img/ica/gaussian_data_indep.png}
+		\caption{Gemeinsame Verteilung der Komponenten $s_1$ (horizontal) und $s_2$ (vertikal) bei Annahme einer Normalverteilung.}
+	\end{figure}
+\end{frame}
