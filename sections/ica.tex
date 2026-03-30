@@ -1,0 +1,160 @@
+\section{Independent Component Analysis}
+
+\subsection{Motivation: Cocktail Party Problem}
+
+% Cocktail Party Problem
+\begin{frame}{Cocktail Party Problem}{}
+	Zur Motivation betrachten wir das folgende Problem:
+	
+	\begin{itemize}
+		\item Auf einer Party sprechen $N$ Personen gleichzeitig.
+		\item Im Raum werden Mikrofone aufgestellt, welche \textit{überlappende Kombinationen} der Stimmen der Sprecher aufzeichnen.
+		\item Der Einfachheit halber nehmen wir an, dass sich ebenfalls $N$ Mikrofone im Raum befinden.
+		\item Da die Entfernung der Sprecher zu den einzelnen Mikrofonen verschieden ist, handelt es sich hierbei um leicht
+			\textit{verschiedene Kombinationen}.
+	\end{itemize}
+
+	\textbf{Können wir die Stimmen der $N$ Sprecher aus den $N$ Aufzeichnungen isolieren?}
+\end{frame}
+
+
+% Beispiel: Cocktail Party Problem
+\begin{frame}{Beispiel: Cocktail Party Problem}{}
+	tbd
+\end{frame}
+
+
+\subsection{Formalisierung des Problems}
+
+% Mathematische Formulierung des Problems
+\begin{frame}{Mathematische Formulierung des Problems}{}
+	\begin{itemize}
+		\item Es seien die Signale $\bs(t) \in \R^N$ gegeben, welche von $N$ \textit{unabhängigen} (!) Quellen zum Zeitpunkt $t = 1, 2, \ldots, T$
+			erzeugt werden (die Sprecher im Cocktail Party Problem).
+		\item Allerdings beobachten wir nur die gemischten Daten $\bx(t)$ zum Zeitpunkt $t$ (die Aufnahmen der Mikrofone).
+		\item Das ICA-Modell nimmt an, dass es sich hierbei um \textit{Linearkombinationen} der Quellsignale handelt.
+		\item Wir betrachten also das Modell
+		\begin{equation}
+			\bx(t) = \bA \bs(t),
+		\end{equation}
+		wobei $\bA$ die \keyword{Mixing Matrix} ist.
+	\end{itemize}
+\end{frame}
+
+
+% Mathematische Formulierung des Problems (Forts.)
+\begin{frame}{Mathematische Formulierung des Problems (Forts.)}{}
+	\begin{itemize}
+		\item Unser Ziel ist es, die Quellsignale $\bs$ aus den beobachteten Mischsignalen $\bx$ zu rekonstruieren.
+		\item Wäre $\bA$ bekannt, so könnten wir in den meisten Fällen $$\bs = \bA^{-1} \bx$$ berechnen und wären fertig.
+		\item In der Regel ist $\bA$ unbekannt, wodurch das Problem deutlich schwerer wird.
+		\item Wir definieren die \keyword{Unmixing Matrix} $\bB \coloneqq \bA^{-1}$.
+		\item Mithilfe des ICA-Verfahrens werden wir diese Matrix approximieren. Mit ihr können wir dann die Quellsignale bestimmen, indem wir
+			$\bs = \bB \bx$ berechnen.
+	\end{itemize}
+\end{frame}
+
+
+\subsection{Annahmen und Limitationen von ICA}
+
+% Annahmen des Verfahrens
+\begin{frame}{Annahmen des Verfahrens}{}
+	Die folgenden Annahmen sind wesentlich für das ICA-Verfahren:
+
+	\begin{enumerate}
+		\item \textbf{Zentrale Annahme:} Die Quellsignale (ICs: Independent Components) sind \textit{stochastisch unabhängig}.
+		\item Die ICs sind \textit{nicht normalverteilt} (dazu später mehr).
+		\item Die Mixing Matrix $\bA$ ist quadratisch. Es gibt allerdings Verallgemeinerungen der ICA, die auch rechteckige Matrizen erlauben.
+			Wir machen diese Annahme hier, da das Problem selbst in diesem vereinfachten Fall schon schwer genug ist.
+	\end{enumerate}
+\end{frame}
+
+
+% Limitationen des Verfahrens
+\begin{frame}{Limitationen des Verfahrens}{}
+	Es gibt eine Reihe von Einschränkungen bei der Rekonstruktion der Quellsignale:
+
+	\begin{enumerate}
+		\item Die ursprüngliche \textit{Reihenfolge} der Signale kann nicht rekonstruiert werden.
+			Sei dazu $\bP$ eine \textit{Permutationsmatrix}. Dann ist
+			$\bx = \bA \bs = \bA \bP^{-1} \bP \bs$, wobei $\bP \bs$ die permutierten Quellsignale sind.
+			$\bA \bP^{-1}$ ist lediglich eine neue zu schätzende Mixing Matrix. Wir können folglich kein Signal \textit{das erste} Quellsignal nennen.
+		\item Die \textit{Skalierung} der Quellsignale kann nicht wiederhergestellt werden
+			(im Cocktail Party Problem entspricht dies der Lautstärke/Amplitude der Signale), wie man sich leicht überlegt: \\
+			Sei dazu $\alpha \in \R$, dann gilt $$\bx = \bA \bs = \alpha \bA \cdot \frac{1}{\alpha} \bs.$$
+		\item Normalverteilte Signale können nicht aufgetrennt werden.
+	\end{enumerate}
+\end{frame}
+
+
+% Warum sind Normalverteilungen verboten?
+\begin{frame}{Warum sind Normalverteilungen verboten?}{}
+	\begin{itemize}
+		\item Wir betrachten ein Beispiel mit $N = 2$ und $\bs \sim N_{\0, \bI}$.
+		\item Die Konturlinien der Standardnormalverteilung sind perfekte Kreise, die auf dem Koordinatenursprung zentriert sind.
+		\item Insbesondere ist die Dichte \keyword{rotationsinvariant}.
+		\item Für $\bx = \bA \bs$ gilt damit: $\bx \sim N_{\0, \bA \bA^\top}$. \\ \vspace*{2mm}
+		\begin{myproof}
+			Mit der Linearität des Erwartungswerts gilt $\E_{\bs}[\bx] = \E_{\bs}[\bA \bs] = \bA \E_{\bs}[s] = \0$.
+			Die Streuungsmatrix ist
+			\begin{align*}
+				\D[\bx]
+					&= \E_{\bs}\bigl[ \bx \bx^\top \bigr]
+						= \E_{\bs}\bigl[ \bA \bs \bs^\top \bA^\top \bigr]
+						= \bA \E\bigl[ \bs \bs^\top \bigr] \bA^\top
+						= \bA \cdot \D[\bs] \cdot \bA^\top
+			\\
+					&= \bA \bA^\top.
+			\end{align*}
+			Also gilt die Behauptung.
+		\end{myproof} 
+	\end{itemize}
+\end{frame}
+
+
+% Warum sind Normalverteilungen verboten? (Forts.)
+\begin{frame}{Warum sind Normalverteilungen verboten? (Forts.)}{}
+	\begin{itemize}
+		\item Sei nun $\bR \in \R^{N \times N}$ eine beliebige \textit{orthogonale Matrix}. \\ \vspace*{2mm}
+		\textbf{Eigenschaften orthogonaler Matrizen:}
+		\begin{itemize}
+			\item Orthogonale Matrizen beschreiben eine Drehung/Spiegelung im Raum.
+			\item Es gilt stets $\bR \bR^\top = \bR^\top \bR = \bI.$
+			\item Es ist $\det \bR = 1$ für alle orthogonalen Matrizen $\bR$.
+			\item Da $\bR$ nur eine Drehung beschreibt, gilt für alle $\bx \in \R^N$ die Identität $\Vert \bR \bx \Vert = \Vert \bx \Vert$.
+		\end{itemize}
+		\item Sei ferner $\bm{\tilde{A}} \coloneqq \bA \bR$ die Matrix, welche mit der von $\bR$ beschriebenen Drehung aus $\bA$ hervorgeht.
+		\item Dann hat der Vektor $\bm{\tilde{x}} = \bm{\tilde{A}} \bs$ dieselbe Verteilung wie $\bx$. \\ \vspace*{2mm}
+		\begin{myproof}
+			Den Erwartungswert rechnet man analog zu oben aus. Aufgrund der Orthogonalität von $\bR$ gilt
+			\begin{equation*}
+				\E_{\bs}\bigl[ \bm{\tilde{x}} \bm{\tilde{x}}^\top \bigr]
+					= \E_{\bs}\bigl[ \bm{\tilde{A}} \bs \bs^\top \bm{\tilde{A}}^\top \bigr]
+					= \E_{\bs}\bigl[ \bA \bR \bs \bs^\top \bR^\top \bA^\top \bigr]
+					= \bA \bR \cdot \D[\bs] \cdot \bR^\top \bA^\top
+					= \bA \bR \bR^\top \bA
+					= \bA \bA^\top,
+			\end{equation*}
+			sodass $\bm{\tilde{x}} \sim N_{\0, \bA \bA^\top}$ wie behauptet gilt.
+		\end{myproof}
+	\end{itemize}
+\end{frame}
+
+
+% Warum sind Normalverteilungen verboten? (Forts.)
+\begin{frame}{Warum sind Normalverteilungen verboten? (Forts.)}{}
+	\begin{itemize}
+		\item Die voranstehenden Ausführungen zeigen, können wir in diesem Fall nicht rekonstruieren, ob die Daten mit der Matrix
+			$\bA$ oder $\bm{\tilde{A}}$ gemixt wurden.
+		\item Für normalverteilte Daten können wir folglich die Komponenten \textit{nur bis auf eine Drehung rekonstruieren}.
+	\end{itemize}
+\end{frame}
+
+
+\subsection{Visualisierung der ICA}
+
+% Ein einfaches Beispiel
+\begin{frame}{Ein einfaches Beispiel}{}
+
+\end{frame}
+
