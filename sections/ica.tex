@@ -388,7 +388,7 @@
 				&= \ln\left( \vert \det \bW \vert^T \cdot \prod_{t=1}^T \prod_{n=1}^N p_n\bigl( (\bw^n)^\top \bx(t) \bigr) \right)
 					= \ln \vert \det \bW \vert^T + \ln\left( \prod_{t=1}^T \prod_{n=1}^N p_n\bigl( (\bw^n)^\top \bx(t) \bigr) \right)
 		\\[2mm]
-				&= T \cdot \ln \vert \det \bW \vert + \sum_{t=1}^T \sum_{n=1}^N p_n\bigl( (\bw^n)^\top \bx(t) \bigr).
+				&= T \cdot \ln \vert \det \bW \vert + \sum_{t=1}^T \sum_{n=1}^N \ln p_n\bigl( (\bw^n)^\top \bx(t) \bigr).
 		\end{align*}
 	\end{itemize}
 \end{frame}
