@@ -12,6 +12,9 @@
 % import commands
 \input{./preamble/commands}
 
+% load bibliography
+\addbibresource{./references.bib}
+
 % set author, title, institute, date
 \title[Vertiefung Wissensgewinnung aus Daten und Deep Learning]{Vertiefung Wissensgewinnung aus Daten und Deep Learning (Teil I)}
 \author{M.Sc.\,Daniel Wehner}
@@ -33,6 +36,11 @@
 \input{./sections/regression}
 
 \input{./sections/ica}
+
+% Literatur
+\begin{frame}[allowframebreaks]{Literatur}{}
+	\printbibliography[heading=none]
+\end{frame}
 
 \end{document}
 
