@@ -192,3 +192,13 @@
 	\mathcode`,="8000
 }
 \begingroup\lccode`~=`, \lowercase{\endgroup\def~}{\stdcomma\,}
+
+% slide commands
+% ====================================================
+
+% divider page
+\newcommand{\divider}{%
+	\begin{frame}{Kapitel}{}
+		\tableofcontents[currentsection,currentsubsection,sectionstyle=show/hide,subsectionstyle=show/show/hide]
+	\end{frame}
+}

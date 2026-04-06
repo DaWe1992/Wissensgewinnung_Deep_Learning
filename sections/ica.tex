@@ -1,5 +1,7 @@
 \section{Independent Component Analysis}
 
+\divider
+
 \subsection{Motivation: Cocktail Party Problem}
 
 % Cocktail Party Problem
@@ -379,7 +381,7 @@
 		\item Die Likelihood Funktion ergibt sich als das Produkt der Dichte in (\ref{eq:produktverteilung-beobactete-daten}) über die $T$ Beobachtungen
 		\begin{equation*}
 			L(\bW)
-				= \prod_{t=1}^T \left[ \vert \det \bW \vert \cdot \prod_{n=1}^N p_n\bigl( (\bw^n)^\top \bx(t) \bigr) \right]
+				= \prod_{t=1}^T \left( \vert \det \bW \vert \cdot \prod_{n=1}^N p_n\bigl( (\bw^n)^\top \bx(t) \bigr) \right)
 				= \vert \det \bW \vert^T \cdot \prod_{t=1}^T \prod_{n=1}^N p_n\bigl( (\bw^n)^\top \bx(t) \bigr).
 		\end{equation*}
 		\item Im Folgenden betrachten wir die Log-Likelihood Funktion
