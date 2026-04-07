@@ -2,9 +2,70 @@
 
 \divider
 
-\subsection{EM}
+\subsection{Problemstellung}
 
-% EM
-\begin{frame}{EM}{}
+% Problemstellung
+\begin{frame}{Problemstellung}{}
+	\begin{itemize}
+		\item Wir betrachten ein statistisches Modell mit Daten $\bX = \bigl( \bx^1, \bx^2, \ldots, \bx^N \bigr)^\top$, \keyword{latenten Variablen}
+			$\bZ = \bigl( \bz^1, \bz^2, \ldots, \bz^N \bigr)^\top$ und Modellparametern $\btheta$.
+		\item Unser Ziel ist die Maximierung der Log-Likelihood $\ln p(\bX; \btheta)$.
+		\item Da wir die latenten Variablen nicht beobachten, könnten wir über sie summieren:
+		\begin{equation}
+			\ln p(\bX; \btheta) = \ln \sum_{\bZ} p(\bX, \bZ; \btheta)
+		\end{equation}
+		\item In der Regel ist eine direkte Lösung hiervon jedoch zu kompliziert.
+		\item Ein Lösungsansatz ist der \keyword{Expectation-Maximization (EM) Algorithmus}, welcher das Problem iterativ in zwei Phasen löst.
+		\item Mit $\{ \bX, \bZ \}$ bezeichnen wir den \textit{vollständigen} Datensatz, $\bX$ alleine nennen wir \textit{unvollständig}.
+	\end{itemize}
+\end{frame}
+
+
+% Ungleichung von Jensen
+\begin{frame}{Ungleichung von Jensen}{}
+	Für unsere weiteren Betrachtungen benötigen wir die folgende Ungleichung:
+	\begin{mytheo}[th:jensen]
+		Es sei $X$ eine Zufallsvariable mit endlichem ersten Moment (daraus folgt die Existenz des Erwartungswerts) und $f$ eine
+		\textit{konvexe} Funktion. Dann gilt die \keyword{Ungleichung von Jensen}
+		\begin{equation*}
+			f\bigl( \E[X] \bigr) \le \E\bigl[ f(X) \bigr].
+		\end{equation*}
+	\end{mytheo}
 	
+	\textbf{Bemerkungen:}
+	\begin{itemize}
+		\item Für konkave Funktionen $f$ gilt die Ungleichung in die andere Richtung: $f\bigl( \E[X] \bigr) \ge \E\bigl[ f(X) \bigr]$.
+		\item Wenn $f$  \textit{strikt konvex} bzw. \textit{strikt konkav} ist, so gilt Gleichheit genau dann, wenn $X$ konstant (also nicht zufällig) ist.
+	\end{itemize}
+\end{frame}
+
+
+% Bestimmung einer unteren Schranke
+\begin{frame}{Bestimmung einer unteren Schranke}{}
+	\begin{itemize}
+		\item Entscheidend ist, dass die Optimierung von $p(\bX, \bZ; \btheta)$ oftmals einfacher ist als die von $p(\bX; \btheta)$.
+		\item Wir konstruieren daher mittels $p(\bX, \bZ; \btheta)$ eine untere Schranke $\sL$ für $p(\bX; \btheta)$:
+		\begin{align*}
+			\ln p(\bX; \btheta)
+				&= \ln \sum_{\bZ} p(\bX, \bZ; \btheta)
+					= \ln \sum_{\bZ} q(\bZ) \cdot \frac{p(\bX, \bZ; \btheta)}{q(\bZ)}
+		\\[2mm]
+				&= \ln \E_{\bZ \sim q(\bZ)}\left[ \frac{p(\bX, \bZ; \btheta)}{q(\bZ)} \right]
+		\\[2mm]
+				&\ge \E_{\bZ \sim q(\bZ)} \left[ \ln \frac{p(\bX, \bZ; \btheta)}{q(\bZ)} \right] \eqqcolon \sL(q, \btheta)
+		\end{align*}
+		\item Für die Abschätzung im letzten Schritt haben wir die \keyword{Jensensche Ungleichung}, Satz \ref{th:jensen}, mit
+			$f \coloneqq \ln$ (der Logarithmus ist strikt konkav) und $X \coloneqq \frac{p(\bX, \bZ; \btheta)}{q(\bZ)}$ benutzt.
+	\end{itemize}
+\end{frame}
+
+
+% Bestimmung einer unteren Schranke (Forts.)
+\begin{frame}{Bestimmung einer unteren Schranke (Forts.)}{}
+	\begin{itemize}
+		\item Die hergeleitete Ungleichung lässt sich mit den Logarithmengesetzen umschreiben zu
+		\begin{equation*}
+			\ln p(\bX; \btheta) \ge \E_{\bZ \sim q(\bZ)}\left[ \ln p(\bX, \bZ; \btheta) \right] - \E_{\bZ \sim q(\bZ)}\left[ \ln q(\bZ) \right]
+		\end{equation*}
+	\end{itemize}
 \end{frame}
