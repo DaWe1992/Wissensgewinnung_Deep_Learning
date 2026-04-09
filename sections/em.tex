@@ -21,6 +21,8 @@
 \end{frame}
 
 
+\subsection{Ungleichung von Jensen}
+
 % Ungleichung von Jensen
 \begin{frame}{Ungleichung von Jensen}{}
 	Für unsere weiteren Betrachtungen benötigen wir die folgende Ungleichung:
@@ -40,8 +42,10 @@
 \end{frame}
 
 
-% Bestimmung einer unteren Schranke
-\begin{frame}{Bestimmung einer unteren Schranke}{}
+\subsection{Bestimmung der unteren Schranke}
+
+% Bestimmung der unteren Schranke
+\begin{frame}{Bestimmung der unteren Schranke}{}
 	\begin{itemize}
 		\item Entscheidend ist, dass die Optimierung von $p(\bX, \bZ; \btheta)$ oftmals einfacher ist als die von $p(\bX; \btheta)$.
 		\item Wir konstruieren daher mittels $p(\bX, \bZ; \btheta)$ eine untere Schranke $\sL$ für $p(\bX; \btheta)$:
@@ -60,12 +64,114 @@
 \end{frame}
 
 
-% Bestimmung einer unteren Schranke (Forts.)
-\begin{frame}{Bestimmung einer unteren Schranke (Forts.)}{}
+% Bestimmung der unteren Schranke (Forts.)
+\begin{frame}{Bestimmung der unteren Schranke (Forts.)}{}
 	\begin{itemize}
 		\item Die hergeleitete Ungleichung lässt sich mit den Logarithmengesetzen umschreiben zu
+		\begin{equation}
+			\label{eq:em-untere-schranke}
+			\ln p(\bX; \btheta) \ge \underbrace{
+				\E_{\bZ \sim q(\bZ)}\left[ \ln p(\bX, \bZ; \btheta) \right]}_{\text{Erw. vollst. Log-Likelihood}} - 
+			\underbrace{\E_{\bZ \sim q(\bZ)}\left[ \ln q(\bZ) \right]}_{\text{Entropie von $q$}}.
+		\end{equation}
+		\item Die untere Schranke hängt von der Dichte $q$ ab, die wir noch bestimmen müsssen.
+		\item Wir möchten $q$ so wählen, dass $\sL(q, \btheta) \overset{!}{=} \ln p(\bX; \btheta)$ für das aktuelle $\btheta$ gilt.
+		\item Die Ungleichung von Jensen (Satz \ref{th:jensen}) gilt mit Gleichheit, falls
 		\begin{equation*}
-			\ln p(\bX; \btheta) \ge \E_{\bZ \sim q(\bZ)}\left[ \ln p(\bX, \bZ; \btheta) \right] - \E_{\bZ \sim q(\bZ)}\left[ \ln q(\bZ) \right]
+			\frac{p(\bX, \bZ; \btheta)}{q(\bZ)} = \text{const}.
+		\end{equation*}
+		\item Wir müssen also $q(\bZ) \propto p(\bX, \bZ; \btheta)$ wählen!
+	\end{itemize}
+\end{frame}
+
+
+% Bestimmung der unteren Schranke (Forts.)
+\begin{frame}{Bestimmung der unteren Schranke (Forts.)}{}
+	\begin{itemize}
+		\item Daraus erhalten wir
+		\begin{align*}
+			q(\bZ)
+				&= \frac{p(\bX, \bZ; \btheta)}{\sum_{\bZtilde} p(\bX, \bZtilde; \btheta)}
+					= \frac{p(\bX, \bZ; \btheta)}{p(\bX; \btheta)}
+		\\[2mm]
+				&= p(\bZ \mid \bX; \btheta).
+		\end{align*}
+		\item Dies setzen wir in (\ref{eq:em-untere-schranke}) ein und erhalten die Identität
+		\begin{equation*}
+			\ln p(\bX; \btheta) = \E_{\bZ \sim p(\bZ \mid \bX; \btheta)}\left[ \ln p(\bX, \bZ; \btheta) \right]
+				- \E_{\bZ \sim p(\bZ \mid \bX; \btheta)}\left[ \ln p(\bZ \mid \bX; \btheta) \right].
 		\end{equation*}
 	\end{itemize}
+\end{frame}
+
+
+\subsection{Formulierung des EM-Algorithmus}
+
+% Formulierung des EM-Algorithmus
+\begin{frame}{Formulierung des EM-Algorithmus}{}
+	\begin{itemize}
+		\item Zu jedem Zeitpunkt $t$ haben wir eine Schätzung der Parameter $\btheta^t$, die der Algorithmus in der darauffolgenden Iteration verbessert.
+		\item Für die Formulierung des Algorithmus führen wir einen Zeitindex ein
+		\begin{align*}
+			\ln p(\bX; \btheta)
+				&= \E_{\bZ \sim p(\bZ \mid \bX; \btheta^t)}\left[ \ln p(\bX, \bZ; \btheta) \right]
+					- \E_{\bZ \sim p(\bZ \mid \bX; \btheta^t)}\left[ \ln p(\bZ \mid \bX; \btheta) \right]
+		\\[2mm]
+				&= Q(\btheta; \btheta^t) + H(\btheta; \btheta^t),
+		\end{align*}
+			wobei $Q(\cdot)$ der erste Erwartungswert und $H(\cdot)$ der negierte zweite Erwartungswert ist.
+		\item Den Ausdruck $H(\btheta; \btheta^t)$ nennt man \keyword{Cross-Entropy} zwischen $\btheta$ und $\btheta^t$.
+	\end{itemize}
+\end{frame}
+
+
+% Formulierung des EM-Algorithmus (Forts.)
+\begin{frame}{Formulierung des EM-Algorithmus (Forts.)}{}
+	\begin{itemize}
+		\item Aufgrund der \keyword{Ungleichung von Gibbs} gilt
+		\begin{equation}
+			\label{eq:gibbs-ugl}
+			H(\btheta; \btheta^t) \ge H(\btheta^t; \btheta^t).
+		\end{equation}
+		\item Daraus folgt
+		\begin{align*}
+			\ln p(\bX; \btheta) - \ln p(\bX; \btheta^t)
+				&= Q(\btheta; \btheta^t) - Q(\btheta^t; \btheta^t) + H(\btheta; \btheta^t) - H(\btheta^t; \btheta^t)
+		\\[2mm]
+				&\overset{(\ref{eq:gibbs-ugl})}{\ge} Q(\btheta; \btheta^t) - Q(\btheta^t; \btheta^t) + H(\btheta^t; \btheta^t) - H(\btheta^t; \btheta^t)
+		\\[2mm]
+				&= Q(\btheta; \btheta^t) - Q(\btheta^t; \btheta^t).
+		\end{align*}
+		\item Diese Ungleichung zeigt: Wenn wir $Q(\btheta, \btheta^t)$ um einen Betrag $\delta$ verbessern, dann verbessern wir damit auch
+			$\ln p(\bX; \btheta)$ \textit{um mindestens denselben Betrag}.
+	\end{itemize}
+\end{frame}
+
+
+% Der EM-Algorithmus
+\begin{frame}{Der EM-Algorithmus}{}
+	Wir erhalten damit den folgenden iterativen Algorithmus:
+	\begin{enumerate}
+		\item Setze $t \coloneqq 0$ und initialisiere den Parametervektor $\btheta^t$.
+		\item \textbf{E-Schritt (Expectation):}
+		\begin{equation*}
+			Q(\btheta; \btheta^t) \coloneqq \E_{\bZ \sim p(\bZ \mid \bX; \btheta^t)}\left[ \ln p(\bX, \bZ; \btheta) \right]
+		\end{equation*}
+		\item \textbf{M-Schritt (Maximization):}
+		\begin{equation*}
+			\btheta^{t+1} \coloneqq \argmax_{\btheta} Q(\btheta; \btheta^t)
+		\end{equation*}
+		\item Setze $t \coloneqq t + 1$
+		\item Wenn der Algorithmus noch nicht konvergiert ist, gehe zu Schritt 2.
+	\end{enumerate}
+\end{frame}
+
+
+% Der EM-Algorithmus (Forts.)
+\begin{frame}{Der EM-Algorithmus (Forts.)}{}
+	\begin{figure}
+		\centering
+		\includegraphics[scale=0.35]{./img/em/em_visual.png}
+		\caption{Veranschaulichung des EM-Algorithmus. Siehe \cite{Bishop2006}, Seite 453.}
+	\end{figure}
 \end{frame}
