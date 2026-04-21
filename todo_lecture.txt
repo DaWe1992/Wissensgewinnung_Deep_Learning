@@ -1,2 +1,5 @@
 - Use \eqref
 - Use subscript indices for vectors and two indices in subscript for vector components z_{ij}
+
+Probabilistic PCA:
+https://colab.research.google.com/github/uu-sml/course-apml-public/blob/master/lab/PPCA.ipynb
