@@ -1,34 +1,59 @@
+% SECTION: Expectation-Maximization (EM) Algorithmus
 \section{Expectation-Maximization (EM) Algorithmus}
 
 \divider
 
+% SUBSECTION: Problemstellung
 \subsection{Problemstellung}
 
 % Problemstellung
 \begin{frame}{Problemstellung}{}
 	\begin{itemize}
-		\item Wir betrachten ein statistisches Modell mit Daten $\bX = \bigl( \bx^1, \bx^2, \ldots, \bx^N \bigr)^\top$, \keyword{latenten Variablen}
-			$\bZ = \bigl( \bz^1, \bz^2, \ldots, \bz^N \bigr)^\top$ und Modellparametern $\btheta$.
-		\item Unser Ziel ist die Maximierung der Log-Likelihood $\ln p(\bX; \btheta)$.
-		\item Da wir die latenten Variablen nicht beobachten, könnten wir über sie summieren:
+		\item Wir betrachten ein statistisches Modell mit Daten $\bX = \bigl( \bx_1, \bx_2, \ldots, \bx_N \bigr)^\top$, \keyword{latenten Variablen}
+			$\bZ = \bigl( \bz_1, \bz_2, \ldots, \bz_N \bigr)^\top$ und Modellparametern $\btheta$.
+		\item Unser Ziel ist die Maximierung der Log-Likelihood $\ln p(\bX; \btheta)$ bezüglich $\btheta$.
+		\item Da wir die latenten Variablen nicht beobachten, müssen wir \textit{marginalisieren}:
 		\begin{equation}
 			\ln p(\bX; \btheta) = \ln \sum_{\bZ} p(\bX, \bZ; \btheta)
 		\end{equation}
-		\item In der Regel ist eine direkte Lösung hiervon jedoch zu kompliziert.
-		\item Ein Lösungsansatz ist der \keyword{Expectation-Maximization (EM) Algorithmus}, welcher das Problem iterativ in zwei Phasen löst.
-		\item Mit $\{ \bX, \bZ \}$ bezeichnen wir den \textit{vollständigen} Datensatz, $\bX$ alleine nennen wir \textit{unvollständig}.
+		\item In der Regel ist eine direkte Maximierung dieses Ausdrucks zu kompliziert,
+			da der Logarithmus nicht direkt auf $p(\bX, \bZ; \btheta)$ wirken kann.
+		\item Mit $\{ \bX, \bZ \}$ bezeichnen wir den \keyword{vollständigen} Datensatz, $\bX$ alleine nennen wir \keyword{unvollständig}.
+			Analog nennen wir $\ln p(\bX, \bZ; \btheta)$ die \keyword{vollständige Log-Likelihood} und $\ln p(\bX; \btheta)$ die
+			\keyword{unvollständige Log-Likelihood}.
 	\end{itemize}
 \end{frame}
 
 
+% Expectation-Maximization (EM)
+\begin{frame}{Expectation-Maximization (EM)}{}
+	\begin{itemize}
+		\item Da die Optimierung von $\ln p(\bX; \btheta)$ schwer ist, möchten wir also $\ln p(\bX, \bZ; \btheta)$ maximieren.
+		\item \textbf{Problem:} Wir kennen $\bZ$ nicht.
+		\item Der \keyword{Expectation-Maximization (EM) Algorithmus} löst dieses Problem iterativ in zwei Phasen,
+			indem $\bZ$ in jeder Iteration bestmöglich geschätzt wird.
+		\item Phasen:
+		\begin{enumerate}
+			\item \keyword{E-Phase:} Bestimme den Erwartungswert von $\ln p(\bX, \bZ; \btheta)$ unter der Aposteriori-Verteilung
+				$p(\bZ \mid \bX; \bthetaOld)$. Die Erwartungswertfunktion bildet eine untere Schranke für $\ln p(\bX; \btheta)$.
+			\item \keyword{M-Phase:} Die berechnete untere Schranke wird bezüglich der Parameter $\btheta$ maximiert,
+				was zu den aktualisierten Parametern $\bthetaNew$ führt.
+		\end{enumerate}
+		\item Bei gegebenen Parametern $\bthetaOld$ erhält man so in jeder Iteration neue Parameter $\bthetaNew$,
+			die zu einer höheren Log-Likelihood $\ln p(\bX; \btheta)$ führen.
+	\end{itemize}
+\end{frame}
+
+
+% SUBSECTION: Ungleichung von Jensen
 \subsection{Ungleichung von Jensen}
 
 % Ungleichung von Jensen
 \begin{frame}{Ungleichung von Jensen}{}
 	Für unsere weiteren Betrachtungen benötigen wir die folgende Ungleichung:
 	\begin{mytheo}[th:jensen]
-		Es sei $X$ eine Zufallsvariable mit endlichem ersten Moment (daraus folgt die Existenz des Erwartungswerts) und $f$ eine
-		\textit{konvexe} Funktion. Dann gilt die \keyword{Ungleichung von Jensen}
+		Es sei $X$ eine Zufallsvariable und $f$ eine \textit{konvexe} Funktion. Dann gilt die \keyword{Ungleichung von Jensen}
+		(falls alle Erwartungswerte existieren)
 		\begin{equation*}
 			f\bigl( \E[X] \bigr) \le \E\bigl[ f(X) \bigr].
 		\end{equation*}
@@ -36,19 +61,26 @@
 	
 	\textbf{Bemerkungen:}
 	\begin{itemize}
-		\item Für konkave Funktionen $f$ gilt die Ungleichung in die andere Richtung: $f\bigl( \E[X] \bigr) \ge \E\bigl[ f(X) \bigr]$.
+		\item Für \textit{konkave} Funktionen $f$ gilt die Ungleichung in die andere Richtung: $f\bigl( \E[X] \bigr) \ge \E\bigl[ f(X) \bigr]$.
 		\item Wenn $f$  \textit{strikt konvex} bzw. \textit{strikt konkav} ist, so gilt Gleichheit genau dann, wenn $X$ konstant (also nicht zufällig) ist.
 	\end{itemize}
 \end{frame}
 
 
-\subsection{Bestimmung der unteren Schranke}
+% Visualisierung: Ungleichung von Jensen
+\begin{frame}{Visualisierung: Ungleichung von Jensen}{}
+
+\end{frame}
+
+
+% SUBSECTION: Expectation-Schritt
+\subsection{Expectation-Schritt}
 
 % Bestimmung der unteren Schranke
 \begin{frame}{Bestimmung der unteren Schranke}{}
 	\begin{itemize}
-		\item Entscheidend ist, dass die Optimierung von $p(\bX, \bZ; \btheta)$ oftmals einfacher ist als die von $p(\bX; \btheta)$.
-		\item Wir konstruieren daher mittels $p(\bX, \bZ; \btheta)$ eine untere Schranke $\sL$ für $p(\bX; \btheta)$:
+		\item Im Folgenden konstruieren wir die oben erwähnte untere Schranke für $\ln p(\bX; \btheta)$.
+		\item Hierzu führen wir die Verteilung $q$ über $\bZ$ mit $q(\bZ) \ne 0$ ein und erhalten
 		\begin{align*}
 			\ln p(\bX; \btheta)
 				&= \ln \sum_{\bZ} p(\bX, \bZ; \btheta)
@@ -56,10 +88,10 @@
 		\\[2mm]
 				&= \ln \E_{\bZ \sim q(\bZ)}\left[ \frac{p(\bX, \bZ; \btheta)}{q(\bZ)} \right]
 		\\[2mm]
-				&\ge \E_{\bZ \sim q(\bZ)} \left[ \ln \frac{p(\bX, \bZ; \btheta)}{q(\bZ)} \right] \eqqcolon \sL(q, \btheta)
+				&\ge \E_{\bZ \sim q(\bZ)} \left[ \ln \frac{p(\bX, \bZ; \btheta)}{q(\bZ)} \right] \eqqcolon \sL(q, \btheta).
 		\end{align*}
-		\item Für die Abschätzung im letzten Schritt haben wir die \keyword{Jensensche Ungleichung}, Satz \ref{th:jensen}, mit
-			$f \coloneqq \ln$ (der Logarithmus ist strikt konkav) und $X \coloneqq \frac{p(\bX, \bZ; \btheta)}{q(\bZ)}$ benutzt.
+		\item Für die Abschätzung im letzten Schritt haben wir die \keyword{Ungleichung von Jensen} (Satz \ref{th:jensen}) mit
+			$f(x) \coloneqq \ln(x)$ (der Logarithmus ist strikt konkav) und $X \coloneqq \frac{p(\bX, \bZ; \btheta)}{q(\bZ)}$ benutzt.
 	\end{itemize}
 \end{frame}
 
@@ -67,20 +99,22 @@
 % Bestimmung der unteren Schranke (Forts.)
 \begin{frame}{Bestimmung der unteren Schranke (Forts.)}{}
 	\begin{itemize}
-		\item Die hergeleitete Ungleichung lässt sich mit den Logarithmengesetzen umschreiben zu
+		\item Die hergeleitete Ungleichung lässt sich mit den Logarithmengesetzen und der Linearität des Erwartungswerts umschreiben zu
 		\begin{equation}
-			\label{eq:em-untere-schranke}
+		\label{eq:em-untere-schranke}
 			\ln p(\bX; \btheta) \ge \underbrace{
-				\E_{\bZ \sim q(\bZ)}\left[ \ln p(\bX, \bZ; \btheta) \right]}_{\text{Erw. vollst. Log-Likelihood}} - 
-			\underbrace{\E_{\bZ \sim q(\bZ)}\left[ \ln q(\bZ) \right]}_{\text{Entropie von $q$}}.
+				\E_{\bZ \sim q(\bZ)}\left[ \ln p(\bX, \bZ; \btheta) \right]
+			}_{\substack{\text{Erwartete vollständige} \\ \text{Log-Likelihood}}} - 
+			\underbrace{
+				\E_{\bZ \sim q(\bZ)}\left[ \ln q(\bZ) \right]
+			}_{\text{Entropie von $q$}}.
 		\end{equation}
 		\item Die untere Schranke hängt von der Dichte $q$ ab, die wir noch bestimmen müsssen.
-		\item Wir möchten $q$ so wählen, dass $\sL(q, \btheta) \overset{!}{=} \ln p(\bX; \btheta)$ für das aktuelle $\btheta$ gilt.
+		\item Wir möchten $q$ so wählen, dass für das aktuelle $\btheta$ in \eqref{eq:em-untere-schranke} Gleichheit gilt.
 		\item Die Ungleichung von Jensen (Satz \ref{th:jensen}) gilt mit Gleichheit, falls
 		\begin{equation*}
-			\frac{p(\bX, \bZ; \btheta)}{q(\bZ)} = \text{const}.
+			\frac{p(\bX, \bZ; \btheta)}{q(\bZ)} = \const.
 		\end{equation*}
-		\item Wir müssen also $q(\bZ) \propto p(\bX, \bZ; \btheta)$ wählen!
 	\end{itemize}
 \end{frame}
 
@@ -88,7 +122,9 @@
 % Bestimmung der unteren Schranke (Forts.)
 \begin{frame}{Bestimmung der unteren Schranke (Forts.)}{}
 	\begin{itemize}
-		\item Daraus erhalten wir
+		\item Wegen der vorausgehenden Überlegungen müssen wir also $q(\bZ) \propto p(\bX, \bZ; \btheta)$ wählen. \\
+			Das Symbol $\propto$ bedeutet \textit{proportional zu}.
+		\item Daraus erhalten wir (da $q$ normiert sein muss)
 		\begin{align*}
 			q(\bZ)
 				&= \frac{p(\bX, \bZ; \btheta)}{\sum_{\bZtilde} p(\bX, \bZtilde; \btheta)}
@@ -96,6 +132,7 @@
 		\\[2mm]
 				&= p(\bZ \mid \bX; \btheta).
 		\end{align*}
+		\item \textbf{Ergebnis:} Für $q$ benutzen wir die Aposteriori-Verteilung von $\bZ$ gegeben $\bX$.
 		\item Dies setzen wir in (\ref{eq:em-untere-schranke}) ein und erhalten die Identität
 		\begin{equation*}
 			\ln p(\bX; \btheta) = \E_{\bZ \sim p(\bZ \mid \bX; \btheta)}\left[ \ln p(\bX, \bZ; \btheta) \right]
@@ -105,73 +142,161 @@
 \end{frame}
 
 
-\subsection{Formulierung des EM-Algorithmus}
+% SUBSECTION: Maximization-Schritt
+\subsection{Maximization-Schritt}
 
-% Formulierung des EM-Algorithmus
-\begin{frame}{Formulierung des EM-Algorithmus}{}
+% Maximierung der unteren Schranke
+\begin{frame}{Maximierung der unteren Schranke}{}
 	\begin{itemize}
-		\item Zu jedem Zeitpunkt $t$ haben wir eine Schätzung der Parameter $\btheta^t$, die der Algorithmus in der darauffolgenden Iteration verbessert.
-		\item Für die Formulierung des Algorithmus führen wir einen Zeitindex ein
+		\item Zu Beginn einer jeden EM-Iteration verfügen wir über den Parametervektor $\bthetaOld$, mit dem wir im E-Schritt
+			die untere Schranke konstruieren.
+		\item Hierbei wählen wir $q(\bZ) \coloneqq p\bigl( \bZ \mid \bX; \bthetaOld \bigr)$.
+		\item Als untere Schranke erhalten wir damit
 		\begin{align*}
 			\ln p(\bX; \btheta)
-				&= \E_{\bZ \sim p(\bZ \mid \bX; \btheta^t)}\left[ \ln p(\bX, \bZ; \btheta) \right]
-					- \E_{\bZ \sim p(\bZ \mid \bX; \btheta^t)}\left[ \ln p(\bZ \mid \bX; \btheta) \right]
+				&\ge \E_{\bZ \sim p(\bZ \mid \bX; \bthetaOld)}\left[ \ln p\bigl( \bX, \bZ; \btheta \bigr) \right]
+					- \E_{\bZ \sim p(\bZ \mid \bX; \bthetaOld)}\left[ \ln p\bigl( \bZ \mid \bX; \bthetaOld \bigr) \right]
 		\\[2mm]
-				&= Q(\btheta; \btheta^t) + H(\btheta; \btheta^t),
+				&= Q\bigl( \btheta, \bthetaOld \bigr) + H\bigl( \bthetaOld, \bthetaOld \bigr)
+		\\[2mm]
+				&= Q\bigl( \btheta, \bthetaOld \bigr) + \const,
 		\end{align*}
-			wobei $Q(\cdot)$ der erste Erwartungswert und $H(\cdot)$ der negierte zweite Erwartungswert ist.
-		\item Den Ausdruck $H(\btheta; \btheta^t)$ nennt man \keyword{Cross-Entropy} zwischen $\btheta$ und $\btheta^t$.
+			wobei $Q$ der erste Erwartungswert und $H$ der negierte zweite Erwartungswert ist.
+		\item Die Funktion $H\bigl( \bthetaOld, \bthetaOld \bigr)$ ist die \keyword{Entropie} von $\bthetaOld$.
 	\end{itemize}
 \end{frame}
 
 
-% Formulierung des EM-Algorithmus (Forts.)
-\begin{frame}{Formulierung des EM-Algorithmus (Forts.)}{}
+% Maximierung der unteren Schranke (Forts.)
+\begin{frame}{Maximierung der unteren Schranke (Forts.)}{}
 	\begin{itemize}
-		\item Aufgrund der \keyword{Ungleichung von Gibbs} gilt
+		\item Da die Entropie $H\bigl( \bthetaOld, \bthetaOld \bigr)$ bezüglich $\btheta$ konstant ist, ist der im M-Schritt zu maximierende
+			Ausdruck durch $Q\bigl( \btheta, \bthetaOld \bigr)$ gegeben.
+		\item Der M-Schritt hat also die Form
 		\begin{equation}
-			\label{eq:gibbs-ugl}
-			H(\btheta; \btheta^t) \ge H(\btheta^t; \btheta^t).
+			\bthetaNew \coloneqq \argmax_{\btheta} Q\bigl( \btheta, \bthetaOld \bigr).
 		\end{equation}
-		\item Daraus folgt
-		\begin{align*}
-			\ln p(\bX; \btheta) - \ln p(\bX; \btheta^t)
-				&= Q(\btheta; \btheta^t) - Q(\btheta^t; \btheta^t) + H(\btheta; \btheta^t) - H(\btheta^t; \btheta^t)
-		\\[2mm]
-				&\overset{(\ref{eq:gibbs-ugl})}{\ge} Q(\btheta; \btheta^t) - Q(\btheta^t; \btheta^t) + H(\btheta^t; \btheta^t) - H(\btheta^t; \btheta^t)
-		\\[2mm]
-				&= Q(\btheta; \btheta^t) - Q(\btheta^t; \btheta^t).
-		\end{align*}
-		\item Diese Ungleichung zeigt: Wenn wir $Q(\btheta, \btheta^t)$ um einen Betrag $\delta$ verbessern, dann verbessern wir damit auch
-			$\ln p(\bX; \btheta)$ \textit{um mindestens denselben Betrag}.
+		\item Weiter unten beweisen wir noch, dass tatsächlich $p\bigl(\bX \mid \bthetaNew \bigr) \ge p\bigl(\bX \mid \bthetaOld \bigr)$ gilt.
+		\item Zunächst fassen wir den EM-Algorithmus übersichtlich zusammen.
 	\end{itemize}
 \end{frame}
 
 
-% Der EM-Algorithmus
-\begin{frame}{Der EM-Algorithmus}{}
-	Wir erhalten damit den folgenden iterativen Algorithmus:
-	\begin{enumerate}
-		\item Setze $t \coloneqq 0$ und initialisiere den Parametervektor $\btheta^t$.
-		\item \textbf{E-Schritt (Expectation):}
-		\begin{equation*}
-			Q(\btheta; \btheta^t) \coloneqq \E_{\bZ \sim p(\bZ \mid \bX; \btheta^t)}\left[ \ln p(\bX, \bZ; \btheta) \right]
-		\end{equation*}
-		\item \textbf{M-Schritt (Maximization):}
-		\begin{equation*}
-			\btheta^{t+1} \coloneqq \argmax_{\btheta} Q(\btheta; \btheta^t)
-		\end{equation*}
-		\item Setze $t \coloneqq t + 1$
-		\item Wenn der Algorithmus noch nicht konvergiert ist, gehe zu Schritt 2.
-	\end{enumerate}
+% SUBSECTION: EM-Algorithmus und Konvergenz
+\subsection{EM-Algorithmus und Konvergenz}
+
+% EM-Algorithmus
+\begin{frame}{EM-Algorithmus}{}
+	\begin{myalg}
+		\begin{enumerate}
+			\item Initialisiere $\bthetaOld$.
+			\item \textbf{E-Schritt:} Bestimme die untere Schranke
+			\begin{equation*}
+				Q\bigl( \btheta, \bthetaOld \bigr) \coloneqq \E_{\bZ \sim p(\bZ \mid \bX; \bthetaOld)}\left[ \ln p(\bX, \bZ; \btheta) \right].
+			\end{equation*}
+			\item \textbf{M-Schritt:} Maximiere die untere Schranke und berechne
+			\begin{equation*}
+				\bthetaNew \coloneqq \argmax_{\btheta} Q\bigl( \btheta, \bthetaOld \bigr).
+			\end{equation*}
+			\item Falls noch nicht konvergiert, gehe zurück zu Schritt 2 und setze $\bthetaOld \coloneqq \bthetaNew$.
+			\item Ansonsten gebe $\bthetaNew$ zurück.
+		\end{enumerate}
+	\end{myalg}
 \end{frame}
 
 
-% Der EM-Algorithmus (Forts.)
-\begin{frame}{Der EM-Algorithmus (Forts.)}{}
+% Konvergenz des EM-Algorithmus
+\begin{frame}{Konvergenz des EM-Algorithmus}{}
+	\begin{itemize}
+		\item Zum Abschluss beweisen wir noch die Konvergenz des EM-Algorithmus.
+		\item Es gilt
+		\begin{align*}
+			\ln p\bigl( \bX; \bthetaNew \bigr)
+				&\ge \sum_{\bZ} p\bigl( \bZ \mid \bX; \bthetaOld \bigr)
+					\ln \frac{p\bigl( \bX, \bZ; \bthetaNew \bigr)}{p\bigl( \bZ \mid \bX; \bthetaOld \bigr)}
+		\\[2mm]
+				&\ge \sum_{\bZ} p\bigl( \bZ \mid \bX; \bthetaOld \bigr)
+					\ln \frac{p\bigl( \bX, \bZ; \bthetaOld \bigr)}{p\bigl( \bZ \mid \bX; \bthetaOld \bigr)}
+		\\[2mm]
+				&= \ln p\bigl( \bX; \bthetaOld \bigr).
+		\end{align*}
+		\item Die erste Ungleichung gilt hierbei aufgrund der Definition der unteren Schranke.
+		\item Die zweite Ungleichung gilt, weil $\bthetaNew$ so gewählt wurde, dass es die untere Schranke maximiert.
+	\end{itemize}
+\end{frame}
+
+
+% Visualisierung: EM-Algorithmus
+\begin{frame}{Visualisierung: EM-Algorithmus}{}
 	\begin{figure}
 		\centering
-		\includegraphics[scale=0.35]{./img/em/em_visual.png}
-		\caption{Veranschaulichung des EM-Algorithmus. Siehe \cite{Bishop2006}, Seite 453.}
+		\includegraphics[scale=0.75]{./img/em/em_visual}
+		\caption{Veranschaulichung des EM-Algorithmus. Siehe \cite{Bishop2024}, Seite 488.}
+	\end{figure}
+\end{frame}
+
+
+% SUBSECTION: Evidence-Lower-Bound und Kullback-Leibler Divergenz
+\subsection{Evidence-Lower-Bound und Kullback-Leibler Divergenz}
+
+% Eine andere Sicht auf den EM-Algorithmus
+\begin{frame}{Eine andere Sicht auf den EM-Algorithmus}{}
+	\begin{itemize}
+		\item Die Log-Likelihood $\ln p(\bX; \btheta)$ können wir zerlegen in
+		\begin{equation}
+		\label{eq:zerlegung-unvollst-logl}
+			\ln p(\bX; \btheta) = \sL(q, \btheta) + \KL(q \parallel p).
+		\end{equation}
+		\item Dabei ist:
+		\begin{itemize}
+			\item $\sL(q, \btheta)$ die \keyword{Evidence Lower Bound (ELBO)} oder auch \keyword{Variational Lower Bound} mit
+			\begin{equation}
+			\label{eq:elbo}
+				\sL(q, \btheta)
+					\coloneqq \sum_{\bZ} q(\bZ) \ln \frac{p(\bX, \bZ; \btheta)}{q(\bZ)}
+					= \sum_{\bZ} q(\bZ) \cdot \bigl[ \ln p(\bX, \bZ; \btheta) - \ln q(\bZ) \bigr].
+			\end{equation}
+			\item $\KL(q \parallel p)$ die \keyword{Kullback-Leibler Divergenz} zwischen $q(\bZ)$ und $p(\bZ \mid \bX; \btheta)$, welche gegeben ist durch
+			\begin{equation}
+				\KL(q \parallel p)
+					\coloneqq -\sum_{\bZ} q(\bZ) \ln \frac{p(\bZ \mid \bX; \btheta)}{q(\bZ)}
+					= -\sum_{\bZ} q(\bZ) \cdot \bigl[ \ln p(\bZ \mid \bX; \btheta) - \ln q(\bZ) \bigr].
+			\end{equation}
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
+% Beweis der Zerlegung \eqref{eq:zerlegung-unvollst-logl}
+\begin{frame}{Beweis der Zerlegung \eqref{eq:zerlegung-unvollst-logl}}{}
+	\begin{myproof}
+		Wir beweisen die Zerlegung \eqref{eq:zerlegung-unvollst-logl}. Hierzu wenden wir die Kettenregel für Wahrscheinlichkeiten auf $p(\bX, \bZ; \btheta)$
+		an. Wir erhalten $p(\bX, \bZ; \btheta) = p(\bZ \mid \bX; \btheta) \cdot p(\bX; \btheta)$. Anwendung des Logarithmus ergibt
+		$$\ln p(\bX, \bZ; \btheta) = \ln p(\bZ \mid \bX; \btheta) + \ln p(\bX; \btheta).$$ Dies setzen wir in die Evidence Lower Bound \eqref{eq:elbo} ein
+		und erhalten
+		\begin{align*}
+			\sL(q, \btheta)
+				&= \sum_{\bZ} q(\bZ) \cdot \bigl[ \ln p(\bX, \bZ; \btheta) - \ln q(\bZ) \bigr]
+		\\[2mm]
+				&= \sum_{\bZ} q(\bZ) \cdot \bigl[ \ln p(\bZ \mid \bX; \btheta) + \ln p(\bX; \btheta) - \ln q(\bZ) \bigr].
+		\end{align*}
+		Damit erhalten wir schließlich
+		\begin{align*}
+			\sL(q, \btheta) + \KL(q \parallel p)
+				&= \sum_{\bZ} q(\bZ) \cdot \bigl[ \ln p(\bZ \mid \bX; \btheta) + \ln p(\bX; \btheta) - \ln q(\bZ) \bigr]
+					- \sum_{\bZ} q(\bZ) \cdot \bigl[ \ln p(\bZ \mid \bX; \btheta) - \ln q(\bZ) \bigr]
+		\\[2mm]
+				&= \sum_{\bZ} q(\bZ) \cdot \ln p(\bX; \btheta) = \ln p(\bX; \btheta) \cdot \sum_{\bZ} q(\bZ) = \ln p(\bX; \btheta).
+		\end{align*}
+	\end{myproof}
+\end{frame}
+
+
+% Visualisierung: Zerlegung der Log-Likelihood
+\begin{frame}{Visualisierung: Zerlegung der Log-Likelihood}{}
+	\begin{figure}
+		\centering
+		\includegraphics[scale=1.00]{./img/em/em_decomposition_log_likelihood}
+		\caption{Veranschaulichung der Zerlegung \eqref{eq:zerlegung-unvollst-logl}. Siehe \cite{Bishop2024}, Seite 486.}
 	\end{figure}
 \end{frame}

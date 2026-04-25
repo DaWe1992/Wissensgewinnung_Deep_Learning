@@ -85,6 +85,13 @@
 	\textbf{Beweis:}
 }{\hfill $\bm{\square}$}
 
+% algorithm
+\NewDocumentEnvironment{myalg}{o}{%
+	\begin{tcolorbox}[title=\printmycounter~Algorithmus:,fonttitle=\bfseries]
+}{%
+	\end{tcolorbox}
+}
+
 % general commands
 % ====================================================
 
@@ -149,6 +156,7 @@
 \newcommand{\indicator}{\bm{1}} 					% indicator function
 
 \newcommand{\diff}{\text{d}} 						% differential
+\newcommand{\KL}{\text{KL}}
 \newcommand{\JLS}{J_{\text{LS}}} 					% least squares error function
 \newcommand{\MSE}{\text{MSE}} 					% mean square error
 \newcommand{\Pot}{\text{Pot}} 					% power set
@@ -165,6 +173,11 @@
 \newcommand{\bthetaest}{\bm{\hat{\theta}}} 			% estimator for theta
 \newcommand{\bthetaestML}{\bm{\hat{\theta}}_{ML}} 	% ML estimator for theta
 \newcommand{\bthetaestMAP}{\bm{\hat{\theta}}_{MAP}}	% MAP estimator for theta
+
+\newcommand{\bthetaOld}{\btheta_{\text{alt}}}
+\newcommand{\bthetaNew}{\btheta_{\text{neu}}}
+
+\newcommand{\const}{\text{const}}
 
 % argmin, argmax
 \DeclareMathOperator{\argmax}{arg\,max}

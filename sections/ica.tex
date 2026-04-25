@@ -369,7 +369,7 @@
 			Hierzu benutzen wir den Transformationssatz \ref{th:transformationssatz} und erhalten mit $\bs = \bA^{-1} \bx = \bW \bx$ und
 			$\bW = \bigl( \bw^1, \ldots, \bw^N \bigr)^\top$ die Dichte von $\bx$ als
 		\begin{equation}
-			\label{eq:produktverteilung-beobactete-daten}
+			\label{eq:produktverteilung-beobachtete-daten}
 			p_{\bx}(\bx) = \vert \det \bW \vert \cdot \prod_{n=1}^N p_n\bigl( (\bw^n)^\top \bx \bigr).
 		\end{equation}
 	\end{itemize}
@@ -380,7 +380,7 @@
 \begin{frame}{ICA Likelihood Funktion (Forts.)}{}	
 	\begin{itemize}
 		\item Wir nehmen nun an, dass wir $T$ Beobachtungen $\bx^1, \bx^2, \ldots, \bx^T$ von $\bx$ haben.
-		\item Die Likelihood Funktion ergibt sich als das Produkt der Dichte in (\ref{eq:produktverteilung-beobactete-daten}) über die $T$ Beobachtungen
+		\item Die Likelihood Funktion ergibt sich als das Produkt der Dichte in (\ref{eq:produktverteilung-beobachtete-daten}) über die $T$ Beobachtungen
 		\begin{equation*}
 			L(\bW)
 				= \prod_{t=1}^T \left( \vert \det \bW \vert \cdot \prod_{n=1}^N p_n\bigl( (\bw^n)^\top \bx^t \bigr) \right)
