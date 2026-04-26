@@ -5,6 +5,7 @@
 % color theme
 \usecolortheme{dolphin}
 % font theme
+\usefonttheme{professionalfonts}
 \usefonttheme[onlylarge]{structurebold}
 \usefonttheme[onlymath]{serif}
 
@@ -46,3 +47,25 @@
     	pdftitle={Vertiefung Wissensgewinnung aus Daten und Deep Learning},
     	pdfauthor={Daniel Wehner},
 }
+
+% thickness of sum and prod symbols
+\contourlength{0.3pt}
+
+% bold sum symbol
+\let\oldsum\sum
+\renewcommand{\sum}{\mathop{%
+	\mathchoice
+      	{\text{\contour{.}{$\displaystyle\oldsum$}}}
+      	{\text{\contour{.}{$\textstyle\oldsum$}}}
+      	{\text{\contour{.}{$\scriptstyle\oldsum$}}}
+      	{\text{\contour{.}{$\scriptscriptstyle\oldsum$}}}
+}}
+
+\let\oldprod\prod
+\renewcommand{\prod}{\mathop{%
+	\mathchoice
+      	{\text{\contour{.}{$\displaystyle\oldprod$}}}
+      	{\text{\contour{.}{$\textstyle\oldprod$}}}
+      	{\text{\contour{.}{$\scriptstyle\oldprod$}}}
+      	{\text{\contour{.}{$\scriptscriptstyle\oldprod$}}}
+}}

@@ -1,0 +1,101 @@
+% SECTION: Gaussian Mixture Models (GMMs)
+\section{Gaussian Mixture Models (GMMs)}
+
+\divider
+
+% SUBSECTION: Problemstellung
+\subsection{Problemstellung}
+
+% Problemstellung
+\begin{frame}{Problemstellung}{}
+	\begin{itemize}
+		\item Wir wissen bereits, wie wir die Parameter $\bmu$ und $\bSigma$ einer Normalverteilung aus Daten schätzen.
+		\item Wiederholung: \textbf{Maximum-Likelihood Lösung}
+		\begin{itemize}
+			\item Gegeben sei ein Datensatz $\bX$ bestehend aus $N$ unabhängig und identisch normalverteilten Punkten
+				$\bx_1, \bx_2, \ldots, \bx_N$.
+			\item Schätze den Mittelwert $\bmu$ gemäß
+			\begin{equation}
+				\bmuML \coloneqq \frac{1}{N} \sum_{n=1}^N \bx_n.
+			\end{equation}
+			\item Schätze die Kovarianzmatrix $\bSigma$ mittels
+			\begin{equation}
+				\bSigmaML \coloneqq \frac{1}{N} \sum_{n=1}^N \bigl( \bx_n - \bmuML \bigr) \bigl( \bx_n - \bmuML \bigr)^\top.
+			\end{equation}
+		\end{itemize}
+		\item \textbf{Frage:} Wie gehen wir mit multimodalen Daten um?
+	\end{itemize}
+\end{frame}
+
+
+% Visualisierung: Problemstellung
+\begin{frame}{Visualisierung: Problemstellung}{}
+	\begin{figure}
+		\centering
+		\includegraphics[scale=1.00]{./img/gmm/one_gaussian}
+		\caption{Modell bestehend aus einer Normalverteilung. Siehe \cite{Bishop2024}, Seite 86.}
+	\end{figure}
+\end{frame}
+
+
+% Visualisierung: Problemstellung (Forts.)
+\begin{frame}{Visualisierung: Problemstellung (Forts.)}{}
+	\begin{figure}
+		\centering
+		\includegraphics[scale=1.00]{./img/gmm/gaussian_mixture}
+		\caption{Mixture Modell bestehend aus zwei Normalverteilungen. Siehe \cite{Bishop2024}, Seite 86.}
+	\end{figure}
+\end{frame}
+
+
+% Gaussian Mixture Models
+\begin{frame}{Gaussian Mixture Models}{}
+	\begin{itemize}
+		\item 
+	\end{itemize}
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

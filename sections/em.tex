@@ -69,7 +69,11 @@
 
 % Visualisierung: Ungleichung von Jensen
 \begin{frame}{Visualisierung: Ungleichung von Jensen}{}
-
+	\begin{figure}
+		\centering
+		\includegraphics[scale=0.35]{./img/em/jensens_inequality}
+		\caption{Visualisierung der Ungleichung von Jensen.}
+	\end{figure}
 \end{frame}
 
 
@@ -174,6 +178,7 @@
 			Ausdruck durch $Q\bigl( \btheta, \bthetaOld \bigr)$ gegeben.
 		\item Der M-Schritt hat also die Form
 		\begin{equation}
+		\label{eq:m_step}
 			\bthetaNew \coloneqq \argmax_{\btheta} Q\bigl( \btheta, \bthetaOld \bigr).
 		\end{equation}
 		\item Weiter unten beweisen wir noch, dass tatsächlich $p\bigl(\bX \mid \bthetaNew \bigr) \ge p\bigl(\bX \mid \bthetaOld \bigr)$ gilt.
@@ -239,8 +244,8 @@
 % SUBSECTION: Evidence-Lower-Bound und Kullback-Leibler Divergenz
 \subsection{Evidence-Lower-Bound und Kullback-Leibler Divergenz}
 
-% Eine andere Sicht auf den EM-Algorithmus
-\begin{frame}{Eine andere Sicht auf den EM-Algorithmus}{}
+% Evidence Lower Bound (ELBO)
+\begin{frame}{Evidence Lower Bound (ELBO)}{}
 	\begin{itemize}
 		\item Die Log-Likelihood $\ln p(\bX; \btheta)$ können wir zerlegen in
 		\begin{equation}
@@ -258,6 +263,7 @@
 			\end{equation}
 			\item $\KL(q \parallel p)$ die \keyword{Kullback-Leibler Divergenz} zwischen $q(\bZ)$ und $p(\bZ \mid \bX; \btheta)$, welche gegeben ist durch
 			\begin{equation}
+			\label{eq:em-kl-div}
 				\KL(q \parallel p)
 					\coloneqq -\sum_{\bZ} q(\bZ) \ln \frac{p(\bZ \mid \bX; \btheta)}{q(\bZ)}
 					= -\sum_{\bZ} q(\bZ) \cdot \bigl[ \ln p(\bZ \mid \bX; \btheta) - \ln q(\bZ) \bigr].
@@ -292,11 +298,102 @@
 \end{frame}
 
 
+% Kullback-Leibler Divergenz
+\begin{frame}{Kullback-Leibler Divergenz}{}
+	\begin{itemize}
+		\item Aus \eqref{eq:em-kl-div} ist ersichtlich, dass $\KL(q \parallel p)$ die Kullback-Leibler Divergenz zwischen
+			$q(\bZ)$ und der Aposteriori-Verteilung $p(\bZ \mid \bX; \btheta)$ ist.
+		\item \textbf{Eigenschaften der Kullback-Leibler Divergenz:} Für alle $q$ und $p$ gelten
+		\begin{equation}
+		\label{eq:kl-nicht-neg}
+			\KL(q \parallel p) \ge 0
+		\end{equation} und 
+		\begin{equation}
+		\label{eq:kl-ident}
+			\KL(q \parallel p) = 0 \quad\Longleftrightarrow\quad q = p.
+		\end{equation}
+		\item Aus \eqref{eq:zerlegung-unvollst-logl} folgt mit der Nichtnegativität \eqref{eq:kl-nicht-neg} der Kullback-Leibler Divergenz
+			$$\sL(q, \btheta) \le p(\bX; \btheta).$$
+		\item $\sL(q, \btheta)$ ist also eine untere Schranke für $p(\bX; \btheta)$.
+	\end{itemize}
+\end{frame}
+
+
 % Visualisierung: Zerlegung der Log-Likelihood
 \begin{frame}{Visualisierung: Zerlegung der Log-Likelihood}{}
 	\begin{figure}
 		\centering
 		\includegraphics[scale=1.00]{./img/em/em_decomposition_log_likelihood}
 		\caption{Veranschaulichung der Zerlegung \eqref{eq:zerlegung-unvollst-logl}. Siehe \cite{Bishop2024}, Seite 486.}
+	\end{figure}
+\end{frame}
+
+
+% Eine andere Sicht auf den E-Schritt
+\begin{frame}{Eine andere Sicht auf den E-Schritt}{}
+	\begin{itemize}
+		\item Wir nutzen die Zerlegung \eqref{eq:zerlegung-unvollst-logl}, um eine alternative Herleitung des EM-Algorithmus zu erhalten.
+		\item Hierzu nehmen wir an, dass die aktuellen Parameter durch $\bthetaOld$ gegeben sind.
+		\item Im \keyword{E-Schritt} wird die untere Schranke $\sL\bigl( q, \bthetaOld \bigr)$ bezüglich $q(\bZ)$ bei gegebenem $\bthetaOld$ maximiert.
+		\item Da $p\bigl( \bX; \bthetaOld \bigr)$ nicht von $q(\bZ)$ abhängt, folgt aus der Maximierung von $\sL\bigl( q, \bthetaOld \bigr)$,
+			dass $\KL(q \parallel p) = 0$ gelten muss.
+		\item Damit $\KL(q \parallel p) = 0$ gilt, muss wegen \eqref{eq:kl-ident} für $q(\bZ)$ gelten $$q(\bZ) = p\bigl( \bZ \mid \bX; \bthetaOld \bigr).$$
+		\item Das heißt, nach dem E-Schritt gilt $$\sL\bigl( q, \bthetaOld \bigr) = \ln p\bigl( \bX; \bthetaOld \bigr).$$
+	\end{itemize}
+\end{frame}
+
+
+% Visualisierung: E-Schritt
+\begin{frame}{Visualisierung: E-Schritt}{}
+	\begin{figure}
+		\centering
+		\includegraphics[scale=1.00]{./img/em/em_e_step}
+		\caption{Veranschaulichung des E-Schritts. Siehe \cite{Bishop2024}, Seite 486.}
+	\end{figure}
+\end{frame}
+
+
+% Eine andere Sicht auf den M-Schritt
+\begin{frame}{Eine andere Sicht auf den M-Schritt}{}
+	\begin{itemize}
+		\item Im darauffolgenden \keyword{M-Schritt} halten wir nun die Verteilung $q(\bZ)$ fest und maximieren die untere Schranke $\sL(q, \btheta)$
+			bezüglich $\btheta$.
+		\item Hierdurch erhalten wir die neuen Parameter $\bthetaNew$, die letztendlich zu einer höheren Log-Likelihood $p(\bX; \btheta)$ führen.
+		\item Setzen wir $p(\bZ) = p\bigl( \bZ \mid \bX; \bthetaOld \bigr)$ in die Definition der unteren Schranke \eqref{eq:elbo} ein, so erhalten wir
+		\begin{align*}
+			\sL(q, \btheta)
+				&= \sum_{\bZ} p\bigl( \bZ \mid \bX; \bthetaOld \bigr) \ln p(\bX, \bZ; \btheta)
+					- \sum_{\bZ} p\bigl( \bZ \mid \bX; \bthetaOld \bigr) \ln p\bigl( \bZ \mid \bX; \bthetaOld \bigr)
+		\\[2mm]
+				&= Q\bigl( \btheta, \bthetaOld \bigr) + \const,
+		\end{align*}
+		wobei $\const$ wieder die Entropie von von $q$ ist.
+	\end{itemize}
+\end{frame}
+
+
+% Eine andere Sicht auf den M-Schritt (Forts.)
+\begin{frame}{Eine andere Sicht auf den M-Schritt (Forts.)}{}
+	\begin{itemize}
+		\item Um die gegebene untere Schranke zu maximieren, müssen wir also die Funktion $Q\bigl( \btheta, \bthetaOld \bigr)$ maximieren,
+			wobei $Q$ die erwartete vollständige Log-Likelihood ist.
+		\item Damit nimmt der M-Schritt dieselbe Form wie in \eqref{eq:m_step} an
+		\begin{equation*}
+			\bthetaNew \coloneqq \argmax_{\btheta} Q\bigl( \btheta, \bthetaOld \bigr).
+		\end{equation*}
+		\item Weil die Verteilung $q$ im vorhergehenden E-Schritt mit den alten Parametern $\bthetaOld$ bestimmt wurde und diese
+			für den gesamten M-Schritt fixiert wird, gilt $$q(\bZ) \ne p\bigl( \bZ \mid \bX; \bthetaNew \bigr),$$ sodass die Kullback-Leibler Divergenz
+			zwischen diesen beiden Verteilung größer als 0 ist.
+		\item Im folgenden E-Schritt setzen wir dann $q(\bZ) \coloneqq p\bigl( \bZ \mid \bX; \bthetaNew \bigr)$ und iterieren weiter.
+	\end{itemize}
+\end{frame}
+
+
+% Visualisierung: M-Schritt
+\begin{frame}{Visualisierung: M-Schritt}{}
+	\begin{figure}
+		\centering
+		\includegraphics[scale=0.90]{./img/em/em_m_step}
+		\caption{Veranschaulichung des M-Schritts. Siehe \cite{Bishop2024}, Seite 487.}
 	\end{figure}
 \end{frame}
