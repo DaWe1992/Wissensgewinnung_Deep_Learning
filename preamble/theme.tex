@@ -22,12 +22,24 @@
 % linespacing
 \linespread{1.2}
 
-\setbeamercolor{frametitle}{bg=white}
+% background color of frame title
+%\setbeamercolor{frametitle}{bg=white}
+
+\setbeamertemplate{frametitle}{
+	\nointerlineskip
+    	\begin{beamercolorbox}[sep=0.3cm,wd=\paperwidth]{frametitle}
+       		\usebeamerfont{frametitle}\insertframetitle
+    	\end{beamercolorbox}
+}
 
 % customize bullet points
 \setbeamertemplate{itemize item}[circle]
 \setbeamertemplate{itemize subitem}[circle]
 \setbeamertemplate{itemize subsubitem}[circle]
+
+\setbeamertemplate{enumerate items}[circle]
+\setbeamertemplate{enumerate subitem}[circle]
+\setbeamertemplate{enumerate subsubitem}[circle]
 
 % customize table of contents
 \setbeamertemplate{section in toc}[circle]
@@ -47,6 +59,8 @@
     	pdftitle={Vertiefung Wissensgewinnung aus Daten und Deep Learning},
     	pdfauthor={Daniel Wehner},
 }
+
+\numberwithin{equation}{section}
 
 % thickness of sum and prod symbols
 \contourlength{0.3pt}
