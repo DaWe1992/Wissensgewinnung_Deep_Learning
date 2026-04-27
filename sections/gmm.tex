@@ -51,51 +51,115 @@
 % Gaussian Mixture Models
 \begin{frame}{Gaussian Mixture Models}{}
 	\begin{itemize}
-		\item 
+		\item Wir können ein \keyword{Gaussian Mixture Model} als eine \textit{Überlagerung mehrerer Normalverteilungen} ansehen.
+		\item Die Dichte bei $K$ Komponenten ist gegeben durch
+		\begin{equation}
+			p(\bx) \coloneqq \sum_{k=1}^K \pi_k \cdot \norm(\bx; \bmu_k, \bSigma_k).
+		\end{equation}
+		\item Die \keyword{Mischkoeffizienten} $\pi_k$ stellen sicher, dass die Mixture-Dichte normiert ist, sodass also $\int_{-\infty}^{+\infty} p(\bx) = 1$ gilt.
+		\item Die $\pi_k$ erfüllen zudem
+		\begin{equation*}
+			0 \le \pi_k \le 1
+		\qquad\text{und}\qquad
+			\sum_{k=1}^K \pi_k = 1.
+		\end{equation*}
 	\end{itemize}
 \end{frame}
 
 
+% Gaussian Mixture Models als Latent Variable Models
+\begin{frame}{Gaussian Mixture Models als Latent Variable Models}{}
+	\begin{itemize}
+		\item Sei im Folgenden $\bz \in \R^K$ ein $K$-dimensionaler \keyword{One-Hot Vektor}.
+		\item Die Komponenten $z_k$ erfüllen also $z_k \in \{ 0, 1 \}$ und $\sum_{k=1}^K z_k = 1$,
+			wobei \textit{genau eine Komponente} den Wert 1 annimmt.
+		\item Wir definieren nun die gemeinsame Verteilung von $\bx$ und $\bz$ über die Kettenregel
+		\begin{equation*}
+			p(\bx, \bz) = p(\bx \mid \bz) \cdot p(\bz).
+		\end{equation*}
+		\item Für die Definition der Randverteilung $p(\bz)$ benutzen wir die Mischkoeffizienten: $p(z_k = 1) \coloneqq \pi_k$.
+		\item Da $\bz$ ein One-Hot Vektor ist, können wir schreiben
+		\begin{equation}
+		\label{eq:gmm-marginal-z}
+			p(\bz) = \prod_{k=1}^K \pi_k^{z_k}.
+		\end{equation}
+	\end{itemize}
+\end{frame}
 
 
+% Gaussian Mixture Models als Latent Variable Models (Forts.)
+\begin{frame}{Gaussian Mixture Models als Latent Variable Models (Forts.)}{}
+	\begin{itemize}
+		\item Analog definieren wir
+		\begin{equation*}
+			p(\bx \mid z_k = 1) \coloneqq \norm(\bx; \bmu_k, \bSigma_k).
+		\end{equation*}
+		\item Dies können wir ebenfalls vektorisiert ausdrücken als
+		\begin{equation}
+		\label{eq:gmm-conditional-x-given-z}
+			p(\bx \mid \bz) \coloneqq \prod_{k=1}^K \norm(\bx; \bmu_k, \bSigma_k)^{z_k}.
+		\end{equation}
+		\item Die Randverteilung $p(\bx)$ erhalten wir schließlich, indem wir über alle möglichen Werte $\bz$ summieren
+		\begin{equation}
+			p(\bx) = \sum_{\bz} p(\bz) \cdot p(\bx \mid \bz) = \sum_{k=1}^K \pi_k \cdot \norm(\bx; \bmu_k, \bSigma_k).
+		\end{equation}
+		\item Im letzten Gleichheitszeichen haben wir \eqref{eq:gmm-marginal-z} und \eqref{eq:gmm-conditional-x-given-z}
+			zusammen mit der One-Hot Eigenschaft von $\bz$ benutzt.
+	\end{itemize}
+\end{frame}
 
 
+% Latente Variablen
+\begin{frame}{Latente Variablen}{}
+	\begin{itemize}
+		\item Falls ein Datensatz $\bX$ bestehend aus $N$ Punkten $\bx_1, \bx_2, \ldots, \bx_N$ vorliegt, so führen wir
+			für jedes $\bx_n$ ein entsprechendes $\bz_n$ ein.
+		\item Die Variablen $\bz_n$ nennt man \keyword{latent}, da man sie nicht beobachtet.
+		\item Sei $\bz_n$ die latente Variable für Punkt $\bx_n$.
+		\item Die Aussage $z_{nk} = 1$ bedeutet dann, dass $\bx_n$ von Komponente $k$ generiert wurde.
+		\item Auf den ersten Blick wirkt die Einführung zusätzlicher Variablen nicht zielführend.
+		\item Allerdings können wir nun mit der Verteilung $p(\bx, \bz)$ anstelle von $p(\bx)$ arbeiten, was zu wesentlichen Vereinfachungen führen wird.
+		\item Insbesondere kann der \keyword{Expectation-Maximization (EM) Algorithmus} verwendet werden \\
+			(siehe nächstes Kapitel).
+	\end{itemize}
+\end{frame}
 
 
+% Responsibilities
+\begin{frame}{Responsibilities}{}
+	\begin{itemize}
+		\item Im weiteren Verlauf interessieren wir uns besonders für die Aposteriori-Wahrscheinlichkeit $p(\bz \mid \bx)$.
+		\item Mit $\gamma(z_k)$ bezeichnen wir die Wahrscheinlichkeit $p(z_k = 1 \mid \bx)$.
+		\item Mit dem \textit{Satz von Bayes} gilt
+		\begin{align*}
+			\gamma(z_k) \coloneqq p(z_k = 1 \mid \bx)
+				&= \frac{p(z_k = 1) \cdot p(\bx \mid z_k = 1)}{\sum_{j=1}^K p(z_j = 1) \cdot p(\bx \mid z_j = 1)}
+		\\[2mm]
+				&= \frac{\pi_k \cdot \norm(\bx; \bmu_k, \bSigma_k)}{\sum_{j=1}^K \pi_j \cdot \norm(\bx; \bmu_j, \bSigma_j)}.
+		\end{align*}
+		\item In diesem Zusammenhang ist $\pi_k$ die Apriori-Wahrscheinlichkeit für $z_k = 1$ und
+			$\gamma(z_k)$ die Aposteriori-Wahrscheinlichkeit für $z_k = 1$, nachdem $\bx$ beobachtet wurde.
+		\item Man nennt $\gamma(z_k)$ auch die \keyword{Responsibility} der $k$-ten Komponente für Punkt $\bx$. 
+	\end{itemize}
+\end{frame}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+% Visualisierung: Responsibilities
+\begin{frame}{Visualisierung: Responsibilities}{}
+	\begin{figure}[H]
+		\begin{minipage}[t]{0.3\textwidth}
+			\includegraphics[scale=0.85]{./img/gmm/gmm_data_generation}
+		\end{minipage}
+		\hfill
+		\begin{minipage}[t]{0.3\textwidth}
+			\includegraphics[scale=0.85]{./img/gmm/gmm_data_generation_wo_labels}
+		\end{minipage}
+		\hfill
+		\begin{minipage}[t]{0.3\textwidth}
+			\includegraphics[scale=0.85]{./img/gmm/gmm_responsibilities}
+		\end{minipage}
+		\caption{(a) Beispiel von 500 Punkten, die von drei verschiedenen Normalverteilungen stammen.
+		(b) Datensatz ohne die Information, von welcher Verteilung die Daten stammen.
+		(c) Plot der Responsibilities. Dabei wurden die Farben im Verhältnis der Wahrscheinlichkeiten $\gamma(z_nk)$ gewählt. Siehe \cite{Bishop2024}, Seite 469.}
+	\end{figure}
+\end{frame}

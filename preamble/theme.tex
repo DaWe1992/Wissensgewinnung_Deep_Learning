@@ -63,7 +63,7 @@
 \numberwithin{equation}{section}
 
 % thickness of sum and prod symbols
-\contourlength{0.3pt}
+\contourlength{0.2pt}
 
 % bold sum symbol
 \let\oldsum\sum
@@ -75,6 +75,7 @@
       	{\text{\contour{.}{$\scriptscriptstyle\oldsum$}}}
 }}
 
+% bold product symbol
 \let\oldprod\prod
 \renewcommand{\prod}{\mathop{%
 	\mathchoice
@@ -82,4 +83,14 @@
       	{\text{\contour{.}{$\textstyle\oldprod$}}}
       	{\text{\contour{.}{$\scriptstyle\oldprod$}}}
       	{\text{\contour{.}{$\scriptscriptstyle\oldprod$}}}
+}}
+
+% bold int symbol
+\let\oldint\int
+\renewcommand{\int}{\mathop{%
+	\mathchoice
+      	{\text{\contour{.}{$\displaystyle\oldint$}}}
+      	{\text{\contour{.}{$\textstyle\oldint$}}}
+      	{\text{\contour{.}{$\scriptstyle\oldint$}}}
+      	{\text{\contour{.}{$\scriptscriptstyle\oldint$}}}
 }}
