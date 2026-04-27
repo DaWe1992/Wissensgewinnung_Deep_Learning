@@ -27,8 +27,9 @@
 
 \setbeamertemplate{frametitle}{
 	\nointerlineskip
-    	\begin{beamercolorbox}[sep=0.3cm,wd=\paperwidth]{frametitle}
-       		\usebeamerfont{frametitle}\insertframetitle
+    	\begin{beamercolorbox}[sep=0.1cm,ht=2.0em,wd=\paperwidth]{frametitle}
+       		\usebeamerfont{frametitle}
+       		\strut\insertframetitle\strut\par%
     	\end{beamercolorbox}
 }
 

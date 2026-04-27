@@ -178,7 +178,7 @@
 			Ausdruck durch $Q\bigl( \btheta, \bthetaOld \bigr)$ gegeben.
 		\item Der M-Schritt hat also die Form
 		\begin{equation}
-		\label{eq:m_step}
+		\label{eq:m-schritt}
 			\bthetaNew \coloneqq \argmax_{\btheta} Q\bigl( \btheta, \bthetaOld \bigr).
 		\end{equation}
 		\item Weiter unten beweisen wir noch, dass tatsächlich $p\bigl(\bX \mid \bthetaNew \bigr) \ge p\bigl(\bX \mid \bthetaOld \bigr)$ gilt.
@@ -377,7 +377,7 @@
 	\begin{itemize}
 		\item Um die gegebene untere Schranke zu maximieren, müssen wir also die Funktion $Q\bigl( \btheta, \bthetaOld \bigr)$ maximieren,
 			wobei $Q$ die erwartete vollständige Log-Likelihood ist.
-		\item Damit nimmt der M-Schritt dieselbe Form wie in \eqref{eq:m_step} an
+		\item Damit nimmt der M-Schritt dieselbe Form wie in \eqref{eq:m-schritt} an
 		\begin{equation*}
 			\bthetaNew \coloneqq \argmax_{\btheta} Q\bigl( \btheta, \bthetaOld \bigr).
 		\end{equation*}
