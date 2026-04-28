@@ -185,3 +185,211 @@
 		\item Aufgrund der Summe im Argument des Logarithmus ist dieser Ausdruck schwer zu optimieren.
 	\end{itemize}
 \end{frame}
+
+
+% Gradient der Log-Likelihood für die Mittelwerte
+\begin{frame}{Gradient der Log-Likelihood für die Mittelwerte}{}
+	\vspace*{-10mm}
+	\begin{align*}
+		\frac{\partial}{\partial \bmu_k} \ln p(\bX; \bpi, \bmu, \bSigma)
+			&= \sum_{n=1}^N \frac{1}{p(\bx_n; \bpi, \bmu, \bSigma)} \cdot \frac{\partial}{\partial \bmu_k} p(\bx_n; \bpi, \bmu, \bSigma)
+	\\[2mm]
+			&= \sum_{n=1}^N \left( \frac{1}{p(\bx_n; \bpi, \bmu, \bSigma)} \cdot
+				\sum_{j=1}^K \pi_j \frac{\partial}{\partial \bmu_k} \norm(\bx_n; \bmu_j, \bSigma_j) \right)
+	\\[2mm]
+			&= \sum_{n=1}^N \frac{\pi_k}{p(\bx_n; \bpi, \bmu, \bSigma)} \cdot
+				\frac{\partial}{\partial \bmu_k} \norm(\bx_n; \bmu_k, \bSigma_k)
+	\\[2mm]
+			&= \sum_{n=1}^N \frac{\pi_k \cdot \norm(\bx_n; \bmu_k, \bSigma_k)}{\sum_{j=1}^K \pi_j \cdot \norm(\bx_n; \bmu_j, \bSigma_j)} \cdot
+				\bSigma_k^{-1} (\bx_n - \bmu_k)
+	\\[2mm]
+			&= \sum_{n=1}^N \gamma(z_{nk}) \cdot \bSigma_k^{-1} (\bx_n - \bmu_k)
+	\end{align*}
+\end{frame}
+
+
+% Lösung für die Mittelwerte
+\begin{frame}{Lösung für die Mittelwerte}{}
+	\begin{itemize}
+		\item Wir setzen diesen Ausdruck Null und lösen nach $\bmu_k$ auf
+		\begin{equation*}
+			\sum_{n=1}^N \gamma(z_{nk}) \cdot \bSigma_k^{-1} (\bx_n - \bmu_k) \overset{!}{=} 0
+		\quad\Longleftrightarrow\quad
+			\bmu_k = \frac{1}{N_k} \sum_{n=1}^N \gamma(z_{nk}) \cdot \bx_n.
+		\end{equation*}
+		\item Hierbei ist $$N_k \coloneqq \sum_{n=1}^N \gamma(z_{nk})$$ die Summe der Responsibilities der $k$-ten Komponente.
+		\item Der Mittelwert $\mu_k$ der $k$-ten Komponente ergibt sich also durch ein \textit{gewichtetes arithmetisches Mittel},
+			wobei die Gewichtungsfaktoren gerade die Aposteriori-Wahrscheinlichkeiten dafür sind,
+			dass $\bx_n$ durch die $k$-te Komponente generiert wurde.
+	\end{itemize}
+\end{frame}
+
+
+% Lösung für die Kovarianzmatrizen
+\begin{frame}{Lösung für die Kovarianzmatrizen}{}
+	\begin{itemize}
+		\item Ein ähnliches Ergebnis erhalten wir für die Kovarianzmatrizen $\bSigma_k$.
+		\item Es ist
+		\begin{equation}
+			\bSigma_k = \frac{1}{N_k} \sum_{n=1}^N \gamma(z_{nk}) \cdot (\bx_n - \bmu_k) (\bx_n - \bmu_k)^\top.
+		\end{equation}
+		\item Auch hier ergeben sich die Parameter als gewichtetes arithmetisches Mittel.
+	\end{itemize}
+	
+	\begin{mytask}
+		Beweisen Sie diese Aussasge!
+	\end{mytask}
+\end{frame}
+
+
+% Optimierung bezüglich der Mischkoeffizienten
+\begin{frame}{Optimierung bezüglich der Mischkoeffizienten}{}
+	\begin{itemize}
+		\item Hier müssen wir bei der Optimierung zusätzlich beachten, dass $\sum_{k=1}^K \pi_k = 1$ erfüllt sein muss.
+		\item Es handelt sich also um ein \textit{restringiertes Optimierungsproblem}.
+		\item Die Lagrange-Funktion ist
+		\begin{align*}
+			\lagrange
+				&= \ln p(\bX; \bpi, \bmu, \bSigma) + \lambda\left( \sum_{k=1}^K \pi_k - 1 \right)
+		\\[2mm]
+				&= \sum_{n=1}^N \ln\left( \sum_{k=1}^K \pi_k \cdot \norm(\bx_n \mid \bmu_k, \bSigma_k) \right)
+					+ \lambda\left( \sum_{k=1}^K \pi_k - 1 \right)
+		\end{align*}
+	\end{itemize}
+\end{frame}
+
+
+% Gradient der Log-Likelihood für die Mischkoeffizienten
+\begin{frame}{Gradient der Log-Likelihood für die Mischkoeffizienten}{}
+	\vspace*{-8mm}
+	\begin{align*}
+		\frac{\partial\lagrange}{\partial \pi_k}
+			&= \frac{\partial}{\partial \pi_k} \ln p(\bX; \bpi, \bmu, \bSigma)
+				+ \lambda \cdot \frac{\partial}{\partial \pi_k} \left( \sum_{k=1}^K \pi_k - 1 \right)
+	\\[2mm]
+			&= \sum_{n=1}^N \frac{1}{p(\bx_n; \bpi, \bmu, \bSigma)} \cdot \frac{\partial}{\partial \pi_k} p(\bx_n; \bpi, \bmu, \bSigma) + \lambda
+	\\[2mm]
+			&= \frac{1}{\pi_k} \sum_{n=1}^N \frac{\pi_k \cdot \norm(\bx_n; \bmu_k, \bSigma_k)}{
+				\sum_{j=1}^K \pi_j \cdot \norm(\bx_n; \bmu_j, \bSigma_j)
+			} + \lambda
+	\\[2mm]
+			&= \frac{1}{\pi_k} \sum_{n=1}^N \gamma(z_{nk}) + \lambda
+	\\[2mm]
+			&= \frac{N_k}{\pi_k} + \lambda
+	\end{align*}
+\end{frame}
+
+
+% Lösung für die Mischkoeffizienten
+\begin{frame}{Lösung für die Mischkoeffizienten}{}
+	\begin{itemize}
+		\item Zusätzlich benötigen wir noch die Ableitung nach $\lambda$
+		\begin{equation*}
+			\frac{\partial\lagrange}{\partial\lambda} = \sum_{k=1}^K \pi_k - 1.
+		\end{equation*}
+		\item Setzen wir beide Gleichungen Null, so erhalten wir
+		\begin{equation*}
+			\pi_k = -\frac{N_k}{\lambda}
+		\quad\text{und}\quad
+			1 = \sum_{k=1}^K \pi_k.
+		\end{equation*}
+		\item Setzen wir die erste Bedingung in die zweite ein, so erhalten wir $\lambda = -N$ und damit schließlich
+		\begin{equation}
+			\pi_k = \frac{N_k}{N}.
+		\end{equation}
+	\end{itemize}
+\end{frame}
+
+
+% Expectation-Maximization (EM) Algorithmus für GMMs
+\begin{frame}{Expectation-Maximization (EM) Algorithmus für GMMs}{}
+	\begin{itemize}
+		\item Bei den Lösungsformeln handelt es sich \textit{nicht um geschlossene Lösungsformeln}, da die Gewichte $\gamma(z_{nk})$ von den anderen
+			Parametern abhängen.
+		\item Allerdings legen die Ergebnisse ein einfaches iteratives Verfahren nahe, den \keyword{Expectation-Maximization (EM) Algorithmus}.
+		\item Dieser besteht aus zwei Phasen, die \keyword{Expectation-Phase (E-Schritt)} und die \keyword{Maximization-Phase (M-Schritt)}.
+		\item Im E-Schritt werden die Werte $\gamma(z_{nk})$ bei gegebenen Parametern $\bpi_k, \bmu_k, \bSigma_k$ bestimmt.
+		\item Im darauffolgenden M-Schritt werden die Parameter mit den neuen Werten $\gamma(z_{nk})$ aufdatiert.
+		\item Dies führt man solange fort, bis Konvergenz eintritt.
+	\end{itemize}
+\end{frame}
+
+
+% Visualisierung: EM für GMMs
+\begin{frame}{Visualisierung: EM für GMMs}{}
+	\begin{figure}[H]
+		\begin{minipage}[t]{0.3\textwidth}
+			\includegraphics[scale=0.85]{./img/gmm/gmm_em_alg_a}
+		\end{minipage}
+		\hfill
+		\begin{minipage}[t]{0.3\textwidth}
+			\includegraphics[scale=0.85]{./img/gmm/gmm_em_alg_b}
+		\end{minipage}
+		\hfill
+		\begin{minipage}[t]{0.3\textwidth}
+			\includegraphics[scale=0.85]{./img/gmm/gmm_em_alg_c}
+		\end{minipage}
+		\caption{Visualisierung EM für GMMs. Siehe \cite{Bishop2024}, Seite 473.}
+	\end{figure}
+\end{frame}
+
+
+% Visualisierung: EM für GMMs (Forts.)
+\begin{frame}{Visualisierung: EM für GMMs (Forts.)}{}
+	\begin{figure}[H]
+		\begin{minipage}[t]{0.3\textwidth}
+			\includegraphics[scale=0.85]{./img/gmm/gmm_em_alg_d}
+		\end{minipage}
+		\hfill
+		\begin{minipage}[t]{0.3\textwidth}
+			\includegraphics[scale=0.85]{./img/gmm/gmm_em_alg_e}
+		\end{minipage}
+		\hfill
+		\begin{minipage}[t]{0.3\textwidth}
+			\includegraphics[scale=0.85]{./img/gmm/gmm_em_alg_f}
+		\end{minipage}
+		\caption{Visualisierung EM für GMMs. Siehe \cite{Bishop2024}, Seite 473.}
+	\end{figure}
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
