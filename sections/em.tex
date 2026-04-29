@@ -397,3 +397,113 @@
 		\caption{Veranschaulichung des M-Schritts. Siehe \cite{Bishop2024}, Seite 487.}
 	\end{figure}
 \end{frame}
+
+
+% SUBSECTION: Gaussian Mixture Models
+\subsection{Gaussian Mixture Models}
+
+% Gaussian Mixture Models und EM
+\begin{frame}{Gaussian Mixture Models und EM}{}
+	\begin{itemize}
+		\item Im E-Schritt benötigen wir die Aposteriori-Verteilung $p(\bZ \mid \bX; \bpi, \bmu, \bSigma)$ der latenten Variablen.
+		\item Diese können wir mit \eqref{eq:gmm-marginal-z}, \eqref{eq:gmm-x-given-z} und dem Satz von Bayes bestimmen
+		\begin{equation*}
+			p(\bZ \mid \bX; \bpi, \bmu, \bSigma)
+				\propto \prod_{n=1}^N \prod_{k=1}^K \bigl[ \pi_k \cdot \norm(\bx_n; \bmu_k, \bSigma_k) \bigr]^{z_{nk}}.
+		\end{equation*}
+		\item Diese Verteilung faktorisiert über $n$, sodass die latenten Variablen $\bz_n$ unabhängig sind.
+		\item Als nächstes stellen wir die erwartete vollständige Log-Likelihood auf, wobei der Erwartungswert bezüglich der
+			Aposteriori-Verteilung $p(\bZ \mid \bX; \bpi, \bmu, \bSigma)$ zu berechnen ist.
+		\item Dazu benötigen wir allerdings noch ein Zwischenergebnis, das wir auf der nächsten Folie bereitstellen.
+	\end{itemize}
+\end{frame}
+
+
+% Gaussian Mixture Models und EM (Forts.)
+\begin{frame}{Gaussian Mixture Models und EM (Forts.)}{}
+	\begin{itemize}
+		\item Es gilt der Zusammenhang
+		\begin{align*}
+			\E_{\bZ \sim p(\bZ \mid \bX; \bpi, \bmu, \bSigma)}[z_{nk}]
+				&= \frac{
+					\displaystyle\sum_{\bz_n} z_{nk} \prod_{k'=1}^K \bigl[ \pi_{k'} \cdot \norm(\bx_n; \bmu_{k'}, \bSigma_{k'}) \bigr]^{z_{nk'}}
+				}{
+					\displaystyle\sum_{\bz_n} \prod_{j=1}^K \bigl[ \pi_j \cdot \norm(\bx_n; \bmu_j, \bSigma_j) \bigr]^{z_{nj}}
+				}
+		\\[2mm]
+				&= \frac{\pi_k \cdot \norm(\bx_n; \bmu_k, \bSigma_k)}{\displaystyle\sum_{j=1}^K \pi_j \cdot \norm(\bx_n; \bmu_j, \bSigma_j)}
+					= \gamma(z_{nk}).
+		\end{align*}
+		\item Der Erwartungswert der Indikator-Variablen $z_{nk}$ unter der Aposteriori-Verteilung für $\bZ$
+			ergibt sich also gerade als die jeweilige Responsibility $\gamma(z_{nk})$.
+	\end{itemize}
+\end{frame}
+
+
+% Gaussian Mixture Models und EM (Forts.)
+\begin{frame}{Gaussian Mixture Models und EM (Forts.)}{}
+	Hiermit können wir nun die erwartete vollständige Log-Likelihood aufstellen
+	\begin{align*}
+		\E_{\bZ \sim p(\bZ \mid \bX; \bpi, \bmu, \bSigma)}\bigl[ \ln p(\bX, \bZ; \bpi, \bmu, \bSigma) \bigr]
+			&= \E\left[
+				\ln \prod_{n=1}^N \prod_{k=1}^K \pi_k^{z_{nk}} \cdot \norm(\bx_n; \bmu_k, \bSigma_k)^{z_{nk}}
+			\right]
+	\\[2mm]
+			&= \E\left[
+				\sum_{n=1}^N \sum_{k=1}^K z_{nk} \cdot \bigl\{ \ln \pi_k + \ln \norm(\bx_n; \bmu_k, \bSigma_k) \bigr\}
+			\right]
+	\\[2mm]
+			&= \sum_{n=1}^N \sum_{k=1}^K \E[z_{nk}] \cdot \bigl\{ \ln \pi_k + \ln \norm(\bx_n; \bmu_k, \bSigma_k) \bigr\}
+	\\[2mm]
+			&= \sum_{n=1}^N \sum_{k=1}^K \gamma(z_{nk}) \cdot \bigl\{ \ln \pi_k + \ln \norm(\bx_n; \bmu_k, \bSigma_k) \bigr\}.
+	\end{align*}
+\end{frame}
+
+
+% Gaussian Mixture Models und EM (Forts.)
+\begin{frame}{Gaussian Mixture Models und EM (Forts.)}{}
+	\begin{itemize}
+		\item Diese Funktion müssen wir nun im M-Schritt bezüglich der Parameter maximieren.
+		\item \textbf{Beispielhaft:} Ableitung nach $\bmu_k$:
+		\begin{align*}
+			\frac{\partial}{\partial \bmu_k} \sum_{n=1}^N \sum_{j=1}^K \gamma(z_{nj}) \cdot
+				\bigl\{ \ln \pi_j + \ln \norm(\bx_n; \bmu_j, \bSigma_j) \bigr\}
+			&= \sum_{n=1}^N \gamma(z_{nk}) \cdot \frac{\partial}{\partial \bmu_k} \ln \norm(\bx_n; \bmu_k, \bSigma_k)
+		\\[2mm]
+			&= \sum_{n=1}^N \gamma(z_{nk}) \cdot \frac{\norm(\bx_n; \bmu_k, \bSigma_k)}{\norm(\bx_n; \bmu_k, \bSigma_k)}
+				\cdot \bSigma_k^{-1} (\bx_n - \bmu_k)
+		\\[2mm]
+			&= \sum_{n=1}^N \gamma(z_{nk}) \cdot \bSigma_k^{-1} (\bx_n - \bmu_k)
+		\end{align*}
+		\item Nullsetzen und Auflösen nach $\bmu_k$ ergibt $\displaystyle\bmu_k = \frac{1}{N_k} \sum_{n=1}^N \gamma(z_{nk}) \cdot \bx_n$.
+	\end{itemize}
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

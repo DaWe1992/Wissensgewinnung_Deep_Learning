@@ -54,7 +54,7 @@
 		\item Wir können ein \keyword{Gaussian Mixture Model} als eine \textit{Überlagerung mehrerer Normalverteilungen} ansehen.
 		\item Die Dichte bei $K$ Komponenten ist gegeben durch
 		\begin{equation}
-		\label{eq:gmm-dichte}
+		\label{eq:gmm-density}
 			p(\bx) \coloneqq \sum_{k=1}^K \pi_k \cdot \norm(\bx; \bmu_k, \bSigma_k).
 		\end{equation}
 		\item Die \keyword{Mischkoeffizienten} $\pi_k$ stellen sicher, dass die Mixture-Dichte normiert ist,
@@ -82,7 +82,7 @@
 		\item Für die Definition der Randverteilung $p(\bz)$ benutzen wir die Mischkoeffizienten: $p(z_k = 1) \coloneqq \pi_k$.
 		\item Da $\bz$ ein One-Hot Vektor ist, können wir schreiben
 		\begin{equation}
-		\label{eq:gmm-randvert-z}
+		\label{eq:gmm-marginal-z}
 			p(\bz) = \prod_{k=1}^K \pi_k^{z_k}.
 		\end{equation}
 	\end{itemize}
@@ -98,14 +98,14 @@
 		\end{equation*}
 		\item Dies können wir ebenfalls vektorisiert ausdrücken als
 		\begin{equation}
-		\label{eq:gmm-x-gegeben-z}
+		\label{eq:gmm-x-given-z}
 			p(\bx \mid \bz) \coloneqq \prod_{k=1}^K \norm(\bx; \bmu_k, \bSigma_k)^{z_k}.
 		\end{equation}
 		\item Die Randverteilung $p(\bx)$ erhalten wir schließlich, indem wir über alle möglichen Werte $\bz$ summieren
 		\begin{equation}
 			p(\bx) = \sum_{\bz} p(\bz) \cdot p(\bx \mid \bz) = \sum_{k=1}^K \pi_k \cdot \norm(\bx; \bmu_k, \bSigma_k).
 		\end{equation}
-		\item Im letzten Gleichheitszeichen haben wir \eqref{eq:gmm-randvert-z} und \eqref{eq:gmm-x-gegeben-z}
+		\item Im letzten Gleichheitszeichen haben wir \eqref{eq:gmm-marginal-z} und \eqref{eq:gmm-x-given-z}
 			zusammen mit der One-Hot Eigenschaft von $\bz$ benutzt.
 	\end{itemize}
 \end{frame}
@@ -175,7 +175,7 @@
 		\item Im Folgenden sei ein Datensatz bestehend aus $N$ unabhängigen und identisch verteilten Punkten $\bx_1, \bx_2, \ldots, \bx_N$ gegeben.
 		\item Wir fassen die Punkte $\bx_n$, $n = 1, 2, \ldots$ in der Matrix $\bX \in \R^{N \times M}$ zusammen,
 			wobei die $n$-te Zeile durch $\bx_n^\top$ gegeben ist.
-		\item Mit \eqref{eq:gmm-dichte} ergibt sich die Log-Likelihood Funktion des Mixture Models zu
+		\item Mit \eqref{eq:gmm-density} ergibt sich die Log-Likelihood Funktion des Mixture Models zu
 		\begin{align*}
 			\ln p(\bX; \bpi, \bmu, \bSigma)
 				&= \ln\left( \prod_{n=1}^N \left( \sum_{k=1}^K \pi_k \cdot \norm(\bx_n \mid \bmu_k, \bSigma_k) \right) \right)
