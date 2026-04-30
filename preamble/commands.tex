@@ -50,6 +50,8 @@
 	borderline west={2pt}{0pt}{darkgreen},
 }}
 
+\newtcolorbox{boxGray}{colback=lightgray!30!white,colframe=white}
+
 % custom environments
 % ====================================================
 
@@ -92,11 +94,72 @@
 	\end{tcolorbox}
 }
 
+% slide architecture
+% ====================================================
+
+% divide frame into two parts
+\newcommand{\divideTwo}[4]{
+	\begin{minipage}{#1\textwidth}
+		#2
+	\end{minipage}
+	\hfill
+	\begin{minipage}{#3\textwidth}
+		#4
+	\end{minipage}
+}
+
+% divide frame into two parts (start on top)
+\newcommand{\divideTwoTop}[4]{
+	\begin{minipage}[t]{#1\textwidth}
+		#2
+	\end{minipage}
+	\hfill
+	\begin{minipage}[t]{#3\textwidth}
+		#4
+	\end{minipage}
+}
+
+% divide frame into three parts
+\newcommand{\divideThree}[6]{
+	\begin{minipage}{#1\textwidth}
+		#2
+	\end{minipage}
+	\hfill
+	\begin{minipage}{#3\textwidth}
+		#4
+	\end{minipage}
+	\hfill
+	\begin{minipage}{#5\textwidth}
+		#6
+	\end{minipage}
+}
+
+% divide frame into three parts (start on top)
+\newcommand{\divideThreeTop}[6]{
+	\begin{minipage}[t]{#1\textwidth}
+		#2
+	\end{minipage}
+	\hfill
+	\begin{minipage}[t]{#3\textwidth}
+		#4
+	\end{minipage}
+	\hfill
+	\begin{minipage}[t]{#5\textwidth}
+		#6
+	\end{minipage}
+}
+
 % general commands
 % ====================================================
 
 % keyword
-\newcommand{\keyword}[1]{\textbf{#1}}
+\newcommand{\keyword}[1]{{\usebeamercolor[fg]{structure} \textbf{#1}}}
+
+\newcommand{\rem}[1]{\footnotesize \text{#1}}
+
+% color of eqref references
+\let\oldeqref\eqref
+\renewcommand{\eqref}[1]{\textcolor{blue}{\oldeqref{#1}}}
 
 % slide commands
 % ====================================================
