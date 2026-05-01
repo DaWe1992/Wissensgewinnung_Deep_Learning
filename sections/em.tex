@@ -9,17 +9,25 @@
 % Problemstellung
 \begin{frame}{Problemstellung}{}
 	\begin{itemize}
-		\item Wir betrachten ein statistisches Modell mit Daten $\bX = \bigl( \bx_1, \bx_2, \ldots, \bx_N \bigr)^\top$, \keyword{latenten Variablen}
-			$\bZ = \bigl( \bz_1, \bz_2, \ldots, \bz_N \bigr)^\top$ und Modellparametern $\btheta$.
-		\item Unser Ziel ist die Maximierung der Log-Likelihood $\ln p(\bX; \btheta)$ bezüglich $\btheta$.
-		\item Da wir die latenten Variablen nicht beobachten, müssen wir \textit{marginalisieren}:
-		\begin{equation}
+		\item Wir betrachten ein statistisches Modell mit den Daten $\bX = \bigl( \bx_1, \bx_2, \ldots, \bx_N \bigr)^\top$, den \keyword{latenten Variablen}
+			$\bZ = \bigl( \bz_1, \bz_2, \ldots, \bz_N \bigr)^\top$ und den Modellparametern $\btheta$.
+		\item Wie üblich ist unser Ziel die Maximierung der Log-Likelihood $\ln p(\bX; \btheta)$ bezüglich $\btheta$.
+		\item Wir nehmen an, dass die gemeinsame Verteilung $p(\bX, \bZ; \btheta)$ von $\bX$ und $\bZ$ gegeben ist.
+		\item Hieraus können wir $\ln p(\bX; \btheta)$ bestimmen, indem wir über $\bZ$ \textit{marginalisieren}:
+		\begin{equation} \label{eq:incomplete-log-likelihood}
 			\ln p(\bX; \btheta) = \ln \sum_{\bZ} p(\bX, \bZ; \btheta)
 		\end{equation}
-		\item In der Regel ist eine direkte Maximierung dieses Ausdrucks zu kompliziert,
+		\item In der Regel ist eine direkte Maximierung von \eqref{eq:incomplete-log-likelihood} zu kompliziert,
 			da der Logarithmus nicht direkt auf $p(\bX, \bZ; \btheta)$ wirken kann.
-		\item Mit $\{ \bX, \bZ \}$ bezeichnen wir den \keyword{vollständigen} Datensatz, $\bX$ alleine nennen wir \keyword{unvollständig}.
-			Analog nennen wir $\ln p(\bX, \bZ; \btheta)$ die \keyword{vollständige Log-Likelihood} und $\ln p(\bX; \btheta)$ die
+	\end{itemize}
+\end{frame}
+
+
+% Problemstellung (Forts.)
+\begin{frame}{Problemstellung (Forts.)}{}
+	\begin{itemize}
+		\item Mit $\{ \bX, \bZ \}$ bezeichnen wir den \keyword{vollständigen} Datensatz, $\bX$ alleine nennen wir hingegen \keyword{unvollständig}.
+		\item Analog nennen wir $\ln p(\bX, \bZ; \btheta)$ die \keyword{vollständige Log-Likelihood} und $\ln p(\bX; \btheta)$ die
 			\keyword{unvollständige Log-Likelihood}.
 	\end{itemize}
 \end{frame}
@@ -28,20 +36,22 @@
 % Expectation-Maximization (EM)
 \begin{frame}{Expectation-Maximization (EM)}{}
 	\begin{itemize}
-		\item Da die Optimierung von $\ln p(\bX; \btheta)$ schwer ist, möchten wir also $\ln p(\bX, \bZ; \btheta)$ maximieren.
+		\item Da die Optimierung von \eqref{eq:incomplete-log-likelihood} schwer ist, möchten wir $\ln p(\bX, \bZ; \btheta)$ maximieren.
 		\item \textbf{Problem:} Wir kennen $\bZ$ nicht.
-		\item Der \keyword{Expectation-Maximization (EM) Algorithmus} löst dieses Problem iterativ in zwei Phasen,
-			indem $\bZ$ in jeder Iteration bestmöglich geschätzt wird.
-		\item Phasen:
-		\begin{enumerate}
-			\item \keyword{E-Phase:} Bestimme den Erwartungswert von $\ln p(\bX, \bZ; \btheta)$ unter der Aposteriori-Verteilung
-				$p(\bZ \mid \bX; \bthetaOld)$. Die Erwartungswertfunktion bildet eine untere Schranke für $\ln p(\bX; \btheta)$.
-			\item \keyword{M-Phase:} Die berechnete untere Schranke wird bezüglich der Parameter $\btheta$ maximiert,
-				was zu den aktualisierten Parametern $\bthetaNew$ führt.
-		\end{enumerate}
-		\item Bei gegebenen Parametern $\bthetaOld$ erhält man so in jeder Iteration neue Parameter $\bthetaNew$,
-			die zu einer höheren Log-Likelihood $\ln p(\bX; \btheta)$ führen.
+		\item Der \keyword{Expectation-Maximization (EM) Algorithmus} löst dieses Problem iterativ in \textit{zwei Phasen},
+			wobei man in jeder Iteration ausgehend von $\bthetaOld$ neue Parameter $\bthetaNew$ erhält,
+			die \eqref{eq:incomplete-log-likelihood} erhöhen.
 	\end{itemize}
+
+	\begin{boxGray}
+		\keyword{E-Phase:} Bestimme den Erwartungswert von $\ln p(\bX, \bZ; \btheta)$ unter der Aposteriori-Verteilung der latenten Variablen
+		$p(\bZ \mid \bX; \bthetaOld)$. Die Erwartungswertfunktion bildet eine untere Schranke für $\ln p(\bX; \btheta)$.
+	\end{boxGray}
+
+	\begin{boxGray}
+		\keyword{M-Phase:} Die berechnete untere Schranke wird bezüglich der Parameter $\btheta$ maximiert,
+		was zu den aktualisierten Parametern $\bthetaNew$ führt.
+	\end{boxGray}
 \end{frame}
 
 
@@ -77,8 +87,8 @@
 \end{frame}
 
 
-% SUBSECTION: Expectation-Schritt
-\subsection{Expectation-Schritt}
+% SUBSECTION: Herleitung des Expectation-Schritts
+\subsection{Herleitung des Expectation-Schritts}
 
 % Bestimmung der unteren Schranke
 \begin{frame}{Bestimmung der unteren Schranke}{}
@@ -94,7 +104,7 @@
 		\\[2mm]
 				&\ge \E_{\bZ \sim q(\bZ)} \left[ \ln \frac{p(\bX, \bZ; \btheta)}{q(\bZ)} \right] \eqqcolon \sL(q, \btheta).
 		\end{align*}
-		\item Für die Abschätzung im letzten Schritt haben wir die \keyword{Ungleichung von Jensen} (Satz \ref{th:jensen}) mit
+		\item Für die Abschätzung im letzten Schritt haben wir die \keyword{Ungleichung von Jensen}, Satz \eqref{th:jensen}, mit
 			$f(x) \coloneqq \ln(x)$ (der Logarithmus ist strikt konkav) und $X \coloneqq \frac{p(\bX, \bZ; \btheta)}{q(\bZ)}$ benutzt.
 	\end{itemize}
 \end{frame}
@@ -104,18 +114,17 @@
 \begin{frame}{Bestimmung der unteren Schranke (Forts.)}{}
 	\begin{itemize}
 		\item Die hergeleitete Ungleichung lässt sich mit den Logarithmengesetzen und der Linearität des Erwartungswerts umschreiben zu
-		\begin{equation}
-		\label{eq:em-untere-schranke}
+		\begin{equation} \label{eq:em-lower-bound}
 			\ln p(\bX; \btheta) \ge \underbrace{
 				\E_{\bZ \sim q(\bZ)}\left[ \ln p(\bX, \bZ; \btheta) \right]
-			}_{\substack{\text{Erwartete vollständige} \\ \text{Log-Likelihood}}} - 
+			}_{\substack{\text{\keyword{Erwartete vollständige}} \\ \text{\keyword{Log-Likelihood}}}} - 
 			\underbrace{
 				\E_{\bZ \sim q(\bZ)}\left[ \ln q(\bZ) \right]
-			}_{\text{Entropie von $q$}}.
+			}_{\text{\keyword{Entropie} von $q$}}.
 		\end{equation}
 		\item Die untere Schranke hängt von der Dichte $q$ ab, die wir noch bestimmen müsssen.
-		\item Wir möchten $q$ so wählen, dass für das aktuelle $\btheta$ in \eqref{eq:em-untere-schranke} Gleichheit gilt.
-		\item Die Ungleichung von Jensen (Satz \ref{th:jensen}) gilt mit Gleichheit, falls
+		\item Wir möchten $q$ so wählen, dass für das aktuelle $\btheta$ in \eqref{eq:em-lower-bound} Gleichheit gilt.
+		\item Die Ungleichung von Jensen, Satz \eqref{th:jensen}, gilt mit Gleichheit, falls
 		\begin{equation*}
 			\frac{p(\bX, \bZ; \btheta)}{q(\bZ)} = \const.
 		\end{equation*}
@@ -137,7 +146,7 @@
 				&= p(\bZ \mid \bX; \btheta).
 		\end{align*}
 		\item \textbf{Ergebnis:} Für $q$ benutzen wir die Aposteriori-Verteilung von $\bZ$ gegeben $\bX$.
-		\item Dies setzen wir in (\ref{eq:em-untere-schranke}) ein und erhalten die Identität
+		\item Dies setzen wir in \eqref{eq:em-lower-bound} ein und erhalten die Identität
 		\begin{equation*}
 			\ln p(\bX; \btheta) = \E_{\bZ \sim p(\bZ \mid \bX; \btheta)}\left[ \ln p(\bX, \bZ; \btheta) \right]
 				- \E_{\bZ \sim p(\bZ \mid \bX; \btheta)}\left[ \ln p(\bZ \mid \bX; \btheta) \right].
@@ -146,8 +155,8 @@
 \end{frame}
 
 
-% SUBSECTION: Maximization-Schritt
-\subsection{Maximization-Schritt}
+% SUBSECTION: Herleitung des Maximization-Schritts
+\subsection{Herleitung des Maximization-Schritts}
 
 % Maximierung der unteren Schranke
 \begin{frame}{Maximierung der unteren Schranke}{}
@@ -166,7 +175,7 @@
 				&= Q\bigl( \btheta, \bthetaOld \bigr) + \const,
 		\end{align*}
 			wobei $Q$ der erste Erwartungswert und $H$ der negierte zweite Erwartungswert ist.
-		\item Die Funktion $H\bigl( \bthetaOld, \bthetaOld \bigr)$ ist die \keyword{Entropie} von $\bthetaOld$.
+		\item Die Funktion $H\bigl( \bthetaOld, \bthetaOld \bigr)$ ist die \keyword{Entropie} von $q$ unter $\bthetaOld$.
 	\end{itemize}
 \end{frame}
 
@@ -176,9 +185,8 @@
 	\begin{itemize}
 		\item Da die Entropie $H\bigl( \bthetaOld, \bthetaOld \bigr)$ bezüglich $\btheta$ konstant ist, ist der im M-Schritt zu maximierende
 			Ausdruck durch $Q\bigl( \btheta, \bthetaOld \bigr)$ gegeben.
-		\item Der M-Schritt hat also die Form
-		\begin{equation}
-		\label{eq:m-schritt}
+		\item Der M-Schritt hat damit also die Gestalt
+		\begin{equation} \label{eq:m-step}
 			\bthetaNew \coloneqq \argmax_{\btheta} Q\bigl( \btheta, \bthetaOld \bigr).
 		\end{equation}
 		\item Weiter unten beweisen wir noch, dass tatsächlich $p\bigl(\bX \mid \bthetaNew \bigr) \ge p\bigl(\bX \mid \bthetaOld \bigr)$ gilt.
@@ -194,7 +202,7 @@
 \begin{frame}{EM-Algorithmus}{}
 	\begin{myalg}
 		\begin{enumerate}
-			\item Initialisiere $\bthetaOld$.
+			\item Initialisiere $\bthetaOld$ (entweder zufällig oder mit Vorwissen).
 			\item \textbf{E-Schritt:} Bestimme die untere Schranke
 			\begin{equation*}
 				Q\bigl( \btheta, \bthetaOld \bigr) \coloneqq \E_{\bZ \sim p(\bZ \mid \bX; \bthetaOld)}\left[ \ln p(\bX, \bZ; \btheta) \right].
@@ -203,7 +211,7 @@
 			\begin{equation*}
 				\bthetaNew \coloneqq \argmax_{\btheta} Q\bigl( \btheta, \bthetaOld \bigr).
 			\end{equation*}
-			\item Falls noch nicht konvergiert, gehe zurück zu Schritt 2 und setze $\bthetaOld \coloneqq \bthetaNew$.
+			\item Falls noch keine Konvergenz vorliegt, gehe zurück zu Schritt 2 und setze $\bthetaOld \coloneqq \bthetaNew$.
 			\item Ansonsten gebe $\bthetaNew$ zurück.
 		\end{enumerate}
 	\end{myalg}
@@ -247,23 +255,21 @@
 % Evidence Lower Bound (ELBO)
 \begin{frame}{Evidence Lower Bound (ELBO)}{}
 	\begin{itemize}
-		\item Die Log-Likelihood $\ln p(\bX; \btheta)$ können wir zerlegen in
-		\begin{equation}
-		\label{eq:zerlegung-unvollst-logl}
+		\item Wir geben noch eine andere Sicht auf den EM-Algorithmus.
+		\item Hierzu stellen wir fest, dass wir die Log-Likelihood $\ln p(\bX; \btheta)$ folgendermaßen zerlegen können
+		\begin{equation} \label{eq:decomposition-incomplete-log-likelihood}
 			\ln p(\bX; \btheta) = \sL(q, \btheta) + \KL(q \parallel p).
 		\end{equation}
 		\item Dabei ist:
 		\begin{itemize}
-			\item $\sL(q, \btheta)$ die \keyword{Evidence Lower Bound (ELBO)} oder auch \keyword{Variational Lower Bound} mit
-			\begin{equation}
-			\label{eq:elbo}
+			\item $\sL(q, \btheta)$ die \keyword{Evidence Lower Bound (ELBO)} oder auch \keyword{Variational Lower Bound}
+			\begin{equation} \label{eq:elbo}
 				\sL(q, \btheta)
 					\coloneqq \sum_{\bZ} q(\bZ) \ln \frac{p(\bX, \bZ; \btheta)}{q(\bZ)}
 					= \sum_{\bZ} q(\bZ) \cdot \bigl[ \ln p(\bX, \bZ; \btheta) - \ln q(\bZ) \bigr].
 			\end{equation}
-			\item $\KL(q \parallel p)$ die \keyword{Kullback-Leibler Divergenz} zwischen $q(\bZ)$ und $p(\bZ \mid \bX; \btheta)$, welche gegeben ist durch
-			\begin{equation}
-			\label{eq:em-kl-div}
+			\item $\KL(q \parallel p)$ die \keyword{Kullback-Leibler Divergenz} zwischen $q(\bZ)$ und $p(\bZ \mid \bX; \btheta)$
+			\begin{equation} \label{eq:em-kl-div}
 				\KL(q \parallel p)
 					\coloneqq -\sum_{\bZ} q(\bZ) \ln \frac{p(\bZ \mid \bX; \btheta)}{q(\bZ)}
 					= -\sum_{\bZ} q(\bZ) \cdot \bigl[ \ln p(\bZ \mid \bX; \btheta) - \ln q(\bZ) \bigr].
@@ -273,20 +279,21 @@
 \end{frame}
 
 
-% Beweis der Zerlegung \eqref{eq:zerlegung-unvollst-logl}
-\begin{frame}{Beweis der Zerlegung \eqref{eq:zerlegung-unvollst-logl}}{}
+% Beweis der Zerlegung \eqref{eq:decomposition-incomplete-log-likelihood}
+\begin{frame}{Beweis der Zerlegung \eqref{eq:decomposition-incomplete-log-likelihood}}{}
 	\begin{myproof}
-		Wir beweisen die Zerlegung \eqref{eq:zerlegung-unvollst-logl}. Hierzu wenden wir die Kettenregel für Wahrscheinlichkeiten auf $p(\bX, \bZ; \btheta)$
-		an. Wir erhalten $p(\bX, \bZ; \btheta) = p(\bZ \mid \bX; \btheta) \cdot p(\bX; \btheta)$. Anwendung des Logarithmus ergibt
-		$$\ln p(\bX, \bZ; \btheta) = \ln p(\bZ \mid \bX; \btheta) + \ln p(\bX; \btheta).$$ Dies setzen wir in die Evidence Lower Bound \eqref{eq:elbo} ein
-		und erhalten
+		Wir beweisen die Zerlegung \eqref{eq:decomposition-incomplete-log-likelihood}.
+		Hierzu wenden wir die Kettenregel für Wahrscheinlichkeiten auf $p(\bX, \bZ; \btheta)$ an.
+		Wir erhalten $p(\bX, \bZ; \btheta) = p(\bZ \mid \bX; \btheta) \cdot p(\bX; \btheta)$.
+		Anwendung des Logarithmus ergibt $$\ln p(\bX, \bZ; \btheta) = \ln p(\bZ \mid \bX; \btheta) + \ln p(\bX; \btheta).$$
+		Dies setzen wir in die Evidence Lower Bound \eqref{eq:elbo} ein und erhalten
 		\begin{align*}
 			\sL(q, \btheta)
 				&= \sum_{\bZ} q(\bZ) \cdot \bigl[ \ln p(\bX, \bZ; \btheta) - \ln q(\bZ) \bigr]
 		\\[2mm]
 				&= \sum_{\bZ} q(\bZ) \cdot \bigl[ \ln p(\bZ \mid \bX; \btheta) + \ln p(\bX; \btheta) - \ln q(\bZ) \bigr].
 		\end{align*}
-		Damit erhalten wir schließlich
+		Damit ergibt sich schließlich mit \eqref{eq:em-kl-div} und wegen $\sum_{\bZ} q(\bZ) = 1$
 		\begin{align*}
 			\sL(q, \btheta) + \KL(q \parallel p)
 				&= \sum_{\bZ} q(\bZ) \cdot \bigl[ \ln p(\bZ \mid \bX; \btheta) + \ln p(\bX; \btheta) - \ln q(\bZ) \bigr]
@@ -300,19 +307,34 @@
 
 % Kullback-Leibler Divergenz
 \begin{frame}{Kullback-Leibler Divergenz}{}
+	\textbf{Eigenschaften der Kullback-Leibler Divergenz:}
+
+	\begin{boxGray}
+		Für alle Wahrscheinlichkeitsverteilungen $q$ und $p$ gelten die folgenden Eigenschaften.
+
+		\begin{enumerate}
+			\item \textbf{Nicht-Negativität:}
+			\begin{equation} \label{eq:kl-non-neg}
+				\KL(q \parallel p) \ge 0
+			\end{equation}
+			\item \textbf{Identität:}
+			\begin{equation} \label{eq:kl-ident}
+				\KL(q \parallel p) = 0 \quad\Longleftrightarrow\quad q = p.
+			\end{equation}
+			\item Es sei angemerkt, dass die Kullback-Leibler Divergenz \textbf{nicht symmetrisch} und damit keine Metrik ist. Es ist also im Allgemeinen
+				$$\KL(q \parallel p) \ne \KL(p \parallel q).$$
+		\end{enumerate}
+	\end{boxGray}
+\end{frame}
+
+
+% Kullback-Leibler Divergenz (Forts.)
+\begin{frame}{Kullback-Leibler Divergenz (Forts.)}{}
 	\begin{itemize}
 		\item Aus \eqref{eq:em-kl-div} ist ersichtlich, dass $\KL(q \parallel p)$ die Kullback-Leibler Divergenz zwischen
-			$q(\bZ)$ und der Aposteriori-Verteilung $p(\bZ \mid \bX; \btheta)$ ist.
-		\item \textbf{Eigenschaften der Kullback-Leibler Divergenz:} Für alle $q$ und $p$ gelten
-		\begin{equation}
-		\label{eq:kl-nicht-neg}
-			\KL(q \parallel p) \ge 0
-		\end{equation} und 
-		\begin{equation}
-		\label{eq:kl-ident}
-			\KL(q \parallel p) = 0 \quad\Longleftrightarrow\quad q = p.
-		\end{equation}
-		\item Aus \eqref{eq:zerlegung-unvollst-logl} folgt mit der Nichtnegativität \eqref{eq:kl-nicht-neg} der Kullback-Leibler Divergenz
+			der Verteilung $q(\bZ)$ und der Aposteriori-Verteilung $p(\bZ \mid \bX; \btheta)$ von $\bZ$ ist.
+		\item Aus der Zerlegung \eqref{eq:decomposition-incomplete-log-likelihood} folgt mit der Nichtnegativität \eqref{eq:kl-non-neg}
+			der Kullback-Leibler Divergenz
 			$$\sL(q, \btheta) \le p(\bX; \btheta).$$
 		\item $\sL(q, \btheta)$ ist also eine untere Schranke für $p(\bX; \btheta)$.
 	\end{itemize}
@@ -324,7 +346,7 @@
 	\begin{figure}
 		\centering
 		\includegraphics[scale=1.00]{./img/em/em_decomposition_log_likelihood}
-		\caption{Veranschaulichung der Zerlegung \eqref{eq:zerlegung-unvollst-logl}. Siehe \cite{Bishop2024}, Seite 486.}
+		\caption{Veranschaulichung der Zerlegung \eqref{eq:decomposition-incomplete-log-likelihood}. Siehe \cite{Bishop2024}, Seite 486.}
 	\end{figure}
 \end{frame}
 
@@ -332,9 +354,9 @@
 % Eine andere Sicht auf den E-Schritt
 \begin{frame}{Eine andere Sicht auf den E-Schritt}{}
 	\begin{itemize}
-		\item Wir nutzen die Zerlegung \eqref{eq:zerlegung-unvollst-logl}, um eine alternative Herleitung des EM-Algorithmus zu erhalten.
-		\item Hierzu nehmen wir an, dass die aktuellen Parameter durch $\bthetaOld$ gegeben sind.
-		\item Im \keyword{E-Schritt} wird die untere Schranke $\sL\bigl( q, \bthetaOld \bigr)$ bezüglich $q(\bZ)$ bei gegebenem $\bthetaOld$ maximiert.
+		\item Mit dieser Vorarbeit können wir nun die alternative Herleitung des EM-Algorithmus durchführen.
+		\item Im \keyword{E-Schritt} wird die untere Schranke $\sL\bigl( q, \bthetaOld \bigr)$ bezüglich $q(\bZ)$ bei gegebenem $\bthetaOld$ maximiert,
+			sodass die untere Schranke die eigentliche Zielfunktion $\ln p(\bX; \btheta)$ in $\bthetaOld$ berührt.
 		\item Da $p\bigl( \bX; \bthetaOld \bigr)$ nicht von $q(\bZ)$ abhängt, folgt aus der Maximierung von $\sL\bigl( q, \bthetaOld \bigr)$,
 			dass $\KL(q \parallel p) = 0$ gelten muss.
 		\item Damit $\KL(q \parallel p) = 0$ gilt, muss wegen \eqref{eq:kl-ident} für $q(\bZ)$ gelten $$q(\bZ) = p\bigl( \bZ \mid \bX; \bthetaOld \bigr).$$
@@ -359,7 +381,7 @@
 		\item Im darauffolgenden \keyword{M-Schritt} halten wir nun die Verteilung $q(\bZ)$ fest und maximieren die untere Schranke $\sL(q, \btheta)$
 			bezüglich $\btheta$.
 		\item Hierdurch erhalten wir die neuen Parameter $\bthetaNew$, die letztendlich zu einer höheren Log-Likelihood $p(\bX; \btheta)$ führen.
-		\item Setzen wir $p(\bZ) = p\bigl( \bZ \mid \bX; \bthetaOld \bigr)$ in die Definition der unteren Schranke \eqref{eq:elbo} ein, so erhalten wir
+		\item Setzen wir $q(\bZ) = p\bigl( \bZ \mid \bX; \bthetaOld \bigr)$ in die Definition der unteren Schranke \eqref{eq:elbo} ein, so erhalten wir
 		\begin{align*}
 			\sL(q, \btheta)
 				&= \sum_{\bZ} p\bigl( \bZ \mid \bX; \bthetaOld \bigr) \ln p(\bX, \bZ; \btheta)
@@ -376,14 +398,14 @@
 \begin{frame}{Eine andere Sicht auf den M-Schritt (Forts.)}{}
 	\begin{itemize}
 		\item Um die gegebene untere Schranke zu maximieren, müssen wir also die Funktion $Q\bigl( \btheta, \bthetaOld \bigr)$ maximieren,
-			wobei $Q$ die erwartete vollständige Log-Likelihood ist.
-		\item Damit nimmt der M-Schritt dieselbe Form wie in \eqref{eq:m-schritt} an
+			wobei $Q$ die \keyword{erwartete vollständige Log-Likelihood} ist.
+		\item Damit nimmt der M-Schritt dieselbe Form wie in \eqref{eq:m-step} an
 		\begin{equation*}
 			\bthetaNew \coloneqq \argmax_{\btheta} Q\bigl( \btheta, \bthetaOld \bigr).
 		\end{equation*}
 		\item Weil die Verteilung $q$ im vorhergehenden E-Schritt mit den alten Parametern $\bthetaOld$ bestimmt wurde und diese
-			für den gesamten M-Schritt fixiert wird, gilt $$q(\bZ) \ne p\bigl( \bZ \mid \bX; \bthetaNew \bigr),$$ sodass die Kullback-Leibler Divergenz
-			zwischen diesen beiden Verteilung größer als 0 ist.
+			für den gesamten M-Schritt fixiert wird, gilt $$q(\bZ) = p\bigl( \bZ \mid \bX; \bthetaOld \bigr) \ne p\bigl( \bZ \mid \bX; \bthetaNew \bigr),$$
+			sodass die Kullback-Leibler Divergenz zwischen diesen beiden Verteilung größer als 0 ist.
 		\item Im folgenden E-Schritt setzen wir dann $q(\bZ) \coloneqq p\bigl( \bZ \mid \bX; \bthetaNew \bigr)$ und iterieren weiter.
 	\end{itemize}
 \end{frame}
@@ -399,21 +421,23 @@
 \end{frame}
 
 
-% SUBSECTION: Gaussian Mixture Models
-\subsection{Gaussian Mixture Models}
+% SUBSECTION: Anwendung auf Gaussian Mixture Models
+\subsection{Anwendung auf Gaussian Mixture Models}
 
 % Gaussian Mixture Models und EM
 \begin{frame}{Gaussian Mixture Models und EM}{}
 	\begin{itemize}
-		\item Im E-Schritt benötigen wir die Aposteriori-Verteilung $p(\bZ \mid \bX; \bpi, \bmu, \bSigma)$ der latenten Variablen.
-		\item Diese können wir mit \eqref{eq:gmm-marginal-z}, \eqref{eq:gmm-x-given-z} und dem Satz von Bayes bestimmen
+		\item Wir wenden das allgemeine EM-Framework nun auf GMMs an.
+		\item Im E-Schritt benötigen wir die Aposteriori-Verteilung $p(\bZ \mid \bX; \btheta)$ der latenten Variablen, wobei
+			$\btheta \coloneqq \bigl( \bpi, \bmu, \bSigma \bigr) \coloneqq
+			\bigl( \pi_1, \ldots, \pi_K, \bmu_1, \ldots, \bmu_K, \bSigma_1, \ldots, \bSigma_K \bigr)$ ist.
+		\item Diese können wir mit \eqref{eq:gmm-marginal-z}, \eqref{eq:gmm-x-given-z} und dem Satz von Bayes bestimmen zu
 		\begin{equation*}
-			p(\bZ \mid \bX; \bpi, \bmu, \bSigma)
+			p(\bZ \mid \bX; \btheta)
 				\propto \prod_{n=1}^N \prod_{k=1}^K \bigl[ \pi_k \cdot \norm(\bx_n; \bmu_k, \bSigma_k) \bigr]^{z_{nk}}.
 		\end{equation*}
-		\item Diese Verteilung faktorisiert über $n$, sodass die latenten Variablen $\bz_n$ unabhängig sind.
 		\item Als nächstes stellen wir die erwartete vollständige Log-Likelihood auf, wobei der Erwartungswert bezüglich der
-			Aposteriori-Verteilung $p(\bZ \mid \bX; \bpi, \bmu, \bSigma)$ zu berechnen ist.
+			Aposteriori-Verteilung $p(\bZ \mid \bX; \btheta)$ zu berechnen ist.
 		\item Dazu benötigen wir allerdings noch ein Zwischenergebnis, das wir auf der nächsten Folie bereitstellen.
 	\end{itemize}
 \end{frame}
@@ -423,18 +447,20 @@
 \begin{frame}{Gaussian Mixture Models und EM (Forts.)}{}
 	\begin{itemize}
 		\item Es gilt der Zusammenhang
-		\begin{align*}
-			\E_{\bZ \sim p(\bZ \mid \bX; \bpi, \bmu, \bSigma)}[z_{nk}]
-				&= \frac{
-					\displaystyle\sum_{\bz_n} z_{nk} \prod_{k'=1}^K \bigl[ \pi_{k'} \cdot \norm(\bx_n; \bmu_{k'}, \bSigma_{k'}) \bigr]^{z_{nk'}}
-				}{
-					\displaystyle\sum_{\bz_n} \prod_{j=1}^K \bigl[ \pi_j \cdot \norm(\bx_n; \bmu_j, \bSigma_j) \bigr]^{z_{nj}}
-				}
-		\\[2mm]
-				&= \frac{\pi_k \cdot \norm(\bx_n; \bmu_k, \bSigma_k)}{\displaystyle\sum_{j=1}^K \pi_j \cdot \norm(\bx_n; \bmu_j, \bSigma_j)}
-					= \gamma(z_{nk}).
-		\end{align*}
-		\item Der Erwartungswert der Indikator-Variablen $z_{nk}$ unter der Aposteriori-Verteilung für $\bZ$
+		\begin{equation} \label{eq:gmm-latent-var-expected-value}
+			\begin{aligned}
+				\E_{\bZ \sim p(\bZ \mid \bX; \btheta)}[z_{nk}]
+					&= \frac{
+						\displaystyle\sum_{\bz_n} z_{nk} \prod_{k'=1}^K \bigl[ \pi_{k'} \cdot \norm(\bx_n; \bmu_{k'}, \bSigma_{k'}) \bigr]^{z_{nk'}}
+					}{
+						\displaystyle\sum_{\bz_n} \prod_{j=1}^K \bigl[ \pi_j \cdot \norm(\bx_n; \bmu_j, \bSigma_j) \bigr]^{z_{nj}}
+					}
+			\\[2mm]
+					&= \frac{\pi_k \cdot \norm(\bx_n; \bmu_k, \bSigma_k)}{\displaystyle\sum_{j=1}^K \pi_j \cdot \norm(\bx_n; \bmu_j, \bSigma_j)}
+						= \gamma(z_{nk}).
+			\end{aligned}
+		\end{equation}
+		\item Der Erwartungswert der Indikator-Variablen $z_{nk}$ unter der Aposteriori-Verteilung von $\bZ$
 			ergibt sich also gerade als die jeweilige Responsibility $\gamma(z_{nk})$.
 	\end{itemize}
 \end{frame}
@@ -442,29 +468,34 @@
 
 % Gaussian Mixture Models und EM (Forts.)
 \begin{frame}{Gaussian Mixture Models und EM (Forts.)}{}
-	Hiermit können wir nun die erwartete vollständige Log-Likelihood aufstellen
-	\begin{align*}
-		\E_{\bZ \sim p(\bZ \mid \bX; \bpi, \bmu, \bSigma)}\bigl[ \ln p(\bX, \bZ; \bpi, \bmu, \bSigma) \bigr]
-			&= \E\left[
-				\ln \prod_{n=1}^N \prod_{k=1}^K \pi_k^{z_{nk}} \cdot \norm(\bx_n; \bmu_k, \bSigma_k)^{z_{nk}}
-			\right]
-	\\[2mm]
-			&= \E\left[
-				\sum_{n=1}^N \sum_{k=1}^K z_{nk} \cdot \bigl\{ \ln \pi_k + \ln \norm(\bx_n; \bmu_k, \bSigma_k) \bigr\}
-			\right]
-	\\[2mm]
-			&= \sum_{n=1}^N \sum_{k=1}^K \E[z_{nk}] \cdot \bigl\{ \ln \pi_k + \ln \norm(\bx_n; \bmu_k, \bSigma_k) \bigr\}
-	\\[2mm]
-			&= \sum_{n=1}^N \sum_{k=1}^K \gamma(z_{nk}) \cdot \bigl\{ \ln \pi_k + \ln \norm(\bx_n; \bmu_k, \bSigma_k) \bigr\}.
-	\end{align*}
+	Hiermit können wir nun die \keyword{erwartete vollständige Log-Likelihood} (Funktion $Q$) aufstellen
+	\begin{equation} \label{eq:gmm-expected-complete-log-likelihood}
+		\begin{aligned}
+			\E_{\bZ \sim p(\bZ \mid \bX; \btheta)}\bigl[ \ln p(\bX, \bZ; \btheta) \bigr]
+				&= \E\left[
+					\ln \prod_{n=1}^N \prod_{k=1}^K \pi_k^{z_{nk}} \cdot \norm(\bx_n; \bmu_k, \bSigma_k)^{z_{nk}}
+				\right]
+		\\[2mm]
+				&= \E\left[
+					\sum_{n=1}^N \sum_{k=1}^K z_{nk} \cdot \bigl\{ \ln \pi_k + \ln \norm(\bx_n; \bmu_k, \bSigma_k) \bigr\}
+				\right]
+				&& \rem{Logarithmengesetze.}
+		\\[2mm]
+				&= \sum_{n=1}^N \sum_{k=1}^K \E[z_{nk}] \cdot \bigl\{ \ln \pi_k + \ln \norm(\bx_n; \bmu_k, \bSigma_k) \bigr\}
+				&& \rem{Linearität von $\E$.}
+		\\[2mm]
+				&= \sum_{n=1}^N \sum_{k=1}^K \gamma(z_{nk}) \cdot \bigl\{ \ln \pi_k + \ln \norm(\bx_n; \bmu_k, \bSigma_k) \bigr\}
+				&& \rem{Anwendung von \eqref{eq:gmm-latent-var-expected-value}}.
+		\end{aligned}
+	\end{equation}
 \end{frame}
 
 
 % Gaussian Mixture Models und EM (Forts.)
 \begin{frame}{Gaussian Mixture Models und EM (Forts.)}{}
 	\begin{itemize}
-		\item Diese Funktion müssen wir nun im M-Schritt bezüglich der Parameter maximieren.
-		\item \textbf{Beispielhaft:} Ableitung nach $\bmu_k$:
+		\item Die Funktion \eqref{eq:gmm-expected-complete-log-likelihood} müssen wir nun im M-Schritt bezüglich der Parameter maximieren.
+		\item \textbf{Beispielhaft:} Gradient bezüglich $\bmu_k$
 		\begin{align*}
 			\frac{\partial}{\partial \bmu_k} \sum_{n=1}^N \sum_{j=1}^K \gamma(z_{nj}) \cdot
 				\bigl\{ \ln \pi_j + \ln \norm(\bx_n; \bmu_j, \bSigma_j) \bigr\}
@@ -473,37 +504,18 @@
 			&= \sum_{n=1}^N \gamma(z_{nk}) \cdot \frac{\norm(\bx_n; \bmu_k, \bSigma_k)}{\norm(\bx_n; \bmu_k, \bSigma_k)}
 				\cdot \bSigma_k^{-1} (\bx_n - \bmu_k)
 		\\[2mm]
-			&= \sum_{n=1}^N \gamma(z_{nk}) \cdot \bSigma_k^{-1} (\bx_n - \bmu_k)
+			&= \sum_{n=1}^N \gamma(z_{nk}) \cdot \bSigma_k^{-1} (\bx_n - \bmu_k).
 		\end{align*}
-		\item Nullsetzen und Auflösen nach $\bmu_k$ ergibt $\displaystyle\bmu_k = \frac{1}{N_k} \sum_{n=1}^N \gamma(z_{nk}) \cdot \bx_n$.
+		\item Vergleiche hierzu die Herleitung in \eqref{eq:gmm-grad-means}.
 	\end{itemize}
 \end{frame}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+% Gaussian Mixture Models und EM (Forts.)
+\begin{frame}{Gaussian Mixture Models und EM (Forts.)}{}
+	\begin{itemize}
+		\item Nullsetzen und Auflösen nach $\bmu_k$ ergibt $$\bmu_k = \frac{1}{N_k} \sum_{n=1}^N \gamma(z_{nk}) \cdot \bx_n.$$
+		\item Dies hat dieselbe Form wie \eqref{eq:gmm-update-means}.
+		\item Die anderen Formeln ergeben sich analog.
+	\end{itemize}
+\end{frame}

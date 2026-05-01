@@ -61,8 +61,7 @@
 	\begin{itemize}
 		\item Wir können ein \keyword{Gaussian Mixture Model} als eine \textit{Überlagerung mehrerer Normalverteilungen} ansehen.
 		\item Die Dichte bei $K$ Komponenten ist gegeben durch
-		\begin{equation}
-		\label{eq:gmm-density}
+		\begin{equation} \label{eq:gmm-density}
 			p(\bx; \btheta) \coloneqq \sum_{k=1}^K \pi_k \cdot \norm(\bx; \bmu_k, \bSigma_k).
 		\end{equation}
 		\item Dabei enthält $\btheta \coloneqq \bigl( \bpi, \bmu, \bSigma \bigr) \coloneqq
@@ -91,8 +90,7 @@
 		\end{equation*}
 		\item Für die Definition der Randverteilung $p(\bz)$ benutzen wir die Mischkoeffizienten: $p(z_k = 1; \pi_k) \coloneqq \pi_k$.
 		\item Da $\bz$ ein One-Hot Vektor ist, können wir schreiben
-		\begin{equation}
-		\label{eq:gmm-marginal-z}
+		\begin{equation} \label{eq:gmm-marginal-z}
 			p(\bz; \bpi) = \prod_{k=1}^K \pi_k^{z_k}.
 		\end{equation}
 	\end{itemize}
@@ -107,8 +105,7 @@
 			p(\bx \mid z_k = 1; \bmu_k, \bSigma_k) \coloneqq \norm(\bx; \bmu_k, \bSigma_k).
 		\end{equation*}
 		\item Dies können wir ebenfalls vektorisiert ausdrücken als
-		\begin{equation}
-		\label{eq:gmm-x-given-z}
+		\begin{equation} \label{eq:gmm-x-given-z}
 			p(\bx \mid \bz; \bmu, \bSigma) \coloneqq \prod_{k=1}^K \norm(\bx; \bmu_k, \bSigma_k)^{z_k}.
 		\end{equation}
 		\item Die Randverteilung $p(\bx; \btheta)$ erhalten wir schließlich, indem wir über alle möglichen Werte $\bz$ summieren
@@ -145,8 +142,7 @@
 		\item Nachfolgend interessieren wir uns besonders für die Aposteriori-Wahrscheinlichkeit $p(\bz \mid \bx; \btheta)$.
 		\item Mit $\gamma(z_k)$ bezeichnen wir die Wahrscheinlichkeit $p(z_k = 1 \mid \bx; \btheta)$.
 		\item Mit dem \textit{Satz von Bayes} gilt
-		\begin{equation}
-		\label{eq:gmm-responsibilities}
+		\begin{equation} \label{eq:gmm-responsibilities}
 			\begin{aligned}
 				\gamma(z_k) \coloneqq p(z_k = 1 \mid \bx; \btheta)
 					&= \frac{p(z_k = 1) \cdot p(\bx \mid z_k = 1)}{\sum_{j=1}^K p(z_j = 1) \cdot p(\bx \mid z_j = 1)}
@@ -192,8 +188,7 @@
 		\item Wir fassen die Punkte $\{ \bx_n \}$ in der Matrix $\bX \in \R^{N \times M}$ zusammen,
 			wobei die $n$-te Zeile durch $\bx_n^\top$ gegeben ist.
 		\item Mit \eqref{eq:gmm-density} ergibt sich die Log-Likelihood Funktion des Mixture Models zu
-		\begin{equation}
-		\label{eq:gmm-log-likelihood}
+		\begin{equation} \label{eq:gmm-log-likelihood}
 			\begin{aligned}
 				\ln p(\bX; \btheta)
 					&= \ln\left( \prod_{n=1}^N \left( \sum_{k=1}^K \pi_k \cdot \norm(\bx_n \mid \bmu_k, \bSigma_k) \right) \right)
@@ -209,8 +204,7 @@
 % Gradient der Log-Likelihood für die Mittelwerte
 \begin{frame}{Gradient der Log-Likelihood für die Mittelwerte}{}
 	\vspace*{-6mm}
-	\begin{equation}
-	\label{eq:gmm-grad-means}
+	\begin{equation} \label{eq:gmm-grad-means}
 		\begin{aligned}
 			\frac{\partial}{\partial \bmu_k} \ln p(\bX; \btheta)
 				&= \sum_{n=1}^N \frac{1}{p(\bx_n; \btheta)} \cdot \frac{\partial}{\partial \bmu_k} p(\bx_n; \btheta)
@@ -239,8 +233,7 @@
 \begin{frame}{Lösung für die Mittelwerte}{}
 	\begin{itemize}
 		\item Wir setzen den Gradienten \eqref{eq:gmm-grad-means} Null, lösen nach $\bmu_k$ auf und erhalten
-		\begin{equation}
-		\label{eq:gmm-update-means}
+		\begin{equation} \label{eq:gmm-update-means}
 			\sum_{n=1}^N \gamma(z_{nk}) \cdot \bSigma_k^{-1} (\bx_n - \bmu_k) \overset{!}{=} 0
 		\quad\Longleftrightarrow\quad
 			\bmu_k = \frac{1}{N_k} \sum_{n=1}^N \gamma(z_{nk}) \cdot \bx_n.
@@ -258,8 +251,7 @@
 	\begin{itemize}
 		\item Ein ähnliches Ergebnis erhalten wir für die Kovarianzmatrizen $\bSigma_k$.
 		\item Es gilt
-		\begin{equation}
-		\label{eq:gmm-update-cov}
+		\begin{equation} \label{eq:gmm-update-cov}
 			\bSigma_k = \frac{1}{N_k} \sum_{n=1}^N \gamma(z_{nk}) \cdot (\bx_n - \bmu_k) (\bx_n - \bmu_k)^\top.
 		\end{equation}
 		\item Auch hier ergeben sich die Parameter als gewichtetes arithmetisches Mittel.
@@ -278,8 +270,7 @@
 			$$\sum_{k=1}^K \pi_k = 1.$$
 		\item Es handelt sich also um ein \textit{restringiertes Optimierungsproblem}.
 		\item Die \keyword{Lagrange-Funktion} ist
-		\begin{equation}
-		\label{eq:gmm-mixing-lagrange}
+		\begin{equation} \label{eq:gmm-mixing-lagrange}
 			\begin{aligned}
 				\lagrange(\btheta, \lambda)
 					&= \ln p(\bX; \btheta) + \lambda\left( \sum_{k=1}^K \pi_k - 1 \right)
@@ -295,8 +286,7 @@
 % Gradient der Log-Likelihood für die Mischkoeffizienten
 \begin{frame}{Gradient der Log-Likelihood für die Mischkoeffizienten}{}
 	\vspace*{-6mm}
-	\begin{equation}
-	\label{eq:gmm-grad-mixing}
+	\begin{equation} \label{eq:gmm-grad-mixing}
 		\begin{aligned}
 			\frac{\partial}{\partial \pi_k} \lagrange(\btheta, \lambda)
 				&= \frac{\partial}{\partial \pi_k} \ln p(\bX; \btheta)
@@ -326,8 +316,7 @@
 	\begin{itemize}
 		\item Zusätzlich benötigen wir noch die Ableitung von \eqref{eq:gmm-mixing-lagrange} nach $\lambda$.
 		\item Wir erhalten
-		\begin{equation}
-		\label{eq:gmm-grad-lagrange-mult}
+		\begin{equation} \label{eq:gmm-grad-lagrange-mult}
 			\frac{\partial}{\partial\lambda} \lagrange(\btheta, \lambda) = \sum_{k=1}^K \pi_k - 1.
 		\end{equation}
 		\item Setzen wir die Ableitungen \eqref{eq:gmm-grad-mixing} und \eqref{eq:gmm-grad-lagrange-mult} Null, so erhalten wir
@@ -337,8 +326,7 @@
 			1 = \sum_{k=1}^K \pi_k.
 		\end{equation*}
 		\item Setzen wir die erste Bedingung in die zweite ein, so erhalten wir $\lambda = -N$ und damit schließlich
-		\begin{equation}
-		\label{eq:gmm-update-mixing}
+		\begin{equation} \label{eq:gmm-update-mixing}
 			\pi_k = \frac{N_k}{N}.
 		\end{equation}
 	\end{itemize}

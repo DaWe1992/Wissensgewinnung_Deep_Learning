@@ -1,6 +1,6 @@
 - Use \eqref
 - Use subscript indices for vectors and two indices in subscript for vector components z_{ij}
-- Kein Einzug für \label
+- Kein Einzug für \label bzw. neben \begin{equation}
 - Labels in English
 
 Probabilistic PCA:
