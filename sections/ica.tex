@@ -340,10 +340,12 @@
 	\begin{align*}
 		p(x_1, x_2)
 			&= \frac{1}{2 \pi} \exp\left( -\frac{\Vert \bA^{-1} \bx \Vert^2}{2} \right) \vert \det \bA^{-1} \vert
-	\intertext{[Aufgrund der Orthogonalität gilt $\bA^{-1} = \bA^\top$.]}
+	\\[4mm]
 			&= \frac{1}{2 \pi} \exp\left( -\frac{\Vert \bA^\top \bx \Vert^2}{2} \right) \vert \det \bA^\top \vert
-	\intertext{[Wieder aufgrund der Orthogonalität gilt $\Vert \bA^\top \bx \Vert = \Vert \bx \Vert$ und $\det \bA^\top = 1$.]}
+			&& \rem{Aufgrund der Orthogonalität gilt $\bA^{-1} = \bA^\top$.}
+	\\[4mm]
 			&= \frac{1}{2 \pi} \exp\left( -\frac{\Vert \bx \Vert^2}{2} \right)
+			&& \rem{Aufgrund der Orthogonalität gilt $\Vert \bA^\top \bx \Vert = \Vert \bx \Vert$ und $\det \bA^\top = 1$.}
 	\end{align*}
 \end{frame}
 

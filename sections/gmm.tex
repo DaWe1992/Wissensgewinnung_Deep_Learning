@@ -381,7 +381,27 @@
 \end{frame}
 
 
-% EM Algorithmus
-\begin{frame}{EM Algorithmus}{}
-
+% EM Algorithmus für GMMs
+\begin{frame}{EM Algorithmus für GMMs}{}
+	\begin{myalg}
+		\begin{enumerate}
+			\item Initialisiere die Parameter $\{ \pi_k \}$, $\{ \bmu_k \}$ und $\{ \bSigma_k \}$ (entweder zufällig oder mit Vorwissen). 
+			\item \textbf{E-Schritt:} Berechne die Responsibilities für alle $n$ und alle $k$ gemäß
+			\begin{equation*}
+			\footnotesize
+				\gamma(z_{nk})
+					\coloneqq \frac{\pi_k \cdot \norm(\bx_n; \bmu_k, \bSigma_k)}{\sum_{j=1}^K \pi_j \cdot \norm(\bx_n; \bmu_j, \bSigma_j)}.
+			\end{equation*}
+			\item \textbf{M-Schritt:} Aktualisiere die Parameter, wobei $N_k \coloneqq \sum_{n=1}^N \gamma(z_{nk})$
+			\begin{equation*}
+			\footnotesize
+				\bmu_k \coloneqq \frac{1}{N_k} \sum_{n=1}^N \gamma(z_{nk}) \bx_n
+			\qquad\text{und}\qquad
+				\bSigma_k \coloneqq \frac{1}{N_k} \sum_{n=1}^N \gamma(z_{nk}) (\bx_n - \bmu_k) (\bx_n - \bmu_k)^\top
+			\qquad\text{und}\qquad 
+				\pi_k \coloneqq \frac{N_k}{N}.
+			\end{equation*}
+			\item Falls noch keine Konvergenz vorliegt, gehe zu Schritt 2.
+		\end{enumerate}
+	\end{myalg}
 \end{frame}

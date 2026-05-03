@@ -1,7 +1,9 @@
+% SECTION: Regression
 \section{Regression}
 
 \divider
 
+% SUBSECTION: Wiederholung: Lineare Regression
 \subsection{Wiederholung: Lineare Regression}
 
 % Lineare Regression
@@ -9,8 +11,8 @@
 	Wir wiederholen die wichtigsten Aussagen zur linearen Regression:
 
 	\begin{itemize}
-		\item Wir betrachten einen Datensatz bestehend aus $N$ Featurevektoren $\bx^n \in \R^m, n = 1, 2, \ldots, N$.
-		\item Jeder Vektor $\bx^n$ ist mit einem zugehörigen Label $y_n \in \R, n = 1, 2, \ldots, N$ versehen.
+		\item Wir betrachten einen Datensatz bestehend aus $N$ Featurevektoren $\bx_n \in \R^m, n = 1, 2, \ldots, N$.
+		\item Jeder Vektor $\bx_n$ ist mit einem zugehörigen Label $y_n \in \R, n = 1, 2, \ldots, N$ versehen.
 		\item Das lineare Regressionsmodell hat die Form $$h(\bx; \btheta) = \theta_0 + \sum_{m=1}^M \theta_m x_m.$$
 		\item Im Folgenden bietet es sich an, die Dummy-Komponente $x_0 \coloneqq 1$ einzuführen,
 			sodass gilt $$h(\bx; \btheta) = \sum_{m=0}^M \theta_m x_m = \btheta^\top \bx.$$
@@ -20,17 +22,18 @@
 
 % Design Matrix
 \begin{frame}{Design Matrix}{}
-	Wir fassen die Featurevektoren $\bx^n$ zeilenweise zu der Matrix
+	Wir fassen die Featurevektoren $\bx_n$ zeilenweise zu der Matrix
 	\begin{equation*}
 		\bX \coloneqq
 		\begin{pmatrix}
-			\horzbar 	& \bx^1 	& \horzbar 	\\
-			\horzbar 	& \bx^2 	& \horzbar 	\\
+			\horzbar 	& \bx_1 	& \horzbar 	\\
+			\horzbar 	& \bx_2 	& \horzbar 	\\
 			\vdots 	&\vdots 	& \vdots 		\\
-			\horzbar 	& \bx^N 	& \horzbar
+			\horzbar 	& \bx_N 	& \horzbar
 		\end{pmatrix} \in \R^{N \times (M + 1)}
 	\end{equation*}
-	zusammen. Die erste Spalte ist hierbei konstant 1 (wegen der Dummy-Komponente). Wir nennen diese Matrix \keyword{Design Matrix}.
+	zusammen. Die erste Spalte ist hierbei konstant 1 (wegen der Dummy-Komponente).
+	Wir nennen diese Matrix \keyword{Design Matrix}.
 	
 	Analog sammeln wir alle Labels in einem Vektor $$\by \coloneqq \bigl( y_1, y_2, \ldots, y_N \bigr)^\top \in \R^N.$$
 \end{frame}
@@ -40,23 +43,27 @@
 \begin{frame}{Methode der kleinsten Quadrate}{}
 	\begin{itemize}
 		\item Der Vektor $\btheta \in \R^{M+1}$ beinhaltet die Modellparameter.
-		\item Diese möchten wir so wählen, dass unser Modell die Daten möglichst gut erklärt, d.\,h. die Abweichung der Regressionsfunktion
-			zu den Trainingsdaten sollte möglichst klein sein.
+		\item Diese möchten wir so wählen, dass unser Modell die Daten möglichst gut erklärt,
+			d.\,h. die Abweichung der Regressionsfunktion zu den Trainingsdaten sollte möglichst klein sein.
 	\end{itemize}
 
 	\begin{mydef}[def:kleinste-quadrate-fehler]
-		Mit den obigen Definitionen ist der \keyword{Least-Squares-Fehler} gegeben durch $$\JLS(\btheta) \coloneqq \frac{1}{2N} \Vert \bX \btheta - \by \Vert^2.$$
+		Mit den obigen Definitionen ist der \keyword{Least-Squares-Fehler} gegeben durch
+		\begin{equation*}
+			\JLS(\btheta) \coloneqq \frac{1}{2N} \Vert \bX \btheta - \by \Vert^2.
+		\end{equation*}
 	\end{mydef}
 
-	\textbf{Bemerkung:} Der Vektor $\bX \btheta \in \R^N$ beinhaltet die Modellvorhersagen, wenn man dem Modell die Parameter $\btheta$ zugrunde legt.
+	\textbf{Bemerkung:} Der Vektor $\bX \btheta \in \R^N$ beinhaltet die Modellvorhersagen,
+	wenn man dem Modell die Parameter $\btheta$ zugrunde legt.
 	$\JLS$ misst also die mittlere quadratische Abweichung der Vorhersagen zu den wahren Werten.
 \end{frame}
 
 
 % Minimierung der Fehlerfunktion
 \begin{frame}{Minimierung der Fehlerfunktion}{}
-	Unser Ziel ist die Minimierung von $\JLS$. Hierzu schreiben $\JLS$ unter Ausnutzung der Transpositionsregeln $(\bA + \bB)^\top = \bA^\top + \bB^\top$ und
-	$(\bA \bB)^\top = \bB^\top \bA^\top$ um:
+	Unser Ziel ist die Minimierung von $\JLS$. Hierzu schreiben $\JLS$ unter Ausnutzung der Transpositionsregeln
+	$(\bA + \bB)^\top = \bA^\top + \bB^\top$ und $(\bA \bB)^\top = \bB^\top \bA^\top$ um:
 	\begin{align*}
 		\JLS(\btheta)
 			&= \frac{1}{2N} \Vert \bX \btheta - \by \Vert^2
@@ -64,7 +71,8 @@
 	\\[2mm]
 			&= \frac{1}{2N} \bigl( (\bX \btheta)^\top - \by^\top \bigr) \bigl( \bX \btheta - \by \bigr)
 	\\[2mm]
-			&= \frac{1}{2N} \bigl( (\bX \btheta)^\top \bX \btheta - (\bX \btheta)^\top \by - \by^\top (\bX \btheta) + \by^\top \by \bigr)
+			&= \frac{1}{2N} \bigl( (\bX \btheta)^\top \bX \btheta - (\bX \btheta)^\top \by - \by^\top (\bX \btheta) +
+				\by^\top \by \bigr)
 	\\[2mm]
 			&= \frac{1}{2N} \bigl( \btheta^\top \bX^\top \bX \btheta - 2 (\bX \btheta)^\top \by + \by^\top \by \bigr)
 	\\[2mm]
@@ -78,11 +86,14 @@
 	Um einen stationären Punkt zu finden, müssen wir $\JLS$ nach $\btheta$ ableiten und Null setzen.
 
 	\begin{itemize}
-		\item Es ist $\frac{\partial}{\partial \btheta} \btheta^\top \bX^\top \bX \btheta = 2 \bX^\top \bX \btheta$, da $\bX^\top \bX$ symmetrisch ist. \\ \vspace*{2mm}
+		\item Es ist $\frac{\partial}{\partial \btheta} \btheta^\top \bX^\top \bX \btheta = 2 \bX^\top \bX \btheta$,
+			da $\bX^\top \bX$ symmetrisch ist. \\ \vspace*{2mm}
 		\begin{myproof}
-			Wir nutzen die Transpositionsregeln und erhalten $\bigl( \bX^\top \bX \bigr)^\top = \bX^\top \bigl( \bX^\top \bigr)^\top = \bX^\top \bX$, woraus die Symmetrie folgt.
+			Wir nutzen die Transpositionsregeln und erhalten $\bigl( \bX^\top \bX \bigr)^\top =
+			\bX^\top \bigl( \bX^\top \bigr)^\top = \bX^\top \bX$, woraus die Symmetrie folgt.
 		\end{myproof} \vspace*{2mm}
-		\item Es ist $\frac{\partial}{\partial \btheta} \bigl( -2 \btheta^\top \bX^\top \by \bigr) = -2 \bX^\top \by$ und $\frac{\partial}{\partial \btheta} \by^\top \by = \0$.
+		\item Es ist $\frac{\partial}{\partial \btheta} \bigl( -2 \btheta^\top \bX^\top \by \bigr) = -2 \bX^\top \by$
+			und $\frac{\partial}{\partial \btheta} \by^\top \by = \0$.
 		\item Der Gradient der Fehlerfunktion $\JLS$ ist damit gegeben durch
 		\begin{align*}
 			\frac{\partial}{\partial \btheta} \JLS(\btheta)
@@ -114,8 +125,9 @@
 			&= \bigl( \bX^\top \bX \bigr)^{-1} \bX^\top \by
 	\end{alignat*}
 
-	\textbf{Bemerkung:} Wir haben damit einen stationären Punkt von $\JLS$ gefunden. Allerdings wissen wir noch nicht, ob es sich tatsächlich um ein Minumum handelt.
-	Außerdem sind wir hier etwas naiv von der Existenz der Inversen $\bigl( \bX^\top \bX \bigr)^{-1}$ ausgegangen. Existiert diese Matrix immer? \\
+	\textbf{Bemerkung:} Wir haben damit einen stationären Punkt von $\JLS$ gefunden. Allerdings wissen wir noch nicht,
+	ob es sich tatsächlich um ein Minumum handelt. Außerdem sind wir hier etwas naiv von der Existenz der Inversen
+	$\bigl( \bX^\top \bX \bigr)^{-1}$ ausgegangen. Existiert diese Matrix immer? \\
 	\textit{Mit diesen Fragen beschäftigen wir uns im Folgenden.}
 \end{frame}
 
@@ -127,7 +139,9 @@
 	\end{mytheo}
 	
 	\begin{myproof}
-		Für alle $\bz \in \R^M$ gitl $\bz^\top \bigl( \bA^\top \bA \bigr) \bz = (\bA \bz)^\top (\bA \bz) = \Vert \bA \bz \Vert^2 \ge 0$, die Behauptung.	
+		Für alle $\bz \in \R^M$ gilt
+		$\bz^\top \bigl( \bA^\top \bA \bigr) \bz = (\bA \bz)^\top (\bA \bz) = \Vert \bA \bz \Vert^2 \ge 0$,
+		die Behauptung.	
 	\end{myproof}
 
 	\begin{mytheo}[th:spaltenrang-pd]
@@ -135,9 +149,10 @@
 	\end{mytheo}
 
 	\begin{myproof}
-		Da $\bA$ vollen Spaltenrang hat, sind die Spaltenvektoren linear unabhängig. Daher ist $\bA \bz$ für alle $\bz \in \R^M \backslash \{ \0 \}$ eine nicht-triviale Linearkombination
-		der Spalten von $\bA$.
-		Folglich gilt $\bA \bz \ne \0$ und wir erhalten $\bz^\top \bigl( \bA^\top \bA \bigr) \bz = (\bA \bz)^\top (\bA \bz) = \Vert \bA \bz \Vert^2 > 0.$
+		Da $\bA$ vollen Spaltenrang hat, sind die Spaltenvektoren linear unabhängig.
+		Daher ist $\bA \bz$ für alle $\bz \in \R^M \backslash \{ \0 \}$ eine nicht-triviale Linearkombination
+		der Spalten von $\bA$. Folglich gilt $\bA \bz \ne \0$ und wir erhalten
+		$\bz^\top \bigl( \bA^\top \bA \bigr) \bz = (\bA \bz)^\top (\bA \bz) = \Vert \bA \bz \Vert^2 > 0.$
 	\end{myproof}
 \end{frame}
 
@@ -149,7 +164,8 @@
 	\end{mytheo}
 	
 	\begin{myproof}
-		Wir nehmen an $\bA$ sei nicht invertierbar. Dann sind die Spalten von $\bA$ linear abhängig und es existiert ein $\bz \in \R^M \backslash \{ \0 \}$ mit $\bA \bz = \0$.
+		Wir nehmen an $\bA$ sei nicht invertierbar. Dann sind die Spalten von $\bA$ linear abhängig und es existiert ein
+		$\bz \in \R^M \backslash \{ \0 \}$ mit $\bA \bz = \0$.
 		Daraus folgt aber $$\bz^\top \bA \bz = \bz^\top \0 = 0,$$ was der Definitheitseigenschaft von $\bA$ widerspricht.
 	\end{myproof}
 \end{frame}
@@ -157,13 +173,17 @@
 
 % Handelt es sich nun um ein Minimum?
 \begin{frame}{Handelt es sich nun um ein Minimum?}{}
-	Um diese Frage zu klären, berechnen wir die Hesse-Matrix von $\JLS$ und untersuchen, ob die Matrix im stationären Punkt positiv definit ist.
+	Um diese Frage zu klären, berechnen wir die Hesse-Matrix von $\JLS$ und untersuchen,
+	ob die Matrix im stationären Punkt positiv definit ist.
 
 	\begin{itemize}
-		\item Man rechnet nach, dass die Hesse-Matrix gegeben ist durch $$\frac{\partial^2}{\partial \btheta \partial \btheta} \JLS(\btheta) = \bX^\top \bX.$$
-		\item Mit Satz \ref{th:spaltenrang-pd} ist diese Matrix positiv definit für alle $\btheta$, falls $\bX$ vollen Spaltenrang hat, d.\,h. die Features müssen linear unabhängig sein.
+		\item Man rechnet nach, dass die Hesse-Matrix gegeben ist durch
+			$$\frac{\partial^2}{\partial \btheta \partial \btheta} \JLS(\btheta) = \bX^\top \bX.$$
+		\item Mit Satz \ref{th:spaltenrang-pd} ist diese Matrix positiv definit für alle $\btheta$, falls $\bX$ vollen Spaltenrang hat,
+			d.\,h. die Features müssen linear unabhängig sein.
 			In diesem Fall handelt es sich bei $\btheta^\star$ also tatsächlich um ein Minimum.
-		\item Unter derselben Voraussetzung haben wir damit sogar die \textbf{Konvexität} von $\JLS$ bewiesen, sodass das Mimimun global und eindeutig ist.
+		\item Unter derselben Voraussetzung haben wir damit sogar die \textbf{Konvexität} von $\JLS$ bewiesen,
+			sodass das Mimimun global und eindeutig ist.
 	\end{itemize}
 \end{frame}
 
@@ -171,14 +191,16 @@
 % Und wie sieht es nun mit der Existenz der Inversen aus?
 \begin{frame}{Und wie sieht es nun mit der Existenz der Inversen aus?}{}
 	\begin{itemize}
-		\item Mit Satz \ref{th:spaltenrang-inv} ist die Existenz der Inversen sichergestellt, wenn $\bX^\top \bX$ positiv definit ist, was wiederum aus der linearen Unabhängigkeit der
-			Features folgt (Satz \ref{th:spaltenrang-pd}).
-		\item \textbf{Achtung:} Bei der numerischen Berechnung der Inversen auf dem Computer kann es jedoch trotzdem zu Problemen kommen.
-			Es ist ratsam, die Inverse nicht explizit zu berechnen, sondern stattdessen das lineare Gleichungssystem $\bX^\top \bX \btheta = \bX^\top \by$ nach $\btheta$ zu lösen.
+		\item Mit Satz \ref{th:spaltenrang-inv} ist die Existenz der Inversen sichergestellt, wenn $\bX^\top \bX$ positiv definit ist,
+			was wiederum aus der linearen Unabhängigkeit der Features folgt (Satz \ref{th:spaltenrang-pd}).
+		\item \textbf{Achtung:} Bei der numerischen Berechnung der Inversen auf dem Computer kann es jedoch
+			trotzdem zu Problemen kommen. Es ist ratsam, die Inverse nicht explizit zu berechnen,
+			sondern stattdessen das lineare Gleichungssystem $\bX^\top \bX \btheta = \bX^\top \by$ nach $\btheta$ zu lösen.
 			Dieses Vorgehen ist numerisch stabiler.
-		\item Alternativ kann das Optimierungsproblem mit dem \keyword{Gradientenabstiegsverfahren} gelöst werden. Iteriere hierzu die Regel:
+		\item Alternativ kann das Optimierungsproblem mit dem \keyword{Gradientenabstiegsverfahren} gelöst werden.
+			Iteriere hierzu die Regel:
 		\begin{equation}
-			\btheta^{(t+1)} \longleftarrow \btheta^{(t)} - \alpha \bX^\top \bigl( \bX \btheta - \by \bigr). 
+			\btheta_{t+1} \longleftarrow \btheta_t - \alpha \bX^\top \bigl( \bX \btheta_t - \by \bigr). 
 		\end{equation}
 	\end{itemize}
 \end{frame}
@@ -189,8 +211,10 @@
 	Wir fassen unsere Ergebnisse zusammen:
 	
 	\begin{mytheo}[th:normalengleichung]
-		Die Design Matrix $\bX \in \R^{N \times (M+1)}$ des Regressionsproblems habe vollen Spaltenrang, d.\,h. die Features sind linear unabhängig.
-		Dann existiert die Inverse $\bigl( \bX^\top \bX \bigr)^{-1}$ und $$\btheta^\star = \bigl( \bX^\top \bX \bigr)^{-1} \bX^\top \by$$ ist das eindeutige globale Minimum von $\JLS$.
+		Die Design Matrix $\bX \in \R^{N \times (M+1)}$ des Regressionsproblems habe vollen Spaltenrang,
+		d.\,h. die Features sind linear unabhängig.
+		Dann existiert die Inverse $\bigl( \bX^\top \bX \bigr)^{-1}$ und
+		$$\btheta^\star = \bigl( \bX^\top \bX \bigr)^{-1} \bX^\top \by$$ ist das eindeutige globale Minimum von $\JLS$.
 		Die Gleichungen $\bX^\top \bX \btheta = \bX^\top \by$ bezeichnet man als \keyword{Normalengleichungen}.
 	\end{mytheo}
 \end{frame}
