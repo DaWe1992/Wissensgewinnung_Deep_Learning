@@ -1,7 +1,9 @@
-\section{Independent Component Analysis}
+% SECTION: Independent Component Analysis (ICA)
+\section{Independent Component Analysis (ICA)}
 
 \divider
 
+% SUBSECTION: Motivation: Cocktail Party Problem
 \subsection{Motivation: Cocktail Party Problem}
 
 % Cocktail Party Problem
@@ -10,13 +12,18 @@
 	
 	\begin{itemize}
 		\item Auf einer Party sprechen $N$ Personen gleichzeitig.
-		\item Im Raum werden Mikrofone aufgestellt, welche \textit{überlappende Kombinationen} der Stimmen der Sprecher aufzeichnen.
+		\item Im Raum werden Mikrofone aufgestellt, welche \textit{überlappende Kombinationen}
+			der Stimmen der Sprecher aufzeichnen.
 		\item Der Einfachheit halber nehmen wir an, dass sich ebenfalls $N$ Mikrofone im Raum befinden.
 		\item Da die Entfernung der Sprecher zu den einzelnen Mikrofonen verschieden ist, handelt es sich hierbei um leicht
 			\textit{verschiedene Kombinationen}.
 	\end{itemize}
-
-	\textbf{Können wir die Stimmen der $N$ Sprecher aus den $N$ Aufzeichnungen isolieren?}
+	
+	\begin{boxGray}
+		\begin{center}
+			\textbf{Frage:} Können wir die Stimmen der $N$ Sprecher aus den $N$ Aufzeichnungen isolieren?
+		\end{center}
+	\end{boxGray}
 \end{frame}
 
 
@@ -26,20 +33,23 @@
 \end{frame}
 
 
+% SUBSECTION: Formalisierung des Problems
 \subsection{Formalisierung des Problems}
 
 % Mathematische Formulierung des Problems
 \begin{frame}{Mathematische Formulierung des Problems}{}
 	\begin{itemize}
-		\item Es seien die Signale $\bs^t \in \R^N$ gegeben, welche von $N$ \textit{unabhängigen} (!) Quellen zum Zeitpunkt $t = 1, 2, \ldots, T$
-			erzeugt werden (die Sprecher im Cocktail Party Problem).
-		\item Allerdings beobachten wir nur die gemischten Daten $\bx^t$ zum Zeitpunkt $t$ (die Aufnahmen der Mikrofone).
+		\item Es seien die Signale $\bs_t \in \R^N$ gegeben, welche von $N$ \textit{unabhängigen} \textbf{(!)}
+			Quellen zum Zeitpunkt $t = 1, 2, \ldots, T$ erzeugt werden (das sind die Sprecher im Cocktail Party Problem).
+		\item Allerdings beobachten wir nur die gemischten Daten $\bx_t \in \R^N$ zum Zeitpunkt $t$
+			(das sind die Aufnahmen der Mikrofone).
 		\item Das ICA-Modell nimmt an, dass es sich hierbei um \textit{Linearkombinationen} der Quellsignale handelt.
 		\item Wir betrachten also das Modell
 		\begin{equation}
-			\bx^t = \bA \bs^t,
+			\bx_t = \bA \bs_t,
 		\end{equation}
-		wobei $\bA$ die \keyword{Mixing Matrix} ist.
+		wobei $\bA \in \R^{N \times N}$ die \keyword{Mixing Matrix} ist. Diese besteht aus den Koeffizienten der
+		Linearkombinationen.
 	\end{itemize}
 \end{frame}
 
@@ -48,39 +58,46 @@
 \begin{frame}{Mathematische Formulierung des Problems (Forts.)}{}
 	\begin{itemize}
 		\item Unser Ziel ist es, die Quellsignale $\bs$ aus den beobachteten Mischsignalen $\bx$ zu rekonstruieren.
-		\item Wäre $\bA$ bekannt, so könnten wir in den meisten Fällen $$\bs = \bA^{-1} \bx$$ berechnen und wären fertig.
+		\item Wäre $\bA$ bekannt, so könnten wir in den meisten Fällen (falls die Inverse von $\bA$ existiert)
+			$$\bs = \bA^{-1} \bx$$ berechnen und wären fertig.
 		\item In der Regel ist $\bA$ unbekannt, wodurch das Problem deutlich schwerer wird.
 		\item Wir definieren die \keyword{Unmixing Matrix} $\bW \coloneqq \bA^{-1}$.
-		\item Mithilfe des ICA-Verfahrens werden wir diese Matrix approximieren. Mit ihr können wir dann die Quellsignale bestimmen, indem wir
-			$\bs = \bW \bx$ berechnen.
+		\item Mithilfe des ICA-Verfahrens werden wir diese Matrix approximieren.
+			Mit ihr können wir dann die Quellsignale bestimmen, indem wir $\bs = \bW \bx$ berechnen.
 	\end{itemize}
 \end{frame}
 
 
-\subsection{Annahmen und Limitationen von ICA}
+% SUBSECTION: Annahmen und Limitationen der ICA
+\subsection{Annahmen und Limitationen der ICA}
 
 % Annahmen des Verfahrens
 \begin{frame}{Annahmen des Verfahrens}{}
 	Die folgenden Annahmen sind wesentlich für das ICA-Verfahren:
 
 	\begin{enumerate}
-		\item \textbf{Zentrale Annahme:} Die Quellsignale (ICs: Independent Components) sind \textit{stochastisch unabhängig}.
+		\item \textbf{Zentrale Annahme:} Die Quellsignale (ICs: Independent Components) sind
+			\textit{stochastisch unabhängig}.
 		\item Die ICs sind \textit{nicht normalverteilt} (dazu später mehr).
-		\item Die Mixing Matrix $\bA$ ist quadratisch. Es gibt allerdings Verallgemeinerungen der ICA, die auch rechteckige Matrizen erlauben.
-			Wir machen diese Annahme hier, da das Problem selbst in diesem vereinfachten Fall schon schwer genug ist.
+		\item Die Mixing Matrix $\bA$ ist quadratisch. Es gibt allerdings Verallgemeinerungen der ICA,
+			die auch rechteckige Matrizen erlauben. Wir machen diese Annahme hier,
+			da das Problem selbst in diesem vereinfachten Fall schon schwer genug ist.
 	\end{enumerate}
+	
+	Im Cocktail Party Problem bedeutet Annahme 3, dass es genauso viele Mikrophone wie Personen gibt.
 \end{frame}
 
 
 % Limitationen des Verfahrens
 \begin{frame}{Limitationen des Verfahrens}{}
-	Es gibt eine Reihe von Einschränkungen bei der Rekonstruktion der Quellsignale:
+	Es gibt eine Reihe von Einschränkungen (\textit{unidentifiabilities}) bei der Rekonstruktion der Quellsignale:
 
 	\begin{enumerate}
 		\item Die ursprüngliche \textit{Reihenfolge} der Signale kann nicht rekonstruiert werden.
 			Sei dazu $\bP$ eine \textit{Permutationsmatrix}. Dann ist
 			$\bx = \bA \bs = \bA \bP^{-1} \bP \bs$, wobei $\bP \bs$ die permutierten Quellsignale sind.
-			$\bA \bP^{-1}$ ist lediglich eine neue zu schätzende Mixing Matrix. Wir können folglich kein Signal \textit{das erste} Quellsignal nennen.
+			$\bA \bP^{-1}$ ist lediglich eine neue zu schätzende Mixing Matrix.
+			Wir können folglich kein Signal \textit{das erste} Quellsignal nennen.
 		\item Die \textit{Skalierung} der Quellsignale kann nicht wiederhergestellt werden
 			(im Cocktail Party Problem entspricht dies der Lautstärke/Amplitude der Signale), wie man sich leicht überlegt: \\
 			Sei dazu $\alpha \in \R$, dann gilt $$\bx = \bA \bs = \alpha \bA \cdot \frac{1}{\alpha} \bs.$$
@@ -123,9 +140,11 @@
 			\item Orthogonale Matrizen beschreiben eine Drehung/Spiegelung im Raum.
 			\item Es gilt stets $\bR \bR^\top = \bR^\top \bR = \bI.$ Es ist also $\bR^{-1} = \bR^\top$.
 			\item Es ist $\det \bR = 1$ für alle orthogonalen Matrizen $\bR$.
-			\item Da $\bR$ nur eine Drehung beschreibt, gilt für alle $\bx \in \R^N$ die Identität $\Vert \bR \bx \Vert = \Vert \bx \Vert$.
+			\item Da $\bR$ nur eine Drehung beschreibt, gilt für alle $\bx \in \R^N$ die Identität
+				$\Vert \bR \bx \Vert = \Vert \bx \Vert$.
 		\end{itemize}
-		\item Sei ferner $\bAtilde \coloneqq \bA \bR$ die Matrix, welche mit der von $\bR$ beschriebenen Drehung aus $\bA$ hervorgeht.
+		\item Sei ferner $\bAtilde \coloneqq \bA \bR$ die Matrix, welche mit der von $\bR$ beschriebenen Drehung
+			aus $\bA$ hervorgeht.
 		\item Dann hat der Vektor $\bxtilde = \bAtilde \bs$ dieselbe Verteilung wie $\bx$. \\ \vspace*{2mm}
 		\begin{myproof}
 			Den Erwartungswert rechnet man analog zu oben aus. Aufgrund der Orthogonalität von $\bR$ gilt
@@ -146,8 +165,8 @@
 % Warum sind Normalverteilungen verboten? (Forts.)
 \begin{frame}{Warum sind Normalverteilungen verboten? (Forts.)}{}
 	\begin{itemize}
-		\item Die voranstehenden Ausführungen zeigen, können wir in diesem Fall nicht rekonstruieren, ob die Daten mit der Matrix
-			$\bA$ oder $\bAtilde$ gemixt wurden.
+		\item Wie die voranstehenden Ausführungen zeigen, können wir in diesem Fall nicht rekonstruieren,
+			ob die Daten mit der Matrix $\bA$ oder $\bAtilde$ gemixt wurden.
 		\item Für normalverteilte Daten können wir folglich die Komponenten \textit{nur bis auf eine Drehung rekonstruieren}.
 	\end{itemize}
 \end{frame}
@@ -155,11 +174,12 @@
 
 % Ein einfaches Beispiel
 \begin{frame}{Ein einfaches Beispiel}{}
-	Wir betrachten ein einfaches zweidimensionales Beispiel für den Fall, dass die Quellsignale $s_1$ und $s_2$ gleichverteilt sind:
+	Wir betrachten ein einfaches zweidimensionales Beispiel für den Fall, dass die Quellsignale $s_1$ und $s_2$
+	gleichverteilt sind:
 	\begin{equation*}
 		p(s_i) \coloneqq \begin{cases}
 			\frac{1}{2 \sqrt{3}} 	& \text{wenn}\ \vert s_i \vert \le \sqrt{3} \\
-			0 				& \text{sonst}
+			0 					& \text{sonst}
 		\end{cases}
 	\end{equation*}
 
@@ -171,7 +191,9 @@
 		\end{myproof} \\ \vspace*{1mm}
 		\item Die Varianzen sind jeweils 1. \\ \vspace*{2mm}
 		\begin{myproof}
-			Es ist $\V[s_i] = \frac{\bigl( \sqrt{3} + \sqrt{3} \bigr)^2}{12} = \frac{\bigl( 2 \sqrt{3} \bigr)^2}{12} = \frac{12}{12} = 1$
+			Es ist $\V[s_i]
+				= \frac{\bigl( \sqrt{3} + \sqrt{3} \bigr)^2}{12}
+				= \frac{\bigl( 2 \sqrt{3} \bigr)^2}{12} = \frac{12}{12} = 1$
 			(siehe Tabelle im Kapitel `Statistik').
 		\end{myproof}
 	\end{itemize}
@@ -183,7 +205,8 @@
 	\begin{figure}
 		\centering
 		\includegraphics[scale=0.3]{./img/ica/uniform_data_indep.png}
-		\caption{Gemeinsame Verteilung der unabhängigen Komponenten $s_1$ (horizontal) und $s_2$ (vertikal). Siehe \cite{Hyvärinen2001}, Seite 155.}
+		\caption{Gemeinsame Verteilung der unabhängigen Komponenten $s_1$ (horizontal) und $s_2$ (vertikal).
+		Siehe \cite{Hyvärinen2001}, Seite 155.}
 	\end{figure}
 \end{frame}
 
@@ -193,39 +216,43 @@
 	\begin{figure}
 		\centering
 		\includegraphics[scale=0.3]{./img/ica/uniform_data_mixed.png}
-		\caption{Gemeinsame Verteilung der gemischten/beobachteten Komponenten $x_1$ (horizontal) und $x_2$ (vertikal) nach Anwendung der
-		Matrix $\bA \coloneqq \begin{pmatrix} 5 & 10 \\ 10 & 2 \end{pmatrix}$.}
+		\caption{Gemeinsame Verteilung der gemischten/beobachteten Komponenten $x_1$ (horizontal) und $x_2$ (vertikal)
+		nach Anwendung der Matrix $\bA \coloneqq \begin{pmatrix} 5 & 10 \\ 10 & 2 \end{pmatrix}$.}
 	\end{figure}
 \end{frame}
 
 
+% SUBSECTION: Whitening
 \subsection{Whitening}
 
 % Whitening
 \begin{frame}{Whitening}{}
 	Whitening wird häufig vor dem eigentlichen ICA-Algorithmus angewendet:
 	\begin{mydef}[def:whitening]
-		\keyword{Whitening} bezeichnet eine \textit{lineare Transformation} $\bV$, bei der zentrierte Zufallsvariablen $\bx \in \R^N$
-		(zentriert bedeutet $\E[\bx] = \0$) so zu neuen Zufallsvariablen $\bz \coloneqq \bV \bx \in \R^N$ transformiert werden, dass
-		$\D[\bz] = \E\bigl[ \bz \bz^\top \bigr] = \bI$ gilt.
+		\keyword{Whitening} bezeichnet eine \textit{lineare Transformation} $\bV$,
+		bei der zentrierte Zufallsvariablen $\bx \in \R^N$
+		(zentriert bedeutet $\E[\bx] = \0$) so zu neuen Zufallsvariablen $\bz \coloneqq \bV \bx \in \R^N$ transformiert werden,
+		dass $\D[\bz] = \E\bigl[ \bz \bz^\top \bigr] = \bI$ gilt.
 	\end{mydef}
 
 	In Worten bedeutet dies, dass die Komponenten von $\bz$ untereinander unkorreliert und die Varianzen jeweils Eins sind,
-	also $$\E[z_i z_j] = \delta_{ij},$$ wobei $\delta_{ij} \coloneqq \begin{cases} 1 & \text{falls}\ i = j \\ 0 & \text{falls}\ i \ne j \end{cases}$
-	das \keyword{Kronecker-Delta} bezeichnet.
+	also $$\E[z_i z_j] = \delta_{ij},$$ wobei $\delta_{ij} \coloneqq
+	\begin{cases} 1 & \text{falls}\ i = j \\ 0 & \text{falls}\ i \ne j \end{cases}$ das \keyword{Kronecker-Delta} bezeichnet.
 \end{frame}
 
 
 % Whitening (Forts.)
 \begin{frame}{Whitening (Forts.)}{}
 	\begin{itemize}
-		\item Eine solche lineare Transformation ist z.\,B. gegeben durch $\bV \coloneqq \bD^{-\frac{1}{2}} \bE^\top$, wobei $\bE \in \R^{N \times N}$
-			eine orthogonale Matrix ist, deren Spalten aus \textit{normalisierten Eigenvektoren} von $\D[\bx]$ bestehen und
-			$\bD \coloneqq \diag\bigl( d_1, d_2, \ldots, d_N \bigr) \in \R^{N \times N}$ eine Diagonalmatrix mit den zugehörigen \textit{Eigenwerten} ist.
-			\\ \vspace*{2mm}
+		\item Eine solche lineare Transformation ist z.\,B. gegeben durch $\bV \coloneqq \bD^{-\frac{1}{2}} \bE^\top$,
+			wobei $\bE \in \R^{N \times N}$ eine orthogonale Matrix ist,
+			deren Spalten aus \textit{normalisierten Eigenvektoren} von $\D[\bx]$ bestehen und
+			$\bD \coloneqq \diag\bigl( d_1, d_2, \ldots, d_N \bigr) \in \R^{N \times N}$ eine Diagonalmatrix mit den
+			zugehörigen \textit{Eigenwerten} ist. \\ \vspace*{2mm}
 		\begin{myproof}
-			Wir rechnen nach, dass die Kovarianzmatrix von $\bz = \bV \bx$ tatsächlich die Einheitsmatrix ist. Da $\E\bigl[ \bx \bx^\top \bigr]$
-			in praktischen Anwendungsfällen in der Regel positiv definit ist, gilt $\E\bigl[ \bx \bx^\top \bigr] = \bE \bD \bE^\top$. Damit gilt tatsächlich
+			Wir rechnen nach, dass die Kovarianzmatrix von $\bz = \bV \bx$ tatsächlich die Einheitsmatrix ist.
+			Da $\E\bigl[ \bx \bx^\top \bigr]$ in praktischen Anwendungsfällen in der Regel positiv definit ist,
+			gilt $\E\bigl[ \bx \bx^\top \bigr] = \bE \bD \bE^\top$. Damit gilt tatsächlich
 			\begin{equation*}
 				\E\bigl[ \bz \bz^\top \bigr]
 					= \E\bigl[ \bV \bx \bx^\top \bV^\top \bigr]
@@ -258,8 +285,8 @@
 		\item Wir nehmen im Folgenden an, dass bereits ein Whitening stattgefunden hat.
 		\item Whitening transformiert die Mixing Matrix $\bA$ in eine neue Matrix $\bAtilde$, denn
 			$$\bz = \bV \bx = \bV \bA \bs = \bAtilde \bs.$$
-		\item Man könnte nun hoffen, dass Whitening das Problem bereits löst, da Unkorreliertheit und Unabhängigkeit verwandt sind.
-			\textbf{Dem ist jedoch nicht so!}
+		\item Man könnte nun hoffen, dass Whitening das Problem bereits löst,
+			da Unkorreliertheit und Unabhängigkeit verwandt sind. \textbf{Dem ist jedoch nicht so!}
 		\item Sei dazu $\bU$ eine orthogonale Matrix und $\by \coloneqq \bU \bz$.
 		\item Aufgrund der Orthogonalität von $\bU$ gilt
 			$$\E\bigl[ \by \by^\top \bigr] = \E\bigl[ \bU \by \by^\top \bU^\top \bigr] = \bU \bI \bU^\top = \bI.$$
@@ -271,8 +298,8 @@
 % Whitening als Vorverarbeitungsschritt
 \begin{frame}{Whitening als Vorverarbeitungsschritt}{}
 	\begin{itemize}
-		\item Die Whitening Operation eignet sich jedoch sehr gut als Vorverarbeitungsschritt, denn durch sie wird die Mixing Matrix
-			$\bAtilde = \bV \bA$ orthogonal. \\ \vspace*{2mm}
+		\item Die Whitening Operation eignet sich jedoch sehr gut als Vorverarbeitungsschritt,
+			denn durch sie wird die Mixing Matrix $\bAtilde = \bV \bA$ orthogonal. \\ \vspace*{2mm}
 		\begin{myproof}
 			Da die Daten $\bz$ white sind, gilt $\E\bigl[ \bz \bz^\top \bigr] = \bI$. Es gilt aber auch
 			\begin{equation*}
@@ -294,7 +321,8 @@
 \begin{frame}{Warum Normalverteilungen verboten sind!}{}
 	\begin{itemize}
 		\item Durch Whitening können wir eine weitere Begründung dafür angeben, warum Normalverteilungen verboten sind.
-		\item Wir nehmen an, dass die gemeinsame Verteilung der Quellsignale $s_1$ und $s_2$ durch eine Normalverteilung beschrieben werden:
+		\item Wir nehmen an, dass die gemeinsame Verteilung der Quellsignale $s_1$ und $s_2$
+			durch eine Normalverteilung beschrieben werden:
 		\begin{equation*}
 			p(s_1, s_2)
 				= \frac{1}{2 \pi} \exp\left( -\frac{s_1^2 + s_2^2}{2} \right)
@@ -307,7 +335,8 @@
 
 % Warum Normalverteilungen verboten sind! (Forts.)
 \begin{frame}{Warum Normalverteilungen verboten sind! (Forts.)}{}
-	Mit dem Transformationssatz \ref{th:transformationssatz} für Dichten erhalten wir daraus die Verteilung von $x_1$ und $x_2$:
+	Mit dem Transformationssatz \ref{th:transformationssatz} für Dichten erhalten wir daraus
+	die Verteilung von $x_1$ und $x_2$:
 	\begin{align*}
 		p(x_1, x_2)
 			&= \frac{1}{2 \pi} \exp\left( -\frac{\Vert \bA^{-1} \bx \Vert^2}{2} \right) \vert \det \bA^{-1} \vert
@@ -333,11 +362,13 @@
 	\begin{figure}
 		\centering
 		\includegraphics[scale=0.4]{./img/ica/gaussian_data_indep.png}
-		\caption{Gemeinsame Verteilung der Komponenten $s_1$ (horizontal) und $s_2$ (vertikal) bei Annahme einer Normalverteilung.}
+		\caption{Gemeinsame Verteilung der Komponenten $s_1$ (horizontal) und $s_2$ (vertikal)
+		bei Annahme einer Normalverteilung.}
 	\end{figure}
 \end{frame}
 
 
+% SUBSECTION: ICA durch Maximum Likelihood Schätzung
 \subsection{ICA durch Maximum Likelihood Schätzung}
 
 % ICA Lösungsverfahren
@@ -345,7 +376,8 @@
 	Es gibt verschiedene Ansätze mit denen man die unabhängigen Komponenten bestimmen kann:
 	\begin{enumerate}
 		\item Maximierung der Likelihood Funktion.
-		\item Maximierung der \textit{Non-Gaussianity}: Finde die unabhängigen Komponenten so, dass deren Verteilung maximal nicht-normal ist.
+		\item Maximierung der \textit{Non-Gaussianity}: Finde die unabhängigen Komponenten so,
+			dass deren Verteilung maximal nicht-normal ist.
 		\begin{itemize}
 			\item Basiert auf dem \keyword{zentralen Grenzwertsatz}: Eine Summe unabhängiger Zufallsvariablen ist
 				(unter gewissen Voraussetzungen) zunehmend normalverteilt.
@@ -363,14 +395,13 @@
 	
 	\begin{itemize}
 		\item Da die Komponenten $s_n$ \textit{stochastisch unabhängig} sind, finden wir deren gemeinsame Dichte als
-			\textit{Produktdichte} der Komponenten
-			$$p_{\bs}(\bs) = \prod_{n=1}^N p_n(s_n).$$
+			\textit{Produktdichte} der Komponenten $$p_{\bs}(\bs) = \prod_{n=1}^N p_n(s_n).$$
 		\item Wir müssen dies allerdings mittels der beobachteten Daten $\bx = \bA \bs$ ausdrücken, da $\bs$ \textit{latent} ist.
-			Hierzu benutzen wir den Transformationssatz \ref{th:transformationssatz} und erhalten mit $\bs = \bA^{-1} \bx = \bW \bx$ und
-			$\bW = \bigl( \bw^1, \ldots, \bw^N \bigr)^\top$ die Dichte von $\bx$ als
-		\begin{equation}
-			\label{eq:produktverteilung-beobachtete-daten}
-			p_{\bx}(\bx) = \vert \det \bW \vert \cdot \prod_{n=1}^N p_n\bigl( (\bw^n)^\top \bx \bigr).
+			Hierzu benutzen wir den Transformationssatz \ref{th:transformationssatz} und erhalten mit
+			$\bs = \bA^{-1} \bx = \bW \bx$ und
+			$\bW = \bigl( \bw_1, \bw_2, \ldots, \bw_N \bigr)^\top$ die Dichte von $\bx$ als
+		\begin{equation} \label{eq:product-dist-observed-data}
+			p_{\bx}(\bx) = \vert \det \bW \vert \cdot \prod_{n=1}^N p_n\bigl( (\bw_n)^\top \bx \bigr).
 		\end{equation}
 	\end{itemize}
 \end{frame}
@@ -379,20 +410,25 @@
 % ICA Likelihood Funktion (Forts.)
 \begin{frame}{ICA Likelihood Funktion (Forts.)}{}	
 	\begin{itemize}
-		\item Wir nehmen nun an, dass wir $T$ Beobachtungen $\bx^1, \bx^2, \ldots, \bx^T$ von $\bx$ haben.
-		\item Die Likelihood Funktion ergibt sich als das Produkt der Dichte in (\ref{eq:produktverteilung-beobachtete-daten}) über die $T$ Beobachtungen
+		\item Wir nehmen nun an, dass wir $T$ Beobachtungen $\bx_1, \bx_2, \ldots, \bx_T$ von $\bx$ haben.
+		\item Die Likelihood Funktion ergibt sich als das Produkt der Dichte in \eqref{eq:product-dist-observed-data}
+		über die $T$ Beobachtungen
 		\begin{equation*}
 			L(\bW)
-				= \prod_{t=1}^T \left( \vert \det \bW \vert \cdot \prod_{n=1}^N p_n\bigl( (\bw^n)^\top \bx^t \bigr) \right)
-				= \vert \det \bW \vert^T \cdot \prod_{t=1}^T \prod_{n=1}^N p_n\bigl( (\bw^n)^\top \bx^t \bigr).
+				= \prod_{t=1}^T \left( \vert \det \bW \vert \cdot \prod_{n=1}^N p_n\bigl( (\bw_n)^\top \bx_t \bigr) \right)
+				= \vert \det \bW \vert^T \cdot \prod_{t=1}^T \prod_{n=1}^N p_n\bigl( (\bw_n)^\top \bx_t \bigr).
 		\end{equation*}
 		\item Im Folgenden betrachten wir die Log-Likelihood Funktion
 		\begin{align*}
 			l(\bW)
-				&= \ln\left( \vert \det \bW \vert^T \cdot \prod_{t=1}^T \prod_{n=1}^N p_n\bigl( (\bw^n)^\top \bx^t \bigr) \right)
-					= \ln \vert \det \bW \vert^T + \ln\left( \prod_{t=1}^T \prod_{n=1}^N p_n\bigl( (\bw^n)^\top \bx^t \bigr) \right)
+				&= \ln\left(
+					\vert \det \bW \vert^T \cdot \prod_{t=1}^T \prod_{n=1}^N p_n\bigl( (\bw_n)^\top \bx_t \bigr)
+				\right)
+					= \ln \vert \det \bW \vert^T + \ln\left(
+						\prod_{t=1}^T \prod_{n=1}^N p_n\bigl( (\bw_n)^\top \bx_t \bigr)
+					\right)
 		\\[2mm]
-				&= T \cdot \ln \vert \det \bW \vert + \sum_{t=1}^T \sum_{n=1}^N \ln p_n\bigl( (\bw^n)^\top \bx^t \bigr).
+				&= T \cdot \ln \vert \det \bW \vert + \sum_{t=1}^T \sum_{n=1}^N \ln p_n\bigl( (\bw_n)^\top \bx_t \bigr).
 		\end{align*}
 	\end{itemize}
 \end{frame}
@@ -404,14 +440,15 @@
 		\item Um die Likelihood Funktion optimieren zu können, müssen wir noch die Dichten $p_n(s_n)$ ($n = 1, 2, \ldots, N$)
 			für die Quelldaten festlegen.
 		\item Bei der Wahl dürfen wir aufgrund obiger Ausführungen \textit{keine Normalverteilungen} verwenden.
-		\item Aufgrund der Ähnlichkeit zur Normalverteilung schlägt \cite{Ng2023} die logistische Verteilung vor.
+		\item Aufgrund der Ähnlichkeit zur Normalverteilung schlägt \cite{Ng2023} die \keyword{logistische Verteilung} vor.
 		\item Die Verteilungsfunktion (CDF) ist folgendermaßen definiert:
 		\begin{equation*}
-			F(s_0) = \Prob(s \le s_0) = \frac{1}{1 + e^{-s_0}} \eqqcolon \sigma(s)
+			F(s_0) = p(s \le s_0) = \frac{1}{1 + e^{-s_0}} \eqqcolon \sigma(s)
 		\end{equation*}
-		\item Damit ergibt sich für die Dichte $p_n(s_n) = \sigma'(s) = \sigma(s) \cdot \bigl( 1 - \sigma(s) \bigr)$ und für die Log-Likelihood
+		\item Damit ergibt sich für die Dichte $p_n(s_n) = \sigma'(s) = \sigma(s) \cdot \bigl( 1 - \sigma(s) \bigr)$
+			und für die Log-Likelihood
 		\begin{equation*}
-			T \cdot \ln \vert \det \bW \vert + \sum_{t=1}^T \sum_{n=1}^N \ln \sigma'\bigl( (\bw^n)^\top \bx^t \bigr).
+			T \cdot \ln \vert \det \bW \vert + \sum_{t=1}^T \sum_{n=1}^N \ln \sigma'\bigl( (\bw_n)^\top \bx_t \bigr).
 		\end{equation*}
 	\end{itemize}
 \end{frame}
@@ -420,22 +457,25 @@
 % Bestimmung des Gradienten
 \begin{frame}{Bestimmung des Gradienten}{}
 	\begin{mytheo}[th:gradient-det]
-		Es sei $\bW \in \R^{N \times N}$. Dann ist $\frac{\partial}{\partial \bW} \det \bW = \bigl( \bW^\top \bigr)^{-1} \det \bW$.
+		Es sei $\bW \in \R^{N \times N}$. Dann ist
+		$\frac{\partial}{\partial \bW} \det \bW = \bigl( \bW^\top \bigr)^{-1} \det \bW$.
 	\end{mytheo}
 
 	\begin{myproof}
 		Mit dem Adjunktensatz der linearen Algebra gilt $\bW^{-1} = \frac{1}{\det \bW} \adj(\bW)$.
-		Hierbei bezeichnet $\adj(\bW) = \bigl( W_{ij} \bigr)_{i,j = 1, 2, \ldots, N}$ die zu $\bW$ \textbf{adjungierte Matrix}. Die \textbf{Kofaktoren}
-		$W_{ij}$ erhält man, indem man die Determinante der $(N - 1) \times (N - 1)$ Untermatrix von $\bW$ berechnet,
-		die aus der Streichung der $i$-ten Zeile und $j$-ten Spalte von $\bW$ hervorgeht. Dieses Ergebnis muss schließlich noch mit
-		$(-1)^{i + j}$ multipliziert werden.
+		Hierbei bezeichnet $\adj(\bW) = \bigl( W_{ij} \bigr)_{i,j = 1, 2, \ldots, N}$ die zu $\bW$ \textbf{adjungierte Matrix}.
+		Die \textbf{Kofaktoren} $W_{ij}$ erhält man, indem man die Determinante der
+		$(N - 1) \times (N - 1)$ Untermatrix von $\bW$ berechnet, die aus der Streichung der $i$-ten Zeile und $j$-ten Spalte
+		von $\bW$ hervorgeht. Dieses Ergebnis muss schließlich noch mit $(-1)^{i + j}$ multipliziert werden.
 		
-		Die Determinante kann nun in Form der Kofaktoren ausgedrückt werden (Stichwort: \textbf{Entwicklungssatz von Laplace}). Wir erhalten
+		Die Determinante kann nun in Form der Kofaktoren ausgedrückt werden
+		(Stichwort: \textbf{Entwicklungssatz von Laplace}). Wir erhalten
 		\begin{equation*}
 			\det \bW = \sum_{k = 1}^N w_{ik} W_{ik}
 		\end{equation*}
-		Zeile $i$ kann dabei beliebig gewählt werden. Entscheidend ist nun, dass die Kofaktoren per Definition nicht von den Einträgen der Zeile $i$ der Matrix
-		abhängen, sodass die Determinante eine lineare Funktion dieser Einträge ist. Wir erhalten damit
+		Zeile $i$ kann dabei beliebig gewählt werden. Entscheidend ist nun, dass die Kofaktoren per Definition
+		nicht von den Einträgen der Zeile $i$ der Matrix abhängen, sodass die Determinante eine lineare Funktion
+		dieser Einträge ist. Wir erhalten damit
 		$\frac{\partial \det \bW}{\partial w_{ij}} = W_{ij}$ und schließlich
 		$\frac{\partial \det \bW}{\partial \bW} = \adj(\bW)^\top = \bigl( \bW^\top \bigr)^{-1} \det \bW$.
 		Die letzte Gleichung gilt dabei wegen des Adjunktensatzes.
@@ -452,10 +492,10 @@
 		\begin{equation}
 			\bW^{\text{neu}} \coloneqq \bW + \alpha \left[
 				\begin{pmatrix}
-					1 - 2 \sigma\bigl( (\bw^1)^\top \bx \bigr) \\
-					1 - 2 \sigma\bigl( (\bw^2)^\top \bx \bigr) \\
+					1 - 2 \sigma\bigl( (\bw_1)^\top \bx \bigr) \\
+					1 - 2 \sigma\bigl( (\bw_2)^\top \bx \bigr) \\
 					\vdots \\
-					1 - 2 \sigma\bigl( (\bw^N)^\top \bx \bigr)
+					1 - 2 \sigma\bigl( (\bw_N)^\top \bx \bigr)
 				\end{pmatrix} \bx^\top + \bigl( \bW^\top \bigr)^{-1}
 			\right].
 		\end{equation}
