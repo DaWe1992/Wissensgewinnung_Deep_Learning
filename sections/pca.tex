@@ -9,6 +9,84 @@
 % Problemstellung
 \begin{frame}{Problemstellung}{}
 	\begin{itemize}
-		\item 
+		\item Die \keyword{Principal Component Analysis (PCA)} projiziert hochdimensionale Daten \textit{orthogonal} auf einen \textit{linearen Raum}
+			niederer Dimension.
+		\item Diesen linearen Raum nennt man auch \keyword{Principal Subspace}.
+		\item Wir betrachten im Folgenden einen Datensatz $\{ \bx_n \}$ mit $n = 1, 2, \ldots, N$ und $\bx_n \in \R^M$.
+		\item Unser Ziel ist die Projektion der Daten in einem Raum der Dimension $D$, wobei $D \ll M$.
+		\item Für die PCA gibt es verschiedene Ansätze, die zu demselben Ergebnis führen.
+		\item Die bekanntesten sind die \keyword{Maximum Variance} Formulierung und die \keyword{Minimum Error} Formulierung.
+		\item Zunächst wiederholen wir, was man unter der Projektion von Vektoren versteht.
 	\end{itemize}
 \end{frame}
+
+
+% SUBSECTION: Orthogonale Projektionen
+\subsection{Orthogonale Projektionen}
+
+% Visualisierung: Orthogonale Projektionen
+\begin{frame}{Visualisierung: Orthogonale Projektionen}{}
+	\begin{figure}
+		\centering
+		\includegraphics[scale=0.55]{./img/pca/orthogonal_projection}
+		\caption{Orthogonale Projektion der Daten $\{ \bx_n \}$ auf die von $\bu_1$ definierte Gerade. Siehe \cite{Bishop2024}, Seite 467.}
+	\end{figure}
+\end{frame}
+
+
+% Orthogonale Projektionen
+\begin{frame}{Orthogonale Projektionen}{}
+	\begin{mytheo}
+		Es seien $\ba, \bb \in \R^M$. Es gilt das geometrische Skalarprodukt
+		$\ba^\top \bb = \Vert \ba \Vert \cdot \Vert \bb \Vert \cdot \cos \angle(\ba, \bb)$.
+	\end{mytheo}
+
+	\begin{myproof}
+		Für $\Vert \bb - \ba \Vert^2 = (\bb - \ba)^\top (\bb - \ba)$ ergibt sich durch Ausmultiplizieren zum Einen
+		\begin{equation} \label{eq:pca-geom-scalar-product-1}
+			\begin{aligned}
+				\Vert \bb - \ba \Vert^2
+					&= \bb^\top \bb - \bb^\top \ba - \ba^\top \bb + \ba^\top \ba
+			\\[2mm]
+					&= \Vert \bb \Vert^2 + \Vert \ba \Vert^2 - 2 \bb^\top \ba
+			\end{aligned}
+		\end{equation}
+		und zum Anderen aufgrund des \keyword{Kosinussatzes} (Verallgemeinerung des Satzes von Pythagoras) aus der Geometrie
+		\begin{equation} \label{eq:pca-geom-scalar-product-2}
+			\Vert \bb - \ba \Vert^2 = \Vert \bb \Vert^2 + \Vert \ba \Vert^2 - 2 \cdot \Vert \bb \Vert \cdot \Vert \ba \Vert \cdot \cos \angle(\bb, \ba).
+		\end{equation}
+		Setzt man die Ausdrücke \eqref{eq:pca-geom-scalar-product-1} und \eqref{eq:pca-geom-scalar-product-2} für $\Vert \bb - \ba \Vert^2$ gleich,
+		subtrahiert auf beiden Seiten $\Vert \bb \Vert^2 + \Vert \ba \Vert^2$ und
+		dividiert durch $-2$, so ergibt sich $\bb^\top \ba = \Vert \bb \Vert \cdot \Vert \ba \Vert \cdot \cos \angle(\bb, \ba)$, die Behauptung.
+	\end{myproof}
+\end{frame}
+
+
+% Orthogonale Projektionen
+\begin{frame}{Orthogonale Projektionen}{}
+	\begin{mytheo}[th:orth-vector-scalar-prod]
+		Es seien $\ba, \bb \in \R^M$. Wenn $\ba$ und $\bb$ orthogonal aufeinander stehen, dann gilt $\ba^\top \bb = 0$.
+	\end{mytheo}
+
+	\begin{myproof}
+		
+	\end{myproof}
+\end{frame}
+
+
+% Orthogonale Projektionen (Forts.)
+\begin{frame}{Orthogonale Projektionen (Forts.)}{}
+	\begin{mytheo}
+		Es seien $\ba, \bb \in \R^M$. Dann ist die orthogonale Projektion von $\bb$ auf $\ba$ gegeben durch
+		\begin{equation*}
+			\proj_{\ba} \bb = \frac{\ba^\top \bb}{\Vert \ba \Vert^2} \ba.
+		\end{equation*}
+	\end{mytheo}
+
+	\begin{myproof}
+		Wir wollen den Vektor $\bp \coloneqq \proj_{\ba} \bb$ so finden, dass $\be \coloneqq \bb - \bp$ orthogonal auf $\ba$ steht.
+		Mit Satz \ref{th:orth-vector-scalar-prod} muss also $\ba^\top \be = 0$ gelten.
+	\end{myproof}
+\end{frame}
+
+
