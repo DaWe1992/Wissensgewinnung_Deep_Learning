@@ -1,0 +1,10 @@
+\begin{tikzpicture}[
+	scale=0.8
+]
+	\coordinate (A) at ($(0,0)!(3,4)!(5,1)$);
+	\draw[dashed,thick] (3,4) -- (A);
+		
+	\draw[ultra thick,red,-stealth] (0,0) -- (5,1) node[right] {$\ba$};
+	\draw[very thick,purple,-stealth] (0,0) -- (A) node[below=2mm] {$\proj_{\ba} \bb$};
+	\draw[very thick,blue,-stealth] (0,0) -- (3,4) node[right] {$\bb$};
+\end{tikzpicture}

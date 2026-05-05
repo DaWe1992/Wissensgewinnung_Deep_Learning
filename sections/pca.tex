@@ -28,55 +28,64 @@
 \begin{frame}{Visualisierung: Orthogonale Projektionen}{}
 	\begin{figure}
 		\centering
-		\includegraphics[scale=0.55]{./img/pca/orthogonal_projection}
+		\includegraphics[scale=0.85]{./img/pca/orthogonal_projection}
 		\caption{Orthogonale Projektion der Daten $\{ \bx_n \}$ auf die von $\bu_1$ definierte Gerade. Siehe \cite{Bishop2024}, Seite 467.}
 	\end{figure}
 \end{frame}
 
 
-% Orthogonale Projektionen
-\begin{frame}{Orthogonale Projektionen}{}
-	\begin{mytheo}
+% Geometrisches Skalarprodukt
+\begin{frame}{Geometrisches Skalarprodukt}{}
+	\begin{mytheo}[th:pca-geom-scalar-product]
 		Es seien $\ba, \bb \in \R^M$. Es gilt das geometrische Skalarprodukt
 		$\ba^\top \bb = \Vert \ba \Vert \cdot \Vert \bb \Vert \cdot \cos \angle(\ba, \bb)$.
 	\end{mytheo}
 
 	\begin{myproof}
-		Für $\Vert \bb - \ba \Vert^2 = (\bb - \ba)^\top (\bb - \ba)$ ergibt sich durch Ausmultiplizieren zum Einen
+		Für $\Vert \ba - \bb \Vert^2 = (\ba - \bb)^\top (\ba - \bb)$ ergibt sich durch Ausmultiplizieren zum Einen
 		\begin{equation} \label{eq:pca-geom-scalar-product-1}
 			\begin{aligned}
-				\Vert \bb - \ba \Vert^2
-					&= \bb^\top \bb - \bb^\top \ba - \ba^\top \bb + \ba^\top \ba
+				\Vert \ba - \bb \Vert^2
+					&= \ba^\top \ba - \ba^\top \bb - \bb^\top \ba + \bb^\top \bb
 			\\[2mm]
-					&= \Vert \bb \Vert^2 + \Vert \ba \Vert^2 - 2 \bb^\top \ba
+					&= \Vert \ba \Vert^2 + \Vert \bb \Vert^2 - 2 \ba^\top \bb
 			\end{aligned}
 		\end{equation}
 		und zum Anderen aufgrund des \keyword{Kosinussatzes} (Verallgemeinerung des Satzes von Pythagoras) aus der Geometrie
 		\begin{equation} \label{eq:pca-geom-scalar-product-2}
-			\Vert \bb - \ba \Vert^2 = \Vert \bb \Vert^2 + \Vert \ba \Vert^2 - 2 \cdot \Vert \bb \Vert \cdot \Vert \ba \Vert \cdot \cos \angle(\bb, \ba).
+			\Vert \ba - \bb \Vert^2 = \Vert \ba \Vert^2 + \Vert \bb \Vert^2 - 2 \cdot \Vert \ba \Vert \cdot \Vert \bb \Vert \cdot \cos \angle(\ba, \bb).
 		\end{equation}
-		Setzt man die Ausdrücke \eqref{eq:pca-geom-scalar-product-1} und \eqref{eq:pca-geom-scalar-product-2} für $\Vert \bb - \ba \Vert^2$ gleich,
-		subtrahiert auf beiden Seiten $\Vert \bb \Vert^2 + \Vert \ba \Vert^2$ und
-		dividiert durch $-2$, so ergibt sich $\bb^\top \ba = \Vert \bb \Vert \cdot \Vert \ba \Vert \cdot \cos \angle(\bb, \ba)$, die Behauptung.
+		Setzt man die Ausdrücke \eqref{eq:pca-geom-scalar-product-1} und \eqref{eq:pca-geom-scalar-product-2} für $\Vert \ba - \bb \Vert^2$ gleich,
+		subtrahiert auf beiden Seiten $\Vert \ba \Vert^2 + \Vert \bb \Vert^2$ und
+		dividiert durch $-2$, so ergibt sich $\ba^\top \bb = \Vert \ba \Vert \cdot \Vert \bb \Vert \cdot \cos \angle(\ba, \bb)$, die Behauptung.
 	\end{myproof}
 \end{frame}
 
 
-% Orthogonale Projektionen
-\begin{frame}{Orthogonale Projektionen}{}
-	\begin{mytheo}[th:orth-vector-scalar-prod]
+% Orthogonalität von Vektoren
+\begin{frame}{Orthogonalität von Vektoren}{}
+	\begin{mytheo}[th:pca-orth-vector-scalar-prod]
 		Es seien $\ba, \bb \in \R^M$. Wenn $\ba$ und $\bb$ orthogonal aufeinander stehen, dann gilt $\ba^\top \bb = 0$.
 	\end{mytheo}
 
 	\begin{myproof}
-		
+		Wenn die Vektoren $\ba$ und $\bb$ orthogonal, d.\,h. senkrecht, aufeinander stehen, dann gilt $\cos \angle(\ba, \bb) = 0$,
+		da die Kosinus-Funktion bei $\pi/2$ (entspricht 90°) eine Nullstelle hat.
+		Mit Satz \ref{th:pca-geom-scalar-product} folgt
+		\begin{equation*}
+			\ba^\top \bb
+				= \Vert \ba \Vert^2 \cdot \Vert \bb \Vert^2 \cdot \cos \angle(\ba, \bb)
+				= \Vert \ba \Vert^2 \cdot \Vert \bb \Vert^2 \cdot 0
+				= 0,
+		\end{equation*}
+		die Behauptung.
 	\end{myproof}
 \end{frame}
 
 
-% Orthogonale Projektionen (Forts.)
-\begin{frame}{Orthogonale Projektionen (Forts.)}{}
-	\begin{mytheo}
+% Orthogonale Projektion von Vektoren
+\begin{frame}{Orthogonale Projektion von Vektoren}{}
+	\begin{mytheo}[th:pca-orth-proj]
 		Es seien $\ba, \bb \in \R^M$. Dann ist die orthogonale Projektion von $\bb$ auf $\ba$ gegeben durch
 		\begin{equation*}
 			\proj_{\ba} \bb = \frac{\ba^\top \bb}{\Vert \ba \Vert^2} \ba.
@@ -84,9 +93,46 @@
 	\end{mytheo}
 
 	\begin{myproof}
-		Wir wollen den Vektor $\bp \coloneqq \proj_{\ba} \bb$ so finden, dass $\be \coloneqq \bb - \bp$ orthogonal auf $\ba$ steht.
-		Mit Satz \ref{th:orth-vector-scalar-prod} muss also $\ba^\top \be = 0$ gelten.
+		Es müssen zwei Bedingungen erfüllt sein. Einerseits ist der Projektionsvektor $\bp \coloneqq \proj_{\ba} \bb$ der Anteil von $\bb$,
+		der in Richtung $\ba$ zeigt, sodass dieser eine Stauchung bzw. Streckung von $\ba$ ist. Mit $k \in \R$ gilt also
+		\begin{equation} \label{eq:pca-orth-proj-1}
+			\bp = k \cdot \ba.
+		\end{equation}
+		Andererseits soll die Projektion orthogonal sein, d.\,h. wir wollen den Vektor $\bp$ so finden,
+		dass $\bb - \bp$ senkrecht auf $\ba$ steht. Mit Satz \ref{th:pca-orth-vector-scalar-prod} lautet die Bedingung also
+		\begin{equation} \label{eq:pca-orth-proj-2}
+			(\bb - \bp)^\top \ba = 0.
+		\end{equation}
+		Einsetzen von \eqref{eq:pca-orth-proj-1} in \eqref{eq:pca-orth-proj-2} und auflösen nach $k$ ergibt
+		$(\bb - k \cdot \ba)^\top \ba = 0 \Longleftrightarrow k = \frac{\ba^\top \bb}{\Vert \ba \Vert^2}$.
+		Dieses Ergebnis setzen wir in \eqref{eq:pca-orth-proj-1} ein und erhalten die Behauptung.
 	\end{myproof}
+\end{frame}
+
+
+% Orthogonale Projektion von Vektoren (Forts.)
+\begin{frame}{Orthogonale Projektion von Vektoren (Forts.)}{}
+	\begin{figure}
+		\input{./tikz/pca/vector_projection}
+		\caption{Projektion des Vektors $\bb \in \R^2$ auf den Vektor $\ba \in \R^2$.
+		Im Kontext der PCA ist der Vektor $\ba$ der Principal Subspace $\bu_1$ und $\bb$ ist ein Datenpunkt, der auf diesen Raum projiziert wird.}
+	\end{figure}
+\end{frame}
+
+
+% Orthogonale Projektion von Vektoren (Forts.)
+\begin{frame}{Orthogonale Projektion von Vektoren (Forts.)}{}
+	\begin{itemize}
+		\item Interessieren wir uns nur für die Länge der Projektion, so betrachten wir die Norm des Projektionsvektors
+		\begin{equation}
+			\Vert \proj_{\ba} \bb \Vert = \frac{\ba^\top \bb}{\Vert \ba \Vert^2} \Vert \ba \Vert = \frac{\ba^\top \bb}{\Vert \ba \Vert}.
+		\end{equation}
+		\item Gilt zudem $\Vert \ba \Vert = 1$ (dann ist $\ba$ ein Einheitsvektor),
+			so ergibt sich die Länge des Projektionsvektors einfach als das Skalarprodukt der beteiligten Vektoren
+		\begin{equation}
+			\Vert \proj_{\ba} \bb \Vert = \ba^\top \bb.
+		\end{equation}
+	\end{itemize}
 \end{frame}
 
 
