@@ -123,7 +123,7 @@
 % Orthogonale Projektion von Vektoren (Forts.)
 \begin{frame}{Orthogonale Projektion von Vektoren (Forts.)}{}
 	\begin{itemize}
-		\item Interessieren wir uns nur für die Länge der Projektion, so betrachten wir die Norm des Projektionsvektors
+		\item Interessieren wir uns nur für die \textit{Länge des Projektionsvektors}, so betrachten wir seine Norm
 		\begin{equation}
 			\Vert \proj_{\ba} \bb \Vert = \frac{\ba^\top \bb}{\Vert \ba \Vert^2} \Vert \ba \Vert = \frac{\ba^\top \bb}{\Vert \ba \Vert}.
 		\end{equation}
@@ -132,7 +132,79 @@
 		\begin{equation}
 			\Vert \proj_{\ba} \bb \Vert = \ba^\top \bb.
 		\end{equation}
+		\item Wir gehen im Folgenden davon aus, dass die \keyword{Principal Components} $\{ \bu_i \}$ normiert sind.
 	\end{itemize}
 \end{frame}
 
 
+% SUBSECTION: Maximum-Variance Formulierung der PCA
+\subsection{Maximum-Variance Formulierung der PCA}
+
+% Maximum-Variance Formulierung
+\begin{frame}{Maximum-Variance Formulierung}{}
+	\begin{itemize}
+		\item Im Folgenden betrachten wir den Fall $D = 1$.
+		\item Wir betrachten also nur eine einzelne Principal Component $\bu_1$.
+		\item Eine mögliche Formulierung der PCA ist es, die \textit{Varianz der projizierten Daten zu maximieren}.
+		\item Durch die Maximierung der Varianz erhofft man sich den Erhalt eines möglichst großen Anteils der Struktur der Daten.
+		\item Dieses Vorgehen führt auf die \keyword{Maximum-Variance Formulierung} der PCA.
+		\item Da $\Vert \bu_1 \Vert = 1$, ist die Projektion eines Datenpunkts $\bx_n$ auf $\bu_1$ gegeben durch
+		\begin{equation} \label{eq:pca-projection-data}
+			\tilde{x}_n = \bu_1^\top \bx_n.
+		\end{equation}
+	\end{itemize}
+
+	\begin{boxGray}
+		\begin{center}
+			\textbf{Ziel:} Finde $\bu_1$ so, dass die Varianz der Projektionen $\{ \tilde{x}_n \}$ maximal wird.
+		\end{center}
+	\end{boxGray}
+\end{frame}
+
+
+% Projektion von Mittelwert und Varianz
+\begin{frame}{Projektion von Mittelwert und Varianz}{}
+	\begin{itemize}
+		\item Der Mittelwert der projizierten Daten ist analog gegeben durch
+		\begin{equation} \label{eq:pca-projection-mean}
+			\bu_1^\top \bmu,
+		\qquad\text{mit}\qquad
+			\bmu \coloneqq \frac{1}{N} \sum_{n=1}^N \bx_n.
+		\end{equation}
+		\item Die projizierte Varianz bestimmt man mittels
+		\begin{equation} \label{eq:pca-projection-variance}
+			\bu_1^\top \bS \bu_1.
+		\end{equation}
+		\item Hierbei bezeichnet $\bS$ die \keyword{Streuungsmatrix} der Daten im hochdimensionalen Raum.
+		\item Sie ist gegeben durch
+		\begin{equation} \label{eq:pca-scatter-matrix}
+			\bS \coloneqq \frac{1}{N} \sum_{n=1}^N (\bx_n - \bmu) (\bx_n - \bmu)^\top.
+		\end{equation}
+	\end{itemize}
+\end{frame}
+
+
+% Beweis von \eqref{eq:pca-projection-variance}
+\begin{frame}{Beweis von \eqref{eq:pca-projection-variance}}{}
+	Wir beweisen Gleichung \eqref{eq:pca-projection-variance}: \\ \vspace*{2mm}
+	\begin{myproof}
+		Wir setzen die Projektionen \eqref{eq:pca-projection-data} und \eqref{eq:pca-projection-mean} in die Definition der Varianz ein und erhalten
+		durch Ausmultiplizieren aufgrund der Symmetrie des Skalarprodukts
+		\begin{align*}
+			\frac{1}{N} \sum_{n=1}^N \Bigl( \bu_1^\top \bx_n - \bu_1^\top \bmu \Bigr)^2
+				&= \frac{1}{N} \sum_{n=1}^N \Bigl(
+					\bu_1^\top \bx_n \cdot \bx_n^\top \bu_1 - 2 \cdot \bu_1^\top \bx_n \cdot \bmu^\top \bu_1
+						+ \bu_1^\top \bmu \cdot \bmu^\top \bu_1
+				\Bigr)
+		\\[2mm]
+				&= \bu_1^\top \left(
+					\frac{1}{N} \sum_{n=1}^N \Bigl( \bx_n \bx_n^\top - 2 \cdot \bx_n \bmu^\top + \bmu \bmu^\top \Bigr)
+				\right) \bu_1
+		\\[2mm]
+				&= \bu_1^\top \left( \frac{1}{N} \sum_{n=1}^N (\bx_n - \bmu) (\bx_n - \bmu)^\top \right) \bu_1
+		\\[2mm]
+				&= \bu_1^\top \bS \bu_1.
+				&& \rem{Einsetzen von \eqref{eq:pca-scatter-matrix}.}
+		\end{align*}
+	\end{myproof}
+\end{frame}
