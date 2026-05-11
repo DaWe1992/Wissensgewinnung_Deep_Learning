@@ -180,9 +180,9 @@
 	\begin{itemize}
 		\item Der Mittelwert der projizierten Daten ist analog gegeben durch
 		\begin{equation} \label{eq:pca-projection-mean}
-			\bu_1^\top \bmu,
+			\bu_1^\top \bxmean,
 		\qquad\text{mit}\qquad
-			\bmu \coloneqq \frac{1}{N} \sum_{n=1}^N \bx_n.
+			\bxmean \coloneqq \frac{1}{N} \sum_{n=1}^N \bx_n.
 		\end{equation}
 		\item Die projizierte Varianz bestimmt man mittels
 		\begin{equation} \label{eq:pca-projection-variance}
@@ -191,7 +191,7 @@
 		\item Hierbei bezeichnet $\bS$ die \keyword{Streuungsmatrix} der Daten im hochdimensionalen Raum.
 		\item Sie ist gegeben durch
 		\begin{equation} \label{eq:pca-scatter-matrix}
-			\bS \coloneqq \frac{1}{N} \sum_{n=1}^N (\bx_n - \bmu) (\bx_n - \bmu)^\top.
+			\bS \coloneqq \frac{1}{N} \sum_{n=1}^N (\bx_n - \bxmean) (\bx_n - \bxmean)^\top.
 		\end{equation}
 	\end{itemize}
 \end{frame}
@@ -204,17 +204,17 @@
 		Wir setzen die Projektionen \eqref{eq:pca-projection-data} und \eqref{eq:pca-projection-mean} in die Definition
 		der Varianz ein und erhalten durch Ausmultiplizieren aufgrund der Symmetrie des Skalarprodukts
 		\begin{align*}
-			\frac{1}{N} \sum_{n=1}^N \Bigl( \bu_1^\top \bx_n - \bu_1^\top \bmu \Bigr)^2
+			\frac{1}{N} \sum_{n=1}^N \Bigl( \bu_1^\top \bx_n - \bu_1^\top \bxmean \Bigr)^2
 				&= \frac{1}{N} \sum_{n=1}^N \Bigl(
-					\bu_1^\top \bx_n \cdot \bx_n^\top \bu_1 - 2 \cdot \bu_1^\top \bx_n \cdot \bmu^\top \bu_1
-						+ \bu_1^\top \bmu \cdot \bmu^\top \bu_1
+					\bu_1^\top \bx_n \cdot \bx_n^\top \bu_1 - 2 \cdot \bu_1^\top \bx_n \cdot \bxmean^\top \bu_1
+						+ \bu_1^\top \bxmean \cdot \bxmean^\top \bu_1
 				\Bigr)
 		\\[2mm]
 				&= \bu_1^\top \left(
-					\frac{1}{N} \sum_{n=1}^N \Bigl( \bx_n \bx_n^\top - 2 \cdot \bx_n \bmu^\top + \bmu \bmu^\top \Bigr)
+					\frac{1}{N} \sum_{n=1}^N \Bigl( \bx_n \bx_n^\top - 2 \cdot \bx_n \bxmean^\top + \bxmean\bxmean^\top \Bigr)
 				\right) \bu_1
 		\\[2mm]
-				&= \bu_1^\top \left( \frac{1}{N} \sum_{n=1}^N (\bx_n - \bmu) (\bx_n - \bmu)^\top \right) \bu_1
+				&= \bu_1^\top \left( \frac{1}{N} \sum_{n=1}^N (\bx_n - \bxmean) (\bx_n - \bxmean)^\top \right) \bu_1
 		\\[2mm]
 				&= \bu_1^\top \bS \bu_1.
 				&& \rem{Einsetzen von \eqref{eq:pca-scatter-matrix}.}
@@ -344,7 +344,7 @@
 \begin{frame}{PCA-Algorithmus}{}
 	\begin{myalg}
 		\begin{enumerate}
-			\item Bestimme $\bmu$ und $\bS$ gemäß \eqref{eq:pca-projection-mean} beziehungsweise
+			\item Bestimme $\bxmean$ und $\bS$ gemäß \eqref{eq:pca-projection-mean} beziehungsweise
 				\eqref{eq:pca-scatter-matrix}.
 			\item Berechne die Eigenzerlegung von $\bS$, d.\,h. finde Matrizen $\bU$ und $\bLambda$ mit
 				$$\bS = \bU \bLambda \bU^\top.$$ Dabei enthält die Matrix $\bU \in \R^{M \times M}$ die
@@ -368,3 +368,123 @@
 		mit dem PCA-Algorithmus.
 	\end{mytask}
 \end{frame}
+
+
+% SUBSECTION: Minimum-Error Formulierung der PCA
+\subsection{Minimum-Error Formulierung der PCA}
+
+% Minimum-Error Formulierung
+\begin{frame}{Minimum-Error Formulierung}{}
+	\begin{itemize}
+		\item Wir betrachten im Folgenden eine weitere Formulierung der PCA, welche auf der \textit{Minimierung des Projektionsfehlers} basiert,
+			die \keyword{Minimum-Error} Formulierung.
+		\item Dazu seien $\{ \bu_i \}$ mit $i = 1, 2, \ldots, M$ \textit{orthonormale Basisvektoren}, d.\,h.
+		\begin{equation} \label{eq:pca-orthonormality}
+			\bu_i^\top \bu_j = \delta_{ij} \qquad \forall\,i, j.
+		\end{equation}
+		\item Die Basis $\{ \bu_i \}$ ist \textit{vollständig}, weshalb sich jedes $\bx_n$ \textit{eindeutig} als Linearkombination der $\bu_i$ darstellen lässt
+		\begin{equation} \label{eq:pca-linear-combination}
+			\bx_n = \sum_{i=1}^M \alpha_{ni} \bu_i.
+		\end{equation}
+		\item Dies entspricht einer Drehung des Koordinatensystems.
+	\end{itemize}
+\end{frame}
+
+
+% Minimum-Error Formulierung (Forts.)
+\begin{frame}{Minimum-Error Formulierung (Forts.)}{}
+	\begin{itemize}
+		\item Die Koeffizienten $\alpha_{nj}$ ergeben sich als Projektionen der $\bx_n$ auf die $\bu_j$.
+		\item Wegen \eqref{eq:pca-orthonormality} ist $\alpha_{nj} = \bx_n^\top \bu_j$, sodass wir \eqref{eq:pca-linear-combination} schreiben
+			können als
+		\begin{equation}
+			\bx_n = \sum_{i=1}^M \bigl( \bx_n^\top \bu_i \bigr) \bu_i.
+		\end{equation}
+		\item Unser Ziel ist jedoch die Approximation der $\{ \bx_n \}$ mit einer beschränkten Anzahl von Komponenten $D \ll M$.
+	\end{itemize}
+\end{frame}
+
+
+% Visualisierung: Basiswechsel
+\begin{frame}{Visualisierung: Basiswechsel}{}
+
+\end{frame}
+
+
+% Projektionsfehler
+\begin{frame}{Projektionsfehler}{}
+	\begin{itemize}
+		\item Wir approximieren jeden Datenpunkt $\bx_n$ mittels
+		\begin{equation} \label{eq:pca-approximation-data-point}
+			\bxtilde_n \coloneqq \sum_{i=1}^D z_{ni} \bu_i + \sum_{i=D+1}^M b_i \bu_i.
+		\end{equation}
+		\item Die $\{ z_{ni} \}$ hängen dabei von den Punkten $\{ \bx_n \}$ ab, die $\{ b_i \}$ sind dagegen unabhängig.
+		\item Wir möchten die $\{ \bu_i \}$, die $\{ z_{ni} \}$ und die $\{ b_i \}$ so wählen, dass der \keyword{Projektionsfehler} minimal wird.
+		\item Diesen definieren wir als die durchschnittliche quadratische Abweichung der $\{ \bx_n \}$ und den $\{ \bxtilde_n \}$.
+	\end{itemize}
+	
+	\begin{boxGray}
+		\textbf{PCA Fehlerfunktion:}
+		\begin{equation} \label{eq:pca-projection-error}
+			J \coloneqq \frac{1}{N} \sum_{n=1}^N \Vert \bx_n - \bxtilde_n \Vert^2.
+		\end{equation}
+	\end{boxGray}
+\end{frame}
+
+
+% Minimierung des Projektionsfehlers
+\begin{frame}{Minimierung des Projektionsfehlers}{}
+	\begin{itemize}
+		\item Leiten wir \eqref{eq:pca-projection-error} nach $z_{nj}$ ab und setzen die Ableitung Null, so ergibt sich
+		\begin{equation} \label{eq:pca-min-proj-error-z}
+			z_{nj} = \bx_n^\top \bu_j.
+		\end{equation}
+		\item Analog erhalten wir für $b_j$
+		\begin{equation} \label{eq:pca-min-proj-error-b}
+			b_j = \bxmean^\top \bu_j.
+		\end{equation}
+	\end{itemize}
+
+	\begin{mytask}
+		Bestätigen Sie die Formeln \eqref{eq:pca-min-proj-error-z} und \eqref{eq:pca-min-proj-error-b} durch Nachrechnen.
+	\end{mytask}
+\end{frame}
+
+
+% Visualisierung: Projektionsfehler
+\begin{frame}{Visualisierung: Projektionsfehler}{}
+
+\end{frame}
+
+
+% Minimierung des Projektionsfehlers (Forts.)
+\begin{frame}{Minimierung des Projektionsfehlers (Forts.)}{}
+	\begin{itemize}
+		\item 
+	\end{itemize}
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
