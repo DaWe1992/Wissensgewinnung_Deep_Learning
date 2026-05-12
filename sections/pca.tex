@@ -397,7 +397,7 @@
 		\item Die Koeffizienten $\alpha_{nj}$ ergeben sich als Projektionen der $\bx_n$ auf die $\bu_j$.
 		\item Wegen \eqref{eq:pca-orthonormality} ist $\alpha_{nj} = \bx_n^\top \bu_j$, sodass wir \eqref{eq:pca-linear-combination} schreiben
 			können als
-		\begin{equation}
+		\begin{equation} \label{eq:pca-linear-combination-2}
 			\bx_n = \sum_{i=1}^M \bigl( \bx_n^\top \bu_i \bigr) \bu_i.
 		\end{equation}
 		\item Unser Ziel ist jedoch die Approximation der $\{ \bx_n \}$ mit einer beschränkten Anzahl von Komponenten $D \ll M$.
@@ -460,31 +460,70 @@
 % Minimierung des Projektionsfehlers (Forts.)
 \begin{frame}{Minimierung des Projektionsfehlers (Forts.)}{}
 	\begin{itemize}
-		\item 
+		\item Die Ergebnisse \eqref{eq:pca-min-proj-error-z} und \eqref{eq:pca-min-proj-error-b} setzen wir nun in
+			die Definition \eqref{eq:pca-approximation-data-point} von $\bxtilde_n$ ein.
+		\item Zusammen mit  der Darstellung \eqref{eq:pca-linear-combination-2} von $\bx_n$ erhalten wir für den Differenzvektor
+		\begin{equation}
+			\bx_n - \bxtilde_n = \sum_{i=D+1}^M \left\{ (\bx_n - \bxmean)^\top \bu_i \right\} \bu_i.
+		\end{equation}
+		\item Dies substituieren wir schließlich in die Fehlerfunktion \eqref{eq:pca-projection-error}. Es gilt
+		\begin{equation} \label{eq:pca-projection-error-2}
+			J
+				= \frac{1}{N} \sum_{n=1}^N \sum_{i=D+1}^M \bigl( \bx_n^\top \bu_i - \bxmean^\top \bu_i \bigr)^2
+				= \sum_{i=D+1}^M \bu_i^\top \bS \bu_i
+				= \trace\bigl( \bUhat^\top \bS \bUhat \bigr).
+		\end{equation}
+		\item Hierbei ist $\bUhat$ die Matrix, deren Spalten aus den Vektoren $\bu_{D+1}, \ldots, \bu_M$ besteht.
 	\end{itemize}
 \end{frame}
 
 
+% Minimierung des Projektionsfehlers (Forts.)
+\begin{frame}{Minimierung des Projektionsfehlers (Forts.)}{}
+	\begin{itemize}
+		\item Wir müssen den Ausdruck \eqref{eq:pca-projection-error-2} minimieren.
+		\item Wieder muss eine Nebenbedingung eingeführt werden, um nicht das Ergebnis $\bu_i = \0$ zu erhalten.
+		\item Die Nebenbedingungen ergeben sich aus der vorausgesetzten \textit{Orthonormalität} \eqref{eq:pca-orthonormality} der $\{ \bu_i \}$.
+		\item Der Einfachheit halber betrachten wir den Fall $M = 2$ und $D = 1$.
+		\item In diesem Fall erhalten wir die Lagrange-Funktion
+		\begin{equation}
+			\lagrange = \bu_2^\top \bS \bu_2 + \lambda_2 \bigl( 1 - \bu_2^\top \bu_2 \bigr).
+		\end{equation}
+		\item Ableiten nach $\bu_2$ und Nullsetzen ergibt $\bS \bu_2 = \lambda_2 \bu_2$, sodass $\bu_2$ ein Eigenvektor von $\bS$ ist.
+		\item Setzen wir dies in \eqref{eq:pca-projection-error-2} ein, so finden wir
+		\begin{equation}
+			J
+				= \bu_2^\top \bS \bu_2
+				= \lambda_2 \bu_2^\top \bu_2
+				= \lambda_2 \cdot \Vert \bu_2 \Vert^2
+				= \lambda_2.
+		\end{equation}
+	\end{itemize}
+\end{frame}
 
 
+% Minimierung des Projektionsfehlers (Forts.)
+\begin{frame}{Minimierung des Projektionsfehlers (Forts.)}{}
+	\begin{itemize}
+		\item Der Fehler wird in diesem Fall also minimal, wenn man für $\bu_2$ einen normalisierten Eigenvektor zum kleineren Eigenwert benutzt.
+		\item Für allgemeines $M$ und $D$ erhält man den minimalen Fehler $J$, indem man die $\{ \bu_i \}$ als normierte Eigenvektoren
+			von $\bS$ wählt.
+		\item Für alle $i = 1, 2, \ldots, M$ müssen die $\{ \bu_i \}$ also erfüllen
+		\begin{equation}
+			\bS \bu_i = \lambda_i \bu_i.
+		\end{equation}
+		\item Für den Fehler $J$ gilt dann
+		\begin{equation}
+			J = \sum_{i=D+1}^M \lambda_i.
+		\end{equation}
+	\end{itemize}
+\end{frame}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+% Minimierung des Projektionsfehlers (Forts.)
+\begin{frame}{Minimierung des Projektionsfehlers (Forts.)}{}
+	\begin{boxGray}
+		Man projiziert die Daten also auf den Raum, welcher durch die $D$ Eigenvektoren zu den größten Eigenwerten aufgespannt wird.
+		Der Fehler ergibt sich dann als die Summe jener Eigenwerte, deren Eigenvektoren nicht für die Projektion benutzt wurden.
+	\end{boxGray}
+\end{frame}
