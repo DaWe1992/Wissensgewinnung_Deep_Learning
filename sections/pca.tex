@@ -527,3 +527,45 @@
 		Der Fehler ergibt sich dann als die Summe jener Eigenwerte, deren Eigenvektoren nicht für die Projektion benutzt wurden.
 	\end{boxGray}
 \end{frame}
+
+
+% SUBSECTION: Anwendungen der PCA
+\subsection{Anwendungen der PCA}
+
+% Datenkompression
+\begin{frame}{Datenkompression}{}
+	\begin{figure}
+		\centering
+		\includegraphics[scale=1.00]{./img/pca/handwritten_digit_eigenvectors}
+		\caption{Anwendung der PCA auf einen Datensatz bestehend aus 6.000 Bildern mit $28 \times 28$ Pixeln. Positive Werte sind blau,
+			negative Werte gelb dargestellt.
+			Siehe \cite{Bishop2024}, Seite 502.}
+	\end{figure}
+\end{frame}
+
+
+% Datenkompression (Forts.)
+\begin{frame}{Datenkompression (Forts.)}{}
+	\begin{figure}[H]
+		\divideTwo{0.49}{
+			\centering
+			\includegraphics[scale=0.85]{./img/pca/handwritten_digit_eigenvalue_spectrum}			
+		}{0.49}{
+			\centering
+			\includegraphics[scale=0.85]{./img/pca/handwritten_digit_error_measure}
+		}
+		\caption{(a) Plot des Spektrums der Eigenwerte in absteigender Sortierung. (b) Plot der Summe der verworfenen Eigenwerte (Fehler $J$).
+			Siehe \cite{Bishop2024}, Seite 503.}
+	\end{figure}
+\end{frame}
+
+
+% Datenkompression (Forts.)
+\begin{frame}{Datenkompression (Forts.)}{}
+	\begin{figure}
+		\centering
+		\includegraphics[scale=1.00]{./img/pca/handwritten_digit_reconstruction}
+		\caption{Reduktion eines Elements des Datensatzes auf verschiedene Dimensionen. Bishop benutzt $M$ anstelle von $D$ für die Dimension
+			des Unterraums. Siehe \cite{Bishop2024}, Seite 502.}
+	\end{figure}
+\end{frame}
