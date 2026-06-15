@@ -22,20 +22,21 @@
 
 % Design Matrix
 \begin{frame}{Design Matrix}{}
-	Wir fassen die Featurevektoren $\bx_n$ zeilenweise zu der Matrix
-	\begin{equation*}
-		\bX \coloneqq
-		\begin{pmatrix}
-			\horzbar 	& \bx_1 	& \horzbar 	\\
-			\horzbar 	& \bx_2 	& \horzbar 	\\
-			\vdots 	&\vdots 	& \vdots 		\\
-			\horzbar 	& \bx_N 	& \horzbar
-		\end{pmatrix} \in \R^{N \times (M + 1)}
-	\end{equation*}
-	zusammen. Die erste Spalte ist hierbei konstant 1 (wegen der Dummy-Komponente).
-	Wir nennen diese Matrix \keyword{Design Matrix}.
-	
-	Analog sammeln wir alle Labels in einem Vektor $$\by \coloneqq \bigl( y_1, y_2, \ldots, y_N \bigr)^\top \in \R^N.$$
+	\begin{itemize}
+		\item Wir fassen die Featurevektoren $\bx_n$ zeilenweise zu der Matrix
+		\begin{equation*}
+			\bX \coloneqq
+			\begin{pmatrix}
+				\horzbar 	& \bx_1 	& \horzbar 	\\
+				\horzbar 	& \bx_2 	& \horzbar 	\\
+				\vdots 	&\vdots 	& \vdots 		\\
+				\horzbar 	& \bx_N 	& \horzbar
+			\end{pmatrix} \in \R^{N \times (M + 1)}
+		\end{equation*}
+			zusammen. Die erste Spalte ist hierbei konstant 1 \textit{(wegen der Dummy-Komponente)}.
+		\item Wir nennen diese Matrix \keyword{Design Matrix}.
+		\item Analog sammeln wir alle Labels in einem Vektor $$\by \coloneqq \bigl( y_1, y_2, \ldots, y_N \bigr)^\top \in \R^N.$$
+	\end{itemize}
 \end{frame}
 
 
@@ -212,7 +213,7 @@
 	
 	\begin{mytheo}[th:normalengleichung]
 		Die Design Matrix $\bX \in \R^{N \times (M+1)}$ des Regressionsproblems habe vollen Spaltenrang,
-		d.\,h. die Features sind linear unabhängig.
+		d.\,h. die Features seien linear unabhängig.
 		Dann existiert die Inverse $\bigl( \bX^\top \bX \bigr)^{-1}$ und
 		$$\btheta^\star = \bigl( \bX^\top \bX \bigr)^{-1} \bX^\top \by$$ ist das eindeutige globale Minimum von $\JLS$.
 		Die Gleichungen $\bX^\top \bX \btheta = \bX^\top \by$ bezeichnet man als \keyword{Normalengleichungen}.
@@ -220,7 +221,67 @@
 \end{frame}
 
 
+% Probabilistische Regression
+\subsection{Probabilistische Regression}
 
+% Eine probabilistische Sicht
+\begin{frame}{Eine probabilistische Sicht}{}
+	\begin{boxGray}
+		\textbf{Annahme 1:} Die Zielwerte $y \in \R$ und die Eingaben $\bx \in \R^{m+1}$ hängen über die Gleichung
+		\begin{equation}
+			y = \btheta^\top \bx + \varepsilon
+		\end{equation}
+		zusammen. Dabei ist $\varepsilon \in \R$ ein Fehlerterm, der nicht modellierte Effekte oder Datenrauschen modelliert.
+	\end{boxGray}
+	
+	\begin{boxGray}
+		\textbf{Annahme 2:} Für den Fehlerterm gilt $\varepsilon \sim \norm\bigl( 0, \sigma^2 \bigr)$.
+	\end{boxGray}
+
+	Der Zielwert $y$ kann damit als Zufallsvariable aufgefasst werden, für die gilt
+	\begin{equation}
+		y \mid \bx \sim \norm\bigl(\btheta^\top \bx, \sigma^2 \bigr).
+	\end{equation}
+\end{frame}
+
+
+% Visualisierung: Probabilistische Regression
+\begin{frame}{Visualisierung: Probabilistische Regression}{}
+	tbd
+\end{frame}
+
+
+% Maximum-Likelihood Regression
+\begin{frame}{Maximum-Likelihood Regression}{}
+	\begin{itemize}
+		\item Wir betrachten wieder einen Datensatz $\bigl\{ (\bx_n, y_n) \bigr\}$ bestehend aus $N$ Trainingsbeispielen.
+		\item Die Likelihood des Modells ist gegeben durch
+		\begin{equation}
+			\begin{aligned}
+				p\bigl( \by \mid \bX; \btheta, \sigma^2 \bigr)
+					&= \prod_{n=1}^N p\bigl( y_n \mid \bx_n; \btheta, \sigma^2 \bigr)
+			\\[2mm]
+					&= \prod_{n=1}^N \frac{1}{\sqrt{2 \pi \sigma^2}} \cdot \exp\left(
+						-\frac{1}{2 \sigma^2} \biggl( y_n - \btheta^\top \bphi(\bx_n) \biggr)^2
+					\right)
+			\end{aligned}
+		\end{equation}
+	\end{itemize}
+\end{frame}
+
+
+% Maximum-Likelihood Regression (Forts.)
+\begin{frame}{Maximum-Likelihood Regression (Forts.)}{}
+	\begin{itemize}
+		\item Die Log-Likelihood ist damit gegeben durch
+		\begin{equation}
+			\begin{aligned}
+				l(\btheta)
+					&\coloneqq \ln
+			\end{aligned}
+		\end{equation}
+	\end{itemize}
+\end{frame}
 
 
 
