@@ -211,7 +211,7 @@
 \begin{frame}{Normalengleichungen}{}
 	Wir fassen unsere Ergebnisse zusammen:
 	
-	\begin{mytheo}[th:normalengleichung]
+	\begin{mytheo}[th:normal-equations]
 		Die Design Matrix $\bX \in \R^{N \times (M+1)}$ des Regressionsproblems habe vollen Spaltenrang,
 		d.\,h. die Features seien linear unabhängig.
 		Dann existiert die Inverse $\bigl( \bX^\top \bX \bigr)^{-1}$ und
@@ -231,7 +231,7 @@
 		\begin{equation}
 			y = \btheta^\top \bx + \varepsilon
 		\end{equation}
-		zusammen. Dabei ist $\varepsilon \in \R$ ein Fehlerterm, der nicht modellierte Effekte oder Datenrauschen modelliert.
+		zusammen. Dabei ist $\varepsilon \in \R$ ein Fehlerterm, der nicht modellierte Effekte oder Datenrauschen repräsentiert.
 	\end{boxGray}
 	
 	\begin{boxGray}
@@ -257,6 +257,7 @@
 		\item Wir betrachten wieder einen Datensatz $\bigl\{ (\bx_n, y_n) \bigr\}$ bestehend aus $N$ Trainingsbeispielen.
 		\item Die Likelihood des Modells ist gegeben durch
 		\begin{equation}
+			\label{eq:likelihood-reg}
 			\begin{aligned}
 				p\bigl( \by \mid \bX; \btheta, \sigma^2 \bigr)
 					&= \prod_{n=1}^N p\bigl( y_n \mid \bx_n; \btheta, \sigma^2 \bigr)
@@ -273,14 +274,59 @@
 % Maximum-Likelihood Regression (Forts.)
 \begin{frame}{Maximum-Likelihood Regression (Forts.)}{}
 	\begin{itemize}
-		\item Die Log-Likelihood ist damit gegeben durch
+		\item Durch Logarithmieren von \eqref{eq:likelihood-reg} erhalten wir die Log-Likelihood Funktion
 		\begin{equation}
+			\label{eq:log-likelihood-reg}
 			\begin{aligned}
-				l(\btheta)
-					&\coloneqq \ln
+				l\bigl( \btheta, \sigma^2 \bigr)
+					&\coloneqq \ln p\bigl( \by \mid \bX; \btheta, \sigma^2 \bigr)
+			\\[2mm]
+					&= -\frac{N}{2} \ln\bigl( 2 \pi \sigma^2 \bigr)
+						- \frac{1}{2 \sigma^2} \sum_{n=1}^N \bigl( y_n - \btheta^\top \bphi(\bx_n) \bigr)^2.
 			\end{aligned}
 		\end{equation}
+		\item Aus \eqref{eq:log-likelihood-reg} wird erstichtlich, dass der Least-Squares-Fehler minimiert werden muss, um die
+			Likelihood in $\btheta$ zu maximieren.
+		\item Die Lösung für $\btheta$ ist dieselbe wie in \eqref{th:normal-equations}, zusätzlich kann die globale
+			Unsicherheit des Modells quantifiziert werden
+		\vspace*{-3mm}
+		\begin{equation}
+			\bthetaestML = \bigl( \bPhi^\top \bPhi \bigr)^{-1} \bPhi^\top \by
+		\qquad\qquad
+			\sigmasquML = \frac{1}{N} \sum_{n=1}^N \bigl( y_n - \bthetaestML^\top \bphi(\bx_n) \bigr)^2.
+		\end{equation}
 	\end{itemize}
+\end{frame}
+
+
+% Visualisierung: Maximum-Likelihood Regression
+\begin{frame}{Visualisierung: Maximum-Likelihood Regression}{}
+	tbd
+\end{frame}
+
+
+% Probabilistische Regression
+\subsection{Maximum Aposteriori (MAP) Regression}
+
+% Berücksichtigung einer Apriori-Verteilung
+\begin{frame}{Berücksichtigung einer Apriori-Verteilung}{}
+	\begin{itemize}
+		\item Die Maximum-Likelihood Lösung ist \textbf{anfällig für Overfitting}.
+		\item Eine Möglichkeit der Regularisierung ist die Verwendung einer \keyword{Apriori-Verteilung} (Prior).
+		\item Für diese Verteilung benutzen wir eine Normalverteilung
+		\begin{equation}
+			\btheta \sim \norm\bigl( \0, b^2 \bI \bigr).
+		\end{equation}
+		\item Es handelt sich hierbei um eine \keyword{isotropische Normalverteilung} (rotationsinvariant).
+		\item Der Prior kann benutzt werden, um Vorwissen zu berücksichtigen.
+		\item Häufig ist der Prior jedoch \keyword{nicht informativ} (z.\,B. Gleichverteilung).
+	\end{itemize}
+\end{frame}
+
+
+% MAP Regression
+\begin{frame}{MAP Regression}{}
+	
 \end{frame}
 
 
