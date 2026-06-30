@@ -257,7 +257,7 @@
 		\item Wir betrachten wieder einen Datensatz $\bigl\{ (\bx_n, y_n) \bigr\}$ bestehend aus $N$ Trainingsbeispielen.
 		\item Die Likelihood des Modells ist gegeben durch
 		\begin{equation}
-			\label{eq:likelihood-reg}
+			\label{eq:reg-likelihood}
 			\begin{aligned}
 				p\bigl( \by \mid \bX; \btheta, \sigma^2 \bigr)
 					&= \prod_{n=1}^N p\bigl( y_n \mid \bx_n; \btheta, \sigma^2 \bigr)
@@ -274,9 +274,9 @@
 % Maximum-Likelihood Regression (Forts.)
 \begin{frame}{Maximum-Likelihood Regression (Forts.)}{}
 	\begin{itemize}
-		\item Durch Logarithmieren von \eqref{eq:likelihood-reg} erhalten wir die Log-Likelihood Funktion
+		\item Durch Logarithmieren von \eqref{eq:reg-likelihood} erhalten wir die Log-Likelihood Funktion
 		\begin{equation}
-			\label{eq:log-likelihood-reg}
+			\label{eq:reg-log-likelihood}
 			\begin{aligned}
 				l\bigl( \btheta, \sigma^2 \bigr)
 					&\coloneqq \ln p\bigl( \by \mid \bX; \btheta, \sigma^2 \bigr)
@@ -285,9 +285,9 @@
 						- \frac{1}{2 \sigma^2} \sum_{n=1}^N \bigl( y_n - \btheta^\top \bphi(\bx_n) \bigr)^2.
 			\end{aligned}
 		\end{equation}
-		\item Aus \eqref{eq:log-likelihood-reg} wird erstichtlich, dass der Least-Squares-Fehler minimiert werden muss, um die
+		\item Aus \eqref{eq:reg-log-likelihood} wird ersichtlich, dass der Least-Squares-Fehler minimiert werden muss, um die
 			Likelihood in $\btheta$ zu maximieren.
-		\item Die Lösung für $\btheta$ ist dieselbe wie in \eqref{th:normal-equations}, zusätzlich kann die globale
+		\item Die Lösung für $\btheta$ ist dieselbe wie in Satz \ref{th:normal-equations}, zusätzlich kann die globale
 			Unsicherheit des Modells quantifiziert werden
 		\vspace*{-3mm}
 		\begin{equation}
@@ -312,24 +312,135 @@
 \begin{frame}{Berücksichtigung einer Apriori-Verteilung}{}
 	\begin{itemize}
 		\item Die Maximum-Likelihood Lösung ist \textbf{anfällig für Overfitting}.
-		\item Eine Möglichkeit der Regularisierung ist die Verwendung einer \keyword{Apriori-Verteilung} (Prior).
-		\item Für diese Verteilung benutzen wir eine Normalverteilung
+		\item Eine Möglichkeit der \keyword{Regularisierung} ist die Verwendung einer \keyword{Apriori-Verteilung} (Prior).
+		\item Für diese Verteilung benutzen wir eine Normalverteilung für die Parameter $\btheta$
 		\begin{equation}
 			\btheta \sim \norm\bigl( \0, b^2 \bI \bigr).
 		\end{equation}
 		\item Es handelt sich hierbei um eine \keyword{isotropische Normalverteilung} (rotationsinvariant).
 		\item Der Prior kann benutzt werden, um Vorwissen zu berücksichtigen.
+		\item Er kodiert, welche Parameterwerte plausibel sind.
 		\item Häufig ist der Prior jedoch \keyword{nicht informativ} (z.\,B. Gleichverteilung).
 	\end{itemize}
 \end{frame}
 
 
-% MAP Regression
-\begin{frame}{MAP Regression}{}
+% Warum die Normalverteilung?
+\begin{frame}{Warum die Normalverteilung?}{}
+	\begin{boxGray}
+		\textbf{Frage:} Warum benutzen wir eine Normalverteilung?
+	\end{boxGray}
 	
+	\begin{itemize}
+		\item Ein Argument ist \keyword{Konjugiertheit}: Da Prior und Likelihood durch Normalverteilungen gegeben sind, ist auch der \textit{Posterior normalverteilt}.
+		\item Für Operationen auf Normalverteilungen gibt es meistens \textit{analytische Lösungen}.
+	\end{itemize}
 \end{frame}
 
 
+% Satz von Bayes
+\begin{frame}{Satz von Bayes}{}
+	\begin{itemize}
+		\item Wir benutzen den \keyword{Satz von Bayes}
+		\begin{equation} \label{eq:reg-bayes-theorem}
+			\begin{aligned}
+				p\bigl( \btheta \mid \bX, \by \bigr)
+					&= \frac{\overbracket{
+						p\bigl( \by \mid \bX, \btheta; \sigma^2 \bigr)
+					}^{\text{Likelihood}} \cdot \overbracket{p\bigl( \btheta; b^2 \bigr)}^{\text{Prior}}}{p\bigl( \by \mid \bX \bigr)}
+			\\[2mm]
+					&\propto p\bigl( \by \mid \bX, \btheta; \sigma^2 \bigr) \cdot p\bigl( \btheta; b^2 \bigr).
+			\end{aligned}
+		\end{equation}
+		\item Wir betrachten $\btheta$ nun als (vektorwertige) Zufallsvariable.
+		\item Bisher haben wir nur die Likelihood maximiert, nun berücksichtigen wir auch den Prior $p\bigl( \btheta; b^2 \bigr)$.
+	\end{itemize}
+	
+	\begin{boxGray}
+		\textbf{Frage:} Warum ignorieren wir den Nenner in \eqref{eq:reg-bayes-theorem}?
+	\end{boxGray}
+\end{frame}
+
+
+% Log-Posterior Verteilung
+\begin{frame}{Log-Posterior Verteilung}{}
+	\begin{itemize}
+		\item Anstelle der Log-Likelihood maximieren wir den \keyword{Log-Posterior}.
+		\item Diesen erhalten wir aus \eqref{eq:reg-bayes-theorem}
+		\begin{equation}
+			\ln p\bigl( \btheta \mid \bX, \by \bigr)
+				= \ln p\bigl( \by \mid \bX, \btheta; \sigma^2 \bigr) + \ln p\bigl( \btheta; b^2 \bigr) + \const.
+		\end{equation}
+		\item Die Konstante $\const$ enthält alle Terme, die nicht von $\btheta$ abhängen.
+		\item Die \keyword{MAP-Schätzung} (Maximum Aposteriori) ist ein Kompromiss zwischen dem Prior und der datenabhängigen Likelihood.
+		\item Wir betrachten im Folgenden den \keyword{negativen Log-Posterior} und erhalten
+		\begin{equation} \label{eq:reg-neg-log-posterior}
+			\bthetaestMAP \coloneqq \argmin_{\btheta}\Bigl\{ -\ln p\bigl( \by \mid \bX, \btheta; \sigma^2 \bigr) - \ln p\bigl( \btheta; b^2 \bigr) \Bigr\}.
+		\end{equation}
+	\end{itemize}
+\end{frame}
+
+
+% Log-Posterior Verteilung (Forts.)
+\begin{frame}{Log-Posterior Verteilung (Forts.)}{}
+	Unter Verwendung der Transpositionsregeln schreiben wir \eqref{eq:reg-neg-log-posterior} um zu
+	\begin{equation} \label{eq:reg-neg-log-posterior-neu}
+		\begin{aligned}
+			-\ln p\bigl( \btheta \mid \bX, \by \bigr)
+				&= -\ln p\bigl( \by \mid \bX, \btheta; \sigma^2 \bigr) - \ln p\bigl( \btheta; b^2 \bigr) + \const
+		\\[2mm]
+				&= \frac{1}{2 \sigma^2} \bigl( \by - \bPhi \btheta \bigr)^\top \bigl( \by - \bPhi \btheta \bigr) + \frac{1}{2 b^2} \btheta^\top \btheta + \const
+		\\[2mm]
+				&= \frac{1}{2 \sigma^2} \bigl( \by^\top \by - \by^\top \bPhi \btheta - (\bPhi \btheta)^\top \by + (\bPhi \btheta)^\top \bPhi \btheta \bigr)
+					+ \frac{1}{2 b^2} \btheta^\top \btheta + \const
+		\\[2mm]
+				&= \frac{1}{2 \sigma^2} \bigl( \btheta^\top \bPhi^\top \bPhi \btheta - 2 \btheta^\top \bPhi^\top \by \bigr)
+					+ \frac{1}{2 b^2} \btheta^\top \btheta + \const.
+		\end{aligned}
+	\end{equation}
+	
+	\begin{mytask}
+		Überlegen Sie sich, wie man in \eqref{eq:reg-neg-log-posterior-neu} von Zeile 1 auf Zeile 2 kommt.
+	\end{mytask}
+\end{frame}
+
+
+% Berechnung des Gradienten
+\begin{frame}{Berechnung des Gradienten}{}
+	\begin{mytask}
+		Jetzt sind Sie an der Reihe:
+		\begin{enumerate}
+			\item Berechnen Sie den Gradienten der negativen Log-Likelihood $-\ln p\bigl( \btheta \mid \bX, \by \bigr)$.
+				Benutzen Sie hierzu die Form aus \eqref{eq:reg-neg-log-posterior-neu}.
+			\item Setzen Sie den Gradienten anschließend Null und lösen Sie nach $\btheta$.
+			\item Die Lösungsformel für $\bthetaestMAP$ fordert die Invertierung einer Matrix. Zeigen Sie, dass diese Inverse (zumindest analytisch) immer existiert.
+		\end{enumerate}
+	\end{mytask}
+\end{frame}
+
+
+% Vergleich der MLE und MAP Lösungen
+\begin{frame}{Vergleich der MLE und MAP Lösungen}{}
+	\begin{boxGray}
+		\textbf{MLE Schätzer:}
+		\begin{equation}
+			\bthetaestML = \bigl( \bPhi^\top \bPhi \bigr)^{-1} \bPhi^\top \by
+		\end{equation}
+	\end{boxGray}
+	
+	\begin{boxGray}
+		\textbf{MAP Schätzer:}
+		\begin{equation}
+			\bthetaestMAP = \left( \bPhi^\top \bPhi + \frac{\sigma^2}{b^2} \bI \right)^{-1} \bPhi^\top \by
+		\end{equation}
+	\end{boxGray}
+\end{frame}
+
+
+% Visualisierung: Vergleich der MLE und MAP Lösungen
+\begin{frame}{Visualisierung: Vergleich der MLE und MAP Lösungen}{}
+	tbd
+\end{frame}
 
 
 
