@@ -50,7 +50,14 @@
 	borderline west={2pt}{0pt}{darkgreen},
 }}
 
-\newtcolorbox{boxGray}{colback=lightgray!30!white,colframe=white}
+% boxes for definitions
+\tcbset{graybox/.style={
+	common,
+	colback=lightgray,
+	borderline west={2pt}{0pt}{darkgray},
+}}
+
+%\newtcolorbox{boxGray}{colback=lightgray!30!white,colframe=white}
 
 % custom environments
 % ====================================================
@@ -91,6 +98,14 @@
 \NewDocumentEnvironment{myalg}{o}{%
 	\begin{tcolorbox}[title=\printmycounter~Algorithmus,fonttitle=\bfseries]
 }{%
+	\end{tcolorbox}
+}
+
+% miscellaneous
+\NewDocumentEnvironment{boxGray}{}{%
+	\begin{tcolorbox}[graybox]
+}
+{%
 	\end{tcolorbox}
 }
 

@@ -12,7 +12,7 @@
 
 	\begin{itemize}
 		\item Wir betrachten einen Datensatz bestehend aus $N$ Featurevektoren $\bx_n \in \R^m, n = 1, 2, \ldots, N$.
-		\item Jeder Vektor $\bx_n$ ist mit einem zugehörigen Label $y_n \in \R, n = 1, 2, \ldots, N$ versehen.
+		\item Jeder Vektor $\bx_n$ ist mit einem zugehörigen Label $y_n \in \R$ versehen, $n = 1, 2, \ldots, N$.
 		\item Das lineare Regressionsmodell hat die Form $$h(\bx; \btheta) = \theta_0 + \sum_{m=1}^M \theta_m x_m.$$
 		\item Im Folgenden bietet es sich an, die Dummy-Komponente $x_0 \coloneqq 1$ einzuführen,
 			sodass gilt $$h(\bx; \btheta) = \sum_{m=0}^M \theta_m x_m = \btheta^\top \bx.$$
@@ -45,19 +45,23 @@
 	\begin{itemize}
 		\item Der Vektor $\btheta \in \R^{M+1}$ beinhaltet die Modellparameter.
 		\item Diese möchten wir so wählen, dass unser Modell die Daten möglichst gut erklärt,
-			d.\,h. die Abweichung der Regressionsfunktion zu den Trainingsdaten sollte möglichst klein sein.
+			d.\,h. die Abweichung der Regressionsfunktion zu den Trainingsdaten sollte \textit{möglichst klein} sein.
 	\end{itemize}
 
 	\begin{mydef}[def:kleinste-quadrate-fehler]
 		Mit den obigen Definitionen ist der \keyword{Least-Squares-Fehler} gegeben durch
 		\begin{equation*}
-			\JLS(\btheta) \coloneqq \frac{1}{2N} \Vert \bX \btheta - \by \Vert^2.
+			\JLS(\btheta)
+				\coloneqq \frac{1}{2N} \Vert \bX \btheta - \by \Vert^2
+				= \frac{1}{2N} \bigl( \bX \btheta - \by \bigr)^\top \bigl( \bX \btheta - \by \bigr).
 		\end{equation*}
 	\end{mydef}
 
-	\textbf{Bemerkung:} Der Vektor $\bX \btheta \in \R^N$ beinhaltet die Modellvorhersagen,
-	wenn man dem Modell die Parameter $\btheta$ zugrunde legt.
-	$\JLS$ misst also die mittlere quadratische Abweichung der Vorhersagen zu den wahren Werten.
+	\begin{boxGray}
+		\textbf{Bemerkung:} Der Vektor $\bX \btheta \in \R^N$ beinhaltet die \textbf{Modellvorhersagen},
+		wenn man dem Modell die Parameter $\btheta$ zugrunde legt.
+		$\JLS$ misst also die \textbf{mittlere quadratische Abweichung} der Vorhersagen zu den wahren Werten $\by$.
+	\end{boxGray}
 \end{frame}
 
 
@@ -96,15 +100,18 @@
 		\item Es ist $\frac{\partial}{\partial \btheta} \bigl( -2 \btheta^\top \bX^\top \by \bigr) = -2 \bX^\top \by$
 			und $\frac{\partial}{\partial \btheta} \by^\top \by = \0$.
 		\item Der Gradient der Fehlerfunktion $\JLS$ ist damit gegeben durch
-		\begin{align*}
+		\begin{equation*}
 			\frac{\partial}{\partial \btheta} \JLS(\btheta)
-				&= \frac{1}{2 N} \bigl( 2 \bX^\top \bX \btheta - 2 \bX^\top \by \bigr)
-					\propto \bX^\top \bX \btheta - \bX^\top \by
-		\\[2mm]
-				&= \bX^\top \bigl( \bX \btheta - \by \bigr)
-		\end{align*}
+				= \frac{1}{2 N} \bigl( 2 \bX^\top \bX \btheta - 2 \bX^\top \by \bigr)
+				\propto \bX^\top \bX \btheta - \bX^\top \by
+				= \bX^\top \bigl( \bX \btheta - \by \bigr)
+		\end{equation*}
 	\end{itemize}
-	\textbf{Bemerkung:} Man beachte den Zusammenhang zwischen dem Gradienten und dem Vorhersagefehler.
+	
+	\begin{boxGray}
+		\textbf{Bemerkung:} Man beachte den Zusammenhang zwischen dem Gradienten und dem Vorhersagefehler:
+		Je größer der Fehler, desto größer auch der Gradient!
+	\end{boxGray}
 \end{frame}
 
 
@@ -126,10 +133,12 @@
 			&= \bigl( \bX^\top \bX \bigr)^{-1} \bX^\top \by
 	\end{alignat*}
 
-	\textbf{Bemerkung:} Wir haben damit einen stationären Punkt von $\JLS$ gefunden. Allerdings wissen wir noch nicht,
-	ob es sich tatsächlich um ein Minumum handelt. Außerdem sind wir hier etwas naiv von der Existenz der Inversen
-	$\bigl( \bX^\top \bX \bigr)^{-1}$ ausgegangen. Existiert diese Matrix immer? \\
-	\textit{Mit diesen Fragen beschäftigen wir uns im Folgenden.}
+	\begin{boxGray}
+		\textbf{Bemerkung:} Wir haben damit einen stationären Punkt von $\JLS$ gefunden. Allerdings wissen wir noch nicht,
+		ob es sich tatsächlich um ein Minumum handelt. Außerdem sind wir hier etwas naiv von der Existenz der Inversen
+		$\bigl( \bX^\top \bX \bigr)^{-1}$ ausgegangen. Existiert diese Matrix immer? \\
+		\textit{Mit diesen Fragen beschäftigen wir uns im Folgenden.}
+	\end{boxGray}
 \end{frame}
 
 
@@ -145,7 +154,7 @@
 		die Behauptung.	
 	\end{myproof}
 
-	\begin{mytheo}[th:spaltenrang-pd]
+	\begin{mytheo}[th:col-rank-pd]
 		Für alle $\bA \in \R^{N \times M}$ mit \textit{vollem Spaltenrang} ist $\bA^\top \bA$ positiv definit.
 	\end{mytheo}
 
@@ -153,38 +162,39 @@
 		Da $\bA$ vollen Spaltenrang hat, sind die Spaltenvektoren linear unabhängig.
 		Daher ist $\bA \bz$ für alle $\bz \in \R^M \backslash \{ \0 \}$ eine nicht-triviale Linearkombination
 		der Spalten von $\bA$. Folglich gilt $\bA \bz \ne \0$ und wir erhalten
-		$\bz^\top \bigl( \bA^\top \bA \bigr) \bz = (\bA \bz)^\top (\bA \bz) = \Vert \bA \bz \Vert^2 > 0.$
+		$$\bz^\top \bigl( \bA^\top \bA \bigr) \bz = (\bA \bz)^\top (\bA \bz) = \Vert \bA \bz \Vert^2 > 0,$$ woraus die Behauptung folgt.
 	\end{myproof}
 \end{frame}
 
 
 % Ein paar nützliche Aussagen (Forts.)
 \begin{frame}{Ein paar nützliche Aussagen (Forts.)}{}
-	\begin{mytheo}[th:spaltenrang-inv]
+	\begin{mytheo}[th:col-rank-inv]
 		Wenn $\bA$ positiv definit ist, so ist $\bA$ auch invertierbar.
 	\end{mytheo}
 	
 	\begin{myproof}
-		Wir nehmen an $\bA$ sei nicht invertierbar. Dann sind die Spalten von $\bA$ linear abhängig und es existiert ein
+		Wir nehmen an, $\bA$ sei nicht invertierbar. Dann sind die Spalten von $\bA$ linear abhängig und es existiert ein
 		$\bz \in \R^M \backslash \{ \0 \}$ mit $\bA \bz = \0$.
 		Daraus folgt aber $$\bz^\top \bA \bz = \bz^\top \0 = 0,$$ was der Definitheitseigenschaft von $\bA$ widerspricht.
+		$\bA$ muss folglich invertierbar sein.
 	\end{myproof}
 \end{frame}
 
 
 % Handelt es sich nun um ein Minimum?
 \begin{frame}{Handelt es sich nun um ein Minimum?}{}
-	Um diese Frage zu klären, berechnen wir die Hesse-Matrix von $\JLS$ und untersuchen,
-	ob die Matrix im stationären Punkt positiv definit ist.
+	Um diese Frage zu klären, berechnen wir die \keyword{Hesse-Matrix} von $\JLS$ und untersuchen,
+	ob die Matrix im stationären Punkt $\btheta^\star$ positiv definit ist.
 
 	\begin{itemize}
 		\item Man rechnet nach, dass die Hesse-Matrix gegeben ist durch
 			$$\frac{\partial^2}{\partial \btheta \partial \btheta} \JLS(\btheta) = \bX^\top \bX.$$
-		\item Mit Satz \ref{th:spaltenrang-pd} ist diese Matrix positiv definit für alle $\btheta$, falls $\bX$ vollen Spaltenrang hat,
-			d.\,h. die Features müssen linear unabhängig sein.
+		\item Mit Satz \ref{th:col-rank-pd} ist diese Matrix positiv definit für alle $\btheta$, falls $\bX$ vollen Spaltenrang hat,
+			d.\,h. \textbf{die Features müssen linear unabhängig sein}.
 			In diesem Fall handelt es sich bei $\btheta^\star$ also tatsächlich um ein Minimum.
 		\item Unter derselben Voraussetzung haben wir damit sogar die \textbf{Konvexität} von $\JLS$ bewiesen,
-			sodass das Mimimun global und eindeutig ist.
+			sodass das Mimimun \textbf{global und eindeutig} ist.
 	\end{itemize}
 \end{frame}
 
@@ -192,8 +202,8 @@
 % Und wie sieht es nun mit der Existenz der Inversen aus?
 \begin{frame}{Und wie sieht es nun mit der Existenz der Inversen aus?}{}
 	\begin{itemize}
-		\item Mit Satz \ref{th:spaltenrang-inv} ist die Existenz der Inversen sichergestellt, wenn $\bX^\top \bX$ positiv definit ist,
-			was wiederum aus der linearen Unabhängigkeit der Features folgt (Satz \ref{th:spaltenrang-pd}).
+		\item Mit Satz \ref{th:col-rank-inv} ist die Existenz der Inversen sichergestellt, wenn $\bX^\top \bX$ positiv definit ist,
+			was wiederum aus der linearen Unabhängigkeit der Features folgt (Satz \ref{th:col-rank-pd}).
 		\item \textbf{Achtung:} Bei der numerischen Berechnung der Inversen auf dem Computer kann es jedoch
 			trotzdem zu Problemen kommen. Es ist ratsam, die Inverse nicht explizit zu berechnen,
 			sondern stattdessen das lineare Gleichungssystem $\bX^\top \bX \btheta = \bX^\top \by$ nach $\btheta$ zu lösen.
@@ -227,7 +237,7 @@
 % Eine probabilistische Sicht
 \begin{frame}{Eine probabilistische Sicht}{}
 	\begin{boxGray}
-		\textbf{Annahme 1:} Die Zielwerte $y \in \R$ und die Eingaben $\bx \in \R^{m+1}$ hängen über die Gleichung
+		\textbf{Annahme 1:} Die Zielwerte $y \in \R$ und die Eingaben $\bx \in \R^{M+1}$ hängen über die Gleichung
 		\begin{equation}
 			y = \btheta^\top \bx + \varepsilon
 		\end{equation}
@@ -267,6 +277,7 @@
 					\right)
 			\end{aligned}
 		\end{equation}
+		\item Wir gehen im Folgenden von der Verwendung von Basisfunktionen $\bphi$ aus.
 	\end{itemize}
 \end{frame}
 
@@ -305,7 +316,7 @@
 \end{frame}
 
 
-% Probabilistische Regression
+% Maximum Aposteriori (MAP) Regression
 \subsection{Maximum Aposteriori (MAP) Regression}
 
 % Berücksichtigung einer Apriori-Verteilung
@@ -313,13 +324,13 @@
 	\begin{itemize}
 		\item Die Maximum-Likelihood Lösung ist \textbf{anfällig für Overfitting}.
 		\item Eine Möglichkeit der \keyword{Regularisierung} ist die Verwendung einer \keyword{Apriori-Verteilung} (Prior).
-		\item Für diese Verteilung benutzen wir eine Normalverteilung für die Parameter $\btheta$
+		\item Für diese Verteilung über den Parametern $\btheta$ benutzen wir die Normalverteilung
 		\begin{equation}
 			\btheta \sim \norm\bigl( \0, b^2 \bI \bigr).
 		\end{equation}
 		\item Es handelt sich hierbei um eine \keyword{isotropische Normalverteilung} (rotationsinvariant).
 		\item Der Prior kann benutzt werden, um Vorwissen zu berücksichtigen.
-		\item Er kodiert, welche Parameterwerte plausibel sind.
+		\item Er kodiert, welche Parameterwerte apriori plausibel sind.
 		\item Häufig ist der Prior jedoch \keyword{nicht informativ} (z.\,B. Gleichverteilung).
 	\end{itemize}
 \end{frame}
@@ -332,7 +343,8 @@
 	\end{boxGray}
 	
 	\begin{itemize}
-		\item Ein Argument ist \keyword{Konjugiertheit}: Da Prior und Likelihood durch Normalverteilungen gegeben sind, ist auch der \textit{Posterior normalverteilt}.
+		\item Ein Argument ist \keyword{Konjugiertheit}: Da Prior und Likelihood durch Normalverteilungen gegeben sind,
+			ist auch der \textit{Posterior normalverteilt}. Dies vereinfacht die mathematischen Betrachtungen erheblich.
 		\item Für Operationen auf Normalverteilungen gibt es meistens \textit{analytische Lösungen}.
 	\end{itemize}
 \end{frame}
@@ -352,7 +364,7 @@
 					&\propto p\bigl( \by \mid \bX, \btheta; \sigma^2 \bigr) \cdot p\bigl( \btheta; b^2 \bigr).
 			\end{aligned}
 		\end{equation}
-		\item Wir betrachten $\btheta$ nun als (vektorwertige) Zufallsvariable.
+		\item Wir betrachten $\btheta$ nun als (vektorwertige) Zufallsvariable \textit{(sie steht nun vor dem Semikolon)}.
 		\item Bisher haben wir nur die Likelihood maximiert, nun berücksichtigen wir auch den Prior $p\bigl( \btheta; b^2 \bigr)$.
 	\end{itemize}
 	
@@ -366,16 +378,18 @@
 \begin{frame}{Log-Posterior Verteilung}{}
 	\begin{itemize}
 		\item Anstelle der Log-Likelihood maximieren wir den \keyword{Log-Posterior}.
-		\item Diesen erhalten wir aus \eqref{eq:reg-bayes-theorem}
+		\item Diesen erhalten wir aus \eqref{eq:reg-bayes-theorem} durch Logarithmieren
 		\begin{equation}
 			\ln p\bigl( \btheta \mid \bX, \by \bigr)
 				= \ln p\bigl( \by \mid \bX, \btheta; \sigma^2 \bigr) + \ln p\bigl( \btheta; b^2 \bigr) + \const.
 		\end{equation}
 		\item Die Konstante $\const$ enthält alle Terme, die nicht von $\btheta$ abhängen.
-		\item Die \keyword{MAP-Schätzung} (Maximum Aposteriori) ist ein Kompromiss zwischen dem Prior und der datenabhängigen Likelihood.
+		\item Die \keyword{MAP-Schätzung} (Maximum Aposteriori) ist ein Kompromiss zwischen dem daten\textbf{un}abhängigen Prior
+			und der datenabhängigen Likelihood.
 		\item Wir betrachten im Folgenden den \keyword{negativen Log-Posterior} und erhalten
 		\begin{equation} \label{eq:reg-neg-log-posterior}
-			\bthetaestMAP \coloneqq \argmin_{\btheta}\Bigl\{ -\ln p\bigl( \by \mid \bX, \btheta; \sigma^2 \bigr) - \ln p\bigl( \btheta; b^2 \bigr) \Bigr\}.
+			\bthetaestMAP \coloneqq \argmin_{\btheta}\Bigl\{ -\ln p\bigl( \by \mid \bX, \btheta; \sigma^2 \bigr)
+				- \ln p\bigl( \btheta; b^2 \bigr) \Bigr\}.
 		\end{equation}
 	\end{itemize}
 \end{frame}
@@ -384,15 +398,16 @@
 % Log-Posterior Verteilung (Forts.)
 \begin{frame}{Log-Posterior Verteilung (Forts.)}{}
 	Unter Verwendung der Transpositionsregeln schreiben wir \eqref{eq:reg-neg-log-posterior} um zu
-	\begin{equation} \label{eq:reg-neg-log-posterior-neu}
+	\begin{equation} \label{eq:reg-neg-log-posterior-new}
 		\begin{aligned}
 			-\ln p\bigl( \btheta \mid \bX, \by \bigr)
 				&= -\ln p\bigl( \by \mid \bX, \btheta; \sigma^2 \bigr) - \ln p\bigl( \btheta; b^2 \bigr) + \const
 		\\[2mm]
-				&= \frac{1}{2 \sigma^2} \bigl( \by - \bPhi \btheta \bigr)^\top \bigl( \by - \bPhi \btheta \bigr) + \frac{1}{2 b^2} \btheta^\top \btheta + \const
-		\\[2mm]
-				&= \frac{1}{2 \sigma^2} \bigl( \by^\top \by - \by^\top \bPhi \btheta - (\bPhi \btheta)^\top \by + (\bPhi \btheta)^\top \bPhi \btheta \bigr)
+				&= \frac{1}{2 \sigma^2} \bigl( \by - \bPhi \btheta \bigr)^\top \bigl( \by - \bPhi \btheta \bigr)
 					+ \frac{1}{2 b^2} \btheta^\top \btheta + \const
+		\\[2mm]
+				&= \frac{1}{2 \sigma^2} \bigl( \by^\top \by - \by^\top \bPhi \btheta - (\bPhi \btheta)^\top \by
+					+ (\bPhi \btheta)^\top \bPhi \btheta \bigr) + \frac{1}{2 b^2} \btheta^\top \btheta + \const
 		\\[2mm]
 				&= \frac{1}{2 \sigma^2} \bigl( \btheta^\top \bPhi^\top \bPhi \btheta - 2 \btheta^\top \bPhi^\top \by \bigr)
 					+ \frac{1}{2 b^2} \btheta^\top \btheta + \const.
@@ -400,7 +415,7 @@
 	\end{equation}
 	
 	\begin{mytask}
-		Überlegen Sie sich, wie man in \eqref{eq:reg-neg-log-posterior-neu} von Zeile 1 auf Zeile 2 kommt.
+		Überlegen Sie sich, wie man in \eqref{eq:reg-neg-log-posterior-new} von Zeile 1 auf Zeile 2 kommt.
 	\end{mytask}
 \end{frame}
 
@@ -411,9 +426,10 @@
 		Jetzt sind Sie an der Reihe:
 		\begin{enumerate}
 			\item Berechnen Sie den Gradienten der negativen Log-Likelihood $-\ln p\bigl( \btheta \mid \bX, \by \bigr)$.
-				Benutzen Sie hierzu die Form aus \eqref{eq:reg-neg-log-posterior-neu}.
-			\item Setzen Sie den Gradienten anschließend Null und lösen Sie nach $\btheta$.
-			\item Die Lösungsformel für $\bthetaestMAP$ fordert die Invertierung einer Matrix. Zeigen Sie, dass diese Inverse (zumindest analytisch) immer existiert.
+				Benutzen Sie hierzu die Form aus \eqref{eq:reg-neg-log-posterior-new}.
+			\item Setzen Sie den Gradienten anschließend Null und lösen Sie nach $\btheta$ auf.
+			\item Die Lösungsformel für $\bthetaestMAP$ fordert die Invertierung einer Matrix. Zeigen Sie,
+				dass diese Inverse (zumindest analytisch) immer existiert.
 		\end{enumerate}
 	\end{mytask}
 \end{frame}
@@ -422,17 +438,20 @@
 % Vergleich der MLE und MAP Lösungen
 \begin{frame}{Vergleich der MLE und MAP Lösungen}{}
 	\begin{boxGray}
-		\textbf{MLE Schätzer:}
+		\textbf{MLE-Schätzer:}
 		\begin{equation}
 			\bthetaestML = \bigl( \bPhi^\top \bPhi \bigr)^{-1} \bPhi^\top \by
 		\end{equation}
 	\end{boxGray}
 	
 	\begin{boxGray}
-		\textbf{MAP Schätzer:}
+		\textbf{MAP-Schätzer:}
 		\begin{equation}
 			\bthetaestMAP = \left( \bPhi^\top \bPhi + \frac{\sigma^2}{b^2} \bI \right)^{-1} \bPhi^\top \by
 		\end{equation}
+		
+		\textbf{Bemerkung:} Setzt man $\lambda \coloneqq \sigma^2 / b^2$,
+		so entspricht die MAP-Schätzung der Ridge-Regression.
 	\end{boxGray}
 \end{frame}
 
@@ -443,10 +462,63 @@
 \end{frame}
 
 
+% Bayes'sche Regression
+\subsection{Bayes'sche Regression}
+
+% Bayes'sche Regression
+\begin{frame}{Bayes'sche Regression}{}
+	\begin{itemize}
+		\item Wir haben gesehen, dass ML-Schätzungen zu \keyword{Overfitting} neigen.
+		\item Für die MAP-Schätzung haben wir deshalb zusätzlich einen Prior $p(\btheta)$ berücksichtigt, welcher der \keyword{Regularisierung} dient.
+	\end{itemize}
+	
+	\begin{boxGray}
+		Die \keyword{Bayes'sche Regression} erweitert diesen Ansatz folgendermaßen:
+
+		\begin{itemize}
+			\item Wieder benutzen wir einen Prior $p(\btheta)$ für die Parameter $\btheta$.
+			\item \textbf{Aber:} Wir berechnen diesmal keine Punktschätzung der Parameter.
+			\item Stattdessen nutzen wir die \textit{volle Posterior-Verteilung} aus, um Vorhersagen zu machen.
+			\item Hierzu berechnet man die \keyword{Predictive Distribution}, die sämtliche Parameterwerte mit
+				ihren zugehörigen Wahrscheinlichkeiten in die Vorhersage einfließen lässt.
+		\end{itemize}
+	\end{boxGray}
+\end{frame}
 
 
+% Bayes'sche Regression: Der Ausgangspunkt
+\begin{frame}{Bayes'sche Regression: Der Ausgangspunkt}{}
+	\begin{itemize}
+		\item Für den Prior benutzen wir wieder eine Normalverteilung
+		\begin{equation}
+			\btheta \sim \norm\bigl( \bmu_0, \bSigma_0 \bigr).
+		\end{equation}
+		\item Es ist $\bmu_0$ der Mittelwert des Priors (meistens setzen wir $\bmu_0 \coloneqq \0$) und $\bSigma_0$ dessen Kovarianzmatrix.
+		\item Die Likelihood modellieren wir ebenfalls analog
+		\begin{equation}
+			y \mid \newinst, \btheta \sim \norm\bigl( \btheta^\top \bphi(\newinst), \sigma^2 \bigr).
+		\end{equation}
+		\item Hierbei ist $\newinst$ ein Datenpunkt, für den eine Vorhersage berechnet werden soll.
+	\end{itemize}
+\end{frame}
 
 
+% Prior Predictive Distribution
+\begin{frame}{Prior Predictive Distribution}{}
+	\begin{itemize}
+		\item In der Praxis interessieren uns die konkreten Werte der Parameter in der Regel nicht.
+		\item Wir wollen hauptsächlich die Labels für neue Instanzen vorhersagen.
+		\item Sei also $\newinst$ eine Testinstanz.
+		\item Die \keyword{Prior Predictive Distribution} ist gegeben durch
+		\begin{equation} \label{eq:prior-predictive-dist}
+			p(y \mid \newinst)
+				= \int_{\btheta} p(y \mid \newinst, \btheta) \cdot p(\btheta)
+				= \E_{\btheta}\bigl[ p(y \mid \newinst, \btheta) \bigr].
+		\end{equation}
+		\item Man kann \eqref{eq:prior-predictive-dist} als \textit{mittlere Vorhersage} interpretieren.
+		\item Es handelt sich um einen \textit{gewichteten Durchschnitt über alle möglichen Parameterwerte gemäß ihrer Wahrscheinlichkeit.}
+	\end{itemize}
+\end{frame}
 
 
 
