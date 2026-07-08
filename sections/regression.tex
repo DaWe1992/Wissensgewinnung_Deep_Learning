@@ -521,9 +521,155 @@
 \end{frame}
 
 
+% Parameter der Prior Predictive Distribution
+\begin{frame}{Parameter der Prior Predictive Distribution}{}
+	Die Parameter lassen sich analytisch bestimmen:
+	
+	\begin{mytheo}[th:prior-predictive-dist]
+		Für die Prior Predictive Distribution gilt $$y \mid \newinst \sim \norm\bigl( \bmu, \bSigma \bigr),$$ wobei die Parameter
+		$\bmu$ und $\bSigma$ gegeben sind durch
+		\begin{align*}
+			\bmu
+				&\coloneqq \bmu_0^\top \bphi(\newinst)
+		\\[2mm]
+			\bSigma
+				&\coloneqq \bphi(\newinst)^\top \bSigma_0 \bphi(\newinst) + \sigma^2.
+		\end{align*}
+	\end{mytheo}
+
+	\begin{mytask}
+		Machen Sie sich diese Aussage anhand von (??) klar.
+	\end{mytask}
+\end{frame}
 
 
+% Interpretation
+\begin{frame}{Interpretation}{}
+	\begin{itemize}
+		\item Der Erwartungswert $\bmu$ ergibt sich als das Skalarprodukt des Erwartungswerts des Priors mit dem Feature Vektor.
+		\item Der Term $\bphi(\newinst)^\top \bSigma_0 \bphi(\newinst)$ spiegelt die Unsicherheit der Parameter $\btheta$ unter dem Prior wider.
+		\item $\sigma^2$ stellt Unsicherheit aufgrund von Datenrauschen dar.
+		\item Durch jedes $\btheta$, das wir vom Prior sampeln, erhält man eine Funktion $f(\newinst) \coloneqq \btheta^\top \bphi(\newinst)$.
+	\end{itemize}
+
+	\begin{boxGray}
+		Die Parameterverteilung $p(\btheta)$ induziert eine Verteilung $p\bigl( f(\bx) \bigr)$ über mögliche Funktionen.
+	\end{boxGray}
+\end{frame}
 
 
+% Beispiel
+\begin{frame}{Beispiel}{}
+	\begin{itemize}
+		\item Wir nehmen an, dass die Labels durch die (in der Praxis natürlich unbekannte) Funktion $f(x) = \sin(x)$ generiert werden.
+		\item Zusätzlich addieren wir einen Noise-Term, für den $\varepsilon \sim \norm(0, \sigma^2)$ gilt.
+		\item Ein Trainingsbeispiel $(x_n, y_n)$ hat dann die Form
+		\begin{equation*}
+			\bigl( x_n, y_n \bigr) = \bigl( x_n, \sin(x_n) + \varepsilon_n \bigr), \qquad n = 1, 2, \ldots, N.
+		\end{equation*}
+		\item Als Prior über die Parameter $\btheta$ wählen wir eine zentrierte, isotropische Normalverteilung
+		\begin{equation*}
+			\btheta \sim \norm(\0, \bI).
+		\end{equation*}
+	\end{itemize}
+\end{frame}
 
 
+% Beispiel (Forts.)
+\begin{frame}{Beispiel (Forts.)}{}
+	\begin{figure}
+		\centering
+		\includegraphics[scale=0.325]{./img/regression/sine_dataset.pdf}
+		\caption{Plot des Datensatzes.}
+	\end{figure}
+\end{frame}
+
+
+% Beispiel (Forts.)
+\begin{frame}{Beispiel (Forts.)}{}
+	\begin{figure}
+		\centering
+		\includegraphics[scale=0.325]{./img/regression/sine_dataset_prior_predictions.pdf}
+		\caption{Plot der Prior Predictions und der Unsicherheit (grau).}
+	\end{figure}
+\end{frame}
+
+
+% Beispiel (Forts.)
+\begin{frame}{Beispiel (Forts.)}{}
+	\begin{figure}
+		\centering
+		\includegraphics[scale=0.325]{./img/regression/sine_dataset_prior_samples.pdf}
+		\caption{Zufällige Samples, die von der Prior Verteilung gezogen werden.}
+	\end{figure}
+\end{frame}
+
+
+% Berücksichtigung der Trainingsdaten
+\begin{frame}{Berücksichtigung der Trainingsdaten}{}
+	\begin{itemize}
+		\item Unser bisheriges Modell nutzt noch nicht die Information aus den Trainingsdaten.
+		\item Statt dem Prior $p(\btheta)$ müssen wir den Posterior $p(\btheta \mid \bX, \by)$ benutzen.
+		\item Hierfür benutzen wir wieder den \keyword{Satz von Bayes}
+		\begin{equation}
+			p\bigl( \btheta \mid \bX, \by \bigr)
+				= \frac{\overbracket{
+					p\bigl( \by \mid \bX, \btheta \bigr)
+				}^{\text{Likelihood}} \cdot \overbracket{p\bigl( \btheta \bigr)}^{\text{Prior}}}{p\bigl( \by \mid \bX \bigr)}
+		\end{equation}
+	\end{itemize}
+
+	\begin{mytheo}
+		Für den Posterior gilt $\btheta \mid \bX, \by \sim \norm\bigl( \bmu_N, \bSigma_N \bigr)$ mit
+		\begin{align*}
+			\bSigma_N
+				&\coloneqq \bigl( \bSigma_0^{-1} + \sigma^{-2} \bPhi^\top \bPhi \bigr)^{-1}
+		\\[2mm]
+			\bmu_N
+				&\coloneqq \bSigma_N \bigl( \bSigma_0^{-1} \bmu_0 + \sigma^{-2} \bPhi^\top \by \bigr).
+		\end{align*}
+	\end{mytheo}
+\end{frame}
+
+
+% Berücksichtigung der Trainingsdaten (Forts.)
+\begin{frame}{Berücksichtigung der Trainingsdaten (Forts.)}{}
+	\begin{mytask}
+		Machen Sie sich diese Aussage anhand von (??) klar.
+	\end{mytask}
+
+	\begin{itemize}
+		\item Die Parameter der Posterior Predictive Distribution werden analog zu Satz \ref{th:prior-predictive-dist} bestimmt.
+		\item Man ersetzt dort lediglich $\bmu_0$ durch $\bmu_N$ und $\bSigma_0$ durch $\bSigma_N$.
+	\end{itemize}
+\end{frame}
+
+
+% Beispiel (Forts.)
+\begin{frame}{Beispiel (Forts.)}{}
+	\begin{figure}
+		\centering
+		\includegraphics[scale=0.325]{./img/regression/sine_dataset_prior_predictions.pdf}
+		\caption{Plot der Prior Predictions und der Unsicherheit (grau).}
+	\end{figure}
+\end{frame}
+
+
+% Beispiel (Forts.)
+\begin{frame}{Beispiel (Forts.)}{}
+	\begin{figure}
+		\centering
+		\includegraphics[scale=0.325]{./img/regression/sine_dataset_posterior_predictions.pdf}
+		\caption{Plot der Posterior Predictions und der Unsicherheit (grau).}
+	\end{figure}
+\end{frame}
+
+
+% Beispiel (Forts.)
+\begin{frame}{Beispiel (Forts.)}{}
+	\begin{figure}
+		\centering
+		\includegraphics[scale=0.325]{./img/regression/sine_dataset_full_plot.pdf}
+		\caption{Zufällige Samples, die von der Posterior Verteilung gezogen werden.}
+	\end{figure}
+\end{frame}
