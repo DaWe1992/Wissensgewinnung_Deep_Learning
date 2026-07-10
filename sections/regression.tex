@@ -257,7 +257,7 @@
 
 % Visualisierung: Probabilistische Regression
 \begin{frame}{Visualisierung: Probabilistische Regression}{}
-	tbd
+	\input{./tikz/regression/probabilistic_regression}
 \end{frame}
 
 
@@ -312,7 +312,11 @@
 
 % Visualisierung: Maximum-Likelihood Regression
 \begin{frame}{Visualisierung: Maximum-Likelihood Regression}{}
-	tbd
+	\begin{figure}
+		\centering
+		\includegraphics[scale=0.325]{./img/regression/mle_regression.pdf}
+		\caption{Die MLE-Lösung erlaubt zusätzlich eine Quantifizierung der (globalen) Unsicherheit (grau).}
+	\end{figure}
 \end{frame}
 
 
@@ -458,7 +462,11 @@
 
 % Visualisierung: Vergleich der MLE und MAP Lösungen
 \begin{frame}{Visualisierung: Vergleich der MLE und MAP Lösungen}{}
-	tbd
+	\begin{figure}
+		\centering
+		\includegraphics[scale=0.325]{./img/regression/mle_map_regression.pdf}
+		\caption{Die MLE-Lösung (lila) und die MAP-Lösung (blau) im Vergleich.}
+	\end{figure}
 \end{frame}
 
 
@@ -673,3 +681,168 @@
 		\caption{Zufällige Samples, die von der Posterior Verteilung gezogen werden.}
 	\end{figure}
 \end{frame}
+
+
+% Visualisierung: Bayes'sche Regression
+\begin{frame}{Visualisierung: Bayes'sche Regression}{}
+	\divideTwo{0.49}{
+		\begin{itemize}
+			\item Wir generieren einen Datensatz mittels der Funktion
+			\begin{equation*}
+				f(x) = 0.5x - 0.3 + \varepsilon.
+			\end{equation*}
+			\item Bei $\varepsilon$ handelt es sich um additives Datenrauschen mit Mittelwert $\mu_{\varepsilon} = 0$ und Varianz
+				$\sigma_{\varepsilon}^2 = 1$.
+			\item Wir benutzen einen Prior für die Paramter $\btheta$
+			\begin{equation*}
+				\btheta \sim \norm\bigl( \0, \bI \bigr).
+			\end{equation*}
+		\end{itemize}
+	}{0.49}{
+		\begin{figure}
+			\centering
+			\includegraphics[scale=0.42]{./img/regression/prior}
+		\end{figure}
+	}
+\end{frame}
+
+
+% Visualisierung: Bayes'sche Regression (Forts.)
+\begin{frame}{Visualisierung: Bayes'sche Regression (Forts.)}{}
+	\divideThree{0.32}{
+		\begin{center}
+			$N = 1$
+		\end{center}
+		\vspace*{-2mm}
+		\begin{figure}
+			\centering
+			\includegraphics[scale=0.22]{./img/regression/posterior_n_1}
+		\end{figure}
+		\vspace*{-4mm}
+		\begin{figure}
+			\centering
+			\includegraphics[scale=0.22]{./img/regression/bayes_reg_n_1}
+		\end{figure}
+	}{0.32}{
+		\begin{center}
+			$N = 2$
+		\end{center}
+		\vspace*{-2mm}
+		\begin{figure}
+			\centering
+			\includegraphics[scale=0.22]{./img/regression/posterior_n_2}
+		\end{figure}
+		\vspace*{-4mm}
+		\begin{figure}
+			\centering
+			\includegraphics[scale=0.22]{./img/regression/bayes_reg_n_2}
+		\end{figure}
+	}{0.32}{
+		\begin{center}
+			$N = 3$
+		\end{center}
+		\vspace*{-2mm}
+		\begin{figure}
+			\centering
+			\includegraphics[scale=0.22]{./img/regression/posterior_n_3}
+		\end{figure}
+		\vspace*{-4mm}
+		\begin{figure}
+			\centering
+			\includegraphics[scale=0.22]{./img/regression/bayes_reg_n_3}
+		\end{figure}
+	}
+\end{frame}
+
+
+% Visualisierung: Bayes'sche Regression (Forts.)
+\begin{frame}{Visualisierung: Bayes'sche Regression (Forts.)}{}
+	\divideThree{0.32}{
+		\begin{center}
+			$N = 5$
+		\end{center}
+		\vspace*{-2mm}
+		\begin{figure}
+			\centering
+			\includegraphics[scale=0.22]{./img/regression/posterior_n_5}
+		\end{figure}
+		\vspace*{-4mm}
+		\begin{figure}
+			\centering
+			\includegraphics[scale=0.22]{./img/regression/bayes_reg_n_5}
+		\end{figure}
+	}{0.32}{
+		\begin{center}
+			$N = 10$
+		\end{center}
+		\vspace*{-2mm}
+		\begin{figure}
+			\centering
+			\includegraphics[scale=0.22]{./img/regression/posterior_n_10}
+		\end{figure}
+		\vspace*{-4mm}
+		\begin{figure}
+			\centering
+			\includegraphics[scale=0.22]{./img/regression/bayes_reg_n_10}
+		\end{figure}
+	}{0.32}{
+		\begin{center}
+			$N = 100$
+		\end{center}
+		\vspace*{-2mm}
+		\begin{figure}
+			\centering
+			\includegraphics[scale=0.22]{./img/regression/posterior_n_100}
+		\end{figure}
+		\vspace*{-4mm}
+		\begin{figure}
+			\centering
+			\includegraphics[scale=0.22]{./img/regression/bayes_reg_n_100}
+		\end{figure}
+	}
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

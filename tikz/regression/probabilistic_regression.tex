@@ -1,0 +1,30 @@
+\begin{figure}
+	\centering
+	\begin{tikzpicture}[scale=0.9]
+		% axes
+		\draw[thick,->] (0,0) -- (8,0) node[right] {$\bx$};
+		\draw[thick,->] (0,0) -- (0,5) node[left] {$y$};
+		
+		% training data points
+		\fill[darkblue] (1,1) circle (3pt);
+		\fill[darkblue] (2.5,2.5) circle (3pt);
+		\fill[darkblue] (3.1,1.75) circle (3pt);
+		\fill[darkblue] (6,3.1) circle (3pt);
+		\fill[darkblue] (5,2) circle (3pt);
+		\fill[darkblue] (7,4.5) circle (3pt);
+		
+		% query point
+		\node at (4,-0.25) {$\bx_0$};
+		\draw[dashed] (4,0) -- (4,5);
+		\draw[dashed] (4,2.15) -- (0,2.15) node[left] {$h(\bx_0; \btheta)$};
+
+		% normal curve
+		\draw[thick,gray,rounded corners=10pt] (4,0) -- (4,1.2) .. controls (4,1.7) .. (5,2.2) .. controls (4,2.7) .. (4,3.2) -- (4,5)
+			node[right,gray] {$p(y \mid \bx_0 ; \btheta, \sigma^2)$};
+		\draw[thick,<->] (6,1.9) -- node[right] {$\sigma^2$} (6,2.3);
+		
+		% regression curve
+		\draw[ultra thick,darkblue] (0.5,1) .. controls (3,3) and (6,1) .. (8,4.5) node[right] {$h(\bx; \btheta)$};
+	\end{tikzpicture}
+	\caption{Visualisierung der probabilistischen Regression. $\bx_0$ ist hierbei ein Testpunkt.}
+\end{figure}
