@@ -1,7 +1,9 @@
+% SECTION: Grundlagen der Statistik
 \section{Grundlagen der Statistik}
 
 \divider
 
+% SUBSECTION: Grundbegriffe der Wahrscheinlichkeitstheorie
 \subsection{Grundbegriffe der Wahrscheinlichkeitstheorie}
 
 % Wahrscheinlichkeitsräume
@@ -11,10 +13,12 @@
 		\item Ein Wahrscheinlichkeitsraum ist ein Tripel $(\Omega, \sA, \Prob)$.
 		\item $\Omega$ ist der \keyword{Ereignisraum}, also die Menge aller Elemantarereignisse.
 			Beim Werfen eines sechsseitigen Würfels betrachten wir $\Omega \coloneqq \{ 1, 2, 3, 4, 5, 6 \}$.
-		\item Mit $\sA$ bezeichnen wir die zugehörige \keyword{Sigma-Algebra}, einer Menge von Teilmengen von $\Omega$. Im einfachsten Fall könnten wir
-			$\sA \coloneqq \Pot(\Omega)$ wählen, jedoch kann man zeigen, dass die Potenzmenge im Allgemeinen nicht messbare Mengen enthält,
+		\item Mit $\sA$ bezeichnen wir die zugehörige \keyword{Sigma-Algebra}, einer Menge von Teilmengen von $\Omega$.
+			Im einfachsten Fall könnten wir $\sA \coloneqq \Pot(\Omega)$ wählen, jedoch kann man zeigen,
+			dass die Potenzmenge im Allgemeinen nicht messbare Mengen enthält,
 			denen keine Wahrscheinlichkeit zugeordnet werden kann. Die Sigma-Algebra $\B$ auf $\R$ heißt \keyword{Borel-Sigma-Algebra}.
-		\item $\Prob : \sA \rightarrow [0, 1]$ ist ein \keyword{Wahrscheinlichkeitsmaß}, das jedem Element aus $\sA$ eine Wahrscheinlichkeit zuordnet.
+		\item $\Prob : \sA \rightarrow [0, 1]$ ist ein \keyword{Wahrscheinlichkeitsmaß},
+			das jedem Element aus $\sA$ eine Wahrscheinlichkeit zuordnet.
 	\end{itemize}
 \end{frame}
 
@@ -23,89 +27,112 @@
 \begin{frame}{Zufallsvariablen}{}
 	Im Folgenden sei $(\Omega, \sA, \Prob)$ ein Wahrscheinlichkeitsraum und $(\sX, \sB)$ ein messbarer Raum.
 	
-	\begin{mydef}[def:zufallsvariable]
-		Die Abbildung $x : \Omega \rightarrow \sX$ heißt \keyword{Zufallsvariable}, falls
-		$$\forall B \in \sB : x^{-1}(B) \coloneqq \{ \omega \in \Omega : x(\omega) \in B \} \in \sA$$ gilt.
-		Das Urbild von $B$ unter $x$ muss also eine messbare Menge in $\sA$ sein, der durch $\Prob$ eine Wahrscheinlichkeit zugeordnet werden kann.
-		Ferner heißt für jede Zufallsvariable $x : \Omega \rightarrow \sX$ die Funktion
-		$$\Prob^x : \sB \rightarrow [0, 1] \qquad\text{mit}\qquad B \mapsto \Prob\bigl( x^{-1}(B) \bigr)$$
-		die \keyword{Verteilung} der Zufallsvariablen $x$. $\Prob^x$ ist das \keyword{Bildmaß} von $\Prob$ unter $x$.
+	\begin{mydef}[def:random-variable]
+		Die Abbildung $X : \Omega \rightarrow \sX$ heißt \keyword{Zufallsvariable}, falls
+		\begin{equation*}
+			\forall B \in \sB : X^{-1}(B) \coloneqq \{ \omega \in \Omega : X(\omega) \in B \} \in \sA
+		\end{equation*}
+		gilt. Das Urbild von $B$ unter $X$ muss also eine messbare Menge in $\sA$ sein,
+		der durch $\Prob$ eine Wahrscheinlichkeit zugeordnet werden kann.
+		Ferner heißt für jede Zufallsvariable $X : \Omega \rightarrow \sX$ die Funktion
+		\begin{equation*}
+			\Prob^X : \sB \rightarrow [0, 1] \qquad\text{mit}\qquad B \mapsto \Prob\bigl( X^{-1}(B) \bigr)
+		\end{equation*}
+		die \keyword{Verteilung} der Zufallsvariable $X$. $\Prob^X$ ist das \keyword{Bildmaß} von $\Prob$ unter $X$.
 	\end{mydef}
 \end{frame}
 
 
 % Zufallsvariablen (Forts.)
 \begin{frame}{Zufallsvariablen (Forts.)}{}
-	Sei $(\sX, \sB, \Q)$ ein Wahrscheinlichkeitsraum. Man sagt, die Zufallsgröße $x : \Omega \rightarrow \sX$ ist
+	Sei $(\sX, \sB, \Q)$ ein Wahrscheinlichkeitsraum. Man sagt, die Zufallsgröße $X : \Omega \rightarrow \sX$ ist
 	\textit{verteilt gemäß $\Q$} oder kurz \textit{$\Q$-verteilt}, falls es einen Wahrscheinlichkeitsraum $(\Omega, \sA, \Prob)$ gibt,
-	sodass $\Prob^x = \Q$ gilt.
+	sodass $\Prob^X = \Q$ gilt.
 	
-	\textbf{Beispiele:}
-	\begin{itemize}
-		\item $x$ ist $N_{\mu, \sigma^2}$-verteilt genau dann, wenn es einen Wahrscheinlichkeitsraum $(\Omega, \sA, \Prob)$ gibt, sodass
-			$\forall B \in \B : \Prob(x \in B) = N_{\mu, \sigma^2}(B)$. Wir schreiben kurz $x \sim N_{\mu, \sigma^2}$.
-		\item 
-	\end{itemize}
+	\begin{boxGray}
+		\textbf{Beispiel:}
+		$X$ ist $\norm(\mu, \sigma^2)$-verteilt genau dann, wenn es einen Wahrscheinlichkeitsraum $(\Omega, \sA, \Prob)$ gibt,
+		sodass $\forall B \in \B : \Prob(X \in B) = \norm(B; \mu, \sigma^2)$. Wir schreiben kurz $X \sim \norm(\mu, \sigma^2)$.
+	\end{boxGray}
 \end{frame}
 
 
 % Wahrscheinlichkeitsdichten
 \begin{frame}{Wahrscheinlichkeitsdichten}{}
-	In der Regel wollen wir mit Dichten rechnen:
-	\begin{mydef}[def:dichte]
-		Es seien $(\Omega, \sA, \Prob)$ und $(\sX, \sB, \Prob^x)$ Wahrscheinlichkeitsräume. Dabei ist $\Prob^x$ die Verteilung der Zufallsvariablen
-		$x : \Omega \rightarrow \sX$.
-		Wir nennen eine nichtnegative Funktion $$p_x : \R \rightarrow [0, 1]$$ eine \keyword{(Wahrscheinlichkeits-)Dichte} von $\Prob^x$, falls
-		$$\Prob^x(B) = \int_B p_x(\xi)\,\diff\xi \qquad \forall B \in \sB.$$ Die Wahrscheinlichkeiten der Mengen $B \in \sB$ müssen sich also allesamt als
-		Integral der Dichte $p_x$ darstellen lassen können.
+	\begin{mydef}[def:density]
+		Es seien $(\Omega, \sA, \Prob)$ und $(\sX, \sB, \Prob^X)$ Wahrscheinlichkeitsräume.
+		Dabei ist $\Prob^X$ die Verteilung der Zufallsvariablen $X : \Omega \rightarrow \sX$.
+		Wir nennen eine nichtnegative Funktion $$p_X : \R \rightarrow [0, 1]$$ eine \keyword{(Wahrscheinlichkeits-)Dichte} von $\Prob^X$, falls
+		\begin{equation*}
+			\Prob^X(B) = \int_B p_X(\xi)\,\diff\xi \qquad \forall B \in \sB.
+		\end{equation*}
 	\end{mydef}
+
+	\begin{boxGray}
+		\textbf{Bemerkung:} Die Wahrscheinlichkeiten der Mengen $B \in \sB$ müssen sich also allesamt als Integral
+		der Dichte $p_X$ darstellen lassen können.
+	\end{boxGray}
 \end{frame}
 
 
 % Erwartungswert von Zufallsvariablen
 \begin{frame}{Erwartungswert von Zufallsvariablen}{}
-	\begin{mydef}[def:erwartungswert]
-		Sei $x \in \R$ eine Zufallsvariable. Wir definieren den \keyword{Erwartungswert} (erstes Moment) von $x$ als
-		$$\E[x] \coloneqq \int_{\R} \xi \cdot p_x(\xi)\,\diff\xi.$$
+	\begin{mydef}[def:expectation]
+		Sei $X \in \R$ eine Zufallsvariable. Wir definieren den \keyword{Erwartungswert} (erstes Moment) von $X$ als
+		\begin{equation*}
+			\E[X] \coloneqq \int_{\R} \xi \cdot p_X(\xi)\,\diff\xi.
+		\end{equation*}
 	\end{mydef}
 
-	Aus der Linearität des Integrals folgt die des Erwartungswerts, d.\,h. für zwei Zufallsvariablen $x$ und $y$ und eine beliebige aber feste Zahl
-	$\alpha \in \R$ (keine Zufallsvariable!) gelten $$\E[x + y] = \E[x] + \E[y] \qquad\text{und}\qquad \E[\alpha \cdot x] = \alpha \cdot \E[x].$$
+	Aus der Linearität des Integrals folgt die des Erwartungswerts, d.\,h. für zwei Zufallsvariablen $X$ und $Y$ und eine beliebige aber feste Zahl
+	$\alpha \in \R$ (keine Zufallsvariable!) gelten
+	\begin{equation*}
+		\E[X + Y] = \E[X] + \E[Y] \qquad\text{und}\qquad \E[\alpha \cdot X] = \alpha \cdot \E[X].
+	\end{equation*}
 	Wir definieren den Erwartungswert einer vektorwertigen Zufallsvariablen $\bx = (x_1, x_2, \ldots, x_n)^\top$ als
-	$$\E[\bx] \coloneqq \bigl( \E[x_1], \E[x_2], \ldots, \E[x_n] \bigr)^\top.$$
+	\begin{equation*}
+		\E[\bx] \coloneqq \bigl( \E[x_1], \E[x_2], \ldots, \E[x_n] \bigr)^\top.
+	\end{equation*}
 \end{frame}
 
 
 % Varianz von Zufallsvariablen
 \begin{frame}{Varianz von Zufallsvariablen}{}
-	\begin{mydef}[def:varianz]
-		Die Varianz einer Zufallsvariablen $x \in \R$ ist definiert als die erwartete quadratische Abweichung vom Erwartungswert
-		(zweites zentriertes Moment), also $$\V[x] \coloneqq \E\bigl[ (x - \E[x])^2 \bigr] = \int_\R \bigl( \xi - \E[x] \bigr)^2 \cdot p_x(\xi)\,\diff\xi.$$
+	\begin{mydef}[def:variance]
+		Die Varianz einer Zufallsvariablen $X \in \R$ ist definiert als die \textit{erwartete quadratische Abweichung vom Erwartungswert}
+		(zweites zentriertes Moment), also
+		\begin{equation*}
+			\V[X] \coloneqq \E\bigl[ (X - \E[X])^2 \bigr] = \int_\R \bigl( \xi - \E[X] \bigr)^2 \cdot p_X(\xi)\,\diff\xi.
+		\end{equation*}
 	\end{mydef}
 
 	Unter Ausnutzung der Linearität des Erwartungswerts können wir die Varianz folgendermaßen umschreiben:
 	\begin{align*}
-		\V[x]
-			&= \E\bigl[ (x - \E[x])^2 \bigr] = \E\bigl[ x^2 - 2x \cdot \E[x] + \bigl( \E[x] \bigr)^2 \bigr]
+		\V[X]
+			&= \E\bigl[ (X - \E[X])^2 \bigr] = \E\bigl[ X^2 - 2X \cdot \E[X] + \E[X]^2 \bigr]
 	\\[2mm]
-			&= \E[x^2] - 2 \bigl( \E[x] \bigr)^2 + \bigl( \E[x] \bigr)^2
-	\\[2mm]
-			&= \E[x^2] - \bigl( \E[x] \bigr)^2
+			&= \E\bigl[ X^2 \bigr] - 2 \cdot \E[X]^2 + \E[X]^2
+				= \E\bigl[ X^2 \bigr] - \E[X]^2.
 	\end{align*}
 \end{frame}
 
 
 % Varianz von Zufallsvariablen (Forts.)
 \begin{frame}{Varianz von Zufallsvariablen (Forts.)}{}
-	Ein paar Bemerkungen. Seien dazu $x$ und $y$ reelle Zufallsvariablen und $\alpha \in \R$ beliebig aber fest.
-	\begin{itemize}
-		\item Die Varianz ist \textbf{nicht} linear:
+	Ein paar Bemerkungen. Seien dazu $X$ und $Y$ reelle Zufallsvariablen und $\alpha \in \R$ beliebig aber fest.
+	
+	\begin{boxGray}
+		Die Varianz ist \textbf{nicht} linear!
 		\begin{itemize}
-			\item Es gilt $\V[x + y] = \V[x] + \V[y]$ nur, wenn $x$ und $y$ unkorreliert sind (Satz von Bienaymé).
-			\item $\V[\alpha \cdot x] = \alpha^2 \cdot \V[x]$
+			\item Es gilt $\V[X + Y] = \V[X] + \V[Y]$ nur, wenn $X$ und $Y$ unkorreliert sind (\keyword{Satz von Bienaymé}).
+			\item $\V[\alpha \cdot X] = \alpha^2 \cdot \V[X]$.
 		\end{itemize}
-		\item Eine Verschiebung verändert die Varianz nicht, also $\V[x + \alpha] = \V[x]$
-	\end{itemize}
+	\end{boxGray}
+
+	\begin{boxGray}
+		Eine Verschiebung verändert die Varianz nicht, also $\V[X + \alpha] = \V[x]$ ($\alpha$ ist hierbei keine Zufallsvariable, sondern eine
+		konstante reelle Zahl).
+	\end{boxGray}
 \end{frame}
 
 
@@ -132,15 +159,18 @@
 \begin{frame}{Stochastische Unabhängigkeit}{}
 	Mit Dichten können wir auch die \keyword{stochastische Unabhängigkeit} von Zufallsvariablen definieren:
 	
-	\begin{mydef}[def:stoch-unab]
-		Es seien $x \in \R$ und $y \in \R$ reelle Zufallsvariablen mit den Verteilungen $\Prob^x, \Prob^y$ und den Dichten $p_x$ bzw. $p_y$.
+	\begin{mydef}[def:independence]
+		Es seien $X \in \R$ und $Y \in \R$ reelle Zufallsvariablen mit den Verteilungen $\Prob^X, \Prob^Y$ und den Dichten $p_X$ bzw. $p_Y$.
 
-		$x$ und $y$ heißen \keyword{stochastisch unabhängig} genau dann wenn $p_{x, y} \coloneqq p_x \cdot p_y$ eine Produktdichte der Verteilung
-		$\Prob^{x, y}$ ist, d.\,h. die gemeinsame Dichte von $x$ und $y$ ergibt sich als Produkt der Einzeldichten. 
+		$X$ und $Y$ heißen \keyword{stochastisch unabhängig} genau dann wenn $p_{X, Y} \coloneqq p_X \cdot p_Y$
+		eine \keyword{Produktdichte} der Verteilung $\Prob^{X, Y}$ ist, d.\,h. die gemeinsame Dichte von $X$ und $Y$
+		ergibt sich als Produkt der Einzeldichten. 
 	\end{mydef}
 
-	\textbf{Bemerkung:} Stochastisch unabhängige Zufallsvariablen sind auch unkorreliert. Die Umkehrung gilt im Allgemeinen nicht.
-	Somit ist die stochastische Unabhängigkeit eine stärkere Forderung als Unkorreliertheit.
+	\begin{boxGray}
+		\textbf{Bemerkung:} Stochastisch unabhängige Zufallsvariablen sind auch unkorreliert. \textbf{Die Umkehrung gilt im Allgemeinen nicht!}
+		Somit ist die stochastische Unabhängigkeit eine stärkere Forderung als die der Unkorreliertheit.
+	\end{boxGray}
 \end{frame}
 
 
@@ -156,14 +186,18 @@
 \end{frame}
 
 
+% SUBSECTION: Transformationssatz
 \subsection{Transformationssatz}
 
 % Transformationssatz für Lebsgue-Dichten
 \begin{frame}{Transformationssatz für Lebesgue-Dichten}{}
-	\begin{mytheo}[th:transformationssatz]
-		Es seien $\bx$ und $\by$ $n$-dimensionale Zufallsvektoren mit dem Zusammenhang $$\by = \bT(\bx).$$
-		Die Abbildung $\bT : \R^n \rightarrow \R^n$ sei \textit{bijektiv}, sodass die Umkehrabbildung $\bx = \bT^{-1}(\by)$ existiert und eindeutig ist.
-		Dann gilt für die Dichte $p_{\by}$ der transformierten Zufallsvariablen $\by$
+	\begin{mytheo}[th:transformation]
+		Es seien $\bx$ und $\by$ $n$-dimensionale Zufallsvektoren mit dem Zusammenhang
+		\begin{equation*}
+			\by = \bT(\bx).
+		\end{equation*}
+		Die Abbildung $\bT : \R^n \rightarrow \R^n$ sei \textit{bijektiv}, sodass die Umkehrabbildung $\bx = \bT^{-1}(\by)$
+		existiert und eindeutig ist. Dann gilt für die Dichte $p_{\by}$ der transformierten Zufallsvariablen $\by$
 		\begin{equation*}
 			p_{\by}(\by) = p_{\bx}\bigl( \bT^{-1}(\by) \bigr) \cdot \bigl\vert \det J\bT^{-1}(\by) \bigr\vert,
 		\end{equation*}
@@ -178,36 +212,58 @@
 
 % Beispiel I
 \begin{frame}{Beispiel I}{}
-	Es sei $x \sim Exp_2$ eine reellwertige exponentialverteilte Zufallsvariable mit Ankunftsrate $\lambda = 2$. \\
-	Gesucht ist die Dichte der Zufallsvariablen $y \coloneqq 5x + 2$.
+	Es sei $X \sim Exp_2$ eine exponentialverteilte Zufallsvariable mit Ankunftsrate $\lambda = 2$. \\
+	Gesucht ist die Dichte der Zufallsvariablen $Y \coloneqq 5X + 2$.
 	
-	\textbf{Lösung:} Es ist $T(x) \coloneqq 5 x + 2$ eine bijektive Transformation mit der Umkehrabbildung $x = T^{-1}(y) = \frac{1}{5}(y - 2)$.
-	Zusammen mit der Dichte $p_x(x) = 2 \cdot e^{-2 x} \cdot \indicator_{[0, \infty)}(x)$ der $Exp_2$-Verteilung erhalten wir für die Dichte $p_y(y)$
-	der transformierten Zufallsvariablen $y$
-	\begin{align*}
-		p_y(y)
-			&= p_x\bigl( T^{-1}(y) \bigr) \cdot \bigl( T^{-1} \bigr)'(y)
-	\\[2mm]
-			&= 2 \cdot e^{-2 \left( \frac{y}{5} - \frac{2}{5} \right)} \cdot \indicator_{[0, \infty)}\left( \frac{1}{5} y - \frac{2}{5} \right) \cdot \frac{1}{5}
-	\\[2mm]
-			&= \frac{2}{5} \cdot e^{\frac{4}{5}} \cdot e^{-\frac{2 y}{5}} \cdot \indicator_{[2, \infty)}(y).
-	\end{align*}
+	\begin{boxGray}
+		\textbf{Lösung:}
+		
+		Es ist $T(X) \coloneqq 5X + 2$ eine bijektive Transformation mit der Umkehrabbildung
+		$X = T^{-1}(Y) = \frac{1}{5}(Y - 2)$.
+		Zusammen mit der Dichte $p_X(x) = 2 \cdot e^{-2 x} \cdot \indicator_{[0, \infty)}(x)$ der $Exp_2$-Verteilung
+		erhalten wir für die Dichte $p_Y(y)$ der transformierten Zufallsvariablen $Y$
+		\begin{align*}
+			p_Y(y)
+				&= p_X\bigl( T^{-1}(y) \bigr) \cdot \bigl( T^{-1} \bigr)'(y)
+					= 2 \cdot e^{-2 \left( \frac{y}{5} - \frac{2}{5} \right)}
+						\cdot \indicator_{[0, \infty)}\left(\frac{1}{5} y - \frac{2}{5} \right) \cdot \frac{1}{5}
+		\\[2mm]
+				&= \frac{2}{5} \cdot e^{\frac{4}{5}} \cdot e^{-\frac{2 y}{5}} \cdot \indicator_{[2, \infty)}(y).
+		\end{align*}
+	\end{boxGray}
 \end{frame}
 
 
 % Beispiel II
 \begin{frame}{Beispiel II}{}
 	Der Zufallsvektor $\bx \in \R^n$ habe eine beliebige Lebesgue-Dichte $p_{\bx}$. Die Transformation $\bT$ sei linear und bijektiv,
-	also von der Form $\by = \bT(\bx) = \bA \bx + \bb$. Insbesondere ist $\bA$ in diesem Fall invertierbar.
-	Dann existiert die Umkehrfunktion und ist gegeben durch $\bx = \bT^{-1}(\by) = \bA^{-1} (\by - \bb)$.
-	Als Jacobi-Matrix erhält man $J\bT^{-1}(\by) = \bA^{-1}$.
+	also von der Form $\by = \bT(\bx) = \bA \bx + \bb$. Wie lautet die Dichte von $\by$?
 	
-	Die Anwendung der Transformationsformel \ref{th:transformationssatz} ergibt daher für die Dichte $p_{\by}$ von $\by$ den Ausdruck
-	$$p_{\by}(\by) = \frac{1}{\vert \det \bA \vert} \cdot p_{\bx}\bigl( \bA^{-1} (\by - \bb) \bigr),$$ wobei wir den Zusammenhang
-	$\det\bigl( \bA^{-1} \bigr) = \frac{1}{\det \bA}$ benutzt haben.
+	\begin{boxGray}
+		\textbf{Lösung:}
+		
+		Unter obigen Voraussetzungen ist $\bA$ invertierbar. Also existiert die Umkehrfunktion, welche durch
+		$\bx = \bT^{-1}(\by) = \bA^{-1} (\by - \bb)$ gegeben ist. Als Jacobi-Matrix erhält man $J\bT^{-1}(\by) = \bA^{-1}$.
+		
+		Die Anwendung der Transformationsformel \ref{th:transformation} ergibt daher für die Dichte $p_{\by}$ von $\by$ den Ausdruck
+		\begin{equation*}
+			p_{\by}(\by) = \frac{1}{\vert \det \bA \vert} \cdot p_{\bx}\bigl( \bA^{-1} (\by - \bb) \bigr),
+		\end{equation*}
+		wobei wir den Zusammenhang $\det\bigl( \bA^{-1} \bigr) = \frac{1}{\det \bA}$ benutzt haben.
+	\end{boxGray}
 \end{frame}
 
 
+% Beispiel III
+\begin{frame}{Beispiel III}{}
+	Das nächste Beispiel wird als Übungsaufgabe gestellt:
+	\begin{mytask}
+		tbd
+	\end{mytask}
+\end{frame}
+
+
+% SUBSECTION: Multivariate Normalverteilung
 \subsection{Multivariate Normalverteilung}
 
 % Multivariate Normalverteilung
@@ -374,6 +430,7 @@
 \end{frame}
 
 
+% SUBSECTION: Maximum-Likelihood Schätzer
 \subsection{Maximum-Likelihood Schätzer}
 
 % Maximum-Likelihood Methode
@@ -557,6 +614,7 @@
 \end{frame}
 
 
+% SUBSECTION: Maximum-Aposteriori Schätzer
 \subsection{Maximum-Aposteriori Schätzer}
 
 % Maximum-Aposteriori Schätzer (MAP)
