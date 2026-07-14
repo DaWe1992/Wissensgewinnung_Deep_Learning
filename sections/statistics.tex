@@ -269,12 +269,14 @@
 % Multivariate Normalverteilung
 \begin{frame}{Multivariate Normalverteilung}{}
 	Die multivariate Normalverteilung spielt im weiteren Verlauf eine zentrale Rolle:
-	\begin{mytheo}[th:multivar-stdnv]
+	\begin{mytheo}[th:std-norm-mv]
 		Es sei $\bx \coloneqq (x_1, x_2, \ldots, x_n)^\top \in \R^n$ ein Zufallsvektor, dessen Komponenten $x_i \in \R$ unabhängig und
-		identisch standardnormalverteilt sind, d.\,h. $x_i \sim N_{0, 1}\,\forall i \in \{ 1, \ldots, n \}$.
+		identisch standardnormalverteilt sind, d.\,h. $x_i \sim \norm(0, 1)\,\forall i \in \{ 1, \ldots, n \}$.
 		
 		Die Dichte der \keyword{multivariaten Standardnormalverteilung} ist dann gegeben durch
-		$$p_{\bx}(\bx) \coloneqq \frac{1}{(2 \pi)^{\frac{n}{2}}} \cdot \exp\left( -\frac{\Vert \bx \Vert^2}{2} \right).$$
+		\begin{equation*}
+			p_{\bx}(\bx) \coloneqq \frac{1}{(2 \pi)^{\frac{n}{2}}} \cdot \exp\left( -\frac{\Vert \bx \Vert^2}{2} \right).
+		\end{equation*}
 	\end{mytheo}
 
 	\begin{myproof}
@@ -303,23 +305,32 @@
 		\item Aufgrund der positiven Definitheit von $\bSigma$ gibt es eine untere Dreiecksmatrix $\bA$ mit $\bSigma = \bA \bA^\top$
 			(Stichwort: \keyword{Cholesky-Zerlegung}).
 		\item Wir betrachten die Transformation $\by \coloneqq \bA \bx + \bmu$. Es gilt
-			$$\E[\by] = \E[\bA \bx + \bmu] = \bA \E[\bx] + \bmu = \bmu \qquad\text{und}\qquad
-			\D[\by] = \D[\bA \bx + \bmu] = \bA \D[\bx] \bA^\top = \bA \bA^\top = \bSigma.$$
-		\item Nun wenden wir die Transformationsformel \ref{th:transformationssatz} an.
+		\begin{equation*}
+			\E[\by]
+				= \E[\bA \bx + \bmu] = \bA \E[\bx] + \bmu = \bmu \qquad\text{und}
+		\qquad
+			\D[\by]
+				= \D[\bA \bx + \bmu] = \bA \D[\bx] \bA^\top = \bA \bA^\top = \bSigma.
+		\end{equation*}
+		\item Nun wenden wir die Transformationsformel \ref{th:transformation} an, um die Dichte von $\by$ zu bestimmen.
 	\end{enumerate}
 \end{frame}
 
 
 % Multivariate Normalverteilung (Forts.)
 \begin{frame}{Multivariate Normalverteilung (Forts.)}{}
-	Es ist $\bT^{-1}(\bx) = \bA^{-1} (\by - \bmu)$. Mit obigem Beispiel II zum Transformationssatz erhalten wir
-	$$\bigl\vert \det J \bT^{-1}(\by) \bigr\vert = \bigl\vert \det \bA^{-1} \bigr\vert = \frac{1}{\vert \det \bA \vert}.$$ Außerdem gilt mit dem
-	Determinantenmultiplikationssatz\footnote{Für zwei $n \times n$ Matrizen $\bA$ und $\bB$ gilt $\det(\bA \bB) = \det \bA \cdot \det \bB$.}
-	die Identität $\det \bSigma = \det\bigl( \bA \bA^\top \bigr) = \det \bA \cdot \det \bA = \det^2 \bA$.
+	\textbf{Zu Schritt 3:} Es ist $\bT^{-1}(\bx) = \bA^{-1} (\by - \bmu)$. Mit Beispiel II zum Transformationssatz erhalten wir
+	\begin{equation*}
+		\bigl\vert \det J \bT^{-1}(\by) \bigr\vert = \bigl\vert \det \bA^{-1} \bigr\vert = \frac{1}{\vert \det \bA \vert}.
+	\end{equation*}
+	Außerdem gilt mit dem Determinantenmultiplikationssatz die Identität
+	$\det \bSigma = \det\bigl( \bA \bA^\top \bigr) = \det \bA \cdot \det \bA = \det^2 \bA$.
 	Durch Ziehen der Wurzel auf beiden Seiten erhalten wir also $\vert \det \bA \vert = (\det \bSigma)^{\frac{1}{2}}$. 
 	Die Dichte $p_{\by}$ nimmt damit die Form
-	$$p_{\by}(\by) = \frac{1}{(\det \bSigma)^\frac{1}{2}} \cdot p_{\bx}\bigl( \bA^{-1} (\by - \bmu) \bigr)$$ an,
-	wobei $p_{\bx}$ die Dichte der Standardnormalverteilung aus Satz \ref{th:multivar-stdnv} ist. Wir setzen dort
+	\begin{equation*}
+		p_{\by}(\by) = \frac{1}{(\det \bSigma)^\frac{1}{2}} \cdot p_{\bx}\bigl( \bA^{-1} (\by - \bmu) \bigr)
+	\end{equation*}
+	an, wobei $p_{\bx}$ die Dichte der Standardnormalverteilung aus Satz \ref{th:std-norm-mv} ist. Wir setzen dort
 	$\bx \coloneqq \bA^{-1} (\by - \bmu)$, sodass
 	$\Vert \bx \Vert^2 = (\by - \bmu)^\top \bigl(\bA^{-1})^\top \bA^{-1} (\by - \bmu) = (\by - \bmu)^\top \bSigma^{-1} (\by - \bmu)$ gilt. 
 \end{frame}
@@ -329,15 +340,21 @@
 \begin{frame}{Multivariate Normalverteilung (Forts.)}{}
 	Wir fassen zusammen:
 	
-	\begin{mydef}[def:multivar-nv]
-		Es sei $\bmu \in \R^n$ und $\bSigma \in \R^{n \times n}$ eine \textit{positiv definite} Matrix.
+	\begin{mydef}[def:norm-mv]
+		Es sei $\bmu \in \R^n$ ein Vektor und $\bSigma \in \R^{n \times n}$ eine \textit{positiv definite} Matrix.
 		
-		Die Dichte der multivariaten Normalverteilung $N_{\bmu, \bSigma}$ ist gegeben durch
-		$$p_{\bx}(\bx) \coloneqq \frac{1}{(2 \pi)^{\frac{n}{2}} \cdot (\det \bSigma)^{\frac{1}{2}}} \cdot \exp\left(
-			-\frac{1}{2} (\bx - \bmu)^\top \bSigma^{-1} (\bx - \bmu) \right).$$
+		Die Dichte der \keyword{multivariaten Normalverteilung} $\norm(\bmu, \bSigma)$ ist gegeben durch
+		\begin{equation*}
+			p_{\bx}(\bx) \coloneqq \frac{1}{(2 \pi)^{\frac{n}{2}} \cdot (\det \bSigma)^{\frac{1}{2}}} \cdot \exp\left(
+				-\frac{1}{2} (\bx - \bmu)^\top \bSigma^{-1} (\bx - \bmu)
+			\right).
+		\end{equation*}
 	\end{mydef}
 	
-	\textbf{Bemerkung:} Die positive Definitheit der Matrix $\bSigma$ impliziert deren Invertierbarkeit.
+	\begin{boxGray}
+		\textbf{Bemerkung:} Die positive Definitheit der Matrix $\bSigma$ impliziert auch deren Invertierbarkeit
+		(siehe hierzu Satz \ref{th:col-rank-inv}).
+	\end{boxGray}
 \end{frame}
 
 
@@ -349,42 +366,51 @@
 
 % Partitionierte Normalverteilung
 \begin{frame}{Partitionierte Normalverteilung}{}
-	\begin{mydef}[def:partitionierte-nv]
-		Es seien $\bx \in \R^d$ und $\by \in \R^{(n - d)}$ Zufallsvektoren.
+	\begin{mydef}[def:partitioned-norm]
+		Es seien $\bx \in \R^d$ und $\by \in \R^{(n - d)}$ zwei Zufallsvektoren.
 		Wir fassen diese zu einem neuen Zufallsvektor $\bz \coloneqq \bigl( \bx^\top, \by^\top \bigr)^\top \in \R^n$
-		mit $\bz \sim N_{\bmu, \bSigma}$ zusammen. Hierbei seien
-		$$\bmu \coloneqq \begin{pmatrix} \bmu_{\bx} \\ \bmu_{\by} \end{pmatrix} \qquad\text{und}\qquad \bSigma \coloneqq
-		\begin{pmatrix} \bSigma_{\bx\bx} & \bSigma_{\bx\by} \\ \bSigma_{\by\bx} & \bSigma_{\by\by} \end{pmatrix}.$$
+		mit $\bz \sim \norm(\bmu, \bSigma)$ zusammen. Hierbei seien
+		\begin{equation*}
+			\bmu
+				\coloneqq \begin{pmatrix} \bmu_{\bx} \\ \bmu_{\by} \end{pmatrix}
+		\qquad\text{und}\qquad
+			\bSigma
+				\coloneqq \begin{pmatrix} \bSigma_{\bx\bx} & \bSigma_{\bx\by} \\ \bSigma_{\by\bx} & \bSigma_{\by\by} \end{pmatrix}.
+		\end{equation*}
 		Wir nennen dieses Modell \keyword{partitionierte Normalverteilung}.
 	\end{mydef}
 	
-	\textbf{Bemerkungen:}
-	\begin{itemize}
-		\item Aus der Symmetrie von $\bSigma$ folgt die von $\bSigma_{\bx\bx}$ und $\bSigma_{\by\by}$.
-			Außerdem gilt $\bSigma_{\bx\by} = \bSigma_{\by\bx}^\top$.
-		\item Oft ist es einfacher mit der Inversen der Kovarianzmatrix zu arbeiten. Wir definieren daher $\bLambda \coloneqq \bSigma^{-1}$.
-			Man nennt diese Matrix \keyword{Präzisionsmatrix}.
-	\end{itemize}
+	\begin{boxGray}
+		\textbf{Bemerkungen:} Aus der Symmetrie von $\bSigma$ folgt die von $\bSigma_{\bx\bx}$ und $\bSigma_{\by\by}$.
+		Außerdem gilt $\bSigma_{\bx\by} = \bSigma_{\by\bx}^\top$.
+		
+		Oft ist es einfacher mit der Inversen der Kovarianzmatrix zu arbeiten. Wir definieren daher $\bLambda \coloneqq \bSigma^{-1}$.
+		Man nennt diese Matrix \keyword{Präzisionsmatrix}.
+	\end{boxGray}
 \end{frame}
 
 
 % Bedingte Normalverteilung
 \begin{frame}{Bedingte Normalverteilung}{}
-	\begin{mytheo}[th:bedingte-nv]
-		Wir betrachten die partitionierte Normalverteilung aus Definition \ref{def:partitionierte-nv}. Dann ist die Verteilung von $\bx \mid \by$
-		ebenfalls normalverteilt mit den Parametern
+	\begin{mytheo}[th:cond-norm]
+		Wir betrachten das Modell der partitionierten Normalverteilung aus Definition \ref{def:partitioned-norm}.
+		Für die Zufallsvariable $\bx \mid \by$ gilt
+		\begin{equation*}
+			\bx \mid \by \sim \norm(\bmu_{\bx\,\mid\,\by}, \bSigma_{\bx\,\mid\,\by}),
+		\end{equation*}
+		wobei für die Parameter der folgende Zusammenhang gilt:
 		\begin{align*}
-			\bmu_{\bx \mid \by}
+			\bmu_{\bx\,\mid\,\by}
 				&\coloneqq \bmu_{\bx} + \bSigma_{\bx\by} \bSigma_{\by\by}^{-1}(\by - \mu_{\by})
 		\\[2mm]
-			\bSigma_{\bx \mid \by}
-				&\coloneqq \bSigma_{\bx\bx} - \bSigma_{\bx\by} \bSigma_{\by\by}^{-1} \bSigma_{\by\bx}
+			\bSigma_{\bx\,\mid\,\by}
+				&\coloneqq \bSigma_{\bx\bx} - \bSigma_{\bx\by} \bSigma_{\by\by}^{-1} \bSigma_{\by\bx}.
 		\end{align*}
-		Die Dichte dieser Verteilung bezeichnen wir mit $p_{\bx \mid \by}$.
+		Die Dichte dieser Verteilung bezeichnen wir mit $p_{\bx\,\mid\,\by}$.
 	\end{mytheo}
 
 	\begin{myproof}
-		Einen Beweis dieser Aussage finden Sie in Bishop (2006) auf den Seiten 85--87.
+		Einen Beweis dieser Aussage finden Sie in \cite{Bishop2006} auf den Seiten 85--87.
 	\end{myproof}
 \end{frame}
 
@@ -395,25 +421,36 @@
 \end{frame}
 
 
+% Aufgabe: Bedingte Normalverteilung
+\begin{frame}{Aufgabe: Bedingte Normalverteilung}{}
+	\begin{mytask}
+		tbd
+	\end{mytask}
+\end{frame}
+
+
 % Normale Randverteilung
 \begin{frame}{Normale Randverteilung}
 	\begin{mytheo}[th:rand-nv]
-		Wieder betrachten wir die partitionierte Normalverteilung aus Definition \ref{def:partitionierte-nv}. Dann sind auch die Randverteilungen von $\bx$ und
-		$\by$ normalverteilt. Es gilt
+		Erneut betrachten wir das Modell der partitionierten Normalverteilung aus Definition \ref{def:partitioned-norm}.
+		Dann sind auch die Randverteilungen von $\bx$ und $\by$ normalverteilt. Es gilt genauer
 		\begin{align*}
 			\bx
-				&\sim N_{\bmu_{\bx}, \bSigma_{\bx\bx}}
+				&\sim \norm(\bmu_{\bx}, \bSigma_{\bx\bx})
 		\\[2mm]
 			\by
-				&\sim N_{\bmu_{\by}, \bSigma_{\by\by}}
+				&\sim \norm(\bmu_{\by}, \bSigma_{\by\by})
 		\end{align*}
 		Die Dichten der Randverteilung bezeichnen wir mit $p_{\bx}$ und $p_{\by}$.
 	\end{mytheo}
 
 	\begin{myproof}
-		Man erhält dieses Ergebnis durch \keyword{Marginalisierung} der Verbunddichte, d.\,h. wir integrieren über alle Variablen, die uns nicht interessieren.
-		Für die Randverteilung von $\bx$ gilt zum Beispiel $$p_{\bx}(\bx) = \int p_{\bx, \by}(\bx, \by)\,\diff \by.$$
-		Einen ausführlichen Beweis finden Sie in Bishop (2006) auf den Seiten 88--89.
+		Man erhält dieses Ergebnis durch \keyword{Marginalisierung} der Verbunddichte, d.\,h. wir integrieren über alle Variablen,
+		die uns nicht interessieren. Für die Randverteilung von $\bx$ gilt zum Beispiel
+		\begin{equation*}
+			p_{\bx}(\bx) = \int p_{\bx, \by}(\bx, \by)\,\diff \by.
+		\end{equation*}
+		Einen ausführlichen Beweis finden Sie in \cite{Bishop2006} auf den Seiten 88--89.
 	\end{myproof}
 \end{frame}
 
@@ -437,11 +474,13 @@
 \begin{frame}{Maximum-Likelihood Methode}{}
 	\begin{itemize}
 		\item Im Folgenden sei ein Beobachtungsvektor $\bx \coloneqq \bigl( x_1, x_2, \ldots, x_N \bigr)^\top$
-			bestehend aus $N$ \textit{unabhängig und identisch verteilten} (i.\,i.\,d.) Datenpunkten gegeben.
+			bestehend aus $N$ \textit{unabhängig und identisch verteilten} (Englisch: \textit{independent and identically distributed} - i.\,i.\,d.)
+				Datenpunkten gegeben.
 		\item Wir möchten Aussagen über die Parameter $\btheta \coloneqq \bigl( \theta_1, \theta_2, \ldots, \theta_M \bigr)^\top$
 			der zugrundeliegenden Verteilung machen.
 		\item Dies erledigen wir durch eine Punktschätzung des Parametervektors $\btheta$. Den Schätzer für $\btheta$ bezeichnen wir mit $\bthetaest$.
-		\item Eine der am häufigsten angewendete Methode ist die \keyword{Maximum-Likelihood Methode}, die wir im Folgenden näher beleuchten werden.
+		\item Eine der am häufigsten angewendete Methode ist die \keyword{Maximum-Likelihood Methode},
+			die wir im Folgenden näher beleuchten werden.
 	\end{itemize}
 \end{frame}
 
@@ -450,21 +489,27 @@
 \begin{frame}{(Log-)Likelihood Funktion}{}
 	Der Maximum-Likelihood Schätzer $\bthetaestML$ für den Parametervektor $\btheta$ maximiert die Likelihood Funktion.
 	
-	\begin{mydef}[def:likelihood-funktion]
-		Es sei $p(\bx; \btheta)$ die Dichte eines Zufallsvektors $\bx \in \R^n$, welche durch den Parametervektor $\btheta \in \Theta$ parametrisiert wird.
-		Die \keyword{Likelihood Funktion} $L : \Theta \rightarrow \R$ ist dann definiert als $$L(\btheta) \coloneqq p(\bx; \btheta) = p(x_1, x_2, \ldots, x_N; \btheta).$$
-		Häufig ist es einfacher, die \keyword{Log-Likelihood Funktion} $$l(\btheta) \coloneqq \ln p(\bx; \btheta)$$ zu betrachten.
-		Es ist $\bthetaestML \coloneqq \argmax_{\btheta} l(\btheta).$
+	\begin{mydef}[def:likelihood-function]
+		Es sei $p(\bx; \btheta)$ die Dichte eines Zufallsvektors $\bx \in \R^N$, welche durch den Parametervektor $\btheta \in \Theta$ parametrisiert wird.
+		Die \keyword{Likelihood Funktion} $L : \Theta \rightarrow \R$ ist dann definiert als
+		\begin{equation*}
+			L(\btheta) \coloneqq p(\bx; \btheta) = p(x_1, x_2, \ldots, x_N; \btheta).
+		\end{equation*}
+		Häufig ist es einfacher, die \keyword{Log-Likelihood Funktion} $l(\btheta) \coloneqq \ln p(\bx; \btheta)$ zu betrachten. \\
+		Wir definieren $\bthetaestML \coloneqq \argmax_{\btheta} l(\btheta).$
 	\end{mydef}
 
-	\textbf{Bemerkung:} Der Schätzer $\bthetaestML$ maximiert sowohl $L$ als auch $l$. \textbf{(Warum?)} 
+	\begin{boxGray}
+		\textbf{Bemerkung:} Der Schätzer $\bthetaestML$ maximiert sowohl $L$ als auch $l$. \textbf{(Warum?)}
+	\end{boxGray}
 \end{frame}
 
 
 % (Log-)Likelihood Funktion (Forts.)
 \begin{frame}{(Log-)Likelihood Funktion (Forts.)}{}
 	\begin{itemize}
-		\item Im Allgemeinen kann es schwer sein, die Liklihood Funktion zu bestimmen (vor allem wenn die Beobachtungen voneinander abhängen).
+		\item Im Allgemeinen kann es schwer sein, die Liklihood Funktion zu bestimmen
+			\textit{(vor allem wenn die Beobachtungen voneinander abhängen)}.
 		\item Die Annahme der \textbf{Unabhängigkeit der Beobachtungen} vereinfacht dies maßgeblich, denn
 		\begin{align*}
 			L(\btheta)
@@ -482,43 +527,70 @@
 % Maximum-Likelihood Gleichung
 \begin{frame}{Maximum-Likelihood Gleichung}{}
 	\begin{itemize}
-		\item Falls die Likelihood Funktion differenzierbar ist, so erfüllt der Maximum-Likelihood Schätzer $\bthetaestML$ notwendig die \keyword{Likelihood Gleichung}
-			$$\frac{\partial}{\partial \btheta} \ln p(\bx; \btheta)\,\bigg\vert_{\btheta = \bthetaestML} = \0.$$
-		\item Diese sagt aus, dass $\bthetaestML$ ein stationärer Punkt der (Log-)Likelihood Funktion sein muss.
+		\item Falls die Likelihood Funktion differenzierbar ist, so erfüllt der Maximum-Likelihood Schätzer $\bthetaestML$
+			notwendig die \keyword{Likelihood Gleichung}
+		\begin{equation*}
+			\frac{\partial}{\partial \btheta} \ln p(\bx; \btheta)\,\bigg\vert_{\btheta = \bthetaestML} = \0.
+		\end{equation*}
+		\item Diese sagt aus, dass $\bthetaestML$ ein \textit{stationärer Punkt der (Log-)Likelihood Funktion} sein muss.
 		\item Es handelt sich dabei um ein System von $M$, im Allgemeinen nicht-linearen, Gleichungen der Form
-			$$\frac{\partial}{\partial \theta_j} \ln p(\bx; \btheta)\,\bigg\vert_{\btheta = \bthetaestML} = 0 \qquad j = 1, 2, \ldots, M.$$
-		\item \textbf{Achtung:} Es muss noch überprüft werden, ob $\bthetaestML$ tatsächlich ein Maximum darstellt.
+		\begin{equation*}
+			\frac{\partial}{\partial \theta_j} \ln p(\bx; \btheta)\,\bigg\vert_{\btheta = \bthetaestML} = 0 \qquad j = 1, 2, \ldots, M.
+		\end{equation*}
 	\end{itemize}
+	
+	\begin{boxGray}
+		\textbf{Achtung:} Es muss noch überprüft werden, ob $\bthetaestML$ tatsächlich ein Maximum darstellt.
+	\end{boxGray}
 \end{frame}
 
 
 % Beispiel I: Binomialverteilung
 \begin{frame}{Beispiel I: Binomialverteilung}{}
 	\begin{mytheo}[th:mle-binomial]
-		Es sei die binomialverteilte Zufallsvariable $x$ (beobachtete Anzahl der Erfolge) und der Stichprobenumfang $N$ gegeben.
-
-		Der Maximum-Likelihood Schätzer $\thetaestML$ für die unbekannte Erfolgswahrscheinlichkeit $\theta \in (0, 1)$ lautet $\thetaestML = \frac{x}{N}$.
+		Es sei die binomialverteilte Zufallsvariable $X$ (Anzahl der Erfolge) und der Stichprobenumfang $N$ gegeben.
+		Der Maximum-Likelihood Schätzer $\thetaestML$ für die unbekannte Erfolgswahrscheinlichkeit $\theta \in (0, 1)$ lautet
+		$\thetaestML = \frac{k}{N}$, wobei $k$ die Anzahl der beobachteten Erfolge in der Stichprobe ist.
 	\end{mytheo}
 	
 	\begin{myproof}
-		Die Likelihood Funktion ist $L(\theta) = {N \choose x} \cdot \theta^x \cdot (1 - \theta)^{N - x}.$
-		Durch Anwendung des Logarithmus erhalten wir die Log-Likelihood Funktion $$l(\theta) = \ln{N \choose x} + x \cdot \ln \theta + (N - x) \cdot \ln(1 - \theta).$$
-		Diese leiten wir nach $\theta$ ab und setzen sie Null. Auflösen nach $\theta$ ergibt
-		$$\frac{\diff}{\diff \theta} l(\theta) = \frac{x}{\theta} + \frac{N - x}{1 - \theta} \overset{!}{=} 0 \quad\Longleftrightarrow\quad \thetaestML = \frac{x}{N}.$$
-		Zudem ist $\frac{\diff^2}{\diff \theta^2} l(\theta) = -\frac{x}{\theta^2} - \frac{N - x}{(1 - \theta)^2} < 0\,\forall \theta \in (0, 1)$, sodass $\thetaestML$
-		tatsächlich ein Maximum ist.
+		Die Likelihood Funktion ist gegeben durch $L(\theta) = {N \choose k} \cdot \theta^k \cdot (1 - \theta)^{N - k}$.
+		Wir wenden den Logarithmus an und erhalten die Log-Likelihood Funktion
+		\begin{equation*}
+			l(\theta) = \ln{N \choose k} + k \cdot \ln \theta + (N - k) \cdot \ln(1 - \theta).
+		\end{equation*}
+		Diese leiten wir nach $\theta$ ab und setzen sie Null. Auflösen nach $\theta$ ergibt schließlich
+		\begin{equation*}
+			\frac{\diff}{\diff \theta} l(\theta)
+				= \frac{k}{\theta} + \frac{N - k}{1 - \theta}
+				\overset{!}{=} 0
+		\quad\Longleftrightarrow\quad
+			\thetaestML
+				= \frac{k}{N}.
+		\end{equation*}
+		Wir prüfen noch das Vorzeichen der zweiten Ableitung. Es ist
+		$\frac{\diff^2}{\diff \theta^2} l(\theta) = -\frac{k}{\theta^2} - \frac{N - k}{(1 - \theta)^2} < 0\,\forall \theta \in (0, 1)$,
+		sodass $\thetaestML$ tatsächlich ein Maximum ist. Es handelt sich sogar um ein global eindeutiges Maximum.
 	\end{myproof}
 \end{frame}
 
 
 % Beispiel II: Normalverteilung
 \begin{frame}{Beispiel II: Normalverteilung}{}
-	\begin{mytheo}[th:mle-nv]
-		Es seien $$\bx = (x_1, x_2, \ldots, x_N)^\top$$ \textit{unabhängig und identisch normalverteilte} Beobachtungen mit unbekanntem Erwartungswert $\mu \in \R$
-		und unbekannter Varianz $\sigma^2 > 0$. Der Parametervektor $\btheta$ ist in diesem Fall $\btheta \coloneqq \bigl( \mu, \sigma^2 \bigr)^\top$.
+	\begin{mytheo}[th:mle-norm]
+		Es seien $\bx = (x_1, x_2, \ldots, x_N)^\top$ \textit{unabhängig und identisch normalverteilte} Beobachtungen
+		mit unbekanntem Erwartungswert $\mu \in \R$ und unbekannter Varianz $\sigma^2 > 0$.
+		Der Parametervektor $\btheta$ ist in diesem Fall zweielementig und gegeben durch $\btheta \coloneqq \bigl( \mu, \sigma^2 \bigr)^\top$.
 		
-		Die Maximum-Likelihood Schätzer $\muML$ und $\sigmasquML$ für die unbekannten Parameter $\mu$ und $\sigma^2$ sind gegeben durch
-		$$\muML = \frac{1}{N} \sum_{n=1}^n x_n \qquad\text{und}\qquad \sigmasquML = \frac{1}{N} \sum_{n=1}^N \bigl( x_n - \muML \bigr)^2.$$
+		Die Maximum-Likelihood Schätzer $\muML$ und $\sigmasquML$ für die unbekannten Parameter $\mu$ und $\sigma^2$
+		werden in diesem Fall bestimmt mittels
+		\begin{equation*}
+			\muML
+				= \frac{1}{N} \sum_{n=1}^n x_n
+		\qquad\text{und}\qquad
+			\sigmasquML
+				= \frac{1}{N} \sum_{n=1}^N \bigl( x_n - \muML \bigr)^2.
+		\end{equation*}
 	\end{mytheo}
 \end{frame}
 
@@ -539,9 +611,11 @@
 		\end{equation*}
 		Nun berechnen wir die partiellen Ableitungen von $l$ nach $\mu$ und $\sigma^2$. Es ist
 		\begin{equation*}
-			\frac{\partial}{\partial \mu} l\bigl( \mu, \sigma^2 \bigr) = \frac{1}{\sigma^2} \sum_{n=1}^N (x_n - \mu)
+			\frac{\partial}{\partial \mu} l\bigl( \mu, \sigma^2 \bigr)
+				= \frac{1}{\sigma^2} \sum_{n=1}^N (x_n - \mu)
 		\qquad\text{und}\qquad
-			\frac{\partial}{\partial \sigma^2} l\bigl( \mu, \sigma^2 \bigr) = -\frac{N}{2 \sigma^2} + \frac{1}{2 \sigma^4} \sum_{n=1}^N (x_n - \mu).
+			\frac{\partial}{\partial \sigma^2} l\bigl( \mu, \sigma^2 \bigr)
+				= -\frac{N}{2 \sigma^2} + \frac{1}{2 \sigma^4} \sum_{n=1}^N (x_n - \mu).
 		\end{equation*}
 		Durch Nullsetzen und auflösen erhalten wir die im Satz angegebenen Maximum-Likelihood Schätzer $\muML$ und $\sigmasquML$.
 		Es bleibt noch zu zeigen, dass es sich tatsächlich um ein Maximum handelt. Man rechnet nach,
@@ -558,8 +632,8 @@
 % Erwartungstreue Schätzer
 \begin{frame}{Erwartungstreue Schätzer}{}
 	Wir definieren den Begriff der Erwartungstreue:
-	\begin{mydef}[def:erwartungstreue]
-		Wir nennen einen Schätzer $\bthetaest$ \textbf{erwartungstreu}, falls $\E\bigl[ \bthetaest \bigr] = \btheta$ gilt.
+	\begin{mydef}[def:unbiased-estimator]
+		Wir nennen einen Schätzer $\bthetaest$ \keyword{erwartungstreu}, falls $\E\bigl[ \bthetaest \bigr] = \btheta$ gilt.
 	\end{mydef}
 	
 	\begin{itemize}
@@ -574,9 +648,10 @@
 					= \mu.
 			\end{equation*}
 		\end{myproof}
-		\item Demgegenüber ist $\sigmasquML$ \textbf{nicht} erwartungstreu. Man kann diesen Schätzer jedoch durch eine geeignete Transformation zu einem
-			erwartungstreuen Schätzer machen. Dies führt auf die \keyword{empirische Varianz}
-			$\frac{n}{n - 1} \sigmasquML = \frac{1}{n - 1} \sum_{n=1}^N \bigl( x_n - \muML \bigr)^2$.
+		\item Demgegenüber ist $\sigmasquML$ \textbf{nicht} erwartungstreu.
+			Man kann diesen Schätzer jedoch durch eine geeignete Transformation zu einem erwartungstreuen Schätzer machen.
+			Dies führt auf die \keyword{empirische Varianz}
+			$\frac{N}{N - 1} \sigmasquML = \frac{1}{N - 1} \sum_{n=1}^N \bigl( x_n - \muML \bigr)^2$.
 	\end{itemize}
 \end{frame}
 
@@ -584,8 +659,11 @@
 % Aufgabe zur Maximum-Likelihood Schätzung
 \begin{frame}{Aufgabe zur Maximum-Likelihood Schätzung}{}
 	\begin{mytask}
-		Gegeben seien die $N$ Beobachtungen $x_1, x_2, \ldots, x_N$, wobei $x_n \in \N, n = 1, 2, \ldots, N$. Sie legen den Daten eine Poisson-Verteilung zugrunde.
-		Diese hat die Dichte $$p(x) \coloneqq e^{-\lambda} \cdot \frac{\lambda^x}{x!}.$$
+		Gegeben seien die $N$ Beobachtungen $x_1, x_2, \ldots, x_N$, wobei $x_n \in \N, n = 1, 2, \ldots, N$.
+		Sie legen den Daten eine Poisson-Verteilung zugrunde. Diese hat die Dichte
+		\begin{equation*}
+			p(x) \coloneqq e^{-\lambda} \cdot \frac{\lambda^x}{x!}.
+		\end{equation*}
 		
 		\begin{enumerate}
 			\item Bestimmen Sie den Maximum-Likelihood Schätzer $\lambdaML$ für die Poisson-Verteilung.
@@ -601,10 +679,14 @@
 	Ein weiteres Qualitätsmerkmal eines Schätzers $\thetaest$ ist seine erwartete quadratische Abweichung vom wahren Parameter $\theta$.
 	
 	\begin{mydef}[def:mse]
-		Die \keyword{erwartete quadratische Abweichung} von $\thetaest$ zu $\theta$ ist $$\MSE\bigl[ \thetaest, \theta \bigr] = \E\left[ \bigl( \thetaest - \theta \bigr)^2 \right].$$
+		Die \keyword{erwartete quadratische Abweichung} von $\thetaest$ zu $\theta$ ist
+		\begin{equation*}
+			\MSE\bigl[ \thetaest, \theta \bigr] = \E\left[ \bigl( \thetaest - \theta \bigr)^2 \right].
+		\end{equation*}
 	\end{mydef}
 	
-	Die $\MSE\bigl[ \thetaest, \theta \bigr]$ reduziert sich für erwartungstreue Schätzer $\thetaest$ auf die Varianz $\V\bigl[ \thetaest \bigr]$. \\ \vspace*{2mm}
+	Die $\MSE\bigl[ \thetaest, \theta \bigr]$ reduziert sich für erwartungstreue Schätzer $\thetaest$ auf die Varianz $\V\bigl[ \thetaest \bigr]$. \\
+	\vspace*{2mm}
 	\begin{myproof}
 		Man rechnet nach, dass $\MSE\bigl[ \thetaest, \theta \bigr] = \V\bigl[ \thetaest \bigr] + \bigl( \E\bigl[ \thetaest \bigr] - \theta \bigr)^2$ gilt
 		(multipliziere hierzu aus und nutze die Linearität des Erwartungswerts).
@@ -621,7 +703,8 @@
 \begin{frame}{Maximum-Aposteriori Schätzer (MAP)}{}
 	\begin{itemize}
 		\item ML Schätzer laufen Gefahr, sich übermäßig stark an die Daten anzupassen (\keyword{Overfitting}).
-		\item Wir erweitern daher das Konzept der ML Schätzung, indem wir zusätzlich eine \textit{Apriori-Verteilung} für die zu schätzenden Parameter mit einbeziehen.
+		\item Wir erweitern daher das Konzept der ML Schätzung, indem wir zusätzlich eine \textit{Apriori-Verteilung}
+			für die zu schätzenden Parameter mit einbeziehen.
 		\item Wir nutzen den Satz von Bayes, um damit zusammen mit der Likelihood eine \textit{Aposteriori-Verteilung} über die Parameter zu erhalten.
 		\item Ein Schätzer $\bthetaestMAP$ heißt \keyword{Maximum-Aposteriori Schätzer} für den Parameter $\btheta$, falls dieser die Aposteriori-Wahrscheinlichkeit maximiert.
 	\end{itemize}
