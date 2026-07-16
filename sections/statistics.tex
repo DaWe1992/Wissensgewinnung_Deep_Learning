@@ -258,7 +258,12 @@
 \begin{frame}{Beispiel III}{}
 	Das nächste Beispiel wird als Übungsaufgabe gestellt:
 	\begin{mytask}
-		tbd
+		Es sei $X$ eine Zufallsvariable, die $\chi_2^2$-verteilt ist.
+
+		\begin{enumerate}
+			\item Berechnen Sie die Lebesgue-Dichte der Zufallsvariable $Y \coloneqq \sqrt{X}$.
+			\item Berechnen Sie die Wahrscheinlichkeit $\Prob(Y > \frac{1}{2})$.
+		\end{enumerate}
 	\end{mytask}
 \end{frame}
 
@@ -417,14 +422,28 @@
 
 % Visualisierung: Bedingte Normalverteilung
 \begin{frame}{Visualisierung: Bedingte Normalverteilung}{}
-	tbd
+	\begin{figure}[H]
+		\divideTwo{0.49}{
+			\centering
+			\includegraphics[scale=0.8]{./img/statistics/mv_gaussian.pdf}
+		}{0.49}{
+			\centering
+			\includegraphics[scale=0.8]{./img/statistics/mv_gaussian_operations.pdf}
+		}
+		\caption{Links: Zweidimensionale Normalverteilung. Rechts: Bedingte Verteilung in rot. Siehe \cite{Bishop2024}, Seite 82.}
+	\end{figure}
 \end{frame}
 
 
 % Aufgabe: Bedingte Normalverteilung
 \begin{frame}{Aufgabe: Bedingte Normalverteilung}{}
-	\begin{mytask}
-		tbd
+	\begin{mytask}[task:cond-norm]
+		Es sei $\bmu \coloneqq \bigl( 0, 2 \bigr)^\top \in \R^2$ und
+		\begin{equation*}
+			\bSigma \coloneqq \begin{pmatrix} 0.3 & -1 \\ -1 & 5 \end{pmatrix} \in \R^{2 \times 2},
+		\end{equation*}
+		sodass die Verbunddichte von $X_1$ und $X_2$ gegeben ist durch $p(X_1, X_2) \coloneqq \norm(\bmu, \bSigma)$.
+		Bestimmen Sie die Dichte der bedingten Verteilung $p(X_1 \mid X_2 = -1)$. Benutzen Sie hierzu die Formeln aus Satz \ref{th:cond-norm}.
 	\end{mytask}
 \end{frame}
 
@@ -457,13 +476,52 @@
 
 % Visualisierung: Normale Randverteilung
 \begin{frame}{Visualisierung: Normale Randverteilung}{}
-	tbd
+	\begin{figure}[H]
+		\divideTwo{0.49}{
+			\centering
+			\includegraphics[scale=0.8]{./img/statistics/mv_gaussian.pdf}
+		}{0.49}{
+			\centering
+			\includegraphics[scale=0.8]{./img/statistics/mv_gaussian_operations.pdf}
+		}
+		\caption{Links: Zweidimensionale Normalverteilung. Rechts: Randverteilung für $x_a$ in blau. Siehe \cite{Bishop2024}, Seite 82.}
+	\end{figure}
+\end{frame}
+
+
+% Aufgabe: Normale Randverteilung
+\begin{frame}{Aufgabe: Normale Randverteilung}{}
+	\begin{mytask}
+		Betrachten Sie erneut die Verbunddichte $p(X_1, X_2)$ wie sie in Aufgabe \ref{task:cond-norm} definiert wurde.
+		
+		Wie lautet die Dichte der Randverteilung $p(X_1)$?
+	\end{mytask}
 \end{frame}
 
 
 % Satz von Bayes für Normalverteilungen
 \begin{frame}{Satz von Bayes für Normalverteilungen}{}
-	tbd
+	\begin{mytheo}[th:bayes-norm]
+		Es seien $\bx$ und $\by$ Zufallsvektoren, sodass gilt
+		\begin{equation*}
+			\bx \sim \norm(\bmu, \bSigma)
+		\quad\text{und}\quad
+			\by \mid \bx \sim \norm(\bA \bx, \bLambda).
+		\end{equation*}
+		Dann gilt für die Verteilungen von $\by$ und $\bx \mid \by$
+		\begin{align*}
+			\by
+				&\sim \norm\bigl( \bA \bmu, \bA \bSigma \bA^\top + \bLambda \bigr)
+		\\[2mm]
+			\bx \mid \by
+				&\sim \norm\bigl( \bGamma [\bSigma^{-1} \bmu + \bA^\top \bLambda^{-1} \by], \bGamma \bigr).
+		\end{align*}
+		Hierbei ist $\bGamma \coloneqq \bigl( \bSigma^{-1} + \bA^\top \bLambda^{-1} \bA \bigr)^{-1}$.
+	\end{mytheo}
+
+	\begin{myproof}
+		Einen Beweis dieser Aussage findet Sie in \cite{Bishop2006} auf den Seiten 90--93.
+	\end{myproof}
 \end{frame}
 
 
@@ -706,6 +764,7 @@
 		\item Wir erweitern daher das Konzept der ML Schätzung, indem wir zusätzlich eine \textit{Apriori-Verteilung}
 			für die zu schätzenden Parameter mit einbeziehen.
 		\item Wir nutzen den Satz von Bayes, um damit zusammen mit der Likelihood eine \textit{Aposteriori-Verteilung} über die Parameter zu erhalten.
-		\item Ein Schätzer $\bthetaestMAP$ heißt \keyword{Maximum-Aposteriori Schätzer} für den Parameter $\btheta$, falls dieser die Aposteriori-Wahrscheinlichkeit maximiert.
+		\item Ein Schätzer $\bthetaestMAP$ heißt \keyword{Maximum-Aposteriori Schätzer} für den Parameter $\btheta$,
+			falls dieser die Aposteriori-Wahrscheinlichkeit maximiert.
 	\end{itemize}
 \end{frame}
