@@ -136,9 +136,65 @@
 \end{frame}
 
 
-% Kovarianz und Streuungsmatrix
-\begin{frame}{Kovarianz und Streuungsmatrix}{}
-	tbd
+% Kovarianz
+\begin{frame}{Kovarianz}{}
+	\begin{mydef}[def:covariance]
+		Es seien $X$ und $Y$ zwei Zufallsvariablen. Die \keyword{Kovarianz} zwischen $X$ und $Y$ ist definiert als
+		\begin{equation*}
+			\Cov[X, Y] \coloneqq \E\bigl[ (X - \E[X]) (Y - \E[Y]) \bigr].
+		\end{equation*}
+	\end{mydef}
+
+	\begin{boxGray}
+		\textbf{Bemerkungen:}
+		\begin{itemize}
+			\item Die Erwartungswerte müssen natürlich existieren, damit Definition \ref{def:covariance} Sinn ergibt.
+			\item Die Kovarianz ist symmetrisch: Es ist \Cov[X, Y] = \Cov[Y, X].
+		\end{itemize}
+	\end{boxGray}
+	
+	\begin{mytask}
+		Was ist der Unterschied zwischen Kovarianz und Korrelation?
+	\end{mytask}
+\end{frame}
+
+
+% Streuungsmatrix
+\begin{frame}{Streuungsmatrix}{}
+	\begin{mydef}[def:dispersion-matrix]
+		Es sei $\bx \in \R^n$ ein Zufallsvektor. Wir definieren die \keyword{Streuungsmatrix} $\D[\bx]$ als
+		\begin{equation*}
+			\D[\bx] \coloneqq \E\bigl[ (\bx - \E[\bx]) (\bx - \E[\bx])^\top \bigr] \in \R^{n \times n}.
+		\end{equation*}
+	\end{mydef}
+
+	Für die Einträge von $\D[\bx]$ gilt:
+	\begin{align*}
+		\bigl( \D[\bx] \bigr)_{ij}
+			&= \E\bigl[ (x_i - \E[x_i]) (x_j - \E[x_j]) \bigr]
+	\\[2mm]
+			&= \E\bigl[ (x_j - \E[x_j]) (x_i - \E[x_i]) \bigr]
+			= \bigl( \D[\bx] \bigr)_{ji} =
+			\begin{cases}
+				\Cov[x_i, x_j] & \text{für}\ i \ne j \\
+				\V[x_i] & \text{für}\ i = j.
+			\end{cases}
+	\end{align*}
+
+	\begin{mytask}
+		Zeigen Sie, dass $\D[\bx]$ positiv semidefinit ist.
+	\end{mytask}
+\end{frame}
+
+
+% Kovarianzmatrix
+\begin{frame}{Kovarianzmatrix}{}
+	\begin{mydef}[def:covariance-matrix]
+		Es seien $\bx \in \R^n$ und $\by \in \R^m$ zwei Zufallsvektoren. Die \keyword{Kovarianzmatrix} von $\bx$ und $\by$ ist
+		\begin{equation*}
+			\Cov[\bx, \by] \coloneqq \E\bigl[ (\bx - \E[\bx]) (\by - \E[\by])^\top \bigr] \in \R^{n \times m}.
+		\end{equation*} 
+	\end{mydef}
 \end{frame}
 
 
@@ -176,13 +232,41 @@
 
 % Bedingte Wahrscheinlichkeiten
 \begin{frame}{Bedingte Wahrscheinlichkeiten}{}
-	tbd
+	\begin{itemize}
+		\item Wahrscheinlichkeiten von Ereignissen verändern sich, wenn wir zusätzliches Wissen mit einbeziehen.
+		\item Wir definieren daher:
+	\end{itemize}
+	\begin{mydef}[def:cond-prop]
+		Es seien $X$ und $Y$ zwei Zufallsvariablen, wobei wir den Wert von $Y$ bereits beobachtet haben (Vorwissen).
+		Dann ist die \keyword{Wahrscheinlichkeitsdichte von $X$ gegeben $Y$}, in Notation $p(X \mid Y)$, definiert als
+		\begin{equation*}
+			p(X \mid Y) \coloneqq \frac{p(X, Y)}{p(Y)}.
+		\end{equation*}
+	\end{mydef}
 \end{frame}
 
 
 % Satz von Bayes
 \begin{frame}{Satz von Bayes}{}
-	tbd
+	Mit bedingten Wahrscheinlichkeiten können wir einen zentralen Satz der Wahrscheinlichkeitsrechnung angeben:
+	\begin{mytheo}[th:bayes]
+		Es seien $X$ und $Y$ zwei Zufallsvariablen. Es gilt der \keyword{Satz von Bayes}
+		\begin{equation*}
+			p(X \mid Y) = \frac{p(Y \mid X) \cdot p(X)}{p(Y)}.
+		\end{equation*}
+	\end{mytheo}
+
+	\begin{myproof}
+		Mit Definition \ref{def:cond-prop} gilt $p(X \mid Y) = \frac{p(X, Y)}{p(Y)}$. Analog gilt $p(Y \mid X) = \frac{p(Y, X)}{p(X)}$.
+		Da $p(X, Y) = p(Y, X)$, können wir beide Gleichungen nach der Verbunddichte $p(X, Y)$ auflösen. Wir erhalten also
+		$p(X, Y) = p(X \mid Y) \cdot p(Y)$ und $p(X, Y) = p(Y \mid X) \cdot p(X)$. Gleichsetzen liefert schließlich
+		\begin{equation*}
+			p(X \mid Y) \cdot p(Y) = p(Y \mid X) \cdot p(X)
+		\qquad\Longleftrightarrow\qquad
+			p(X \mid Y) = \frac{p(Y \mid X) \cdot p(X)}{p(Y)},
+		\end{equation*}
+		die Behauptung.
+	\end{myproof}
 \end{frame}
 
 
