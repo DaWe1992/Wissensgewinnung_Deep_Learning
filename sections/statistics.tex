@@ -11,9 +11,9 @@
 	Wir definieren zunächst, was man unter einem \keyword{Wahrscheinlichkeitsraum} versteht.
 	\begin{itemize}
 		\item Ein Wahrscheinlichkeitsraum ist ein Tripel $(\Omega, \sA, \Prob)$.
-		\item $\Omega$ ist der \keyword{Ereignisraum}, also die Menge aller Elemantarereignisse.
+		\item $\Omega$ ist der \keyword{Ereignisraum}, also die Menge aller Elementarereignisse.
 			Beim Werfen eines sechsseitigen Würfels betrachten wir $\Omega \coloneqq \{ 1, 2, 3, 4, 5, 6 \}$.
-		\item Mit $\sA$ bezeichnen wir die zugehörige \keyword{Sigma-Algebra}, einer Menge von Teilmengen von $\Omega$.
+		\item Mit $\sA$ bezeichnen wir die zugehörige \keyword{Sigma-Algebra}, eine Menge von Teilmengen von $\Omega$.
 			Im einfachsten Fall könnten wir $\sA \coloneqq \Pot(\Omega)$ wählen, jedoch kann man zeigen,
 			dass die Potenzmenge im Allgemeinen nicht messbare Mengen enthält,
 			denen keine Wahrscheinlichkeit zugeordnet werden kann. Die Sigma-Algebra $\B$ auf $\R$ heißt \keyword{Borel-Sigma-Algebra}.
@@ -62,7 +62,7 @@
 	\begin{mydef}[def:density]
 		Es seien $(\Omega, \sA, \Prob)$ und $(\sX, \sB, \Prob^X)$ Wahrscheinlichkeitsräume.
 		Dabei ist $\Prob^X$ die Verteilung der Zufallsvariablen $X : \Omega \rightarrow \sX$.
-		Wir nennen eine nichtnegative Funktion $$p_X : \R \rightarrow [0, 1]$$ eine \keyword{(Wahrscheinlichkeits-)Dichte} von $\Prob^X$, falls
+		Wir nennen eine nichtnegative Funktion $$p_X : \R \rightarrow [0, \infty)$$ eine \keyword{(Wahrscheinlichkeits-)Dichte} von $\Prob^X$, falls
 		\begin{equation*}
 			\Prob^X(B) = \int_B p_X(\xi)\,\diff\xi \qquad \forall B \in \sB.
 		\end{equation*}
@@ -130,7 +130,7 @@
 	\end{boxGray}
 
 	\begin{boxGray}
-		Eine Verschiebung verändert die Varianz nicht, also $\V[X + \alpha] = \V[x]$ ($\alpha$ ist hierbei keine Zufallsvariable, sondern eine
+		Eine Verschiebung verändert die Varianz nicht, also $\V[X + \alpha] = \V[X]$ ($\alpha$ ist hierbei keine Zufallsvariable, sondern eine
 		konstante reelle Zahl).
 	\end{boxGray}
 \end{frame}
@@ -704,7 +704,7 @@
 		Diese leiten wir nach $\theta$ ab und setzen sie Null. Auflösen nach $\theta$ ergibt schließlich
 		\begin{equation*}
 			\frac{\diff}{\diff \theta} l(\theta)
-				= \frac{k}{\theta} + \frac{N - k}{1 - \theta}
+				= \frac{k}{\theta} - \frac{N - k}{1 - \theta}
 				\overset{!}{=} 0
 		\quad\Longleftrightarrow\quad
 			\thetaestML
