@@ -927,7 +927,7 @@
 
 % Beta-Verteilung
 \begin{frame}{Beta-Verteilung}{}
-	Um die Overfitting-Problematik zu adressieren, führen wir einen Prior ein.
+	Um die Overfitting-Problematik zu adressieren, führen wir einen Beta-verteilten Prior ein.
 	
 	\begin{mydef}[def:beta-dist]
 		Es sei $X$ eine \keyword{Beta-verteilte} Zufallsvariable, in Notation $X \sim \beta_{a, b}$, mit den Parametern
@@ -945,4 +945,31 @@
 		$\Gamma(x + 1) = x \cdot \Gamma(x)$ zeigen. Außerdem gilt $\Gamma(1) = 1$. Daraus folgt $\Gamma(n + 1) = n!$ für
 		$n \in \N$. Somit ist die Gamma-Funktion die kontinuierliche Fortsetzung der Fakultäts-Funktion.
 	\end{boxGray}
+\end{frame}
+
+
+% Visualisierung: Beta-Verteilung
+\begin{frame}{Visualisierung: Beta-Verteilung}{}
+	tbd
+\end{frame}
+
+
+% Bestimmung des Posteriors
+\begin{frame}{Bestimmung des Posteriors}{}
+	\begin{itemize}
+		\item Um den Posterior zu erhalten, multiplizieren wir nun den Beta-verteilten Prior mit der binomial-verteilten Likelihood.
+		\item Ignorieren wir alle Terme, die nicht von $\mu$ abhängen, so erhalten wir für den Posterior den Ausdruck
+		\begin{equation}
+			p(\mu \mid m, l; a, b) \propto \mu^{m + a - 1} \cdot (1 - \mu)^{l + b - 1},
+		\end{equation}
+		wobei $l \coloneqq N - m$ die Anzahl der Misserfolge (Zahl) ist.
+		\item Da Prior und Likelihood dieselbe funktionale Form haben, ist \textit{auch der Posterior wieder Beta-verteilt},
+			wobei sich der Normierungsfaktor durch Vergleich mit Definition \ref{def:beta-dist} ergibt
+		\begin{equation*}
+			p(\mu \mid m, l; a, b)
+				= \frac{\Gamma(m + a + l + b)}{\Gamma(m + a) \cdot \Gamma(l + b)}
+					\cdot \mu^{m + a - 1} \cdot (1 - \mu)^{l + b - 1}
+		\end{equation*}
+		\item Diese Eigenschaft nennt man \keyword{Konjugiertheit}.
+	\end{itemize}
 \end{frame}
