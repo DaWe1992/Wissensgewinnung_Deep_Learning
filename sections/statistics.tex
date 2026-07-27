@@ -779,7 +779,8 @@
 	\end{mydef}
 	
 	\begin{itemize}
-		\item Der Schätzer $\muML$ ist erwartungstreu für den Erwartungswert $\mu$ im Normalverteilungsmodell \\ \vspace*{2mm}
+		\item Der Schätzer $\muML$ ist erwartungstreu für den Erwartungswert $\mu$
+		im Normalverteilungsmodell \\ \vspace*{2mm}
 		\begin{myproof}
 			Es gilt
 			\begin{equation*}
@@ -791,8 +792,8 @@
 			\end{equation*}
 		\end{myproof}
 		\item Demgegenüber ist $\sigmasquML$ \textbf{nicht} erwartungstreu.
-			Man kann diesen Schätzer jedoch durch eine geeignete Transformation zu einem erwartungstreuen Schätzer machen.
-			Dies führt auf die \keyword{empirische Varianz}
+			Man kann diesen Schätzer jedoch durch eine geeignete Transformation
+			zu einem erwartungstreuen Schätzer machen. Dies führt auf die \keyword{empirische Varianz}
 			$\frac{N}{N - 1} \sigmasquML = \frac{1}{N - 1} \sum_{n=1}^N \bigl( x_n - \muML \bigr)^2$.
 	\end{itemize}
 \end{frame}
@@ -818,7 +819,8 @@
 
 % Erwartete quadratische Abweichung (MSE)
 \begin{frame}{Erwartete quadratische Abweichung (MSE)}{}
-	Ein weiteres Qualitätsmerkmal eines Schätzers $\thetaest$ ist seine erwartete quadratische Abweichung vom wahren Parameter $\theta$.
+	Ein weiteres Qualitätsmerkmal eines Schätzers $\thetaest$ ist seine erwartete quadratische
+	Abweichung vom wahren Parameter $\theta$.
 	
 	\begin{mydef}[def:mse]
 		Die \keyword{erwartete quadratische Abweichung} von $\thetaest$ zu $\theta$ ist
@@ -827,13 +829,15 @@
 		\end{equation*}
 	\end{mydef}
 	
-	Die $\MSE\bigl[ \thetaest, \theta \bigr]$ reduziert sich für erwartungstreue Schätzer $\thetaest$ auf die Varianz $\V\bigl[ \thetaest \bigr]$. \\
+	Die $\MSE\bigl[ \thetaest, \theta \bigr]$ reduziert sich für erwartungstreue Schätzer $\thetaest$
+	auf die Varianz $\V\bigl[ \thetaest \bigr]$. \\
 	\vspace*{2mm}
 	\begin{myproof}
-		Man rechnet nach, dass $\MSE\bigl[ \thetaest, \theta \bigr] = \V\bigl[ \thetaest \bigr] + \bigl( \E\bigl[ \thetaest \bigr] - \theta \bigr)^2$ gilt
+		Man rechnet nach, dass
+		$\MSE\bigl[ \thetaest, \theta \bigr] = \V\bigl[ \thetaest \bigr] + \bigl( \E\bigl[ \thetaest \bigr] - \theta \bigr)^2$ gilt
 		(multipliziere hierzu aus und nutze die Linearität des Erwartungswerts).
-		Der zweite Summand (Quadrat der Verzerrung/Bias) verschwindet aber für erwartungstreue Schätzer, da $\E\bigl[ \thetaest \bigr] = \theta$ gilt.
-		Es folgt die Behauptung.
+		Der zweite Summand (Quadrat der Verzerrung/Bias) verschwindet aber für erwartungstreue Schätzer,
+		da $\E\bigl[ \thetaest \bigr] = \theta$ gilt. Es folgt die Behauptung.
 	\end{myproof}
 \end{frame}
 
@@ -847,8 +851,98 @@
 		\item ML Schätzer laufen Gefahr, sich übermäßig stark an die Daten anzupassen (\keyword{Overfitting}).
 		\item Wir erweitern daher das Konzept der ML Schätzung, indem wir zusätzlich eine \textit{Apriori-Verteilung}
 			für die zu schätzenden Parameter mit einbeziehen.
-		\item Wir nutzen den Satz von Bayes, um damit zusammen mit der Likelihood eine \textit{Aposteriori-Verteilung} über die Parameter zu erhalten.
+		\item Wir nutzen den Satz von Bayes, um damit zusammen mit der Likelihood eine \textit{Aposteriori-Verteilung}
+			über die Parameter zu erhalten.
 		\item Ein Schätzer $\bthetaestMAP$ heißt \keyword{Maximum-Aposteriori Schätzer} für den Parameter $\btheta$,
 			falls dieser die Aposteriori-Wahrscheinlichkeit maximiert.
 	\end{itemize}
+\end{frame}
+
+
+% Binäre Variablen
+\begin{frame}{Binäre Variablen}{}
+	\begin{itemize}
+		\item Wir betrachten eine binäre Zufallsvariable $X \in \{ 0, 1 \}$, z.\,B. das Werfen einer (unfairen) Münze,
+			wobei $X = 1$ Kopf und $X = 0$ Zahl bedeutet.
+		\item Die Zufallsvariable $X$ ist damit \keyword{Bernoulli-verteilt} mit der Dichte
+		\begin{equation*} \label{eq:bernoulli}
+			p_X(k) \coloneqq \mu^k \cdot (1 - \mu)^{1 - k}.
+		\end{equation*}
+		\item Es gilt
+		\begin{align*}
+			\E[X]
+				&= \mu
+		\\[2mm]
+			\V[X]
+				&= \mu \cdot (1 - \mu).
+		\end{align*}
+	\end{itemize}
+	
+	\begin{mytask}
+		Beweisen Sie die Aussagen $\E[X] = \mu$ und $\V[X] = \mu \cdot (1 - \mu)$.
+	\end{mytask}
+\end{frame}
+
+
+% Maximum Likelihood für die Bernoulli-Verteilung
+\begin{frame}{Maximum Likelihood für die Bernoulli-Verteilung}{}
+	\begin{itemize}
+		\item Wir gehen nun davon aus, dass $N$ unabhängige Bernoulli-verteilte Zufallsvariablen $X_1, X_2, \ldots, X_N$
+			vorliegen.
+		\item Dann ist die Likelihood Funktion für $\mu$ gegeben durch
+		\begin{equation*}
+			L(\mu) = \prod_{n=1}^N p_{X_n}(k_n) = \prod_{n=1}^N \mu^{k_n} \cdot (1 - \mu)^{1 - k_n}.
+		\end{equation*}
+		\item Hieraus ergibt sich die Log-Likelihood Funktion
+		\begin{equation*}
+			l(\mu)
+				= \sum_{n=1}^N \ln p_{X_n}(k_n)
+				= \sum_{n=1}^N \bigl[ k_n \ln \mu + (1 - k_n) \cdot \ln(1 - \mu) \bigr]
+				= \ln \mu \sum_{n=1}^N k_n + \ln(1 - \mu) \left( N - \sum_{n=1}^N k_n \right).
+		\end{equation*}
+		\item Wir sehen, dass die Log-Likelihood Funktion nur über die Statistik $Y \coloneqq \sum_{n=1}^N X_n$
+			von den Beobachtungen abhängt. Man nennt $Y$ daher eine \keyword{suffiziente Statistik}.
+	\end{itemize}
+\end{frame}
+
+
+% Maximum Likelihood für die Bernoulli-Verteilung (Forts.)
+\begin{frame}{Maximum Likelihood für die Bernoulli-Verteilung}{}
+	\begin{itemize}
+		\item Leiten wir $l(\mu)$ nach $\mu$ ab und setzen Null, so erhalten wir den Maximum-Likelihood Schätzer als
+			arithmetisches Mittel der Beobachtungen
+		\begin{equation*}
+			\muML = \frac{1}{N} \sum_{n=1}^N k_n.
+		\end{equation*}
+		\item Schreiben wir für die Anzahl der Erfolge (Kopf) $m \coloneqq \sum_{n=1}^N k_n$, so ist $\muML = \frac{m}{N}$.
+		\item Werfen wir die Münze drei Mal und erhalten jedes Mal Kopf, so wäre $\muML = 1$ \textbf{(Overfitting)}.
+		\item Die Zufallsvariable $Y \coloneqq X_1 + X_2 + \ldots + X_N$ ist dann aufgrund der Unabhängigkeit der $X_n$
+			\keyword{binomial-verteilt}, sodass gilt
+		\begin{equation*}
+			\Prob(Y = m) \coloneqq {N \choose m} \cdot \mu^m \cdot (1 - \mu)^{N - m}.
+		\end{equation*}
+	\end{itemize}
+\end{frame}
+
+
+% Beta-Verteilung
+\begin{frame}{Beta-Verteilung}{}
+	Um die Overfitting-Problematik zu adressieren, führen wir einen Prior ein.
+	
+	\begin{mydef}[def:beta-dist]
+		Es sei $X$ eine \keyword{Beta-verteilte} Zufallsvariable, in Notation $X \sim \beta_{a, b}$, mit den Parametern
+		$a, b > 0$. Die Dichte der Verteilung ist gegeben durch
+		\begin{equation*}
+			p_X(\xi)
+				= \frac{\Gamma(a + b)}{\Gamma(a) \cdot \Gamma(b)}
+					\cdot \xi^{a - 1} \cdot (1 - \xi)^{b - 1} \cdot \indicator_{(0, 1)}(\xi).
+		\end{equation*}
+	\end{mydef}
+	
+	\begin{boxGray}
+		\textbf{Bemerkung:} $\Gamma(x)$ ist hierbei die \keyword{Gamma-Funktion}. Es gilt
+		$\Gamma(x) \coloneqq \int_0^\infty u^{x-1} e^{-u}\,\diff u.$ Mithilfe partieller Integration kann man den Zusammenhang
+		$\Gamma(x + 1) = x \cdot \Gamma(x)$ zeigen. Außerdem gilt $\Gamma(1) = 1$. Daraus folgt $\Gamma(n + 1) = n!$ für
+		$n \in \N$. Somit ist die Gamma-Funktion die kontinuierliche Fortsetzung der Fakultäts-Funktion.
+	\end{boxGray}
 \end{frame}
