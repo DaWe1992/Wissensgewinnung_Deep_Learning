@@ -16,7 +16,8 @@
 		\item Mit $\sA$ bezeichnen wir die zugehörige \keyword{Sigma-Algebra}, eine Menge von Teilmengen von $\Omega$.
 			Im einfachsten Fall könnten wir $\sA \coloneqq \Pot(\Omega)$ wählen, jedoch kann man zeigen,
 			dass die Potenzmenge im Allgemeinen nicht messbare Mengen enthält,
-			denen keine Wahrscheinlichkeit zugeordnet werden kann. Die Sigma-Algebra $\B$ auf $\R$ heißt \keyword{Borel-Sigma-Algebra}.
+			denen keine Wahrscheinlichkeit zugeordnet werden kann. Die Sigma-Algebra $\B$ auf $\R$ heißt
+			\keyword{Borel-Sigma-Algebra}.
 		\item $\Prob : \sA \rightarrow [0, 1]$ ist ein \keyword{Wahrscheinlichkeitsmaß},
 			das jedem Element aus $\sA$ eine Wahrscheinlichkeit zuordnet.
 	\end{itemize}
@@ -51,7 +52,8 @@
 	
 	\begin{boxGray}
 		\textbf{Beispiel:}
-		$X$ ist $\norm(\mu, \sigma^2)$-verteilt genau dann, wenn es einen Wahrscheinlichkeitsraum $(\Omega, \sA, \Prob)$ gibt,
+		$X$ ist $\norm(\mu, \sigma^2)$-verteilt genau dann,
+		wenn es einen Wahrscheinlichkeitsraum $(\Omega, \sA, \Prob)$ gibt,
 		sodass $\forall B \in \B : \Prob(X \in B) = \norm(B; \mu, \sigma^2)$. Wir schreiben kurz $X \sim \norm(\mu, \sigma^2)$.
 	\end{boxGray}
 \end{frame}
@@ -62,7 +64,8 @@
 	\begin{mydef}[def:density]
 		Es seien $(\Omega, \sA, \Prob)$ und $(\sX, \sB, \Prob^X)$ Wahrscheinlichkeitsräume.
 		Dabei ist $\Prob^X$ die Verteilung der Zufallsvariablen $X : \Omega \rightarrow \sX$.
-		Wir nennen eine nichtnegative Funktion $$p_X : \R \rightarrow [0, \infty)$$ eine \keyword{(Wahrscheinlichkeits-)Dichte} von $\Prob^X$, falls
+		Wir nennen eine nichtnegative Funktion $$p_X : \R \rightarrow [0, \infty)$$ eine \keyword{(Wahrscheinlichkeits-)Dichte}
+		von $\Prob^X$, falls
 		\begin{equation*}
 			\Prob^X(B) = \int_B p_X(\xi)\,\diff\xi \qquad \forall B \in \sB.
 		\end{equation*}
@@ -84,8 +87,8 @@
 		\end{equation*}
 	\end{mydef}
 
-	Aus der Linearität des Integrals folgt die des Erwartungswerts, d.\,h. für zwei Zufallsvariablen $X$ und $Y$ und eine beliebige aber feste Zahl
-	$\alpha \in \R$ (keine Zufallsvariable!) gelten
+	Aus der Linearität des Integrals folgt die des Erwartungswerts, d.\,h. für zwei Zufallsvariablen $X$ und $Y$
+	und eine beliebige aber feste Zahl $\alpha \in \R$ (keine Zufallsvariable!) gelten
 	\begin{equation*}
 		\E[X + Y] = \E[X] + \E[Y] \qquad\text{und}\qquad \E[\alpha \cdot X] = \alpha \cdot \E[X].
 	\end{equation*}
@@ -99,8 +102,8 @@
 % Varianz von Zufallsvariablen
 \begin{frame}{Varianz von Zufallsvariablen}{}
 	\begin{mydef}[def:variance]
-		Die Varianz einer Zufallsvariablen $X \in \R$ ist definiert als die \textit{erwartete quadratische Abweichung vom Erwartungswert}
-		(zweites zentriertes Moment), also
+		Die Varianz einer Zufallsvariablen $X \in \R$ ist definiert als die \textit{erwartete quadratische Abweichung
+		vom Erwartungswert} (zweites zentriertes Moment), also
 		\begin{equation*}
 			\V[X] \coloneqq \E\bigl[ (X - \E[X])^2 \bigr] = \int_\R \bigl( \xi - \E[X] \bigr)^2 \cdot p_X(\xi)\,\diff\xi.
 		\end{equation*}
@@ -130,8 +133,8 @@
 	\end{boxGray}
 
 	\begin{boxGray}
-		Eine Verschiebung verändert die Varianz nicht, also $\V[X + \alpha] = \V[X]$ ($\alpha$ ist hierbei keine Zufallsvariable, sondern eine
-		konstante reelle Zahl).
+		Eine Verschiebung verändert die Varianz nicht, also $\V[X + \alpha] = \V[X]$ ($\alpha$ ist hierbei keine Zufallsvariable,
+		sondern eine konstante reelle Zahl).
 	\end{boxGray}
 \end{frame}
 
@@ -162,9 +165,9 @@
 % Streuungsmatrix
 \begin{frame}{Streuungsmatrix}{}
 	\begin{mydef}[def:dispersion-matrix]
-		Es sei $\bx \in \R^n$ ein Zufallsvektor. Wir definieren die \keyword{Streuungsmatrix} $\D[\bx]$ als
+		Es sei $\bx \in \R^N$ ein Zufallsvektor. Wir definieren die \keyword{Streuungsmatrix} $\D[\bx]$ als
 		\begin{equation*}
-			\D[\bx] \coloneqq \E\bigl[ (\bx - \E[\bx]) (\bx - \E[\bx])^\top \bigr] \in \R^{n \times n}.
+			\D[\bx] \coloneqq \E\bigl[ (\bx - \E[\bx]) (\bx - \E[\bx])^\top \bigr] \in \R^{N \times N}.
 		\end{equation*}
 	\end{mydef}
 
@@ -190,9 +193,9 @@
 % Kovarianzmatrix
 \begin{frame}{Kovarianzmatrix}{}
 	\begin{mydef}[def:covariance-matrix]
-		Es seien $\bx \in \R^n$ und $\by \in \R^m$ zwei Zufallsvektoren. Die \keyword{Kovarianzmatrix} von $\bx$ und $\by$ ist
+		Es seien $\bx \in \R^N$ und $\by \in \R^M$ zwei Zufallsvektoren. Die \keyword{Kovarianzmatrix} von $\bx$ und $\by$ ist
 		\begin{equation*}
-			\Cov[\bx, \by] \coloneqq \E\bigl[ (\bx - \E[\bx]) (\by - \E[\by])^\top \bigr] \in \R^{n \times m}.
+			\Cov[\bx, \by] \coloneqq \E\bigl[ (\bx - \E[\bx]) (\by - \E[\by])^\top \bigr] \in \R^{N \times M}.
 		\end{equation*} 
 	\end{mydef}
 \end{frame}
@@ -216,15 +219,17 @@
 	Mit Dichten können wir auch die \keyword{stochastische Unabhängigkeit} von Zufallsvariablen definieren:
 	
 	\begin{mydef}[def:independence]
-		Es seien $X \in \R$ und $Y \in \R$ reelle Zufallsvariablen mit den Verteilungen $\Prob^X, \Prob^Y$ und den Dichten $p_X$ bzw. $p_Y$.
+		Es seien $X \in \R$ und $Y \in \R$ reelle Zufallsvariablen mit den Verteilungen $\Prob^X, \Prob^Y$
+		und den Dichten $p_X$ bzw. $p_Y$.
 
-		$X$ und $Y$ heißen \keyword{stochastisch unabhängig} genau dann wenn $p_{X, Y} \coloneqq p_X \cdot p_Y$
+		$X$ und $Y$ heißen \keyword{stochastisch unabhängig} genau dann, wenn $p_{X, Y} \coloneqq p_X \cdot p_Y$
 		eine \keyword{Produktdichte} der Verteilung $\Prob^{X, Y}$ ist, d.\,h. die gemeinsame Dichte von $X$ und $Y$
 		ergibt sich als Produkt der Einzeldichten. 
 	\end{mydef}
 
 	\begin{boxGray}
-		\textbf{Bemerkung:} Stochastisch unabhängige Zufallsvariablen sind auch unkorreliert. \textbf{Die Umkehrung gilt im Allgemeinen nicht!}
+		\textbf{Bemerkung:} Stochastisch unabhängige Zufallsvariablen sind auch unkorreliert.
+		\textbf{Die Umkehrung gilt im Allgemeinen nicht!}
 		Somit ist die stochastische Unabhängigkeit eine stärkere Forderung als die der Unkorreliertheit.
 	\end{boxGray}
 \end{frame}
@@ -238,9 +243,10 @@
 	\end{itemize}
 	\begin{mydef}[def:cond-prop]
 		Es seien $X$ und $Y$ zwei Zufallsvariablen, wobei wir den Wert von $Y$ bereits beobachtet haben (Vorwissen).
-		Dann ist die \keyword{Wahrscheinlichkeitsdichte von $X$ gegeben $Y$}, in Notation $p(X \mid Y)$, definiert als
+		Dann ist die \keyword{Wahrscheinlichkeitsdichte von $X$ gegeben $Y$}, in Notation $p_{X\,\mid\,Y}(x \mid y)$,
+		definiert als
 		\begin{equation*}
-			p(X \mid Y) \coloneqq \frac{p(X, Y)}{p(Y)}.
+			p_{X\,\mid\,Y}(x \mid y) \coloneqq \frac{p_{X, Y}(x, y)}{p_Y(y)}.
 		\end{equation*}
 	\end{mydef}
 \end{frame}
@@ -252,18 +258,21 @@
 	\begin{mytheo}[th:bayes]
 		Es seien $X$ und $Y$ zwei Zufallsvariablen. Es gilt der \keyword{Satz von Bayes}
 		\begin{equation*}
-			p(X \mid Y) = \frac{p(Y \mid X) \cdot p(X)}{p(Y)}.
+			p_{X\,\mid\,Y}(x \mid y) = \frac{p_{Y\,\mid\,X}(y \mid x) \cdot p_X(x)}{p_Y(y)}.
 		\end{equation*}
 	\end{mytheo}
 
 	\begin{myproof}
-		Mit Definition \ref{def:cond-prop} gilt $p(X \mid Y) = \frac{p(X, Y)}{p(Y)}$. Analog gilt $p(Y \mid X) = \frac{p(Y, X)}{p(X)}$.
-		Da $p(X, Y) = p(Y, X)$, können wir beide Gleichungen nach der Verbunddichte $p(X, Y)$ auflösen. Wir erhalten also
-		$p(X, Y) = p(X \mid Y) \cdot p(Y)$ und $p(X, Y) = p(Y \mid X) \cdot p(X)$. Gleichsetzen liefert schließlich
+		Mit Definition \ref{def:cond-prop} gilt $p_{X\,\mid\,Y}(x \mid y) = \frac{p_{X, Y}(x, y)}{p_Y(y)}$.
+		Analog gilt $p_{Y\,\mid\,X}(y \mid x) = \frac{p_{Y, X}(y, x)}{p_X(x)}$.
+		Da $p_{X, Y}(x, y) = p_{Y, X}(y, x)$, können wir beide Gleichungen nach der Verbunddichte $p_{X, Y}(x, y)$ auflösen.
+		Wir erhalten also
+		$p_{X, Y}(x, y) = p_{X\,\mid\,Y}(x \mid y) \cdot p_Y(y)$ und $p_{X, Y}(x, y) = p_{Y\,\mid\,X}(y \mid x) \cdot p_X(x)$.
+		Gleichsetzen liefert schließlich
 		\begin{equation*}
-			p(X \mid Y) \cdot p(Y) = p(Y \mid X) \cdot p(X)
+			p_{X\,\mid\,Y}(x \mid y) \cdot p_Y(y) = p_{Y\,\mid\,X}(y \mid x) \cdot p_X(x)
 		\qquad\Longleftrightarrow\qquad
-			p(X \mid Y) = \frac{p(Y \mid X) \cdot p(X)}{p(Y)},
+			p_{X\,\mid\,Y}(x \mid y) = \frac{p_{Y\,\mid\,X}(y \mid x) \cdot p_X(x)}{p_Y(y)},
 		\end{equation*}
 		die Behauptung.
 	\end{myproof}
@@ -276,11 +285,11 @@
 % Transformationssatz für Lebsgue-Dichten
 \begin{frame}{Transformationssatz für Lebesgue-Dichten}{}
 	\begin{mytheo}[th:transformation]
-		Es seien $\bx$ und $\by$ $n$-dimensionale Zufallsvektoren mit dem Zusammenhang
+		Es seien $\bx$ und $\by$ $N$-dimensionale Zufallsvektoren mit dem Zusammenhang
 		\begin{equation*}
 			\by = \bT(\bx).
 		\end{equation*}
-		Die Abbildung $\bT : \R^n \rightarrow \R^n$ sei \textit{bijektiv}, sodass die Umkehrabbildung $\bx = \bT^{-1}(\by)$
+		Die Abbildung $\bT : \R^N \rightarrow \R^N$ sei \textit{bijektiv}, sodass die Umkehrabbildung $\bx = \bT^{-1}(\by)$
 		existiert und eindeutig ist. Dann gilt für die Dichte $p_{\by}$ der transformierten Zufallsvariablen $\by$
 		\begin{equation*}
 			p_{\by}(\by) = p_{\bx}\bigl( \bT^{-1}(\by) \bigr) \cdot \bigl\vert \det J\bT^{-1}(\by) \bigr\vert,
@@ -320,7 +329,7 @@
 
 % Beispiel II
 \begin{frame}{Beispiel II}{}
-	Der Zufallsvektor $\bx \in \R^n$ habe eine beliebige Lebesgue-Dichte $p_{\bx}$. Die Transformation $\bT$ sei linear und bijektiv,
+	Der Zufallsvektor $\bx \in \R^N$ habe eine beliebige Lebesgue-Dichte $p_{\bx}$. Die Transformation $\bT$ sei linear und bijektiv,
 	also von der Form $\by = \bT(\bx) = \bA \bx + \bb$. Wie lautet die Dichte von $\by$?
 	
 	\begin{boxGray}
@@ -329,7 +338,8 @@
 		Unter obigen Voraussetzungen ist $\bA$ invertierbar. Also existiert die Umkehrfunktion, welche durch
 		$\bx = \bT^{-1}(\by) = \bA^{-1} (\by - \bb)$ gegeben ist. Als Jacobi-Matrix erhält man $J\bT^{-1}(\by) = \bA^{-1}$.
 		
-		Die Anwendung der Transformationsformel \ref{th:transformation} ergibt daher für die Dichte $p_{\by}$ von $\by$ den Ausdruck
+		Die Anwendung der Transformationsformel \ref{th:transformation} ergibt daher für die Dichte $p_{\by}$ von $\by$
+		den Ausdruck
 		\begin{equation*}
 			p_{\by}(\by) = \frac{1}{\vert \det \bA \vert} \cdot p_{\bx}\bigl( \bA^{-1} (\by - \bb) \bigr),
 		\end{equation*}
@@ -359,19 +369,20 @@
 \begin{frame}{Multivariate Normalverteilung}{}
 	Die multivariate Normalverteilung spielt im weiteren Verlauf eine zentrale Rolle:
 	\begin{mytheo}[th:std-norm-mv]
-		Es sei $\bx \coloneqq (x_1, x_2, \ldots, x_n)^\top \in \R^n$ ein Zufallsvektor, dessen Komponenten $x_i \in \R$ unabhängig und
-		identisch standardnormalverteilt sind, d.\,h. $x_i \sim \norm(0, 1)\,\forall i \in \{ 1, \ldots, n \}$.
+		Es sei $\bx \coloneqq (x_1, x_2, \ldots, x_n)^\top \in \R^N$ ein Zufallsvektor, dessen Komponenten
+		$x_i \in \R$ unabhängig und identisch standardnormalverteilt sind,
+		d.\,h. $x_i \sim \norm(0, 1)\,\forall i \in \{ 1, \ldots, n \}$.
 		
 		Die Dichte der \keyword{multivariaten Standardnormalverteilung} ist dann gegeben durch
 		\begin{equation*}
-			p_{\bx}(\bx) \coloneqq \frac{1}{(2 \pi)^{\frac{n}{2}}} \cdot \exp\left( -\frac{\Vert \bx \Vert^2}{2} \right).
+			n_{\bx}(\bx) \coloneqq \frac{1}{(2 \pi)^{\frac{n}{2}}} \cdot \exp\left( -\frac{\Vert \bx \Vert^2}{2} \right).
 		\end{equation*}
 	\end{mytheo}
 
 	\begin{myproof}
 		Wegen der Unabhängigkeit der Komponenten gilt für die Verbunddichte
 		\begin{equation*}
-			p_{\bx}(\bx)
+			n_{\bx}(\bx)
 				= \prod_{i=1}^n p_{x_i}(x_i)
 				= \prod_{i=1}^n \frac{1}{\sqrt{2 \pi}} \cdot \exp\left( -\frac{x_i^2}{2} \right)
 				= \frac{1}{(2 \pi)^{\frac{n}{2}}} \cdot \exp\left( -\frac{\sum_{i=1}^n x_i^2}{2} \right)
@@ -386,13 +397,14 @@
 \begin{frame}{Multivariate Normalverteilung (Forts.)}{}
 	Für die multivariate Standardnormalverteilung gilt $\E[\bx] = \0$ und $\D[\bx] = \bI$.
 
-	Wir verallgemeinern dies auf beliebige Erwartungswertvektoren $\bmu \in \R^n$ und Streuungsmatrizen $\bSigma \in \R^{n \times n}$.
+	Wir verallgemeinern dies auf beliebige Erwartungswertvektoren $\bmu \in \R^N$ und Streuungsmatrizen
+	$\bSigma \in \R^{N \times N}$.
 	Wir fordern lediglich, dass die Streuungsmatrix $\bSigma$ \textit{positiv definit} ist, dass also
-	$\bz^\top \bSigma \bz > 0\, \forall \bz \in \R^n \backslash \{ \0 \}$ gilt.
+	$\bz^\top \bSigma \bz > 0\, \forall \bz \in \R^N \backslash \{ \0 \}$ gilt.
 
 	\begin{enumerate}
-		\item Aufgrund der positiven Definitheit von $\bSigma$ gibt es eine untere Dreiecksmatrix $\bA$ mit $\bSigma = \bA \bA^\top$
-			(Stichwort: \keyword{Cholesky-Zerlegung}).
+		\item Aufgrund der positiven Definitheit von $\bSigma$ gibt es eine untere Dreiecksmatrix $\bA$ mit
+			$\bSigma = \bA \bA^\top$ (Stichwort: \keyword{Cholesky-Zerlegung}).
 		\item Wir betrachten die Transformation $\by \coloneqq \bA \bx + \bmu$. Es gilt
 		\begin{equation*}
 			\E[\by]
@@ -421,7 +433,8 @@
 	\end{equation*}
 	an, wobei $p_{\bx}$ die Dichte der Standardnormalverteilung aus Satz \ref{th:std-norm-mv} ist. Wir setzen dort
 	$\bx \coloneqq \bA^{-1} (\by - \bmu)$, sodass
-	$\Vert \bx \Vert^2 = (\by - \bmu)^\top \bigl(\bA^{-1})^\top \bA^{-1} (\by - \bmu) = (\by - \bmu)^\top \bSigma^{-1} (\by - \bmu)$ gilt. 
+	$\Vert \bx \Vert^2 = (\by - \bmu)^\top \bigl(\bA^{-1})^\top \bA^{-1} (\by - \bmu) = (\by - \bmu)^\top \bSigma^{-1} (\by - \bmu)$
+	gilt. 
 \end{frame}
 
 
@@ -430,11 +443,11 @@
 	Wir fassen zusammen:
 	
 	\begin{mydef}[def:norm-mv]
-		Es sei $\bmu \in \R^n$ ein Vektor und $\bSigma \in \R^{n \times n}$ eine \textit{positiv definite} Matrix.
+		Es sei $\bmu \in \R^N$ ein Vektor und $\bSigma \in \R^{N \times N}$ eine \textit{positiv definite} Matrix.
 		
 		Die Dichte der \keyword{multivariaten Normalverteilung} $\norm(\bmu, \bSigma)$ ist gegeben durch
 		\begin{equation*}
-			p_{\bx}(\bx) \coloneqq \frac{1}{(2 \pi)^{\frac{n}{2}} \cdot (\det \bSigma)^{\frac{1}{2}}} \cdot \exp\left(
+			n_{\bx}(\bx) \coloneqq \frac{1}{(2 \pi)^{\frac{n}{2}} \cdot (\det \bSigma)^{\frac{1}{2}}} \cdot \exp\left(
 				-\frac{1}{2} (\bx - \bmu)^\top \bSigma^{-1} (\bx - \bmu)
 			\right).
 		\end{equation*}
@@ -456,15 +469,18 @@
 % Partitionierte Normalverteilung
 \begin{frame}{Partitionierte Normalverteilung}{}
 	\begin{mydef}[def:partitioned-norm]
-		Es seien $\bx \in \R^d$ und $\by \in \R^{(n - d)}$ zwei Zufallsvektoren.
-		Wir fassen diese zu einem neuen Zufallsvektor $\bz \coloneqq \bigl( \bx^\top, \by^\top \bigr)^\top \in \R^n$
+		Es seien $\bx \in \R^D$ und $\by \in \R^{N - D}$ zwei Zufallsvektoren.
+		Wir fassen diese zu einem neuen Zufallsvektor $\bz \coloneqq \bigl( \bx^\top, \by^\top \bigr)^\top \in \R^N$
 		mit $\bz \sim \norm(\bmu, \bSigma)$ zusammen. Hierbei seien
 		\begin{equation*}
 			\bmu
 				\coloneqq \begin{pmatrix} \bmu_{\bx} \\ \bmu_{\by} \end{pmatrix}
 		\qquad\text{und}\qquad
 			\bSigma
-				\coloneqq \begin{pmatrix} \bSigma_{\bx\bx} & \bSigma_{\bx\by} \\ \bSigma_{\by\bx} & \bSigma_{\by\by} \end{pmatrix}.
+				\coloneqq \begin{pmatrix}
+					\bSigma_{\bx\bx} & \bSigma_{\bx\by} \\
+					\bSigma_{\by\bx} & \bSigma_{\by\by}
+				\end{pmatrix}.
 		\end{equation*}
 		Wir nennen dieses Modell \keyword{partitionierte Normalverteilung}.
 	\end{mydef}
@@ -473,8 +489,8 @@
 		\textbf{Bemerkungen:} Aus der Symmetrie von $\bSigma$ folgt die von $\bSigma_{\bx\bx}$ und $\bSigma_{\by\by}$.
 		Außerdem gilt $\bSigma_{\bx\by} = \bSigma_{\by\bx}^\top$.
 		
-		Oft ist es einfacher mit der Inversen der Kovarianzmatrix zu arbeiten. Wir definieren daher $\bLambda \coloneqq \bSigma^{-1}$.
-		Man nennt diese Matrix \keyword{Präzisionsmatrix}.
+		Oft ist es einfacher mit der Inversen der Kovarianzmatrix zu arbeiten. Wir definieren daher
+		$\bLambda \coloneqq \bSigma^{-1}$. Man nennt diese Matrix \keyword{Präzisionsmatrix}.
 	\end{boxGray}
 \end{frame}
 
@@ -514,7 +530,8 @@
 			\centering
 			\includegraphics[scale=0.8]{./img/statistics/mv_gaussian_operations.pdf}
 		}
-		\caption{Links: Zweidimensionale Normalverteilung. Rechts: Bedingte Verteilung in rot. Siehe \cite{Bishop2024}, Seite 82.}
+		\caption{Links: Zweidimensionale Normalverteilung. Rechts: Bedingte Verteilung in rot.
+		Siehe \cite{Bishop2024}, Seite 82.}
 	\end{figure}
 \end{frame}
 
@@ -526,8 +543,10 @@
 		\begin{equation*}
 			\bSigma \coloneqq \begin{pmatrix} 0.3 & -1 \\ -1 & 5 \end{pmatrix} \in \R^{2 \times 2},
 		\end{equation*}
-		sodass die Verbunddichte von $X_1$ und $X_2$ gegeben ist durch $p(X_1, X_2) \coloneqq \norm(\bmu, \bSigma)$.
-		Bestimmen Sie die Dichte der bedingten Verteilung $p(X_1 \mid X_2 = -1)$. Benutzen Sie hierzu die Formeln aus Satz \ref{th:cond-norm}.
+		sodass die Verbunddichte von $X_1$ und $X_2$ gegeben ist durch
+		$p_{X_1, X_2}(x_1, x_2) \coloneqq n(\bx; \bmu, \bSigma)$.
+		Bestimmen Sie die Dichte der bedingten Verteilung $p_{X_1\,\mid\,X_2}(x_1 \mid x_2 = -1)$.
+		Benutzen Sie hierzu die Formeln aus Satz \ref{th:cond-norm}.
 	\end{mytask}
 \end{frame}
 
@@ -544,14 +563,14 @@
 			\by
 				&\sim \norm(\bmu_{\by}, \bSigma_{\by\by})
 		\end{align*}
-		Die Dichten der Randverteilung bezeichnen wir mit $p_{\bx}$ und $p_{\by}$.
+		Die Dichten der Randverteilung bezeichnen wir mit $n_{\bx}$ und $n_{\by}$.
 	\end{mytheo}
 
 	\begin{myproof}
-		Man erhält dieses Ergebnis durch \keyword{Marginalisierung} der Verbunddichte, d.\,h. wir integrieren über alle Variablen,
-		die uns nicht interessieren. Für die Randverteilung von $\bx$ gilt zum Beispiel
+		Man erhält dieses Ergebnis durch \keyword{Marginalisierung} der Verbunddichte,
+		d.\,h. wir integrieren über alle Variablen, die uns nicht interessieren. Für die Randverteilung von $\bx$ gilt zum Beispiel
 		\begin{equation*}
-			p_{\bx}(\bx) = \int p_{\bx, \by}(\bx, \by)\,\diff \by.
+			n_{\bx}(\bx) = \int n_{\bx, \by}(\bx, \by)\,\diff \by.
 		\end{equation*}
 		Einen ausführlichen Beweis finden Sie in \cite{Bishop2006} auf den Seiten 88--89.
 	\end{myproof}
@@ -568,7 +587,8 @@
 			\centering
 			\includegraphics[scale=0.8]{./img/statistics/mv_gaussian_operations.pdf}
 		}
-		\caption{Links: Zweidimensionale Normalverteilung. Rechts: Randverteilung für $x_a$ in blau. Siehe \cite{Bishop2024}, Seite 82.}
+		\caption{Links: Zweidimensionale Normalverteilung. Rechts: Randverteilung für $x_a$ in blau.
+		Siehe \cite{Bishop2024}, Seite 82.}
 	\end{figure}
 \end{frame}
 
@@ -576,9 +596,10 @@
 % Aufgabe: Normale Randverteilung
 \begin{frame}{Aufgabe: Normale Randverteilung}{}
 	\begin{mytask}
-		Betrachten Sie erneut die Verbunddichte $p(X_1, X_2)$ wie sie in Aufgabe \ref{task:cond-norm} definiert wurde.
+		Betrachten Sie erneut die Verbunddichte $p_{X_1, X_2}(x_1, x_2)$
+		wie sie in Aufgabe \ref{task:cond-norm} definiert wurde.
 		
-		Wie lautet die Dichte der Randverteilung $p(X_1)$?
+		Wie lautet die Dichte der Randverteilung $p_{X_1}(x_1)$?
 	\end{mytask}
 \end{frame}
 
@@ -590,15 +611,18 @@
 		\begin{equation*}
 			\bx \sim \norm(\bmu, \bSigma)
 		\quad\text{und}\quad
-			\by \mid \bx \sim \norm(\bA \bx, \bLambda).
+			\by \mid \bx \sim \norm(\bA \bx + \bb, \bLambda).
 		\end{equation*}
-		Dann gilt für die Verteilungen von $\by$ und $\bx \mid \by$
+		Dann gilt für die Dichten der Verteilungen von $\by$ und $\bx \mid \by$
 		\begin{align*}
 			\by
-				&\sim \norm\bigl( \bA \bmu, \bA \bSigma \bA^\top + \bLambda \bigr)
+				&\sim \norm\bigl( \bA \bmu + \bb, \bA \bSigma \bA^\top + \bLambda \bigr)
 		\\[2mm]
 			\bx \mid \by
-				&\sim \norm\bigl( \bGamma [\bSigma^{-1} \bmu + \bA^\top \bLambda^{-1} \by], \bGamma \bigr).
+				&\sim \norm\Bigl(
+					\bGamma \bigl[ \bSigma^{-1} \bmu + \bA^\top \bLambda^{-1} (\by - \bb) \bigr],
+					\bGamma
+				\Bigr).
 		\end{align*}
 		Hierbei ist $\bGamma \coloneqq \bigl( \bSigma^{-1} + \bA^\top \bLambda^{-1} \bA \bigr)^{-1}$.
 	\end{mytheo}
@@ -616,11 +640,12 @@
 \begin{frame}{Maximum-Likelihood Methode}{}
 	\begin{itemize}
 		\item Im Folgenden sei ein Beobachtungsvektor $\bx \coloneqq \bigl( x_1, x_2, \ldots, x_N \bigr)^\top$
-			bestehend aus $N$ \textit{unabhängig und identisch verteilten} (Englisch: \textit{independent and identically distributed} - i.\,i.\,d.)
-				Datenpunkten gegeben.
+			bestehend aus $N$ \textit{unabhängig und identisch verteilten}
+			(Englisch: \textit{independent and identically distributed} - i.\,i.\,d.) Datenpunkten gegeben.
 		\item Wir möchten Aussagen über die Parameter $\btheta \coloneqq \bigl( \theta_1, \theta_2, \ldots, \theta_M \bigr)^\top$
 			der zugrundeliegenden Verteilung machen.
-		\item Dies erledigen wir durch eine Punktschätzung des Parametervektors $\btheta$. Den Schätzer für $\btheta$ bezeichnen wir mit $\bthetaest$.
+		\item Dies erledigen wir durch eine Punktschätzung des Parametervektors $\btheta$.
+			Den Schätzer für $\btheta$ bezeichnen wir mit $\bthetaest$.
 		\item Eine der am häufigsten angewendete Methode ist die \keyword{Maximum-Likelihood Methode},
 			die wir im Folgenden näher beleuchten werden.
 	\end{itemize}
@@ -632,7 +657,8 @@
 	Der Maximum-Likelihood Schätzer $\bthetaestML$ für den Parametervektor $\btheta$ maximiert die Likelihood Funktion.
 	
 	\begin{mydef}[def:likelihood-function]
-		Es sei $p(\bx; \btheta)$ die Dichte eines Zufallsvektors $\bx \in \R^N$, welche durch den Parametervektor $\btheta \in \Theta$ parametrisiert wird.
+		Es sei $p(\bx; \btheta)$ die Dichte eines Zufallsvektors $\bx \in \R^N$, welche durch den
+		Parametervektor $\btheta \in \Theta$ parametrisiert wird.
 		Die \keyword{Likelihood Funktion} $L : \Theta \rightarrow \R$ ist dann definiert als
 		\begin{equation*}
 			L(\btheta) \coloneqq p(\bx; \btheta) = p(x_1, x_2, \ldots, x_N; \btheta).
@@ -722,10 +748,11 @@
 	\begin{mytheo}[th:mle-norm]
 		Es seien $\bx = (x_1, x_2, \ldots, x_N)^\top$ \textit{unabhängig und identisch normalverteilte} Beobachtungen
 		mit unbekanntem Erwartungswert $\mu \in \R$ und unbekannter Varianz $\sigma^2 > 0$.
-		Der Parametervektor $\btheta$ ist in diesem Fall zweielementig und gegeben durch $\btheta \coloneqq \bigl( \mu, \sigma^2 \bigr)^\top$.
+		Der Parametervektor $\btheta$ ist in diesem Fall zweielementig und gegeben durch
+		$\btheta \coloneqq \bigl( \mu, \sigma^2 \bigr)^\top$.
 		
-		Die Maximum-Likelihood Schätzer $\muML$ und $\sigmasquML$ für die unbekannten Parameter $\mu$ und $\sigma^2$
-		werden in diesem Fall bestimmt mittels
+		Die Maximum-Likelihood Schätzer $\muML$ und $\sigmasquML$ für die unbekannten Parameter
+		$\mu$ und $\sigma^2$ werden in diesem Fall bestimmt mittels
 		\begin{equation*}
 			\muML
 				= \frac{1}{N} \sum_{n=1}^n x_n
@@ -744,9 +771,11 @@
 		\begin{equation*}
 			p\bigl( \bx; \mu, \sigma^2 \bigr)
 				= \prod_{n=1}^N \frac{1}{\sqrt{2 \pi} \sigma} \cdot \exp\left( -\frac{(x_n - \mu)^2}{2 \sigma^2} \right)
-				= \frac{1}{(2 \pi)^{\frac{N}{2}}} \cdot \frac{1}{\sigma^N} \cdot \exp\left( -\frac{\sum_{n=1}^N (x_i - \mu)^2}{2 \sigma^2} \right).
+				= \frac{1}{(2 \pi)^{\frac{N}{2}}} \cdot \frac{1}{\sigma^N}
+					\cdot \exp\left( -\frac{\sum_{n=1}^N (x_i - \mu)^2}{2 \sigma^2} \right).
 		\end{equation*}
-		Aufgrund der auftretenden Exponentialverteilung bietet sich die Betrachtung der Log-Likelihood Funktion an. Wir erhalten
+		Aufgrund der auftretenden Exponentialverteilung bietet sich die Betrachtung der Log-Likelihood Funktion an.
+		Wir erhalten
 		\begin{equation*}
 			l\bigl( \mu, \sigma^2 \bigr)
 				= -\frac{N}{2} \cdot \ln(2 \pi) - N \ln(\sigma) - \frac{\sum_{n=1}^N (x_n - \mu)^2}{2 \sigma^2}.
@@ -759,9 +788,11 @@
 			\frac{\partial}{\partial \sigma^2} l\bigl( \mu, \sigma^2 \bigr)
 				= -\frac{N}{2 \sigma^2} + \frac{1}{2 \sigma^4} \sum_{n=1}^N (x_n - \mu).
 		\end{equation*}
-		Durch Nullsetzen und auflösen erhalten wir die im Satz angegebenen Maximum-Likelihood Schätzer $\muML$ und $\sigmasquML$.
+		Durch Nullsetzen und auflösen erhalten wir die im Satz angegebenen Maximum-Likelihood Schätzer
+		$\muML$ und $\sigmasquML$.
 		Es bleibt noch zu zeigen, dass es sich tatsächlich um ein Maximum handelt. Man rechnet nach,
-		dass die Hesse-Matrix von $l\bigl( \mu, \sigma^2 \bigr)$ and der Stelle $\bigl( \muML, \sigmasquML \bigr)$ gegeben ist durch
+		dass die Hesse-Matrix von $l\bigl( \mu, \sigma^2 \bigr)$ and der Stelle $\bigl( \muML, \sigmasquML \bigr)$
+		gegeben ist durch
 		\begin{equation*}
 			\nabla^2 l\bigl( \mu, \sigma^2 \bigr) =
 			\begin{pmatrix}[1.3] -\frac{N}{\sigmasquML} & 0 \\ 0 & -\frac{N}{\bigl( \sigmasquML \bigr)^2} \end{pmatrix}.
@@ -863,7 +894,7 @@
 \begin{frame}{Binäre Variablen}{}
 	\begin{itemize}
 		\item Wir betrachten eine binäre Zufallsvariable $X \in \{ 0, 1 \}$, z.\,B. das Werfen einer (unfairen) Münze,
-			wobei $X = 1$ Kopf und $X = 0$ Zahl bedeutet.
+			wobei $X = 1$ 'Kopf' und $X = 0$ 'Zahl' bedeutet.
 		\item Die Zufallsvariable $X$ ist damit \keyword{Bernoulli-verteilt} mit der Dichte
 		\begin{equation*} \label{eq:bernoulli}
 			p_X(k) \coloneqq \mu^k \cdot (1 - \mu)^{1 - k}.
@@ -1058,11 +1089,11 @@
 		\item Der MAP-Schätzer \textit{maximiert den Posterior} \eqref{eq:beta-post-normalized}.
 		\item Der \keyword{Log-Posterior} lautet
 		\begin{equation*}
-			ln p( \mu \mid m, l; a, b) = (m + a - 1) \ln \mu + (l + b - 1) \ln (1 - \mu) + \const.
+			\ln p( \mu \mid m, l; a, b) = (m + a - 1) \ln \mu + (l + b - 1) \ln (1 - \mu) + \const.
 		\end{equation*}
 		\item Ableiten nach $\mu$, Nullsetzen und Auflösen nach $\mu$ ergibt den MAP-Schätzer
 		\begin{equation*}
-			\muMAP = \frac{m + a - 1}{m + l + a + b - 2}.
+			\muMAP = \frac{m + a - 1}{m + a + l + b - 2}.
 		\end{equation*}
 		\item Vergleich mit dem ML-Schätzer
 		\begin{equation*}
