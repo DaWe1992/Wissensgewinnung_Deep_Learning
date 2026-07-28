@@ -887,9 +887,8 @@
 % Maximum Likelihood für die Bernoulli-Verteilung
 \begin{frame}{Maximum Likelihood für die Bernoulli-Verteilung}{}
 	\begin{itemize}
-		\item Wir gehen nun davon aus, dass $N$ unabhängige Bernoulli-verteilte Zufallsvariablen $X_1, X_2, \ldots, X_N$
-			vorliegen.
-		\item Dann ist die Likelihood Funktion für $\mu$ gegeben durch
+		\item Wir gehen nun von $N$ unabhängigen Bernoulli-verteilten Zufallsvariablen $X_1, X_2, \ldots, X_N$ aus.
+		\item Dann ist die Likelihood Funktion für den Parameter $\mu$ gegeben durch
 		\begin{equation*}
 			L(\mu) = \prod_{n=1}^N p_{X_n}(k_n) = \prod_{n=1}^N \mu^{k_n} \cdot (1 - \mu)^{1 - k_n}.
 		\end{equation*}
@@ -900,9 +899,12 @@
 				= \sum_{n=1}^N \bigl[ k_n \ln \mu + (1 - k_n) \cdot \ln(1 - \mu) \bigr]
 				= \ln \mu \sum_{n=1}^N k_n + \ln(1 - \mu) \left( N - \sum_{n=1}^N k_n \right).
 		\end{equation*}
-		\item Wir sehen, dass die Log-Likelihood Funktion nur über die Statistik $Y \coloneqq \sum_{n=1}^N X_n$
-			von den Beobachtungen abhängt. Man nennt $Y$ daher eine \keyword{suffiziente Statistik}.
 	\end{itemize}
+	
+	\begin{boxGray}
+		\textbf{Bemerkung:} Die Log-Likelihood Funktion hängt von den Beobachtungen nur über die Statistik \\
+		$Y \coloneqq \sum_{n=1}^N X_n$ ab. Man nennt $Y$ daher eine \keyword{suffiziente Statistik}.
+	\end{boxGray}
 \end{frame}
 
 
@@ -916,8 +918,8 @@
 		\end{equation*}
 		\item Schreiben wir für die Anzahl der Erfolge (Kopf) $m \coloneqq \sum_{n=1}^N k_n$, so ist $\muML = \frac{m}{N}$.
 		\item Werfen wir die Münze drei Mal und erhalten jedes Mal Kopf, so wäre $\muML = 1$ \textbf{(Overfitting)}.
-		\item Die Zufallsvariable $Y \coloneqq X_1 + X_2 + \ldots + X_N$ ist dann aufgrund der Unabhängigkeit der $X_n$
-			\keyword{binomial-verteilt}, sodass gilt
+		\item Die Zufallsvariable $Y \coloneqq X_1 + X_2 + \ldots + X_N$ ist aufgrund der Unabhängigkeit der $X_n$
+			($1 \le n \le N$) \keyword{binomial-verteilt}, sodass gilt
 		\begin{equation*}
 			\Prob(Y = m) \coloneqq {N \choose m} \cdot \mu^m \cdot (1 - \mu)^{N - m}.
 		\end{equation*}
@@ -950,26 +952,145 @@
 
 % Visualisierung: Beta-Verteilung
 \begin{frame}{Visualisierung: Beta-Verteilung}{}
-	tbd
+	\begin{figure}[H]
+		\divideTwo{0.49}{
+			\centering
+			\includegraphics[scale=0.85]{./img/statistics/beta_1.pdf}
+		}{0.49}{
+			\centering
+			\includegraphics[scale=0.85]{./img/statistics/beta_2.pdf}
+		}
+		\caption{Beta-Verteilungen für einige Parameter $a, b$. Siehe \cite{Bishop2006}, Seite 72.}
+	\end{figure}
+\end{frame}
+
+
+% Visualisierung: Beta-Verteilung (Forts.)
+\begin{frame}{Visualisierung: Beta-Verteilung (Forts.)}{}
+	\begin{figure}[H]
+		\divideTwo{0.49}{
+			\centering
+			\includegraphics[scale=0.85]{./img/statistics/beta_3.pdf}
+		}{0.49}{
+			\centering
+			\includegraphics[scale=0.85]{./img/statistics/beta_4.pdf}
+		}
+		\caption{Beta-Verteilungen für einige Parameter $a, b$. Siehe \cite{Bishop2006}, Seite 72.}
+	\end{figure}
 \end{frame}
 
 
 % Bestimmung des Posteriors
 \begin{frame}{Bestimmung des Posteriors}{}
 	\begin{itemize}
-		\item Um den Posterior zu erhalten, multiplizieren wir nun den Beta-verteilten Prior mit der binomial-verteilten Likelihood.
-		\item Ignorieren wir alle Terme, die nicht von $\mu$ abhängen, so erhalten wir für den Posterior den Ausdruck
-		\begin{equation}
-			p(\mu \mid m, l; a, b) \propto \mu^{m + a - 1} \cdot (1 - \mu)^{l + b - 1},
+		\item Um den Posterior zu erhalten, multiplizieren wir den Beta-verteilten Prior mit der binomial-verteilten Likelihood.
+		\item Ignorieren wir alle von $\mu$ unabhängigen Terme, so erhalten wir für den Posterior mit $l \coloneqq N - m$
+			(Anzahl Misserfolge)
+		\begin{equation} \label{eq:beta-post}
+			p(\mu \mid m, l; a, b) \propto \mu^{m + a - 1} \cdot (1 - \mu)^{l + b - 1}.
 		\end{equation}
-		wobei $l \coloneqq N - m$ die Anzahl der Misserfolge (Zahl) ist.
-		\item Da Prior und Likelihood dieselbe funktionale Form haben, ist \textit{auch der Posterior wieder Beta-verteilt},
-			wobei sich der Normierungsfaktor durch Vergleich mit Definition \ref{def:beta-dist} ergibt
-		\begin{equation*}
+		\item Da Prior und Likelihood \textit{dieselbe funktionale Form} haben, ist \textit{auch der Posterior wieder Beta-verteilt},
+			wobei sich der Normierungsfaktor durch Vergleich mit der Dichte aus \ref{def:beta-dist} ergibt
+		\begin{equation} \label{eq:beta-post-normalized}
 			p(\mu \mid m, l; a, b)
 				= \frac{\Gamma(m + a + l + b)}{\Gamma(m + a) \cdot \Gamma(l + b)}
 					\cdot \mu^{m + a - 1} \cdot (1 - \mu)^{l + b - 1}
+		\end{equation}
+	\end{itemize}
+	
+	\begin{boxGray}
+		Wir gehen also vom Prior mit der Dichte $\beta_{a, b}$ über zum Posterior mit der Dichte $\beta_{a + m, b + l}$.
+	\end{boxGray}
+\end{frame}
+
+
+% Visualisierung: Bestimmung des Posteriors
+\begin{frame}{Visualisierung: Bestimmung des Posteriors}{}
+	\begin{figure}[H]
+		\divideThree{0.32}{
+			\centering
+			\includegraphics[scale=0.85]{./img/statistics/beta_prior.pdf}
+		}{0.32}{
+			\centering
+			\includegraphics[scale=0.85]{./img/statistics/binomial_likelihood.pdf}
+		}{0.32}{
+			\centering
+			\includegraphics[scale=0.85]{./img/statistics/beta_posterior.pdf}
+		}
+		\caption{Ein Schritt der Bayes'schen Inferenz. Der Prior ist gegeben durch eine Beta-Verteilung mit $a = 2 = b$.
+		Die Likelihood Funktion ist hingegen gegeben durch eine Binomial-Verteilung mit $N = m = 1$.
+		Der Posterior ist damit wieder Beta-verteilt mit den Parametern $a = 3$ und $b = 2$. Siehe \cite{Bishop2006}, Seite 73.}
+	\end{figure}
+\end{frame}
+
+
+% Konjugierte Verteilungen
+\begin{frame}{Konjugierte Verteilungen}{}
+	\begin{mydef}[def:conjugated-dist]
+		Ein Prior heißt \keyword{konjugiert} zur Likelihood, wenn der daraus berechnete Posterior exakt dieselbe funktionale
+		Form wie der Prior annimmt.
+	\end{mydef}
+	
+	\begin{itemize}
+		\item \textbf{Vorteil:} Der Posterior kann durch Aufdatierung der Parameter des Priors einfach bestimmt werden.
+		\item Wichtige Paare:
+		\begin{tabbing}
+			\hspace*{0.5cm} \= \hspace*{4cm} \= \kill
+			\> 	Binomial-Verteilung 	\> Beta-Verteilung \\
+			\>	Poisson-Verteilung 	\> Gamma-Verteilung \\
+			\>	Normalverteilung	\> Normalverteilung ($\mu$ zu schätzen, Varianz $\sigma^2$ bekannt)
+		\end{tabbing}
+	\end{itemize}
+\end{frame}
+
+
+% Aufgabe: Konjugierte Verteilungen
+\begin{frame}{Aufgabe: Konjugierte Verteilungen}{}
+	\begin{mytask}
+		Weisen Sie nach, dass die Gamma-Verteilung den konjugierten Prior zur Likelihood der Poisson-Verteilung darstellt.
+	\end{mytask}
+\end{frame}
+
+
+% Bestimmung des MAP-Schätzers
+\begin{frame}{Bestimmung des MAP-Schätzers}{}
+	\begin{itemize}
+		\item Der MAP-Schätzer \textit{maximiert den Posterior} \eqref{eq:beta-post-normalized}.
+		\item Der \keyword{Log-Posterior} lautet
+		\begin{equation*}
+			ln p( \mu \mid m, l; a, b) = (m + a - 1) \ln \mu + (l + b - 1) \ln (1 - \mu) + \const.
 		\end{equation*}
-		\item Diese Eigenschaft nennt man \keyword{Konjugiertheit}.
+		\item Ableiten nach $\mu$, Nullsetzen und Auflösen nach $\mu$ ergibt den MAP-Schätzer
+		\begin{equation*}
+			\muMAP = \frac{m + a - 1}{m + l + a + b - 2}.
+		\end{equation*}
+		\item Vergleich mit dem ML-Schätzer
+		\begin{equation*}
+			\muML = \frac{m}{m + l}.
+		\end{equation*}
+	\end{itemize}
+\end{frame}
+
+
+% SUBSECTION: Bayes'sche Inferenz
+\subsection{Bayes'sche Inferenz}
+
+% Bayes'sche Inferenz
+\begin{frame}{Bayes'sche Inferenz}{}
+	\begin{itemize}
+		\item Wir haben $N$ Münzwürfe mit $m$ Erfolgen (Kopf) und $l$ Misserfolgen (Zahl) beobachtet.
+		\item Unser Ziel ist es nun, den Ausgang des nächsten Wurfs vorherzusagen.
+		\item Hierzu werten wir die \keyword{Prädiktivverteilung (Vorhersageverteilung)} aus
+		\begin{align*}
+			\Prob(X_{N+1} = 1 \mid m, l)
+				&= \int_0^1 \Prob(X_{N+1} = 1 \mid \mu) \cdot p(\mu \mid m, l)\,\diff\mu
+					= \int_0^1 \mu \cdot p(\mu \mid m, l)\,\diff\mu
+		\\[2mm]
+				&= \E[\mu \mid m, l].
+		\end{align*}
+		\item Der Erwarungswert des Posteriors können wir nun aus \eqref{eq:beta-post-normalized} ablesen, wir erhalten
+		\begin{equation*}
+			\Prob(X_{N+1} = 1 \mid m, l) = \frac{m + a}{m + a + l + b}.
+		\end{equation*}
 	\end{itemize}
 \end{frame}
