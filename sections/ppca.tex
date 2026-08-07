@@ -33,15 +33,14 @@
 		\item Dann ziehen wir die beobachtete Variable $\bx$ aus der Verteilung \eqref{eq:ppca-dist-x-given-z}.
 		\item Hierbei ergibt sich der Wert für $\bx$ gemäß
 		\begin{equation} \label{eq:ppca-comp-x}
-			\bx = \bW \bz + \bmu + \bepsilon.
+			\bx = \bW \bz + \bmu + \beps.
 		\end{equation}
-		\item $\bepsilon$ ist hierbei \textit{additives normalverteiltes Datenrauschen},
-			welches durch den Parameter $\sigma^2$ in \eqref{eq:ppca-dist-x-given-z} modelliert wird.
+		\item $\beps \sim \norm(\0, \sigma^2 \bI)$ ist hierbei \textit{additives normalverteiltes Datenrauschen},
+			welches durch den Parameter $\sigma^2$ in \eqref{eq:ppca-dist-x-given-z} beeinflusst wird.
 	\end{itemize}
 	
 	\begin{boxGray}
-		\textbf{Bemerkung:} Die umgekehrte Sichtweise, also das Mapping der beobachteten Daten in den Principal Subspace,
-		erhalten wir hieraus in Kürze mit dem Satz von Bayes.
+		Das Mapping der Daten in den Principal Subspace erhalten wir mit dem Satz von Bayes.
 	\end{boxGray}
 \end{frame}
 
@@ -54,3 +53,121 @@
 		\caption{PPCA als generatives Modell. Siehe \cite{Bishop2006}, Seite 572.}
 	\end{figure}
 \end{frame}
+
+
+% Bestimmung der Verbunddichte
+\begin{frame}{Bestimmung der Verbunddichte}{}
+	\begin{itemize}
+		\item Für die weiteren Ausführungen benötigen wir die Verbunddichte $p(\bz, \bx)$ der beobachteten und latenten Variablen.
+		\item Mit der Produktregel für Wahrscheinlichkeiten ist
+		\begin{equation} \label{eq:ppca-joint-dist}
+			p(\bz, \bx) = n(\bx \mid \bz) \cdot n(\bz).
+		\end{equation}
+		\item Da es sich bei \label{eq:ppca-joint-dist} um ein Produkt von Normalverteilungen handelt,
+			sind die Zufallsvariablen auch gemeinsam normalverteilt.
+		\item Es ist also $p(\bz, \bx) = n(\bz, \bx; \bnu, \bSigma)$ beziehungsweise
+		\begin{equation}
+			\begin{pmatrix} \bz \\ \bx \end{pmatrix} \sim \norm(\bnu, \bSigma).
+		\end{equation}
+	\end{itemize}
+\end{frame}
+
+
+% Bestimmung der Verbunddichte (Forts.)
+\begin{frame}{Bestimmung der Verbunddichte (Forts.)}{}
+	Wir bestimmen zunächst den Parameter $\bnu$:
+	\begin{itemize}
+		\item Mit der Linearität des Erwartungswerts und den obigen Definitionen --
+			insbesondere die Definitionen \eqref{eq:ppca-dist-z} und \eqref{eq:ppca-comp-x} -- gilt
+		\begin{align*}
+			\E[\bz]
+				&= \0
+		\\[2mm]
+			\E[\bx]
+				&= \E[\bW \bz + \bmu + \beps]
+				= \bW \underbracket{\E[\bz]}_{= \0} + \E[\bmu] + \underbracket{\E[\beps]}_{= \0}
+				= \bmu.
+		\end{align*}
+		\item Zusammenfassend gilt also
+		\begin{equation} \label{eq:ppca-expectation-joint-dist}
+			\bnu
+				= \E\left[ \begin{pmatrix} \bz \\ \bx \end{pmatrix} \right]
+				= \begin{pmatrix} \E[\bz] \\ \E[\bx] \end{pmatrix}
+				= \begin{pmatrix} \0 \\ \bmu \end{pmatrix}.
+		\end{equation}
+	\end{itemize}
+\end{frame}
+
+
+% Bestimmung der Verbunddichte (Forts.)
+\begin{frame}{Bestimmung der Verbunddichte (Forts.)}{}
+	Nun bestimmen wir den Parameter
+		$\bSigma = \begin{pmatrix} \bSigma_{\bz\bz} & \bSigma_{\bz\bx} \\ \bSigma_{\bx\bz} & \bSigma_{\bx\bx} \end{pmatrix}$:
+	\begin{itemize}
+		\item Zunächst ist $\bSigma_{\bz\bz} = \E\bigl[ (\bz - \E[\bz]) (\bz - \E[\bz])^\top \bigr] = \E[\bz \bz^\top] = \D[\bz] = \bI$.
+		\item Ferner ist
+		\begin{align*}
+			\bSigma_{\bz \bx}
+				&= \E\bigl[ (\bz - \E[\bz]) (\bx - \E[\bx])^\top \bigr]
+		\\[2mm]
+				&= \E\bigl[\bz (\bW \bz + \bmu + \beps - \E[\bW \bz + \bmu + \beps])^\top \bigr]
+		\\[2mm]
+				&= \E\bigl[\bz (\bW \bz + \beps)^\top \bigr]
+					= \E\bigl[ \bz \bz^\top \bW^\top + \bz \beps^\top \bigr]
+					= \E\bigl[ \bz \bz^\top \bigr] \bW^\top  + \E\bigl[ \bz \bigr] \cdot \E\bigl[ \beps^\top \bigr]
+		\\[2mm]
+				&= \bW^\top.
+		\end{align*}
+		\item Aus Symmetriegründen gilt $\bSigma_{\bx \bz} = \bW$.
+	\end{itemize}
+\end{frame}
+
+
+% Bestimmung der Verbunddichte (Forts.)
+\begin{frame}{Bestimmung der Verbunddichte (Forts.)}{}
+	\begin{mytask}
+		Zeigen Sie durch analoge Rechnung, dass $\bSigma_{\bz\bz} = \bW \bW^\top + \sigma^2 \bI$ gilt.
+	\end{mytask}
+	
+	\begin{boxGray}
+		Zusammenfassend erhalten wir für die gemeinsame Verteilung von $\bz$ und $\bx$ also
+		\begin{equation} \label{eq:ppca-expectation-joint-dist-detail}
+			\begin{aligned}
+				\begin{pmatrix} \bz \\ \bx \end{pmatrix}
+					&\sim \norm(\bnu, \bSigma)
+			\\[2mm]
+				\bnu
+					&\coloneqq \begin{pmatrix} \0 \\ \bmu \end{pmatrix}
+			\\[2mm]
+				\bSigma
+					&\coloneqq \begin{pmatrix} \bI & \bW^\top \\ \bW & \bW \bW^\top + \sigma^2 \bI \end{pmatrix}.
+			\end{aligned}
+		\end{equation}
+	\end{boxGray}
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
