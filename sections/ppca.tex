@@ -75,7 +75,7 @@
 
 % Bestimmung der Verbunddichte (Forts.)
 \begin{frame}{Bestimmung der Verbunddichte (Forts.)}{}
-	Wir bestimmen zunächst den Parameter $\bnu$:
+	Wir bestimmen zunächst den Parameter $\bnu = (\bmu_{\bz}, \bmu_{\bx})^\top$:
 	\begin{itemize}
 		\item Mit der Linearität des Erwartungswerts und den obigen Definitionen --
 			insbesondere die Definitionen \eqref{eq:ppca-dist-z} und \eqref{eq:ppca-comp-x} -- gilt
@@ -130,7 +130,7 @@
 	\end{mytask}
 	
 	\begin{boxGray}
-		Zusammenfassend erhalten wir für die gemeinsame Verteilung von $\bz$ und $\bx$ also
+		\textbf{Zusammenfassung:} Für die gemeinsame Verteilung von $\bz$ und $\bx$ erhalten wir also
 		\begin{equation} \label{eq:ppca-expectation-joint-dist-detail}
 			\begin{aligned}
 				\begin{pmatrix} \bz \\ \bx \end{pmatrix}
@@ -218,21 +218,77 @@
 \end{frame}
 
 
+% Bestimmung des Posteriors (Forts.)
+\begin{frame}{Bestimmung des Posteriors (Forts.)}{}
+	In den weiteren Rechnungen brauchen wir auch noch einen Ausdruck für $\bW^\top \bC^{-1}$.
+	Hierzu multiplizieren wir \eqref{eq:ppca-C-inv} von links mit $\bW^\top$
+	\begin{equation} \label{eq:ppca-W-top-C-inv}
+		\begin{aligned}
+			\bW^\top \bC^{-1}
+				&= \sigma^{-2} \bW^\top - \sigma^{-2} \bW^\top \bW \bM^{-1} \bW^\top.
+		\\[2mm]
+				&= \sigma^{-2} \bigl( \bI - \bW^\top \bW \bM^{-1} \bigr) \bW^\top
+				&& \rem{$\sigma^{-2}$ und $\bW^\top$ ausklammern.}
+		\\[2mm]
+				&= \sigma^{-2} \bigl( \bM \bM^{-1} - \bW^\top \bW \bM^{-1} \bigr) \bW^\top
+				&& \rem{Es ist $\bI = \bM \bM^{-1}$.}
+		\\[2mm]
+				&= \sigma^{-2} \bigl( \bM - \bW^\top \bW \bigr) \bM^{-1} \bW^\top
+				&& \rem{Wir klammern $\bM^{-1}$ aus.}
+		\\[2mm]
+				&= \sigma^{-2} \bigl( \sigma^2 \bI \bigr) \bM^{-1} \bW^\top
+				&& \rem{Aus \eqref{eq:ppca-M} folgt $\bM - \bW^\top \bW = \sigma^2 \bI$.}
+		\\[2mm]
+				&= \bM^{-1} \bW^\top.
+		\end{aligned}
+	\end{equation}
+\end{frame}
 
 
+% Bestimmung des Posteriors (Forts.)
+\begin{frame}{Bestimmung des Posteriors (Forts.)}{}
+	\begin{itemize}
+		\item Nun haben wir alles zusammen, um den Posterior mit Satz \ref{th:cond-norm} auszurechnen.
+		\item Wir beginnen mit dem bedingten Erwartungswert $\bmu_{\bz\,\mid\,\bx}$
+		\begin{equation}
+			\begin{aligned}
+				\bmu_{\bz\,\mid\,\bx}
+					&= \bmu_{\bz} + \bSigma_{\bz\bx} \bSigma_{\bx\bx}^{-1} (\bx - \bmu_{\bx})
+			\\[2mm]
+					&= \0 + \bW^\top \bigl( \bW \bW^\top + \sigma^2 \bI \bigr)^{-1} (\bx - \bmu)
+			\\[2mm]
+					&= \bW^\top \bC^{-1} (\bx - \bmu)
+					&& \rem{Definition \eqref{eq:ppca-C}}
+			\\[2mm]
+					&= \bM^{-1} \bW^\top (\bx - \bmu).
+					&& \rem{Ausdruck aus \eqref{eq:ppca-W-top-C-inv}}
+			\end{aligned}
+		\end{equation}
+	\end{itemize}
+	
+	\begin{mytask}
+		Zeigen Sie durch analoge Rechnung, dass $\bSigma_{\bz\,\mid\,\bx} = \sigma^2 \bM^{-1}$ gilt.
+	\end{mytask}
+\end{frame}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+% Bestimmung des Posteriors (Forts.)
+\begin{frame}{Bestimmung des Posteriors (Forts.)}{}
+	\begin{boxGray}
+		\textbf{Zusammenfassung:} Wir erhalten damit
+		\begin{equation} \label{eq:ppca-posterior-z-given-x}
+			\bz \mid \bx \sim \norm\bigl( \bM^{-1} \bW^\top (\bx - \bmu), \sigma^2 \bM^{-1} \bigr).
+		\end{equation}
+	\end{boxGray}
+	
+	\begin{boxGray}
+		\textbf{Bemerkung:} Dasselbe Ergebnis erhält man, wenn man den Satz von Bayes \ref{th:bayes-norm}
+		auf $\bz \sim \norm(\0, \bI)$ und $\bx \mid \bz \sim \norm\bigl( \bW \bz + \bmu, \sigma^2 \bI \bigr)$ anwendet.
+	\end{boxGray}
+	
+	\begin{boxGray}
+		\textbf{Bemerkung:} In \eqref{eq:ppca-posterior-z-given-x} kommt die Matrix $C^{-1} \in \R^{M \times M}$ nicht mehr vor.
+		Stattdessen müssen wir nun die Matrix $\bM^{-1} \in \R^{D \times D}$ invertieren, was einfacher ist, da
+		in der Regel $D \ll M$ ist.
+	\end{boxGray}
+\end{frame}
