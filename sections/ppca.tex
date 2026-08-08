@@ -35,7 +35,7 @@
 		\begin{equation} \label{eq:ppca-comp-x}
 			\bx = \bW \bz + \bmu + \beps.
 		\end{equation}
-		\item $\beps \sim \norm(\0, \sigma^2 \bI)$ ist hierbei \textit{additives normalverteiltes Datenrauschen},
+		\item $\beps \sim \norm\bigl( \0, \sigma^2 \bI \bigr)$ ist hierbei \textit{additives normalverteiltes Datenrauschen},
 			welches durch den Parameter $\sigma^2$ in \eqref{eq:ppca-dist-x-given-z} beeinflusst wird.
 	\end{itemize}
 	
@@ -126,7 +126,7 @@
 % Bestimmung der Verbunddichte (Forts.)
 \begin{frame}{Bestimmung der Verbunddichte (Forts.)}{}
 	\begin{mytask}
-		Zeigen Sie durch analoge Rechnung, dass $\bSigma_{\bz\bz} = \bW \bW^\top + \sigma^2 \bI$ gilt.
+		Zeigen Sie durch analoge Rechnung, dass $\bSigma_{\bx\bx} = \bW \bW^\top + \sigma^2 \bI$ gilt.
 	\end{mytask}
 	
 	\begin{boxGray}
@@ -147,10 +147,75 @@
 \end{frame}
 
 
+% Woodbury Matrix-Identität
+\begin{frame}{Woodbury Matrix-Identität}{}
+	\begin{mytheo}[th:ppca-woodbury]
+		Es gilt die \keyword{Woodbury Matrix-Identität}
+		\begin{equation*}
+			\bigl( \bA + \bB \bD^{-1} \bE \bigr)^{-1}
+				= \bA^{-1} - \bA^{-1} \bB \bigl( \bD + \bE \bA^{-1} \bB \bigr)^{-1} \bE \bA^{-1},
+		\end{equation*}
+		wobei $\bA, \bB, \bD$ und $\bE$ Matrizen geeigneter Form sind.
+	\end{mytheo}
+	
+	\begin{myproof}
+		Der Beweis erfolgt durch Nachrechnen, indem man beide Seiten der Gleichung mit $\bA + \bB \bD^{-1} \bE$
+		multipliziert und die rechte Seite zur Einheitsmatrix umformt.
+	\end{myproof}
+\end{frame}
 
 
+% Bestimmung des Posteriors
+\begin{frame}{Bestimmung des Posteriors}{}
+	\begin{itemize}
+		\item Für die Anwendung des EM-Algorithmus benötigen wir die Dichte
+			$p(\bz \mid \bx) = n(\bz \mid \bx; \bmu_{\bz\,\mid\,\bx}, \bSigma_{\bz\,\mid\,\bx})$.
+		\item Diese können wir aus der Verbundverteilung \eqref{eq:ppca-expectation-joint-dist-detail}
+			mittels Satz \ref{th:cond-norm} berechnen.
+		\item Zunächst definieren wir zwei Matrizen, die wir häufig benötigen werden
+		\begin{align}
+		\label{eq:ppca-C}
+			\bC
+				&\coloneqq \sigma^2 \bI + \bW \bW^\top
+		\\[2mm]
+		\label{eq:ppca-M}
+			\bM
+				&\coloneqq \sigma^2 \bI + \bW^\top \bW.
+		\end{align}
+		\item Außerdem benötigen wir $\bC^{-1}$, für deren Berechnung wir die Woodbury Identität aus \ref{th:ppca-woodbury}
+			benutzen, wobei wir $\bA = \sigma^2 \bI$, $\bB = \bW$, $\bD = \bI$ und $\bE = \bW^\top$ setzen
+			(siehe nächste Folie).
+	\end{itemize}
+\end{frame}
 
 
+% Bestimmung des Posteriors (Forts.)
+\begin{frame}{Bestimmung des Posteriors (Forts.)}{}
+	Es ist
+	\begin{equation} \label{eq:ppca-C-inv}
+		\begin{aligned}
+			\bC^{-1}
+				&= \bigl( \sigma^2 \bI + \bW \bW^\top \bigr)^{-1}
+		\\[2mm]
+				&= \sigma^{-2} \bI - \sigma^{-2} \bI \bW \bigl( \bI + \bW^\top \sigma^{-2} \bI \bW \bigr)^{-1}
+					\bW^\top \sigma^{-2} \bI
+				&& \rem{Woodbury Identität, Satz \ref{th:ppca-woodbury}.}
+		\\[2mm]
+				&= \sigma^{-2} \bI - \sigma^{-2} \bW \Bigl[ \sigma^{-2} \bigl( \sigma^2 \bI + \bW^\top \bW \bigr) \Bigr]^{-1}
+					\sigma^{-2} \bW^\top
+				&& \rem{In der Klammer $\sigma^{-2}$ ausklammern.}
+		\\[2mm]
+				&= \sigma^{-2} \bI - \sigma^{-2} \bW \Bigl[ \sigma^{-2} \bM \Bigr]^{-1} \sigma^{-2} \bW^\top
+				&& \rem{Definition \eqref{eq:ppca-M}.}
+		\\[2mm]
+				&= \sigma^{-2} \bI - \sigma^{-2} \bW \sigma^2 \bM^{-1} \sigma^{-2} \bW^\top
+				&& \rem{Für $\bA$ und $\bB$ gilt $(\bA \bB)^{-1} = \bB^{-1} \bA^{-1}$.}
+		\\[2mm]
+				&= \sigma^{-2} \bI - \sigma^{-2} \bW \bM^{-1} \bW^\top.
+				&& \rem{$\sigma^{-2} \sigma^2 = 1$.}
+		\end{aligned}
+	\end{equation}
+\end{frame}
 
 
 
