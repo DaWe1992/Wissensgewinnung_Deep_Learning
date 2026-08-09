@@ -156,7 +156,7 @@
 		\end{itemize}
 	\end{boxGray}
 	
-	\begin{mytask}
+	\begin{mytask}[task:stat-cov-cor]
 		Was ist der Unterschied zwischen Kovarianz und Korrelation?
 	\end{mytask}
 \end{frame}
@@ -369,13 +369,13 @@
 \begin{frame}{Multivariate Normalverteilung}{}
 	Die multivariate Normalverteilung spielt im weiteren Verlauf eine zentrale Rolle:
 	\begin{mytheo}[th:std-norm-mv]
-		Es sei $\bx \coloneqq (x_1, x_2, \ldots, x_n)^\top \in \R^N$ ein Zufallsvektor, dessen Komponenten
+		Es sei $\bx \coloneqq (x_1, x_2, \ldots, x_N)^\top \in \R^N$ ein Zufallsvektor, dessen Komponenten
 		$x_i \in \R$ unabhängig und identisch standardnormalverteilt sind,
-		d.\,h. $x_i \sim \norm(0, 1)\,\forall i \in \{ 1, \ldots, n \}$.
+		d.\,h. $x_i \sim \norm(0, 1)\,\forall i \in \{ 1, \ldots, N \}$.
 		
 		Die Dichte der \keyword{multivariaten Standardnormalverteilung} ist dann gegeben durch
 		\begin{equation*}
-			n_{\bx}(\bx) \coloneqq \frac{1}{(2 \pi)^{\frac{n}{2}}} \cdot \exp\left( -\frac{\Vert \bx \Vert^2}{2} \right).
+			n_{\bx}(\bx) \coloneqq \frac{1}{(2 \pi)^{\frac{N}{2}}} \cdot \exp\left( -\frac{\Vert \bx \Vert^2}{2} \right).
 		\end{equation*}
 	\end{mytheo}
 
@@ -383,11 +383,11 @@
 		Wegen der Unabhängigkeit der Komponenten gilt für die Verbunddichte
 		\begin{equation*}
 			n_{\bx}(\bx)
-				= \prod_{i=1}^n p_{x_i}(x_i)
-				= \prod_{i=1}^n \frac{1}{\sqrt{2 \pi}} \cdot \exp\left( -\frac{x_i^2}{2} \right)
-				= \frac{1}{(2 \pi)^{\frac{n}{2}}} \cdot \exp\left( -\frac{\sum_{i=1}^n x_i^2}{2} \right)
-				= \frac{1}{(2 \pi)^{\frac{n}{2}}} \cdot \exp\left( -\frac{\bx^\top \bx}{2} \right)
-				= \frac{1}{(2 \pi)^{\frac{n}{2}}} \cdot \exp\left( -\frac{\Vert \bx \Vert^2}{2} \right).
+				= \prod_{i=1}^N p_{x_i}(x_i)
+				= \prod_{i=1}^N \frac{1}{\sqrt{2 \pi}} \cdot \exp\left( -\frac{x_i^2}{2} \right)
+				= \frac{1}{(2 \pi)^{\frac{N}{2}}} \cdot \exp\left( -\frac{\sum_{i=1}^N x_i^2}{2} \right)
+				= \frac{1}{(2 \pi)^{\frac{N}{2}}} \cdot \exp\left( -\frac{\bx^\top \bx}{2} \right)
+				= \frac{1}{(2 \pi)^{\frac{N}{2}}} \cdot \exp\left( -\frac{\Vert \bx \Vert^2}{2} \right).
 		\end{equation*}
 	\end{myproof}
 \end{frame}
@@ -447,7 +447,7 @@
 		
 		Die Dichte der \keyword{multivariaten Normalverteilung} $\norm(\bmu, \bSigma)$ ist gegeben durch
 		\begin{equation*}
-			n_{\bx}(\bx) \coloneqq \frac{1}{(2 \pi)^{\frac{n}{2}} \cdot (\det \bSigma)^{\frac{1}{2}}} \cdot \exp\left(
+			n_{\bx}(\bx) \coloneqq \frac{1}{(2 \pi)^{\frac{N}{2}} \cdot (\det \bSigma)^{\frac{1}{2}}} \cdot \exp\left(
 				-\frac{1}{2} (\bx - \bmu)^\top \bSigma^{-1} (\bx - \bmu)
 			\right).
 		\end{equation*}
@@ -462,7 +462,24 @@
 
 % Visualisierung: Multivariate Normalverteilung
 \begin{frame}{Visualisierung: Multivariate Normalverteilung}{}
-	tbd
+	\begin{figure}[H]
+		\divideThree{0.32}{
+			\centering
+			\includegraphics[scale=1.0]{./img/statistics/gaussian_general.pdf}			
+		}{0.32}{
+			\centering
+			\includegraphics[scale=1.0]{./img/statistics/gaussian_diag.pdf}
+		}{0.32}{
+			\centering
+			\includegraphics[scale=1.0]{./img/statistics/gaussian_prop_identity.pdf}
+		}
+		\caption{
+			Multivariate (genauer zweidimensionale) Normalverteilung mit (Links): Allgemeiner Kovarianzmatrix.
+			(Mitte): Diagonaler Kovarianzmatrix, sodass die Konturen achsenparallel verlaufen.
+			(Rechts): Kovarianz proportional zur Einheitsmatrix, also $a \bI$ mit $a > 0$,
+			sodass die Konturen perfekte Kreise bilden.
+			Siehe \cite{Bishop2024}, Seite 76.}
+	\end{figure}
 \end{frame}
 
 
@@ -628,7 +645,7 @@
 	\end{mytheo}
 
 	\begin{myproof}
-		Einen Beweis dieser Aussage findet Sie in \cite{Bishop2006} auf den Seiten 90--93.
+		Einen Beweis dieser Aussage finden Sie in \cite{Bishop2006} auf den Seiten 90--93.
 	\end{myproof}
 \end{frame}
 
@@ -755,7 +772,7 @@
 		$\mu$ und $\sigma^2$ werden in diesem Fall bestimmt mittels
 		\begin{equation*}
 			\muML
-				= \frac{1}{N} \sum_{n=1}^n x_n
+				= \frac{1}{N} \sum_{n=1}^N x_n
 		\qquad\text{und}\qquad
 			\sigmasquML
 				= \frac{1}{N} \sum_{n=1}^N \bigl( x_n - \muML \bigr)^2.
@@ -786,7 +803,7 @@
 				= \frac{1}{\sigma^2} \sum_{n=1}^N (x_n - \mu)
 		\qquad\text{und}\qquad
 			\frac{\partial}{\partial \sigma^2} l\bigl( \mu, \sigma^2 \bigr)
-				= -\frac{N}{2 \sigma^2} + \frac{1}{2 \sigma^4} \sum_{n=1}^N (x_n - \mu).
+				= -\frac{N}{2 \sigma^2} + \frac{1}{2 \sigma^4} \sum_{n=1}^N (x_n - \mu)^2.
 		\end{equation*}
 		Durch Nullsetzen und auflösen erhalten wir die im Satz angegebenen Maximum-Likelihood Schätzer
 		$\muML$ und $\sigmasquML$.
@@ -896,9 +913,9 @@
 		\item Wir betrachten eine binäre Zufallsvariable $X \in \{ 0, 1 \}$, z.\,B. das Werfen einer (unfairen) Münze,
 			wobei $X = 1$ 'Kopf' und $X = 0$ 'Zahl' bedeutet.
 		\item Die Zufallsvariable $X$ ist damit \keyword{Bernoulli-verteilt} mit der Dichte
-		\begin{equation*} \label{eq:bernoulli}
+		\begin{equation} \label{eq:bernoulli}
 			p_X(k) \coloneqq \mu^k \cdot (1 - \mu)^{1 - k}.
-		\end{equation*}
+		\end{equation}
 		\item Es gilt
 		\begin{align*}
 			\E[X]

@@ -1,3 +1,4 @@
+% !TEX TS-program = pdflatexmk
 \documentclass[aspectratio=169,10pt,serif,t]{beamer}
 
 % import usepackages
@@ -11,10 +12,10 @@
 
 % import commands
 \input{./preamble/commands}
-\input{./preamble/commands_math}
+\input{../commands_math}
 
 % load bibliography
-\addbibresource{./references.bib}
+\addbibresource{../references.bib}
 
 % set author, title, institute, date
 \title[Vertiefung Wissensgewinnung aus Daten und Deep Learning]{%
@@ -31,22 +32,24 @@
 \end{frame}
 
 \begin{frame}{Inhaltsverzeichnis}
-  	\tableofcontents[sectionstyle=show/show,subsectionstyle=hide/hide/hide]
+	\begin{multicols}{2}
+  		\tableofcontents[sectionstyle=show/show,subsectionstyle=hide/hide/hide]
+	\end{multicols}
 \end{frame}
 
-%\input{./sections/statistics}
+\input{./sections/statistics}
 
-%\input{./sections/regression}
+\input{./sections/regression}
 
-%\input{./sections/gmm}
+\input{./sections/gmm}
 
-%\input{./sections/em}
+\input{./sections/em}
 
-%\input{./sections/pca}
+\input{./sections/pca}
 
 \input{./sections/ppca}
 
-%\input{./sections/ica}
+\input{./sections/ica}
 
 % Literatur
 \begin{frame}[allowframebreaks]{Literatur}{}

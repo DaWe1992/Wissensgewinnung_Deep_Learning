@@ -1,0 +1,25 @@
+% !TEX TS-program = pdflatex --shell-escape
+\documentclass[12pt,oneside]{article}
+
+% import usepackages
+\input{./preamble/usepackages}
+
+% import layout
+\input{./preamble/layout}
+
+% import commands
+\input{./preamble/commands}
+\input{../commands_math}
+
+% reference to external slides.aux file
+\externaldocument{../slides/slides}
+
+\begin{document}
+
+% print title page
+\mytitlepage
+\newpage
+
+\input{./sections/statistics}
+
+\end{document}

@@ -1,5 +1,5 @@
-% SECTION: Probabilistische PCA
-\section{Probabilistische PCA}
+% SECTION: Probabilistische PCA (PPCA)
+\section{Probabilistische PCA (PPCA)}
 
 \divider
 
@@ -58,12 +58,13 @@
 % Bestimmung der Verbunddichte
 \begin{frame}{Bestimmung der Verbunddichte}{}
 	\begin{itemize}
-		\item Für die weiteren Ausführungen benötigen wir die Verbunddichte $p(\bz, \bx)$ der beobachteten und latenten Variablen.
+		\item Für die weiteren Ausführungen benötigen wir die Verbunddichte $p(\bz, \bx)$
+			der beobachteten und latenten Variablen.
 		\item Mit der Produktregel für Wahrscheinlichkeiten ist
 		\begin{equation} \label{eq:ppca-joint-dist}
 			p(\bz, \bx) = n(\bx \mid \bz) \cdot n(\bz).
 		\end{equation}
-		\item Da es sich bei \label{eq:ppca-joint-dist} um ein Produkt von Normalverteilungen handelt,
+		\item Da es sich bei \eqref{eq:ppca-joint-dist} um ein Produkt von Normalverteilungen handelt,
 			sind die Zufallsvariablen auch gemeinsam normalverteilt.
 		\item Es ist also $p(\bz, \bx) = n(\bz, \bx; \bnu, \bSigma)$ beziehungsweise
 		\begin{equation}
