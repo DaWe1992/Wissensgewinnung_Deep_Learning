@@ -1,5 +1,105 @@
 % SECTION: Grundlagen der Statistik
 \section{Grundlagen der Statistik}
 
+% SOLUTION
 \subsection*{Lösung zu Aufgabe \ref{task:stat-cov-cor}}
 
+Es seien $X$ und $Y$ Zufallsvariablen. Die Korrelation $\Cor[X, Y]$ von $X$ und $Y$ ist eine normierte Kovarianz von $X$ und $Y$, sodass diese im Intervall $[-1, 1]$ liegt. Genauer gilt der Zusammenhang
+\begin{equation*}
+	\Cor[X, Y] \coloneqq \frac{\Cov[X, Y]}{\sqrt{\V[X]} \cdot \sqrt{\V[Y]}}.
+\end{equation*} 
+
+
+% SOLUTION
+\subsection*{Lösung zu Aufgabe \ref{task:stat-scatter-matrix-psd}}
+
+
+% SOLUTION
+\subsection*{Lösung zu Aufgabe \ref{task:stat-transformation}}
+
+
+% SOLUTION
+\subsection*{Lösung zu Aufgabe \ref{task:stat-cond-norm}}
+
+
+% SOLUTION
+\subsection*{Lösung zu Aufgabe \ref{task:stat-norm-marginal}}
+
+Mit Satz \ref{th:stat-norm-marginal} lautet die Randverteilung der Zufallsvariablen $X_1$
+\begin{equation*}
+	X_1 \sim \norm(0, 0.3).
+\end{equation*}
+
+
+% SOLUTION
+\subsection*{Lösung zu Aufgabe \ref{task:stat-ml-poisson}}
+
+\subsubsection*{Teilaufgabe 1}
+
+Wir stellen zunächst die Likelihood Funktion $L(\lambda)$ auf und wenden den Logarithmus an, um die Log-Likelihood Funktion $l(\lambda)$ zu erhalten. Diese ist nach Anwendung der bekannten Logarithmengesetze durch die folgende Funktion gegeben:
+\begin{align*}
+	l(\lambda)
+		&\coloneqq \ln\left[ \prod_{n=1}^N \frac{\lambda^{x_n}}{x_n!} e^{-\lambda} \right]
+\\[2mm]
+		&= \sum_{n=1}^N \Bigl( \ln\bigl( \lambda^{x_n} \bigr) - \ln\bigl( x_n! \bigr) +  \ln\bigl( e^{-\lambda} \bigr) \Bigr)
+\\[2mm]
+		&= \sum_{n=1}^N \Bigl( x_n \ln(\lambda) - \ln\bigl( x_n! \bigr) -\lambda \Bigr)
+\\[2mm]
+		&= -N \lambda + \ln(\lambda) \sum_{n=1}^N x_n - \sum_{n=1}^N \ln(x_n!)
+\end{align*}
+Nun bestimmen wir die Ableitung von $l$ nach dem Parameter $\lambda$. Diese ist nun einfach zu bestimmen. Wir erhalten
+\begin{equation*}
+	\frac{\diff}{\diff \lambda} l(\lambda)
+		= -N + \frac{1}{\lambda} \sum_{n=1}^N x_n.
+\end{equation*}
+Nullsetzen der ersten Ableitung ergibt
+\begin{equation*}
+	\frac{1}{\lambda} \sum_{n=1}^N x_n = N
+\quad\Longleftrightarrow\quad
+	\lambda_* = \frac{1}{N} \sum_{n=1}^N x_n.
+\end{equation*}
+Wir bestimmen nun das Vorzeichen der zweiten Ableitung, um festzustellen, ob es sich tatsächlich um ein Maximum handelt. Die zweite Ableitung ist
+\begin{equation*}
+	\frac{\diff^2}{\diff \lambda^2} l(\lambda)
+		= -\frac{1}{\lambda^2} \sum_{n=1}^N x_n.
+\end{equation*}
+Diese ist negativ für alle $\lambda > 0$ wegen $x_n \in \N$ und dem negativen Vorzeichen. Somit ist das arithmetische Mittel der Datenpunkte der Maximum Likelihood Schätzer für den Parameter $\lambda$ der Poisson-Verteilung, also $\lambdaML \coloneqq \lambda_*$.
+
+\subsubsection*{Teilaufgabe 2}
+
+Der Schätzer $\lambdaML$ ist erwartungstreu, denn mit der Linearität des Erwartungswerts folgt
+\begin{equation*}
+	\E\left[ \lambdaML \right]
+		= \E\left[ \frac{1}{N} \sum_{n=1}^N x_n \right]
+		= \frac{1}{N} \sum_{n=1}^N \E[x_n]
+		= \frac{1}{N} \sum_{n=1}^N \lambda
+		= \frac{1}{N} \cdot N \cdot \lambda
+		= \lambda.
+\end{equation*}
+
+
+% SOLUTION
+\subsection*{Lösung zu Aufgabe \ref{task:stat-expect-var-bernoulli}}
+
+Es sei $X \sim B_{1, \mu}$ eine Zufallsvariable mit der Dichte $p_X(k) = \mu^k \cdot (1 - \mu)^{1 - k}$. Hierbei gilt $k \in \{ 0, 1 \}$. Wir bestimmen zunächst den Erwartungswert von X. Es ist
+\begin{equation*}
+	\E[X]
+		= \sum_{k=0}^1 k \cdot p_X(k)
+		= 0 \cdot (1 - \mu) + 1 \cdot \mu
+		= \mu.
+\end{equation*}
+Nun bestimmen wir die Varianz von $X$. Hier gilt
+\begin{align*}
+	\V[X]
+		&= \sum_{k=0}^1 (k - \mu)^2 \cdot p_X(k)
+			= \mu^2 \cdot (1 - \mu) + (1 - \mu)^2 \cdot \mu
+\\[2mm]
+		&= \mu^2 - \mu^3 + \mu - 2 \mu^2 + \mu^3
+			= \mu - \mu^2
+\\[2mm]
+		&= \mu \cdot (1 - \mu).
+\end{align*}
+
+
+% SOLUTION
+\subsection*{Lösung zu Aufgabe \ref{task:stat-conjug}}

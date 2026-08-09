@@ -184,7 +184,7 @@
 			\end{cases}
 	\end{align*}
 
-	\begin{mytask}
+	\begin{mytask}[task:stat-scatter-matrix-psd]
 		Zeigen Sie, dass $\D[\bx]$ positiv semidefinit ist.
 	\end{mytask}
 \end{frame}
@@ -351,7 +351,7 @@
 % Beispiel III
 \begin{frame}{Beispiel III}{}
 	Das nächste Beispiel wird als Übungsaufgabe gestellt:
-	\begin{mytask}
+	\begin{mytask}[task:stat-transformation]
 		Es sei $X$ eine Zufallsvariable, die $\chi_2^2$-verteilt ist.
 
 		\begin{enumerate}
@@ -555,7 +555,7 @@
 
 % Aufgabe: Bedingte Normalverteilung
 \begin{frame}{Aufgabe: Bedingte Normalverteilung}{}
-	\begin{mytask}[task:cond-norm]
+	\begin{mytask}[task:stat-cond-norm]
 		Es sei $\bmu \coloneqq \bigl( 0, 2 \bigr)^\top \in \R^2$ und
 		\begin{equation*}
 			\bSigma \coloneqq \begin{pmatrix} 0.3 & -1 \\ -1 & 5 \end{pmatrix} \in \R^{2 \times 2},
@@ -570,7 +570,7 @@
 
 % Normale Randverteilung
 \begin{frame}{Normale Randverteilung}
-	\begin{mytheo}[th:rand-nv]
+	\begin{mytheo}[th:stat-norm-marginal]
 		Erneut betrachten wir das Modell der partitionierten Normalverteilung aus Definition \ref{def:partitioned-norm}.
 		Dann sind auch die Randverteilungen von $\bx$ und $\by$ normalverteilt. Es gilt genauer
 		\begin{align*}
@@ -612,9 +612,9 @@
 
 % Aufgabe: Normale Randverteilung
 \begin{frame}{Aufgabe: Normale Randverteilung}{}
-	\begin{mytask}
+	\begin{mytask}[task:stat-norm-marginal]
 		Betrachten Sie erneut die Verbunddichte $p_{X_1, X_2}(x_1, x_2)$
-		wie sie in Aufgabe \ref{task:cond-norm} definiert wurde.
+		wie sie in Aufgabe \ref{task:stat-cond-norm} definiert wurde.
 		
 		Wie lautet die Dichte der Randverteilung $p_{X_1}(x_1)$?
 	\end{mytask}
@@ -849,7 +849,7 @@
 
 % Aufgabe zur Maximum-Likelihood Schätzung
 \begin{frame}{Aufgabe zur Maximum-Likelihood Schätzung}{}
-	\begin{mytask}
+	\begin{mytask}[task:stat-ml-poisson]
 		Gegeben seien die $N$ Beobachtungen $x_1, x_2, \ldots, x_N$, wobei $x_n \in \N, n = 1, 2, \ldots, N$.
 		Sie legen den Daten eine Poisson-Verteilung zugrunde. Diese hat die Dichte
 		\begin{equation*}
@@ -926,7 +926,7 @@
 		\end{align*}
 	\end{itemize}
 	
-	\begin{mytask}
+	\begin{mytask}[task:stat-expect-var-bernoulli]
 		Beweisen Sie die Aussagen $\E[X] = \mu$ und $\V[X] = \mu \cdot (1 - \mu)$.
 	\end{mytask}
 \end{frame}
@@ -1094,7 +1094,7 @@
 
 % Aufgabe: Konjugierte Verteilungen
 \begin{frame}{Aufgabe: Konjugierte Verteilungen}{}
-	\begin{mytask}
+	\begin{mytask}[task:stat-conjug]
 		Weisen Sie nach, dass die Gamma-Verteilung den konjugierten Prior zur Likelihood der Poisson-Verteilung darstellt.
 	\end{mytask}
 \end{frame}
