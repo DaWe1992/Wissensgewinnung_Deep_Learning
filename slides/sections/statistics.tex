@@ -284,7 +284,7 @@
 
 % Transformationssatz für Lebsgue-Dichten
 \begin{frame}{Transformationssatz für Lebesgue-Dichten}{}
-	\begin{mytheo}[th:transformation]
+	\begin{mytheo}[th:stat-transformation]
 		Es seien $\bx$ und $\by$ $N$-dimensionale Zufallsvektoren mit dem Zusammenhang
 		\begin{equation*}
 			\by = \bT(\bx).
@@ -338,7 +338,7 @@
 		Unter obigen Voraussetzungen ist $\bA$ invertierbar. Also existiert die Umkehrfunktion, welche durch
 		$\bx = \bT^{-1}(\by) = \bA^{-1} (\by - \bb)$ gegeben ist. Als Jacobi-Matrix erhält man $J\bT^{-1}(\by) = \bA^{-1}$.
 		
-		Die Anwendung der Transformationsformel \ref{th:transformation} ergibt daher für die Dichte $p_{\by}$ von $\by$
+		Die Anwendung der Transformationsformel \ref{th:stat-transformation} ergibt daher für die Dichte $p_{\by}$ von $\by$
 		den Ausdruck
 		\begin{equation*}
 			p_{\by}(\by) = \frac{1}{\vert \det \bA \vert} \cdot p_{\bx}\bigl( \bA^{-1} (\by - \bb) \bigr),
@@ -413,7 +413,7 @@
 			\D[\by]
 				= \D[\bA \bx + \bmu] = \bA \D[\bx] \bA^\top = \bA \bA^\top = \bSigma.
 		\end{equation*}
-		\item Nun wenden wir die Transformationsformel \ref{th:transformation} an, um die Dichte von $\by$ zu bestimmen.
+		\item Nun wenden wir die Transformationsformel \ref{th:stat-transformation} an, um die Dichte von $\by$ zu bestimmen.
 	\end{enumerate}
 \end{frame}
 
@@ -514,7 +514,7 @@
 
 % Bedingte Normalverteilung
 \begin{frame}{Bedingte Normalverteilung}{}
-	\begin{mytheo}[th:cond-norm]
+	\begin{mytheo}[th:stat-cond-norm]
 		Wir betrachten das Modell der partitionierten Normalverteilung aus Definition \ref{def:partitioned-norm}.
 		Für die Zufallsvariable $\bx \mid \by$ gilt
 		\begin{equation*}
@@ -563,7 +563,7 @@
 		sodass die Verbunddichte von $X_1$ und $X_2$ gegeben ist durch
 		$p_{X_1, X_2}(x_1, x_2) \coloneqq n(\bx; \bmu, \bSigma)$.
 		Bestimmen Sie die Dichte der bedingten Verteilung $p_{X_1\,\mid\,X_2}(x_1 \mid x_2 = -1)$.
-		Benutzen Sie hierzu die Formeln aus Satz \ref{th:cond-norm}.
+		Benutzen Sie hierzu die Formeln aus Satz \ref{th:stat-cond-norm}.
 	\end{mytask}
 \end{frame}
 

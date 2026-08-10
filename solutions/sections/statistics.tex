@@ -13,13 +13,78 @@ Es seien $X$ und $Y$ Zufallsvariablen. Die Korrelation $\Cor[X, Y]$ von $X$ und 
 % SOLUTION
 \subsection*{Lösung zu Aufgabe \ref{task:stat-scatter-matrix-psd}}
 
+Es sei $\bx \in \R^N$ ein Zufallsvektor. Wir zeigen, dass die Matrix $\D[\bx] \in \R^{N \times N}$ positiv semidefinit ist. Für alle $\bz \in \R^N$ gilt aufgrund der Linearität und Monotonie des Erwartungswerts und der Symmetrie des Skalarprodukts
+\begin{align*}
+	\bz^\top \D[\bx] \bz
+		&= \bz^\top \E\bigl[ (\bx - \E[\bx]) (\bx - \E[\bx])^\top \bigr] \bz
+\\[2mm]
+		&= \E\bigl[ \bz^\top (\bx - \E[\bx]) (\bx - \E[\bx])^\top \bz \bigr]
+\\[2mm]
+		&= \E\bigl[ \underbracket{\bigl( \bz^\top (\bx - \E[\bx]) \bigr)^2}_{\ge\,0} \bigr]
+\\[2mm]
+		&\ge 0,
+\end{align*}
+womit die positive Semidefinitheit gezeigt ist.
+
 
 % SOLUTION
 \subsection*{Lösung zu Aufgabe \ref{task:stat-transformation}}
 
+\subsubsection*{Teilaufgabe 1}
+
+Es sei $X \sim \chi_2^2$. Wir bestimmen die Dichte der transformierten Zufallsvariable $Y \coloneqq \sqrt{X}$ unter Verwendung von Satz \ref{th:stat-transformation}. Die Dichte der $\chi_2^2$-Verteilung lautet
+\begin{equation*}
+	p_X(x) = \frac{1}{2} e^{-\frac{x}{2}} \cdot \indicator_{[0, \infty)}(x).
+\end{equation*}
+Wir definieren $T(x) \coloneqq \sqrt{x}$. Die Umkehrabbildung hiervon ist $x = T^{-1}(y) = y^2$ mit Ableitung $(T^{-1})'(y) = 2y$. Setzen wir dies in die Transformationsformel \ref{th:stat-transformation} ein, dann erhalten wir
+\begin{align*}
+	p_Y(y)
+		&= p_X\bigl( T^{-1}(y) \bigr) \cdot \bigl( T^{-1} \bigr)'(y)
+			= \frac{1}{2} e^{-\frac{y^2}{2}} \cdot \indicator_{[0, \infty)}(y^2) \cdot 2 y
+\\[2mm]
+		&= y e^{-\frac{1}{2} y^2}.
+\end{align*}
+Die Indikatorfunktion fällt hierbei weg, da $\indicator_{[0, \infty)}(y^2) = 1$ für alle $y$ gilt.
+
+\subsubsection*{Teilaufgabe 2}
+
+Wir berechnen $\Prob\left( Y > \frac{1}{2} \right)$. Es ist
+\begin{align*}
+	\Prob\left( Y > \frac{1}{2} \right)
+		&= \int_{\frac{1}{2}}^\infty y e^{-\frac{1}{2} y^2}\,\diff y
+\\[2mm]
+		&= \int_{\frac{1}{8}}^\infty e^{-u}\,\diff u
+\\[2mm]
+		&= \bigl[ -e^{-u} \bigr]_{\frac{1}{8}}^\infty
+			= e^{-\frac{1}{8}} \approx 0.88.
+\end{align*}
+Für das zweite Gleichheitszeichen haben wir die Substitution $u \coloneqq \frac{1}{2} y^2$ benutzt. Hieraus folgt $\frac{\diff u}{\diff y} = y$ und damit $\diff y = \frac{1}{y}\,\diff u$.
+
 
 % SOLUTION
 \subsection*{Lösung zu Aufgabe \ref{task:stat-cond-norm}}
+
+Wir benutzen Satz \ref{th:stat-cond-norm} und erhalten
+\begin{align*}
+	\bmu_{X_1\,\mid\,X_2}
+		&= \bmu_{X_1} + \bSigma_{X_1 X_2} \cdot \bSigma_{X_2 X_2}^{-1} (X_2 - \bmu_{X_2})
+	\\[2mm]
+		&= \E[X_1] + \Cov[X_1, X_2] \cdot \V[X_2]^{-1} \cdot (X_2 - \E[X_2])
+	\\[2mm]
+		&= 0 + (-1) \cdot \frac{1}{5} \cdot (-1 - 2)
+	\\[2mm]
+		&= 0.6
+	\intertext{und}
+	\bSigma_{X_1\,\mid\,X_2}
+		&= \bSigma_{X_1 X_1} - \bSigma_{X_1 X_2} \bSigma_{X_2 X_2}^{-1} \bSigma_{X_2 X_1}
+	\\[2mm]
+		&= \V[X_1] - \Cov[X_1, X_2] \cdot \V[X_2]^{-1} \cdot \Cov[X_2, X_1]
+	\\[2mm]
+		&= 0.3 - (-1) \cdot \frac{1}{5} \cdot (-1)
+	\\[2mm]
+		&= 0.1.
+\end{align*}
+Es ist also $(X_1 \mid X_2 = -1) \sim \norm(0.6, 0.1)$. Wir erhalten damit eine univariate Normalverteilung.
 
 
 % SOLUTION
