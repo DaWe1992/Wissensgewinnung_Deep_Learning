@@ -168,3 +168,74 @@ Nun bestimmen wir die Varianz von $X$. Hier gilt
 
 % SOLUTION
 \subsection*{Lösung zu Aufgabe \ref{task:stat-conjug}}
+
+Um zu beweisen, dass die Gamma-Verteilung der konjugierte Prior für den Parameter $\lambda$ der Poisson-Verteilung ist, zeigt man, dass die aus Prior und Likelihood gebildete Posterior-Verteilung ebenfalls von der Form einer Gamma-Verteilung ist.
+
+\textbf{Likelihood (Poisson):} Mit der Dichte der Poisson-Verteilung bestimmen wir zunächst die Likelihood für die Beobachtungen $x_1, x_2, \ldots, x_N$. Es ist
+\begin{equation*}
+	L(\lambda)
+		= \prod_{n=1}^N \frac{\lambda^{x_n}}{x_n!} e^{-\lambda}
+		\propto \lambda^{\sum_{n=1}^N x_i} \cdot e^{-N \lambda}.
+\end{equation*}
+\textbf{Prior (Gamma):} Nun nehmen wir an, dass $\lambda$ vor Beobachtung der Daten einer Gamma-Verteilung folgt. Diese verfügt über die Parameter $\alpha$ (Form) und $\beta$ (Raten-/Skalenparameter). Hier gilt
+\begin{equation*}
+	p(\lambda)
+		= \frac{\beta^\alpha}{\Gamma(\alpha)} \cdot \lambda^{\alpha - 1} \cdot e^{-\beta \lambda}
+		\propto \lambda^{\alpha - 1} \cdot e^{-\beta \lambda}.
+\end{equation*}
+Mit dem Satz von Bayes ist die Posterior-Verteilung proportional zum Produkt aus Likelihood und Prior, d.\,h.
+\begin{align*}
+	p(\lambda \mid \bx)
+		&\propto \lambda^{\sum_{n=1}^N x_i} \cdot e^{-N \lambda} \cdot \lambda^{\alpha - 1} \cdot e^{-\beta \lambda}
+\\[2mm]
+		&= \lambda^{\alpha + \sum_{n=1}^N x_n - 1} \cdot e^{-(\beta + N) \lambda}.
+\end{align*}
+Der letzte Ausdruck besitzt (bis auf Normierung) die funktionale Form einer Gamma-Verteilung mit den Parametern $\hat{\alpha} \coloneqq \alpha + \sum_{n=1}^N x_n$ und $\hat{\beta} \coloneqq \beta + N$. Da der Posterior also wie der Prior zur Familie der Gamma-Verteilungen gehört, ist die Konjugiertheit formal gezeigt.
+
+
+\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
