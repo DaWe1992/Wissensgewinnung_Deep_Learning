@@ -4,14 +4,110 @@
 % SOLUTION
 \subsection*{Lösung zu Aufgabe \ref{task:reg-log-posterior}}
 
+Die Log-Likelihood des Modells für den Parametervektor $\btheta$ ist gegeben durch die Funktion
+\begin{align*}
+	l(\btheta)
+		&= -\frac{N}{2} \ln\bigl( 2 \pi \sigma^2 \bigr) - \frac{1}{2 \sigma^2} \sum_{n=1}^N \bigl( y_n - \btheta^\top \bphi(\bx_n) \bigr)^2
+\\[2mm]
+		&= -\frac{N}{2} \ln\bigl( 2 \pi \sigma^2 \bigr) - \frac{1}{2 \sigma^2} \bigl( \bPhi \btheta - \by \bigr)^\top \bigl( \bPhi \btheta - \by \bigr)
+		\\[2mm]
+		&\propto - \frac{1}{2 \sigma^2} \bigl( \bPhi \btheta - \by \bigr)^\top \bigl( \bPhi \btheta - \by \bigr).
+\end{align*}
+Ferner gilt für die Prior-Verteilung des Parametervektors $\btheta \sim \norm\bigl( \0, b^2 \bI \bigr)$, also
+\begin{equation*}
+	n\bigl( \btheta; \0, b^2 \bI \bigr)
+		= \frac{1}{(2 \pi)^{\frac{M+1}{2}} \cdot b^{M+1}} \cdot \exp\left( -\frac{\btheta^\top \btheta}{2 b^2} \right)
+		\propto -\frac{1}{2 b^2} \btheta^\top \btheta.
+\end{equation*}
+Num summieren wir beide Terme und negieren das Vorzeichen, um den negativen Log-Posterior zu erhalten.
+
 
 % SOLUTION
 \subsection*{Lösung zu Aufgabe \ref{task:reg-log-posterior-gradient}}
+
+\subsubsection*{Teilaufgabe 1}
+
+Der Gradient des negativen Log-Posteriors lautet
+\begin{align*}
+	\frac{\partial}{\partial \btheta} -\ln p(\btheta \vert \bX, \by)
+		&= \frac{\partial}{\partial \btheta} \frac{1}{2 \sigma^2} \bigl(
+			\btheta^\top \bPhi^\top \bPhi \btheta - 2 \btheta^\top \bPhi^\top \by
+		\bigr) + \frac{\partial}{\partial \btheta} \frac{1}{2 b^2} \btheta^\top \btheta
+\\[2mm]
+		&= \frac{1}{\sigma^2}\bigl( \bPhi^\top \bPhi \btheta - \bPhi^\top \by \bigr) + \frac{1}{b^2} \btheta.
+\end{align*}
+	
+\subsubsection*{Teilaufgabe 2}
+
+Nun setzen wir den Gradienten Null und lösen nach $\btheta$ auf um den MAP-Schätzer zu erhalten
+\begin{alignat*}{3}
+		&&\qquad \frac{1}{\sigma^2} \bigl( \bPhi^\top \bPhi \btheta - \bPhi^\top \by \bigr) + \frac{1}{b^2} \btheta
+		&\overset{!}{=} \0
+\\[1mm]
+	\Longleftrightarrow
+		&&\qquad \left( \bPhi^\top \bPhi + \frac{\sigma^2}{b^2} \bI \right) \btheta
+		&= \bPhi^\top \by
+\\[1mm]
+	\Longleftrightarrow
+		&&\qquad \bthetaestMAP
+		&= \left( \bPhi^\top \bPhi + \frac{\sigma^2}{b^2} \bI \right)^{-1} \bPhi^\top \by.
+\end{alignat*}
+	
+\subsubsection*{Teilaufgabe 3}
+
+Wir prüfen die positive Semidefinitheit der Matrix $\bPhi^\top \bPhi + \frac{\sigma^2}{b^2} \bI$. Dazu sei $\bz \in \R^{M+1} \backslash \{ \0 \}$. Dann ist
+\begin{equation*}
+	\bz^\top \left( \bPhi^\top \bPhi + \frac{\sigma^2}{b^2} \bI \right) \bz
+		= \bz^\top \bPhi^\top \bPhi \bz + \frac{\sigma^2}{b^2} \bz^\top \bI \bz
+		> 0,
+\end{equation*}
+denn zum Einen ist die Matrix $\bPhi^\top \bPhi$ mit Satz \ref{th:reg-A-top-A-psd} positiv semidefinit, also $\bz^\top \bPhi^\top \bPhi \bz \ge 0$ und zum Andern $\frac{\sigma^2}{b^2} \bI$ positiv definit, da $\sigma^2 > 0, b > 0$ ist.
 
 
 % SOLUTION
 \subsection*{Lösung zu Aufgabe \ref{task:reg-prior-pred-dist}}
 
+Um die Parameter der Prior Predictive Distribution aus Satz \ref{th:reg-prior-predictive-dist} mithilfe des allgemeinen Satzes \ref{th:stat-bayes-norm} zu bestimmen, ordnen wir die Variablen des Bayes'schen Regressionsmodell den Variablen aus Satz \ref{th:stat-bayes-norm} zu.
+
+{\renewcommand{\arraystretch}{1.3}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{| l | c | c | c | c | c | c | c |}
+\hline
+		Allgemeiner Satz \ref{th:stat-bayes-norm} &
+		$\bx$ &
+		$\bmu$ &
+		$\bSigma$ &
+		$\by$ &
+		$\bA$ &
+		$\bb$ &
+		$\bLambda$
+\\ \hline
+		Bayes'sche Regression -- Satz \ref{th:reg-prior-predictive-dist} &
+		$\btheta$ &
+		$\bmu_0$ &
+		$\bSigma_0$ &
+		$y$ &
+		$\bphi(\newinst)^\top$ &
+		$\0$ &
+		$\sigma^2$
+\\ \hline
+	\end{tabular}
+\end{table}
+}
+
+Laut Satz \ref{th:stat-bayes-norm} gilt für die unbedingte Verteilung von $\by$
+\begin{equation*}
+	\by \sim \norm\bigl( \bA \bmu + \bb, \bA \bSigma \bA^\top + \bLambda \bigr).
+\end{equation*}
+Nutzen wir das Mapping aus obiger Tabelle und berücksichtigen noch, dass die Verteilung für die Bayes'sche Regression zusätzlich von der ungesehenen Test-Instanz $\newinst$ abhängt, so erhalten wir
+\begin{align*}
+	y \mid \newinst
+		&\sim \norm\bigl( \bphi(\newinst)^\top \bmu_0 + 0, \bphi(\newinst)^\top \bSigma_0 \bphi(\newinst) + \sigma^2 \bigr)
+\\[2mm]
+		&= \norm\bigl( \bmu_0^\top \bphi(\newinst), \bphi(\newinst)^\top \bSigma_0 \bphi(\newinst) + \sigma^2 \bigr).
+\end{align*}
+Dies entspricht exakt der Form aus Satz \ref{th:reg-prior-predictive-dist}.
 
 % SOLUTION
 \subsection*{Lösung zu Aufgabe \ref{task:reg-posterior-pred-dist}}
