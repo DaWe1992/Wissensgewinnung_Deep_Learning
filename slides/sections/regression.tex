@@ -8,14 +8,17 @@
 
 % Lineare Regression
 \begin{frame}{Lineare Regression}{}
-	Wir wiederholen die wichtigsten Aussagen zur linearen Regression:
+	Wir wiederholen die wichtigsten Aussagen zur \keyword{linearen Regression}:
 
 	\begin{itemize}
-		\item Wir betrachten einen Datensatz bestehend aus $N$ Featurevektoren $\bx_n \in \R^m, n = 1, 2, \ldots, N$.
-		\item Jeder Vektor $\bx_n$ ist mit einem zugehörigen Label $y_n \in \R$ versehen, $n = 1, 2, \ldots, N$.
-		\item Das lineare Regressionsmodell hat die Form $$h(\bx; \btheta) = \theta_0 + \sum_{m=1}^M \theta_m x_m.$$
-		\item Im Folgenden bietet es sich an, die Dummy-Komponente $x_0 \coloneqq 1$ einzuführen,
-			sodass gilt $$h(\bx; \btheta) = \sum_{m=0}^M \theta_m x_m = \btheta^\top \bx.$$
+		\item Wir betrachten einen Datensatz bestehend aus $N$ Featurevektoren $\bphi(\bx_n) \in \R^M, n = 1, 2, \ldots, N$.
+		\item Die Funktion $\bphi$ ist hierbei eine \keyword{Basisfunktion}, z.\,B. die polynomiale Basis.
+		\item Um den \keyword{Bias} zu modellieren, vereinbaren wir, dass stets $\phi_1(\bx) = 1$ gilt.
+		\item Des Weiteren ist jeder Vektor $\bphi(\bx_n) \in \R^M$ mit einem zugehörigen Label $y_n \in \R$ versehen, $n = 1, 2, \ldots, N$.
+		\item Das lineare Regressionsmodell hat die Form
+		\begin{equation*}
+			h(\bx; \btheta) = \sum_{m=1}^M \theta_m \phi_m(\bx) = \btheta^\top \bphi(\bx).
+		\end{equation*}
 	\end{itemize}
 \end{frame}
 
@@ -23,19 +26,23 @@
 % Design Matrix
 \begin{frame}{Design Matrix}{}
 	\begin{itemize}
-		\item Wir fassen die Featurevektoren $\bx_n$ zeilenweise zu der Matrix
+		\item Wir fassen die $N$ Featurevektoren $\bphi(\bx_n) \in \R^M$ zeilenweise zu der Matrix $\bPhi$ zusammen.
+		\item Diese hat damit die allgemeine Form
 		\begin{equation*}
-			\bX \coloneqq
+			\bPhi \coloneqq
 			\begin{pmatrix}
-				\horzbar 	& \bx_1 	& \horzbar 	\\
-				\horzbar 	& \bx_2 	& \horzbar 	\\
-				\vdots 	&\vdots 	& \vdots 		\\
-				\horzbar 	& \bx_N 	& \horzbar
-			\end{pmatrix} \in \R^{N \times (M + 1)}
+				\horzbar 	& \bphi(\bx_1) 	& \horzbar 	\\
+				\horzbar 	& \bphi(\bx_2) 	& \horzbar 	\\
+				\vdots 	&\vdots 		& \vdots 		\\
+				\horzbar 	& \bphi(\bx_N) 	& \horzbar
+			\end{pmatrix} \in \R^{N \times M}.
 		\end{equation*}
-			zusammen. Die erste Spalte ist hierbei konstant 1 \textit{(wegen der Dummy-Komponente)}.
-		\item Wir nennen diese Matrix \keyword{Design Matrix}.
-		\item Analog sammeln wir alle Labels in einem Vektor $$\by \coloneqq \bigl( y_1, y_2, \ldots, y_N \bigr)^\top \in \R^N.$$
+		\item Die erste Spalte ist hierbei konstant 1 \textit{(wegen der Dummy-Komponente für den Bias)}.
+		\item Wir nennen diese Matrix die \keyword{Design Matrix}.
+		\item Analog sammeln wir alle Labels in einem Vektor
+		\begin{equation*}
+			\by \coloneqq \bigl( y_1, y_2, \ldots, y_N \bigr)^\top \in \R^N.
+		\end{equation*}
 	\end{itemize}
 \end{frame}
 
@@ -43,22 +50,22 @@
 % Methode der kleinsten Quadrate
 \begin{frame}{Methode der kleinsten Quadrate}{}
 	\begin{itemize}
-		\item Der Vektor $\btheta \in \R^{M+1}$ beinhaltet die Modellparameter.
-		\item Diese möchten wir so wählen, dass unser Modell die Daten möglichst gut erklärt,
-			d.\,h. die Abweichung der Regressionsfunktion zu den Trainingsdaten sollte \textit{möglichst klein} sein.
+		\item Der Vektor $\btheta \in \R^M$ beinhaltet die \keyword{Modellparameter}.
+		\item Diese möchten wir so wählen, dass unser Modell die Daten möglichst gut erklärt
+		\item Die Abweichung der Vorhersagen zu den Trainingsdaten sollte also \textit{möglichst klein} sein.
 	\end{itemize}
 
-	\begin{mydef}[def:kleinste-quadrate-fehler]
+	\begin{mydef}[def:reg-least-squares-error]
 		Mit den obigen Definitionen ist der \keyword{Least-Squares-Fehler} gegeben durch
 		\begin{equation*}
 			\JLS(\btheta)
-				\coloneqq \frac{1}{2N} \Vert \bX \btheta - \by \Vert^2
-				= \frac{1}{2N} \bigl( \bX \btheta - \by \bigr)^\top \bigl( \bX \btheta - \by \bigr).
+				\coloneqq \frac{1}{2N} \Vert \bPhi \btheta - \by \Vert^2
+				= \frac{1}{2N} \bigl( \bPhi \btheta - \by \bigr)^\top \bigl( \bPhi \btheta - \by \bigr).
 		\end{equation*}
 	\end{mydef}
 
 	\begin{boxGray}
-		\textbf{Bemerkung:} Der Vektor $\bX \btheta \in \R^N$ beinhaltet die \textbf{Modellvorhersagen},
+		\textbf{Bemerkung:} Der Vektor $\bPhi \btheta \in \R^N$ beinhaltet die \textbf{Modellvorhersagen},
 		wenn man dem Modell die Parameter $\btheta$ zugrunde legt.
 		$\JLS$ misst also die \textbf{mittlere quadratische Abweichung} der Vorhersagen zu den wahren Werten $\by$.
 	\end{boxGray}
@@ -68,20 +75,19 @@
 % Minimierung der Fehlerfunktion
 \begin{frame}{Minimierung der Fehlerfunktion}{}
 	Unser Ziel ist die Minimierung von $\JLS$. Hierzu schreiben $\JLS$ unter Ausnutzung der Transpositionsregeln
-	$(\bA + \bB)^\top = \bA^\top + \bB^\top$ und $(\bA \bB)^\top = \bB^\top \bA^\top$ um:
+	$(\bA + \bB)^\top = \bA^\top + \bB^\top$ und $(\bA \bB)^\top = \bB^\top \bA^\top$ zunächst um:
 	\begin{align*}
 		\JLS(\btheta)
-			&= \frac{1}{2N} \Vert \bX \btheta - \by \Vert^2
-				= \frac{1}{2N} \bigl( \bX \btheta - \by \bigr)^\top \bigl( \bX \btheta - \by \bigr)
+			&= \frac{1}{2N} \Vert \bPhi \btheta - \by \Vert^2
+				= \frac{1}{2N} \bigl( \bPhi \btheta - \by \bigr)^\top \bigl( \bPhi \btheta - \by \bigr)
 	\\[2mm]
-			&= \frac{1}{2N} \bigl( (\bX \btheta)^\top - \by^\top \bigr) \bigl( \bX \btheta - \by \bigr)
+			&= \frac{1}{2N} \bigl( (\bPhi \btheta)^\top - \by^\top \bigr) \bigl( \bPhi \btheta - \by \bigr)
 	\\[2mm]
-			&= \frac{1}{2N} \bigl( (\bX \btheta)^\top \bX \btheta - (\bX \btheta)^\top \by - \by^\top (\bX \btheta) +
-				\by^\top \by \bigr)
+			&= \frac{1}{2N} \bigl( (\bPhi \btheta)^\top \bPhi \btheta - (\bPhi \btheta)^\top \by - \by^\top (\bPhi \btheta) + \by^\top \by \bigr)
 	\\[2mm]
-			&= \frac{1}{2N} \bigl( \btheta^\top \bX^\top \bX \btheta - 2 (\bX \btheta)^\top \by + \by^\top \by \bigr)
+			&= \frac{1}{2N} \bigl( \btheta^\top \bPhi^\top \bPhi \btheta - 2 (\bPhi \btheta)^\top \by + \by^\top \by \bigr)
 	\\[2mm]
-			&= \frac{1}{2N} \bigl( \btheta^\top \bX^\top \bX \btheta - 2 \btheta^\top \bX^\top \by + \by^\top \by \bigr)
+			&= \frac{1}{2N} \bigl( \btheta^\top \bPhi^\top \bPhi \btheta - 2 \btheta^\top \bPhi^\top \by + \by^\top \by \bigr)
 	\end{align*}
 \end{frame}
 
@@ -91,20 +97,20 @@
 	Um einen stationären Punkt zu finden, müssen wir $\JLS$ nach $\btheta$ ableiten und Null setzen.
 
 	\begin{itemize}
-		\item Es ist $\frac{\partial}{\partial \btheta} \btheta^\top \bX^\top \bX \btheta = 2 \bX^\top \bX \btheta$,
-			da $\bX^\top \bX$ symmetrisch ist. \\ \vspace*{2mm}
+		\item Es ist $\frac{\partial}{\partial \btheta} \btheta^\top \bPhi^\top \bPhi \btheta = 2 \bPhi^\top \bPhi \btheta$,
+			da $\bPhi^\top \bPhi$ symmetrisch ist. \\ \vspace*{2mm}
 		\begin{myproof}
-			Wir nutzen die Transpositionsregeln und erhalten $\bigl( \bX^\top \bX \bigr)^\top =
-			\bX^\top \bigl( \bX^\top \bigr)^\top = \bX^\top \bX$, woraus die Symmetrie folgt.
+			Wir nutzen die Transpositionsregeln und erhalten $\bigl( \bPhi^\top \bPhi \bigr)^\top =
+			\bPhi^\top \bigl( \bPhi^\top \bigr)^\top = \bPhi^\top \bPhi$, woraus die Symmetrie folgt.
 		\end{myproof} \vspace*{2mm}
-		\item Es ist $\frac{\partial}{\partial \btheta} \bigl( -2 \btheta^\top \bX^\top \by \bigr) = -2 \bX^\top \by$
+		\item Es ist $\frac{\partial}{\partial \btheta} \bigl( -2 \btheta^\top \bPhi^\top \by \bigr) = -2 \bPhi^\top \by$
 			und $\frac{\partial}{\partial \btheta} \by^\top \by = \0$.
 		\item Der Gradient der Fehlerfunktion $\JLS$ ist damit gegeben durch
 		\begin{equation*}
 			\frac{\partial}{\partial \btheta} \JLS(\btheta)
-				= \frac{1}{2 N} \bigl( 2 \bX^\top \bX \btheta - 2 \bX^\top \by \bigr)
-				\propto \bX^\top \bX \btheta - \bX^\top \by
-				= \bX^\top \bigl( \bX \btheta - \by \bigr)
+				= \frac{1}{2 N} \bigl( 2 \bPhi^\top \bPhi \btheta - 2 \bPhi^\top \by \bigr)
+				\propto \bPhi^\top \bPhi \btheta - \bPhi^\top \by
+				= \bPhi^\top \bigl( \bPhi \btheta - \by \bigr)
 		\end{equation*}
 	\end{itemize}
 	
@@ -117,26 +123,26 @@
 
 % Minimierung der Fehlerfunktion (Forts.)
 \begin{frame}{Minimierung der Fehlerfunktion (Forts.)}{}
-	Wir setzen den Gradienten nun Null und lösen nach $\btheta$ auf:
+	Wir setzen den Gradienten Null und lösen nach $\btheta$ auf:
 	\begin{alignat*}{3}
 		\frac{\partial}{\partial \btheta} \JLS(\btheta) \overset{!}{=} \0
 			&\quad\Longleftrightarrow\quad
-			&\bX^\top \bX \btheta - \bX^\top \by
+			&\bPhi^\top \bPhi \btheta - \bPhi^\top \by
 			&= \0
 	\\[2mm]
 			&\quad\Longleftrightarrow\quad
-			&\bX^\top \bX \btheta
-			&= \bX^\top \by
+			&\bPhi^\top \bPhi \btheta
+			&= \bPhi^\top \by
 	\\[2mm]
 			&\quad\Longleftrightarrow\quad
 			&\btheta^\star
-			&= \bigl( \bX^\top \bX \bigr)^{-1} \bX^\top \by
+			&= \bigl( \bPhi^\top \bPhi \bigr)^{-1} \bPhi^\top \by
 	\end{alignat*}
 
 	\begin{boxGray}
 		\textbf{Bemerkung:} Wir haben damit einen stationären Punkt von $\JLS$ gefunden. Allerdings wissen wir noch nicht,
-		ob es sich tatsächlich um ein Minumum handelt. Außerdem sind wir hier etwas naiv von der Existenz der Inversen
-		$\bigl( \bX^\top \bX \bigr)^{-1}$ ausgegangen. Existiert diese Matrix immer? \\
+		ob es sich tatsächlich um ein Minimum handelt. Außerdem sind wir hier etwas naiv von der Existenz der Inversen
+		$\bigl( \bPhi^\top \bPhi \bigr)^{-1}$ ausgegangen. Existiert diese Matrix immer? \\
 		\textit{Mit diesen Fragen beschäftigen wir uns im Folgenden.}
 	\end{boxGray}
 \end{frame}
@@ -151,10 +157,10 @@
 	\begin{myproof}
 		Für alle $\bz \in \R^M$ gilt
 		$\bz^\top \bigl( \bA^\top \bA \bigr) \bz = (\bA \bz)^\top (\bA \bz) = \Vert \bA \bz \Vert^2 \ge 0$,
-		die Behauptung.	
+		woraus die Behauptung folgt.	
 	\end{myproof}
 
-	\begin{mytheo}[th:col-rank-pd]
+	\begin{mytheo}[th:reg-col-rank-pd]
 		Für alle $\bA \in \R^{N \times M}$ mit \textit{vollem Spaltenrang} ist $\bA^\top \bA$ positiv definit.
 	\end{mytheo}
 
@@ -169,15 +175,15 @@
 
 % Ein paar nützliche Aussagen (Forts.)
 \begin{frame}{Ein paar nützliche Aussagen (Forts.)}{}
-	\begin{mytheo}[th:col-rank-inv]
-		Wenn $\bA$ positiv definit ist, so ist $\bA$ auch invertierbar.
+	\begin{mytheo}[th:reg-col-rank-inv]
+		Wenn $\bA \in \R^{N \times N}$ positiv definit ist, so ist $\bA$ auch invertierbar.
 	\end{mytheo}
 	
 	\begin{myproof}
 		Wir nehmen an, $\bA$ sei nicht invertierbar. Dann sind die Spalten von $\bA$ linear abhängig und es existiert ein
 		$\bz \in \R^M \backslash \{ \0 \}$ mit $\bA \bz = \0$.
-		Daraus folgt aber $$\bz^\top \bA \bz = \bz^\top \0 = 0,$$ was der Definitheitseigenschaft von $\bA$ widerspricht.
-		$\bA$ muss folglich invertierbar sein.
+		Daraus folgt aber $$\bz^\top \bA \bz = \bz^\top \0 = 0,$$ was der vorausgesetzten positiven Definitheit von $\bA$ widerspricht.
+		Es muss $\bA$ folglich invertierbar sein.
 	\end{myproof}
 \end{frame}
 
@@ -188,13 +194,13 @@
 	ob die Matrix im stationären Punkt $\btheta^\star$ positiv definit ist.
 
 	\begin{itemize}
-		\item Man rechnet nach, dass die Hesse-Matrix gegeben ist durch
-			$$\frac{\partial^2}{\partial \btheta \partial \btheta} \JLS(\btheta) = \bX^\top \bX.$$
-		\item Mit Satz \ref{th:col-rank-pd} ist diese Matrix positiv definit für alle $\btheta$, falls $\bX$ vollen Spaltenrang hat,
-			d.\,h. \textbf{die Features müssen linear unabhängig sein}.
-			In diesem Fall handelt es sich bei $\btheta^\star$ also tatsächlich um ein Minimum.
-		\item Unter derselben Voraussetzung haben wir damit sogar die \textbf{Konvexität} von $\JLS$ bewiesen,
-			sodass das Mimimun \textbf{global und eindeutig} ist.
+		\item Man rechnet nach, dass die Hesse-Matrix von $\JLS$ gegeben ist durch
+			$$\frac{\partial^2}{\partial \btheta \partial \btheta} \JLS(\btheta) = \bPhi^\top \bPhi.$$
+		\item Mit Satz \ref{th:reg-col-rank-pd} ist diese Matrix positiv definit für alle $\btheta$, falls $\bPhi$ vollen Spaltenrang hat,
+			d.\,h. \textit{die Features müssen linear unabhängig sein}.
+			In diesem Fall handelt es sich bei $\btheta^\star$ tatsächlich um ein Minimum.
+		\item Unter derselben Voraussetzung haben wir damit sogar die \keyword{Konvexität} von $\JLS$ bewiesen \textbf{(warum?)},
+			sodass das Mimimun \textit{global und eindeutig} ist.
 	\end{itemize}
 \end{frame}
 
@@ -202,16 +208,19 @@
 % Und wie sieht es nun mit der Existenz der Inversen aus?
 \begin{frame}{Und wie sieht es nun mit der Existenz der Inversen aus?}{}
 	\begin{itemize}
-		\item Mit Satz \ref{th:col-rank-inv} ist die Existenz der Inversen sichergestellt, wenn $\bX^\top \bX$ positiv definit ist,
-			was wiederum aus der linearen Unabhängigkeit der Features folgt (Satz \ref{th:col-rank-pd}).
-		\item \textbf{Achtung:} Bei der numerischen Berechnung der Inversen auf dem Computer kann es jedoch
-			trotzdem zu Problemen kommen. Es ist ratsam, die Inverse nicht explizit zu berechnen,
-			sondern stattdessen das lineare Gleichungssystem $\bX^\top \bX \btheta = \bX^\top \by$ nach $\btheta$ zu lösen.
-			Dieses Vorgehen ist numerisch stabiler.
+		\item Mit Satz \ref{th:reg-col-rank-inv} ist die Existenz der Inversen sichergestellt, wenn $\bPhi^\top \bPhi$ positiv definit ist,
+			was wiederum aus der linearen Unabhängigkeit der Features folgt (Satz \ref{th:reg-col-rank-pd}).
+		\item \textbf{Achtung:} Bei der numerischen Berechnung der Inversen auf dem Computer kann es
+			trotzdem zu Problemen kommen.
+		\item Es ist \textit{numerisch stabiler}, die Inverse nicht explizit zu berechnen,
+			sondern stattdessen das folgende lineare Gleichungssystem in $\btheta$ zu lösen
+			\begin{equation*}
+				\bPhi^\top \bPhi \btheta = \bPhi^\top \by.
+			\end{equation*}
 		\item Alternativ kann das Optimierungsproblem mit dem \keyword{Gradientenabstiegsverfahren} gelöst werden.
-			Iteriere hierzu die Regel:
+		\item Iteriere hierzu die Regel:
 		\begin{equation}
-			\btheta_{t+1} \longleftarrow \btheta_t - \alpha \bX^\top \bigl( \bX \btheta_t - \by \bigr). 
+			\btheta_{t+1} \longleftarrow \btheta_t - \alpha \bPhi^\top \bigl( \bPhi \btheta_t - \by \bigr). 
 		\end{equation}
 	\end{itemize}
 \end{frame}
@@ -221,12 +230,15 @@
 \begin{frame}{Normalengleichungen}{}
 	Wir fassen unsere Ergebnisse zusammen:
 	
-	\begin{mytheo}[th:normal-equations]
-		Die Design Matrix $\bX \in \R^{N \times (M+1)}$ des Regressionsproblems habe vollen Spaltenrang,
+	\begin{mytheo}[th:reg-normal-equations]
+		Die Design Matrix $\bPhi \in \R^{N \times M}$ des Regressionsproblems habe vollen Spaltenrang,
 		d.\,h. die Features seien linear unabhängig.
-		Dann existiert die Inverse $\bigl( \bX^\top \bX \bigr)^{-1}$ und
-		$$\btheta^\star = \bigl( \bX^\top \bX \bigr)^{-1} \bX^\top \by$$ ist das eindeutige globale Minimum von $\JLS$.
-		Die Gleichungen $\bX^\top \bX \btheta = \bX^\top \by$ bezeichnet man als \keyword{Normalengleichungen}.
+		Dann existiert die Inverse $\bigl( \bPhi^\top \bPhi \bigr)^{-1}$ und
+		\begin{equation*}
+			\btheta^\star = \bigl( \bPhi^\top \bPhi \bigr)^{-1} \bPhi^\top \by
+		\end{equation*}
+		ist das eindeutige globale Minimum von $\JLS$.
+		Die Gleichungen $\bPhi^\top \bPhi \btheta = \bPhi^\top \by$ bezeichnet man als \keyword{Normalengleichungen}.
 	\end{mytheo}
 \end{frame}
 
@@ -237,21 +249,23 @@
 % Eine probabilistische Sicht
 \begin{frame}{Eine probabilistische Sicht}{}
 	\begin{boxGray}
-		\textbf{Annahme 1:} Die Zielwerte $y \in \R$ und die Eingaben $\bx \in \R^{M+1}$ hängen über die Gleichung
+		\textbf{Annahme 1:} Die Zielwerte $y \in \R$ und die Features $\bphi(\bx) \in \R^M$ hängen über die Gleichung
 		\begin{equation}
-			y = \btheta^\top \bx + \varepsilon
+			y = \btheta^\top \bphi(\bx) + \varepsilon
 		\end{equation}
-		zusammen. Dabei ist $\varepsilon \in \R$ ein Fehlerterm, der nicht modellierte Effekte oder Datenrauschen repräsentiert.
+		zusammen. Der Fehlerterm $\varepsilon \in \R$ repräsentiert nicht modellierte Effekte oder Datenrauschen.
 	\end{boxGray}
 	
 	\begin{boxGray}
 		\textbf{Annahme 2:} Für den Fehlerterm gilt $\varepsilon \sim \norm\bigl( 0, \sigma^2 \bigr)$.
 	\end{boxGray}
 
-	Der Zielwert $y$ kann damit als Zufallsvariable aufgefasst werden, für die gilt
-	\begin{equation}
-		y \mid \bx \sim \norm\bigl(\btheta^\top \bx, \sigma^2 \bigr).
-	\end{equation}
+	\begin{boxGray}
+		\textbf{Bemerkung:} Der Zielwert $y$ kann damit als Zufallsvariable aufgefasst werden, für die gilt
+		\begin{equation}
+			y \mid \bx \sim \norm\bigl(\btheta^\top \bphi(\bx), \sigma^2 \bigr).
+		\end{equation}
+	\end{boxGray}
 \end{frame}
 
 
@@ -264,20 +278,21 @@
 % Maximum-Likelihood Regression
 \begin{frame}{Maximum-Likelihood Regression}{}
 	\begin{itemize}
-		\item Wir betrachten wieder einen Datensatz $\bigl\{ (\bx_n, y_n) \bigr\}$ bestehend aus $N$ Trainingsbeispielen.
-		\item Die Likelihood des Modells ist gegeben durch
+		\item Wir betrachten wieder einen Datensatz $\bigl\{ (\bx_n, y_n) \bigr\}_{n=1}^N$ bestehend aus $N$ Trainingsbeispielen.
+		\item Die Likelihood Funktion des Modells ist gegeben durch
 		\begin{equation}
 			\label{eq:reg-likelihood}
 			\begin{aligned}
-				p\bigl( \by \mid \bX; \btheta, \sigma^2 \bigr)
-					&= \prod_{n=1}^N p\bigl( y_n \mid \bx_n; \btheta, \sigma^2 \bigr)
+				L(\btheta, \sigma^2)
+					&= p\bigl( \by \mid \bX; \btheta, \sigma^2 \bigr)
+			\\[2mm]
+					&= \prod_{n=1}^N n\bigl( y_n \mid \bx_n; \btheta, \sigma^2 \bigr)
 			\\[2mm]
 					&= \prod_{n=1}^N \frac{1}{\sqrt{2 \pi \sigma^2}} \cdot \exp\left(
 						-\frac{1}{2 \sigma^2} \biggl( y_n - \btheta^\top \bphi(\bx_n) \biggr)^2
 					\right)
 			\end{aligned}
 		\end{equation}
-		\item Wir gehen im Folgenden von der Verwendung von Basisfunktionen $\bphi$ aus.
 	\end{itemize}
 \end{frame}
 
@@ -298,8 +313,8 @@
 		\end{equation}
 		\item Aus \eqref{eq:reg-log-likelihood} wird ersichtlich, dass der Least-Squares-Fehler minimiert werden muss, um die
 			Likelihood in $\btheta$ zu maximieren.
-		\item Die Lösung für $\btheta$ ist dieselbe wie in Satz \ref{th:normal-equations}, zusätzlich kann die globale
-			Unsicherheit des Modells quantifiziert werden
+		\item Die Lösung für $\btheta$ ist dieselbe wie in Satz \ref{th:reg-normal-equations}, zusätzlich kann aber die \textit{globale
+			Unsicherheit} des Modells quantifiziert werden
 		\vspace*{-3mm}
 		\begin{equation}
 			\bthetaestML = \bigl( \bPhi^\top \bPhi \bigr)^{-1} \bPhi^\top \by
@@ -315,7 +330,10 @@
 	\begin{figure}
 		\centering
 		\includegraphics[scale=0.325]{./img/regression/mle_regression.pdf}
-		\caption{Die MLE-Lösung erlaubt zusätzlich eine Quantifizierung der (globalen) Unsicherheit (grau).}
+		\caption{%
+			Die Maximum Likelihood Lösung erlaubt zusätzlich die Quantifizierung der (globalen) Unsicherheit (Varianz) des Modells.
+			Die Varianz wird dabei als grauer Korridor um die Regressionsgerade dargestellt.
+		}
 	\end{figure}
 \end{frame}
 
@@ -328,14 +346,14 @@
 	\begin{itemize}
 		\item Die Maximum-Likelihood Lösung ist \textbf{anfällig für Overfitting}.
 		\item Eine Möglichkeit der \keyword{Regularisierung} ist die Verwendung einer \keyword{Apriori-Verteilung} (Prior).
-		\item Für diese Verteilung über den Parametern $\btheta$ benutzen wir die Normalverteilung
+		\item Für diese Verteilung über dem Parametervektor $\btheta$ benutzen wir die Normalverteilung
 		\begin{equation}
 			\btheta \sim \norm\bigl( \0, b^2 \bI \bigr).
 		\end{equation}
+		\item Hierbei kontrolliert $b > 0$ die Varianz der Parameter.
 		\item Es handelt sich hierbei um eine \keyword{isotropische Normalverteilung} (rotationsinvariant).
-		\item Der Prior kann benutzt werden, um Vorwissen zu berücksichtigen.
-		\item Er kodiert, welche Parameterwerte apriori plausibel sind.
-		\item Häufig ist der Prior jedoch \keyword{nicht informativ} (z.\,B. Gleichverteilung).
+		\item Der Prior kann benutzt werden, um Vorwissen zu berücksichtigen: Er kodiert, welche Parameterwerte apriori plausibel sind.
+		\item Häufig ist der Prior jedoch \keyword{nicht informativ} (z.\,B. Gleichverteilung) und wird eher aus mathematischer Bequemlichkeit gewählt.
 	\end{itemize}
 \end{frame}
 
