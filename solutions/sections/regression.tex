@@ -25,6 +25,7 @@ Num summieren wir beide Terme und negieren das Vorzeichen, um den negativen Log-
 % SOLUTION
 \subsection*{Lösung zu Aufgabe \ref{task:reg-log-posterior-gradient}}
 
+% Part 1
 \subsubsection*{Teilaufgabe 1}
 
 Der Gradient des negativen Log-Posteriors lautet
@@ -36,7 +37,8 @@ Der Gradient des negativen Log-Posteriors lautet
 \\[2mm]
 		&= \frac{1}{\sigma^2}\bigl( \bPhi^\top \bPhi \btheta - \bPhi^\top \by \bigr) + \frac{1}{b^2} \btheta.
 \end{align*}
-	
+
+% Part 2
 \subsubsection*{Teilaufgabe 2}
 
 Nun setzen wir den Gradienten Null und lösen nach $\btheta$ auf um den MAP-Schätzer zu erhalten
@@ -52,7 +54,8 @@ Nun setzen wir den Gradienten Null und lösen nach $\btheta$ auf um den MAP-Sch�
 		&&\qquad \bthetaestMAP
 		&= \left( \bPhi^\top \bPhi + \frac{\sigma^2}{b^2} \bI \right)^{-1} \bPhi^\top \by.
 \end{alignat*}
-	
+
+% Part 3
 \subsubsection*{Teilaufgabe 3}
 
 Wir prüfen die positive Semidefinitheit der Matrix $\bPhi^\top \bPhi + \frac{\sigma^2}{b^2} \bI$. Dazu sei $\bz \in \R^{M+1} \backslash \{ \0 \}$. Dann ist
@@ -62,6 +65,22 @@ Wir prüfen die positive Semidefinitheit der Matrix $\bPhi^\top \bPhi + \frac{\s
 		> 0,
 \end{equation*}
 denn zum Einen ist die Matrix $\bPhi^\top \bPhi$ mit Satz \ref{th:reg-A-top-A-psd} positiv semidefinit, also $\bz^\top \bPhi^\top \bPhi \bz \ge 0$ und zum Andern $\frac{\sigma^2}{b^2} \bI$ positiv definit, da $\sigma^2 > 0, b > 0$ ist.
+
+
+% SOLUTION
+\subsection*{Lösung zu Aufgabe \ref{task:reg-bayes-reg-joint-dist}}
+
+Da ein Produkt von Normalverteilungen wieder normalverteilt ist, folgt die Verbunddichte $p(y, \btheta)$ einer partitionierten Normalverteilung der Form
+\begin{equation*}
+	\begin{pmatrix} y \\ \btheta \end{pmatrix} \sim \norm\left(
+		\begin{bmatrix} \bmu_y \\ \bmu_{\btheta} \end{bmatrix},
+		\begin{bmatrix}
+			\bSigma_{yy} 		& \bSigma_{y \btheta} 		\\
+			\bSigma_{\btheta y} 	& \bSigma_{\btheta \btheta}
+		\end{bmatrix}
+	\right).
+\end{equation*}
+Da eine Normalverteilung durch Festlegung der Parameter eindeutig bestimmt ist, genügt es also, die obigen Parameter zu berechnen. Hierzu schreiben wir $y = \btheta^\top \bphi(\newinst) + \varepsilon$ und nutzen die Linearität des Erwartungswerts.
 
 
 % SOLUTION

@@ -30,6 +30,7 @@ womit die positive Semidefinitheit gezeigt ist.
 % SOLUTION
 \subsection*{Lösung zu Aufgabe \ref{task:stat-transformation}}
 
+% Part 1
 \subsubsection*{Teilaufgabe 1}
 
 Es sei $X \sim \chi_2^2$. Wir bestimmen die Dichte der transformierten Zufallsvariable $Y \coloneqq \sqrt{X}$ unter Verwendung von Satz \ref{th:stat-transformation}. Die Dichte der $\chi_2^2$-Verteilung lautet
@@ -46,6 +47,7 @@ Wir definieren $T(x) \coloneqq \sqrt{x}$. Die Umkehrabbildung hiervon ist $x = T
 \end{align*}
 Die Indikatorfunktion fällt hierbei weg, da $\indicator_{[0, \infty)}(y^2) = 1$ für alle $y$ gilt.
 
+% Part 2
 \subsubsection*{Teilaufgabe 2}
 
 Wir berechnen $\Prob\left( Y > \frac{1}{2} \right)$. Es ist
@@ -99,6 +101,7 @@ Mit Satz \ref{th:stat-norm-marginal} lautet die Randverteilung der Zufallsvariab
 % SOLUTION
 \subsection*{Lösung zu Aufgabe \ref{task:stat-ml-poisson}}
 
+% Part 1
 \subsubsection*{Teilaufgabe 1}
 
 Wir stellen zunächst die Likelihood Funktion $L(\lambda)$ auf und wenden den Logarithmus an, um die Log-Likelihood Funktion $l(\lambda)$ zu erhalten. Diese ist nach Anwendung der bekannten Logarithmengesetze durch die folgende Funktion gegeben:
@@ -130,6 +133,7 @@ Wir bestimmen nun das Vorzeichen der zweiten Ableitung, um festzustellen, ob es 
 \end{equation*}
 Diese ist negativ für alle $\lambda > 0$ wegen $x_n \in \N$ und dem negativen Vorzeichen. Somit ist das arithmetische Mittel der Datenpunkte der Maximum Likelihood Schätzer für den Parameter $\lambda$ der Poisson-Verteilung, also $\lambdaML \coloneqq \lambda_*$.
 
+% Part 2
 \subsubsection*{Teilaufgabe 2}
 
 Der Schätzer $\lambdaML$ ist erwartungstreu, denn mit der Linearität des Erwartungswerts folgt
@@ -188,54 +192,9 @@ Mit dem Satz von Bayes ist die Posterior-Verteilung proportional zum Produkt aus
 	p(\lambda \mid \bx)
 		&\propto \lambda^{\sum_{n=1}^N x_i} \cdot e^{-N \lambda} \cdot \lambda^{\alpha - 1} \cdot e^{-\beta \lambda}
 \\[2mm]
-		&= \lambda^{\alpha + \sum_{n=1}^N x_n - 1} \cdot e^{-(\beta + N) \lambda}.
+		&= \lambda^{\left( \alpha + \sum_{n=1}^N x_n \right) - 1} \cdot e^{-(\beta + N) \lambda}.
 \end{align*}
 Der letzte Ausdruck besitzt (bis auf Normierung) die funktionale Form einer Gamma-Verteilung mit den Parametern $\hat{\alpha} \coloneqq \alpha + \sum_{n=1}^N x_n$ und $\hat{\beta} \coloneqq \beta + N$. Da der Posterior also wie der Prior zur Familie der Gamma-Verteilungen gehört, ist die Konjugiertheit formal gezeigt.
 
 
 \newpage
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

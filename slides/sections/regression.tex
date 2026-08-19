@@ -200,7 +200,7 @@
 			d.\,h. \textit{die Features müssen linear unabhängig sein}.
 			In diesem Fall handelt es sich bei $\btheta^\star$ tatsächlich um ein Minimum.
 		\item Unter derselben Voraussetzung haben wir damit sogar die \keyword{Konvexität} von $\JLS$ bewiesen \textbf{(warum?)},
-			sodass das Mimimun \textit{global und eindeutig} ist.
+			sodass das Minimum \textit{global und eindeutig} ist.
 	\end{itemize}
 \end{frame}
 
@@ -286,7 +286,7 @@
 				L(\btheta, \sigma^2)
 					&= p\bigl( \by \mid \bX; \btheta, \sigma^2 \bigr)
 			\\[2mm]
-					&= \prod_{n=1}^N n\bigl( y_n \mid \bx_n; \btheta, \sigma^2 \bigr)
+					&= \prod_{n=1}^N p\bigl( y_n \mid \bx_n; \btheta, \sigma^2 \bigr)
 			\\[2mm]
 					&= \prod_{n=1}^N \frac{1}{\sqrt{2 \pi \sigma^2}} \cdot \exp\left(
 						-\frac{1}{2 \sigma^2} \biggl( y_n - \btheta^\top \bphi(\bx_n) \biggr)^2
@@ -434,7 +434,7 @@
 	\begin{mytask}[task:reg-log-posterior-gradient]
 		Jetzt sind Sie an der Reihe:
 		\begin{enumerate}
-			\item Berechnen Sie den Gradienten der negativen Log-Likelihood $-\ln p\bigl( \btheta \mid \bX, \by \bigr)$.
+			\item Berechnen Sie den Gradienten des negativen Log-Posteriors $-\ln p\bigl( \btheta \mid \bX, \by \bigr)$.
 				Benutzen Sie hierzu die Form aus \eqref{eq:reg-neg-log-posterior-new}.
 			\item Setzen Sie den Gradienten anschließend Null und lösen Sie nach $\btheta$ auf.
 			\item Die Lösungsformel für $\bthetaestMAP$ fordert die Invertierung der Matrix $\bPhi^\top \bPhi + \frac{\sigma^2}{b^2} \bI$.
@@ -562,8 +562,11 @@
 	Die Parameter der Predictive Distribution lassen sich analytisch bestimmen:
 	
 	\begin{mytheo}[th:reg-prior-predictive-dist]
-		Für die Prior Predictive Distribution gilt $$y \mid \newinst \sim \norm\bigl( \bmu, \bSigma \bigr),$$ wobei die Parameter
-		$\bmu$ und $\bSigma$ gegeben sind durch
+		Für die Prior Predictive Distribution gilt
+		\begin{equation*}
+			y \mid \newinst \sim \norm\bigl( \bmu, \bSigma \bigr),
+		\end{equation*}
+		wobei die Parameter $\bmu$ und $\bSigma$ gegeben sind durch
 		\begin{align*}
 			\bmu
 				&\coloneqq \bmu_0^\top \bphi(\newinst)
@@ -620,7 +623,7 @@
 \begin{frame}{Beispiel (Forts.)}{}
 	\begin{figure}
 		\centering
-		\includegraphics[scale=0.325]{./img/regression/sine_dataset.pdf}
+		\includegraphics[scale=0.3]{./img/regression/sine_dataset.pdf}
 		\caption{Plot des Trainingsdatensatzes. Die Labels wurden hierbei mittels $y = \sin(x) + \varepsilon$ erzeugt.}
 	\end{figure}
 \end{frame}
@@ -630,8 +633,11 @@
 \begin{frame}{Beispiel (Forts.)}{}
 	\begin{figure}
 		\centering
-		\includegraphics[scale=0.325]{./img/regression/sine_dataset_prior_predictions.pdf}
-		\caption{Plot der Prior Predictions und der Unsicherheit (grau).}
+		\includegraphics[scale=0.3]{./img/regression/sine_dataset_prior_predictions.pdf}
+		\caption{%
+			Plot der Prior Predictions (lila) und der (punktuellen) Unsicherheit (grau).
+			Die Regressionsfunktion passt sich den Daten noch nicht an, da wir bisher nur den Prior benutzen, um Vorhersagen zu machen.
+		}
 	\end{figure}
 \end{frame}
 
@@ -640,8 +646,8 @@
 \begin{frame}{Beispiel (Forts.)}{}
 	\begin{figure}
 		\centering
-		\includegraphics[scale=0.325]{./img/regression/sine_dataset_prior_samples.pdf}
-		\caption{Zufällige Samples, die von der Prior Verteilung gezogen werden.}
+		\includegraphics[scale=0.3]{./img/regression/sine_dataset_prior_samples.pdf}
+		\caption{Zufällige Samples für die Regressionsfunktion, die von der Prior Verteilung gezogen werden.}
 	\end{figure}
 \end{frame}
 
@@ -659,7 +665,12 @@
 				}^{\text{Likelihood}} \cdot \overbracket{p\bigl( \btheta \bigr)}^{\text{Prior}}}{p\bigl( \by \mid \bX \bigr)}
 		\end{equation}
 	\end{itemize}
+\end{frame}
 
+
+% Berücksichtigung der Trainingsdaten (Forts.)
+\begin{frame}{Berücksichtigung der Trainingsdaten (Forts.)}{}
+	Der Posterior kann wieder analytisch berechnet werden:
 	\begin{mytheo}
 		Für den Posterior gilt $\btheta \mid \bX, \by \sim \norm\bigl( \bmu_N, \bSigma_N \bigr)$ mit
 		\begin{align*}
@@ -670,19 +681,36 @@
 				&\coloneqq \bSigma_N \bigl( \bSigma_0^{-1} \bmu_0 + \sigma^{-2} \bPhi^\top \by \bigr).
 		\end{align*}
 	\end{mytheo}
-\end{frame}
-
-
-% Berücksichtigung der Trainingsdaten (Forts.)
-\begin{frame}{Berücksichtigung der Trainingsdaten (Forts.)}{}
+	
 	\begin{mytask}[task:reg-posterior-pred-dist]
-		Machen Sie sich diese Aussage anhand von Satz \ref{th:stat-bayes-norm} klar.
+		Machen Sie sich diese Aussage anhand von Satz \ref{th:stat-bayes-norm} klar. Zusätzlich überlegen Sie sich bitte, wie
+		Sie dieses Ergebnis mit der Verbunddichte aus Aufgabe \ref{task:reg-bayes-reg-joint-dist} erhalten.
 	\end{mytask}
+\end{frame}
 
+
+% Posterior Predictive Distribution
+\begin{frame}{Posterior Predictive Distribution}{}
 	\begin{itemize}
-		\item Die Parameter der Posterior Predictive Distribution werden analog zu Satz \ref{th:prior-predictive-dist} bestimmt.
+		\item Die Parameter der \underline{Posterior} Predictive Distribution werden analog zu Satz \ref{th:reg-prior-predictive-dist} bestimmt
+			(vergleiche dazu Aufgabe \ref{task:reg-prior-pred-dist}).
 		\item Man ersetzt dort lediglich $\bmu_0$ durch $\bmu_N$ und $\bSigma_0$ durch $\bSigma_N$.
+		\item Hier nutzen wir die \keyword{Konjugiertheit} des Priors aus:
+			Da der Posterior dieselbe funktionale Form hat wie der Prior, können wir Letzteren in Satz \ref{th:reg-prior-predictive-dist}
+			einfach durch den Posterior ersetzen.
 	\end{itemize}
+	
+	\begin{mytheo}[th:reg-posterior-predictive-dist]
+		Für die Posterior Predictive Distribution gilt $y \mid \newinst \sim \norm\bigl( \bmu, \bSigma \bigr)$, wobei die Parameter
+		$\bmu$ und $\bSigma$ gegeben sind durch
+		\begin{align*}
+			\bmu
+				&\coloneqq \bmu_N^\top \bphi(\newinst)
+		\\[2mm]
+			\bSigma
+				&\coloneqq \bphi(\newinst)^\top \bSigma_N \bphi(\newinst) + \sigma^2.
+		\end{align*}
+	\end{mytheo}
 \end{frame}
 
 
@@ -690,8 +718,8 @@
 \begin{frame}{Beispiel (Forts.)}{}
 	\begin{figure}
 		\centering
-		\includegraphics[scale=0.325]{./img/regression/sine_dataset_prior_predictions.pdf}
-		\caption{Plot der Prior Predictions und der Unsicherheit (grau).}
+		\includegraphics[scale=0.3]{./img/regression/sine_dataset_prior_predictions.pdf}
+		\caption{Hier noch einmal der Plot der Prior Predictions (lila) und der Unsicherheit (grau).}
 	\end{figure}
 \end{frame}
 
@@ -700,8 +728,10 @@
 \begin{frame}{Beispiel (Forts.)}{}
 	\begin{figure}
 		\centering
-		\includegraphics[scale=0.325]{./img/regression/sine_dataset_posterior_predictions.pdf}
-		\caption{Plot der Posterior Predictions und der Unsicherheit (grau).}
+		\includegraphics[scale=0.3]{./img/regression/sine_dataset_posterior_predictions.pdf}
+		\caption{%
+			Nun der Plot der Posterior Predictions (lila) und der Unsicherheit (grau).
+			Man erkennt sehr gut, dass die Unsicherheit in Bereichen mit weniger Daten größer wird.}
 	\end{figure}
 \end{frame}
 
@@ -710,26 +740,28 @@
 \begin{frame}{Beispiel (Forts.)}{}
 	\begin{figure}
 		\centering
-		\includegraphics[scale=0.325]{./img/regression/sine_dataset_full_plot.pdf}
-		\caption{Zufällige Samples, die von der Posterior Verteilung gezogen werden.}
+		\includegraphics[scale=0.3]{./img/regression/sine_dataset_full_plot.pdf}
+		\caption{%
+			Zufällige Samples, die von der Posterior Verteilung gezogen werden.
+			Zusätzlich ist in rot die Lösung der herkömmlichen Regression geplottet.
+		}
 	\end{figure}
 \end{frame}
 
 
 % Visualisierung: Bayes'sche Regression
 \begin{frame}{Visualisierung: Bayes'sche Regression}{}
+	\vspace*{3mm}
 	\divideTwo{0.49}{
 		\begin{itemize}
-			\item Wir generieren einen Datensatz mittels der Funktion
+			\item Wir generieren einen Datensatz mittels der affin-linearen Funktion
 			\begin{equation*}
 				f(x) = 0.5x - 0.3 + \varepsilon.
 			\end{equation*}
+			\item Die wahren Parameter sind also $\theta_0 = -0.3$ und $\theta_1 = 0.5$
 			\item Bei $\varepsilon$ handelt es sich um additives Datenrauschen mit Mittelwert $\mu_{\varepsilon} = 0$ und Varianz
 				$\sigma_{\varepsilon}^2 = 1$.
-			\item Wir benutzen einen Prior für die Paramter $\btheta$
-			\begin{equation*}
-				\btheta \sim \norm\bigl( \0, \bI \bigr).
-			\end{equation*}
+			\item Wir benutzen den rechts abgebildeten Prior für die Parameter $\btheta \sim \norm\bigl( \0, \bI \bigr)$.
 		\end{itemize}
 	}{0.49}{
 		\begin{figure}
@@ -834,48 +866,3 @@
 		\end{figure}
 	}
 \end{frame}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
