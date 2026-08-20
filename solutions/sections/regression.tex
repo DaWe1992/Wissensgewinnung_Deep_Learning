@@ -70,9 +70,9 @@ denn zum Einen ist die Matrix $\bPhi^\top \bPhi$ mit Satz \ref{th:reg-A-top-A-ps
 % SOLUTION
 \subsection*{Lösung zu Aufgabe \ref{task:reg-bayes-reg-joint-dist}}
 
-Da ein Produkt von Normalverteilungen wieder normalverteilt ist, folgt die Verbunddichte $p(y, \btheta)$ einer partitionierten Normalverteilung der Form
+Da ein Produkt von Normalverteilungen wieder normalverteilt ist, folgt die Verbunddichte $p(y, \btheta \mid \newinst)$ einer partitionierten Normalverteilung der Form
 \begin{equation*}
-	\begin{pmatrix} y \\ \btheta \end{pmatrix} \sim \norm\left(
+	\begin{pmatrix} y & \btheta^\top \end{pmatrix} \mid \newinst \sim \norm\left(
 		\begin{bmatrix} \bmu_y \\ \bmu_{\btheta} \end{bmatrix},
 		\begin{bmatrix}
 			\bSigma_{yy} 		& \bSigma_{y \btheta} 		\\
@@ -81,6 +81,56 @@ Da ein Produkt von Normalverteilungen wieder normalverteilt ist, folgt die Verbu
 	\right).
 \end{equation*}
 Da eine Normalverteilung durch Festlegung der Parameter eindeutig bestimmt ist, genügt es also, die obigen Parameter zu berechnen. Hierzu schreiben wir $y = \btheta^\top \bphi(\newinst) + \varepsilon$ und nutzen die Linearität des Erwartungswerts.
+
+Wir beginnen mit den Erwartungswerten. Es ist
+\begin{align*}
+	\bmu_y
+		&= \E[y]
+\\[2mm]
+		&= \E\bigl[ \btheta^\top \bphi(\newinst) + \varepsilon \bigr]
+			= \E[\btheta]^\top \bphi(\newinst) + \E[\varepsilon]
+\\[2mm]
+		&= \bmu_0^\top \bphi(\newinst)
+\intertext{und}
+	\bmu_{\btheta}
+		&= \E[\btheta] = \bmu_0.
+\end{align*}
+Nun bestimmen wir die Parameter $\bSigma_{yy}$, $\bSigma_{y \btheta}$, $\bSigma_{\btheta y}$ und $\bSigma_{\btheta \btheta}$. Es ist
+\begin{align*}
+	\bSigma_{yy}
+		&= \E\bigl[ \bigl( y - \E[y] \bigr) \bigl( y - \E[y] \bigr)^\top \bigr]
+\\[2mm]
+		&= \E\bigl[
+			\bigl( \btheta^\top \bphi(\newinst) + \varepsilon - \bmu_0^\top \bphi(\newinst) \bigr)
+			\bigl( \btheta^\top \bphi(\newinst) + \varepsilon - \bmu_0^\top \bphi(\newinst) \bigr)^\top
+		\bigr]
+\\[2mm]
+		&= \E\bigl[
+			\bigl( (\btheta - \bmu_0)^\top \bphi(\newinst) + \varepsilon \bigr)
+			\bigl( \bphi(\newinst)^\top (\btheta - \bmu_0) + \varepsilon^\top \bigr)
+		\bigr]
+\\[2mm]
+		&= \E\bigl[
+			(\btheta - \bmu_0)^\top \bphi(\newinst) \bphi(\newinst)^\top (\btheta - \bmu_0)
+				+ (\btheta - \bmu_0)^\top \bphi(\newinst) \varepsilon^\top
+\\[2mm]
+		&\qquad\qquad + \varepsilon \bphi(\newinst)^\top (\btheta - \bmu_0) + \varepsilon \varepsilon^\top
+		\bigr]	
+\end{align*}
+Für den ersten Term gilt
+\begin{align*}
+	\E\bigl[ (\btheta - \bmu_0)^\top \bphi(\newinst) \bphi(\newinst)^\top (\btheta - \bmu_0) \bigr]
+		&= \bphi(\newinst)^\top \E\bigl[ (\btheta - \bmu_0) (\btheta - \bmu_0)^\top \bigr] \bphi(\newinst)
+\\[2mm]
+		&= \bphi(\newinst)^\top \bSigma_0 \bphi(\newinst).
+\end{align*}
+Die beiden Kreuzterme fallen weg, da die Zufallsvariablen $\btheta$ und $\varepsilon$ stochastisch unabhängig sind und $\E\bigl[ \varepsilon \bigr] = 0$ ist. Es gilt
+\begin{equation*}
+	\E\bigl[ (\btheta - \bmu_0)^\top \bphi(\newinst) \varepsilon^\top \bigr]
+		= \E\bigl[ (\btheta - \bmu_0)^\top \bphi(\newinst) \bigr] \cdot \E\bigl[ \varepsilon^\top \bigr]
+		= 0.
+\end{equation*}
+Schließlich gilt $\E\bigl[ \varepsilon \varepsilon^\top \bigr] = \sigma^2$. Zusammen erhalten wir also $\bSigma_{yy} = \bphi(\newinst)^\top \bSigma_0 \bphi(\newinst) + \sigma^2$.
 
 
 % SOLUTION
