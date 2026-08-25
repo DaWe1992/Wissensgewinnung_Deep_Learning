@@ -72,7 +72,7 @@ denn zum Einen ist die Matrix $\bPhi^\top \bPhi$ mit Satz \ref{th:reg-A-top-A-ps
 
 Da ein Produkt von Normalverteilungen wieder normalverteilt ist, folgt die Verbunddichte $p(y, \btheta \mid \newinst)$ einer partitionierten Normalverteilung der Form
 \begin{equation*}
-	\begin{pmatrix} y & \btheta^\top \end{pmatrix} \mid \newinst \sim \norm\left(
+	\begin{pmatrix} y & \btheta^\top \end{pmatrix}^\top \mid \newinst \sim \norm\left(
 		\begin{bmatrix} \bmu_y \\ \bmu_{\btheta} \end{bmatrix},
 		\begin{bmatrix}
 			\bSigma_{yy} 		& \bSigma_{y \btheta} 		\\
@@ -132,11 +132,45 @@ Die beiden Kreuzterme fallen weg, da die Zufallsvariablen $\btheta$ und $\vareps
 \end{equation*}
 Schließlich gilt $\E\bigl[ \varepsilon \varepsilon^\top \bigr] = \sigma^2$. Zusammen erhalten wir also $\bSigma_{yy} = \bphi(\newinst)^\top \bSigma_0 \bphi(\newinst) + \sigma^2$.
 
+Mit analogen Schritten berechnet man
+\begin{align*}
+	\bSigma_{y \btheta}
+		&= \E\bigl[ \bigl( y - \E[y] \bigr) \bigl( \btheta - \E[\btheta] \bigr)^\top \bigr]
+\\[2mm]
+		&= \E\bigl[ \bigl( \btheta^\top \bphi(\newinst) + \varepsilon - \bmu_0^\top \bphi(\newinst) \bigr) (\btheta - \bmu_0)^\top \bigr]
+\\[2mm]
+		&= \E\bigl[
+			(\btheta - \bmu_0)^\top \bphi(\newinst) (\btheta - \bmu_0)^\top + \varepsilon (\btheta - \bmu_0)^\top
+		\bigr]
+\\[2mm]
+		&= \E\bigl[ (\btheta - \bmu_0)^\top \bphi(\newinst) (\btheta - \bmu_0)^\top \bigr]
+\\[2mm]
+		&= \E\bigl[ \bphi(\newinst)^\top (\btheta - \bmu_0) (\btheta - \bmu_0)^\top \bigr]
+\\[2mm]
+		&= \bphi(\newinst)^\top \E\bigl[ (\btheta - \bmu_0) (\btheta - \bmu_0)^\top \bigr]
+\\[2mm]
+		&= \bphi(\newinst)^\top \bSigma_0.
+\end{align*}
+
+Aus Symmetriegründen gilt $\bSigma_{\btheta y} = \bSigma_0 \bphi(\newinst)$. Per Definition ist schließlich $\bSigma_{\btheta \btheta} = \bSigma_0$. Zusammenfassend erhalten wir für die Verbundverteilung also
+\begin{equation*}
+	\begin{pmatrix} y & \btheta^\top \end{pmatrix}^\top \mid \newinst \sim \norm\left(
+		\begin{bmatrix}[1.4]
+			\bmu_0^\top \bphi(\newinst) \\
+			\bmu_0
+		\end{bmatrix},
+		\begin{bmatrix}[1.4]
+			\bphi(\newinst)^\top \bSigma_0 \bphi(\newinst) + \sigma^2 \quad 	& \bphi(\newinst)^\top \bSigma_0 		\\
+			\bSigma_0 \bphi(\newinst) \quad 							& \bSigma_0
+		\end{bmatrix}
+	\right).
+\end{equation*}
+
 
 % SOLUTION
 \subsection*{Lösung zu Aufgabe \ref{task:reg-prior-pred-dist}}
 
-Um die Parameter der Prior Predictive Distribution aus Satz \ref{th:reg-prior-predictive-dist} mithilfe des allgemeinen Satzes \ref{th:stat-bayes-norm} zu bestimmen, ordnen wir die Variablen des Bayes'schen Regressionsmodell den Variablen aus Satz \ref{th:stat-bayes-norm} zu.
+Um die Parameter der Prior Predictive Distribution aus Satz \ref{th:reg-prior-predictive-dist} mithilfe des allgemeinen Satzes \ref{th:stat-bayes-norm} zu bestimmen, ordnen wir die Variablen des Bayes'schen Regressionsmodells den Variablen aus Satz \ref{th:stat-bayes-norm} zu.
 
 {\renewcommand{\arraystretch}{1.3}
 \begin{table}[h]
@@ -178,5 +212,44 @@ Nutzen wir das Mapping aus obiger Tabelle und berücksichtigen noch, dass die Ve
 \end{align*}
 Dies entspricht exakt der Form aus Satz \ref{th:reg-prior-predictive-dist}.
 
+Analog ergibt sich die Aussage durch Marginalisierung der Verbundverteilung aus Aufgabe \ref{task:reg-bayes-reg-joint-dist}. Verwende hierzu Satz \ref{th:stat-norm-marginal}.
+
 % SOLUTION
 \subsection*{Lösung zu Aufgabe \ref{task:reg-posterior-pred-dist}}
+
+Wir bestimmen die Parameter der Posterior-Verteilung analog zur Lösung von Aufgabe \ref{task:reg-prior-pred-dist}. Das oben dargestellte Mapping stimmt weitestgehend überein. Wir müssen lediglich berücksichtigen, dass die Posterior-Verteilung der Parameter von allen Punkten des Trainingsdatensatzes abhängt, und nicht nur von einer einzigen Testinstanz. Wir müssen also $\bA$ auf $\bPhi$ und $\bLambda$ auf $\sigma^2 \bI$ mappen.
+
+Setzen wir dieses Mapping in die Formel aus Satz \ref{th:stat-bayes-norm} ein, so erhalten wir für die Kovarianz
+\begin{align*}
+	\bSigma_N
+		&= \bGamma
+\\[2mm]
+		&= \bigl( \bSigma^{-1} + \bA^\top \bLambda^{-1} \bA \bigr)^{-1}
+\\[2mm]
+		&= \bigl( \bSigma_0^{-1} + \bPhi^\top \sigma^{-2} \bI \bPhi \bigr)^{-1}
+\\[2mm]
+		&= \bigl( \bSigma_0^{-1} + \sigma^{-2} \bPhi^\top \bPhi \bigr)^{-1}.
+\end{align*}
+Analog erhalten wir für den Mittelwert
+\begin{align*}
+	\bmu_N
+		&= \bGamma \bigl[ \bSigma^{-1} \bmu + \bA^\top \bLambda^{-1} (\by - \bb) \bigr]
+\\[2mm]
+		&= \bSigma_N \bigl[ \bSigma_0^{-1} \bmu_0 + \bPhi^\top \sigma^{-2} \bI \by \bigr]
+\\[2mm]
+		&= \bSigma_N \bigl[ \bSigma_0^{-1} \bmu_0 + \sigma^{-2} \bPhi^\top \by \bigr].
+\end{align*}
+
+Auch diese Aussage lässt sich über die Verbundverteilung aus Aufgabe \ref{task:reg-bayes-reg-joint-dist}, allerdings werden hier noch weitere Matrixidentitäten benötigt, um die in Satz \ref{th:reg-parameter-posterior} aufgeführte Form zu erhalten.
+
+
+
+
+
+
+
+
+
+
+
+
