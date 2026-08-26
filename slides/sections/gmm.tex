@@ -26,9 +26,7 @@
 	\end{itemize}
 	
 	\begin{boxGray}
-		\begin{center}
-			\textbf{Frage:} Wie gehen wir mit multimodalen Daten um?
-		\end{center}
+		\textbf{Frage:} Wie gehen wir mit multimodalen Daten um?
 	\end{boxGray}
 \end{frame}
 
@@ -48,7 +46,7 @@
 	\begin{figure}
 		\centering
 		\includegraphics[scale=1.00]{./img/gmm/gaussian_mixture}
-		\caption{Mixture Modell bestehend aus zwei Normalverteilungen. Siehe \cite{Bishop2024}, Seite 86.}
+		\caption{Mixture-Modell bestehend aus zwei Normalverteilungen. Siehe \cite{Bishop2024}, Seite 86.}
 	\end{figure}
 \end{frame}
 
@@ -62,7 +60,7 @@
 		\item Wir können ein \keyword{Gaussian Mixture Model} als eine \textit{Überlagerung mehrerer Normalverteilungen} ansehen.
 		\item Die Dichte bei $K$ Komponenten ist gegeben durch
 		\begin{equation} \label{eq:gmm-density}
-			p(\bx; \btheta) \coloneqq \sum_{k=1}^K \pi_k \cdot \norm(\bx; \bmu_k, \bSigma_k).
+			p(\bx; \btheta) \coloneqq \sum_{k=1}^K \pi_k \cdot p(\bx; \bmu_k, \bSigma_k).
 		\end{equation}
 		\item Dabei enthält $\btheta \coloneqq \bigl( \bpi, \bmu, \bSigma \bigr) \coloneqq
 			\bigl( \pi_1, \ldots, \pi_K, \bmu_1, \ldots, \bmu_K, \bSigma_1, \ldots, \bSigma_K \bigr)$ die Modellparameter.
@@ -82,13 +80,13 @@
 \begin{frame}{Gaussian Mixture Models als Latent Variable Models}{}
 	\begin{itemize}
 		\item Sei im Folgenden $\bz \in \R^K$ ein $K$-dimensionaler \keyword{One-Hot Vektor}.
-		\item Die Komponenten $z_k$ erfüllen also $z_k \in \{ 0, 1 \}$ und $\sum_{k=1}^K z_k = 1$,
-			wobei \textit{genau eine Komponente} den Wert 1 annimmt.
-		\item Wir definieren nun die gemeinsame Verteilung von $\bx$ und $\bz$ über die Kettenregel
+		\item Dessen Komponenten erfüllen $z_k \in \{ 0, 1 \}$ und $\sum_{k=1}^K z_k = 1$,
+			wobei \textit{genau ein} $z_k$ den Wert 1 annimmt.
+		\item Mit der Kettenregel gilt für die Verbunddichte von $\bx$ und $\bz$
 		\begin{equation*}
 			p(\bx, \bz) = p(\bx \mid \bz) \cdot p(\bz).
 		\end{equation*}
-		\item Für die Definition der Randverteilung $p(\bz)$ benutzen wir die Mischkoeffizienten: $p(z_k = 1; \pi_k) \coloneqq \pi_k$.
+		\item Für die Definition der Dichte $p(\bz)$ benutzen wir die Mischkoeffizienten: $$p(z_k = 1; \pi_k) \coloneqq \pi_k.$$
 		\item Da $\bz$ ein One-Hot Vektor ist, können wir schreiben
 		\begin{equation} \label{eq:gmm-marginal-z}
 			p(\bz; \bpi) = \prod_{k=1}^K \pi_k^{z_k}.
@@ -102,16 +100,17 @@
 	\begin{itemize}
 		\item Analog definieren wir
 		\begin{equation*}
-			p(\bx \mid z_k = 1; \bmu_k, \bSigma_k) \coloneqq \norm(\bx; \bmu_k, \bSigma_k).
+			p(\bx \mid z_k = 1; \bmu_k, \bSigma_k) \coloneqq p(\bx; \bmu_k, \bSigma_k).
 		\end{equation*}
 		\item Dies können wir ebenfalls vektorisiert ausdrücken als
 		\begin{equation} \label{eq:gmm-x-given-z}
-			p(\bx \mid \bz; \bmu, \bSigma) \coloneqq \prod_{k=1}^K \norm(\bx; \bmu_k, \bSigma_k)^{z_k}.
+			p(\bx \mid \bz; \bmu, \bSigma) = \prod_{k=1}^K p(\bx; \bmu_k, \bSigma_k)^{z_k}.
 		\end{equation}
-		\item Die Randverteilung $p(\bx; \btheta)$ erhalten wir schließlich, indem wir über alle möglichen Werte $\bz$ summieren
+		\item Die Randdichte $p(\bx; \btheta)$ erhalten wir schließlich durch Marginalisierung in $\bz$
 		\begin{equation}
-			p(\bx; \btheta) = \sum_{\bz} p(\bz; \bpi) \cdot p(\bx \mid \bz; \bmu, \bSigma)
-				= \sum_{k=1}^K \pi_k \cdot \norm(\bx; \bmu_k, \bSigma_k).
+			p(\bx; \btheta)
+				= \sum_{\bz} p(\bz; \bpi) \cdot p(\bx \mid \bz; \bmu, \bSigma)
+				= \sum_{k=1}^K \pi_k \cdot p(\bx; \bmu_k, \bSigma_k).
 		\end{equation}
 		\item Im letzten Gleichheitszeichen haben wir \eqref{eq:gmm-marginal-z} und \eqref{eq:gmm-x-given-z}
 			zusammen mit der One-Hot Eigenschaft von $\bz$ benutzt.
@@ -122,13 +121,13 @@
 % Latente Variablen
 \begin{frame}{Latente Variablen}{}
 	\begin{itemize}
-		\item Falls ein Datensatz $\bX$ bestehend aus $N$ Punkten $\bx_1, \bx_2, \ldots, \bx_N$ vorliegt (und nicht nur ein einzelner Punkt $\bx$),
-			so führen wir für jedes $\bx_n$ ein entsprechendes $\bz_n$ ein.
+		\item Falls ein Datensatz $\bX$ bestehend aus $N$ Punkten $\bx_1, \bx_2, \ldots, \bx_N$ vorliegt
+			(und nicht nur ein einzelner Punkt $\bx$), so führen wir für jedes $\bx_n$ ein entsprechendes $\bz_n$ ein.
 		\item Die Variablen $\bz_n$ nennt man \keyword{latent}, da man sie nicht beobachtet.
 		\item Sei $\bz_n$ die latente Variable für Punkt $\bx_n$.
 		\item Die Aussage $z_{nk} = 1$ bedeutet dann, dass $\bx_n$ von Komponente $k$ generiert wurde.
 		\item Auf den ersten Blick wirkt die Einführung zusätzlicher Variablen nicht zielführend.
-		\item Allerdings können wir nun mit der Verteilung $p(\bx, \bz; \btheta)$ anstelle von $p(\bx; \btheta)$ arbeiten,
+		\item Allerdings können wir nun mit der gemeinsamen Dichte $p(\bx, \bz; \btheta)$ anstelle von $p(\bx; \btheta)$ arbeiten,
 			was zu \textit{wesentlichen Vereinfachungen} führen wird.
 		\item Insbesondere kann der \keyword{Expectation-Maximization (EM) Algorithmus} verwendet werden \\
 			(siehe nächstes Kapitel).
@@ -139,7 +138,7 @@
 % Responsibilities
 \begin{frame}{Responsibilities}{}
 	\begin{itemize}
-		\item Nachfolgend interessieren wir uns besonders für die Aposteriori-Wahrscheinlichkeit $p(\bz \mid \bx; \btheta)$.
+		\item Nachfolgend interessieren wir uns besonders für die Posterior-Dichte $p(\bz \mid \bx; \btheta)$.
 		\item Mit $\gamma(z_k)$ bezeichnen wir die Wahrscheinlichkeit $p(z_k = 1 \mid \bx; \btheta)$.
 		\item Mit dem \textit{Satz von Bayes} gilt
 		\begin{equation} \label{eq:gmm-responsibilities}

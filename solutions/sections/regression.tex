@@ -15,7 +15,7 @@ Die Log-Likelihood des Modells für den Parametervektor $\btheta$ ist gegeben du
 \end{align*}
 Ferner gilt für die Prior-Verteilung des Parametervektors $\btheta \sim \norm\bigl( \0, b^2 \bI \bigr)$, also
 \begin{equation*}
-	n\bigl( \btheta; \0, b^2 \bI \bigr)
+	p\bigl( \btheta; \0, b^2 \bI \bigr)
 		= \frac{1}{(2 \pi)^{\frac{M+1}{2}} \cdot b^{M+1}} \cdot \exp\left( -\frac{\btheta^\top \btheta}{2 b^2} \right)
 		\propto -\frac{1}{2 b^2} \btheta^\top \btheta.
 \end{equation*}

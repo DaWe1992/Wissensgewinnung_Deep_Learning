@@ -375,14 +375,14 @@
 		
 		Die Dichte der \keyword{multivariaten Standardnormalverteilung} ist dann gegeben durch
 		\begin{equation*}
-			n_{\bx}(\bx) \coloneqq \frac{1}{(2 \pi)^{\frac{N}{2}}} \cdot \exp\left( -\frac{\Vert \bx \Vert^2}{2} \right).
+			p_{\bx}(\bx) \coloneqq \frac{1}{(2 \pi)^{\frac{N}{2}}} \cdot \exp\left( -\frac{\Vert \bx \Vert^2}{2} \right).
 		\end{equation*}
 	\end{mytheo}
 
 	\begin{myproof}
 		Wegen der Unabhängigkeit der Komponenten gilt für die Verbunddichte
 		\begin{equation*}
-			n_{\bx}(\bx)
+			p_{\bx}(\bx)
 				= \prod_{i=1}^N p_{x_i}(x_i)
 				= \prod_{i=1}^N \frac{1}{\sqrt{2 \pi}} \cdot \exp\left( -\frac{x_i^2}{2} \right)
 				= \frac{1}{(2 \pi)^{\frac{N}{2}}} \cdot \exp\left( -\frac{\sum_{i=1}^N x_i^2}{2} \right)
@@ -447,7 +447,7 @@
 		
 		Die Dichte der \keyword{multivariaten Normalverteilung} $\norm(\bmu, \bSigma)$ ist gegeben durch
 		\begin{equation*}
-			n_{\bx}(\bx) \coloneqq \frac{1}{(2 \pi)^{\frac{N}{2}} \cdot (\det \bSigma)^{\frac{1}{2}}} \cdot \exp\left(
+			p_{\bx}(\bx) \coloneqq \frac{1}{(2 \pi)^{\frac{N}{2}} \cdot (\det \bSigma)^{\frac{1}{2}}} \cdot \exp\left(
 				-\frac{1}{2} (\bx - \bmu)^\top \bSigma^{-1} (\bx - \bmu)
 			\right).
 		\end{equation*}
@@ -556,13 +556,12 @@
 % Aufgabe: Bedingte Normalverteilung
 \begin{frame}{Aufgabe: Bedingte Normalverteilung}{}
 	\begin{mytask}[task:stat-cond-norm]
-		Es sei $\bmu \coloneqq \bigl( 0, 2 \bigr)^\top \in \R^2$ und
+		Es seien $X_1$ und $X_2$ zwei Zufallsvariablen mit $\bigl( X_1, X_2 \bigr)^\top \sim \norm(\bmu, \bSigma)$.
+		Hierbei sind die Parameter gegen durch $\bmu \coloneqq \bigl( 0, 2 \bigr)^\top \in \R^2$ und
 		\begin{equation*}
-			\bSigma \coloneqq \begin{pmatrix} 0.3 & -1 \\ -1 & 5 \end{pmatrix} \in \R^{2 \times 2},
+			\bSigma \coloneqq \begin{pmatrix} 0.3 & -1 \\ -1 & 5 \end{pmatrix} \in \R^{2 \times 2}.
 		\end{equation*}
-		sodass die Verbunddichte von $X_1$ und $X_2$ gegeben ist durch
-		$p_{X_1, X_2}(x_1, x_2) \coloneqq n(\bx; \bmu, \bSigma)$.
-		Bestimmen Sie die Dichte der bedingten Verteilung $p_{X_1\,\mid\,X_2}(x_1 \mid x_2 = -1)$.
+		Bestimmen Sie die bedingte Dichte $p_{X_1\,\mid\,X_2}(x_1 \mid x_2 = -1)$.
 		Benutzen Sie hierzu die Formeln aus Satz \ref{th:stat-cond-norm}.
 	\end{mytask}
 \end{frame}
@@ -587,7 +586,7 @@
 		Man erhält dieses Ergebnis durch \keyword{Marginalisierung} der Verbunddichte,
 		d.\,h. wir integrieren über alle Variablen, die uns nicht interessieren. Für die Randverteilung von $\bx$ gilt zum Beispiel
 		\begin{equation*}
-			n_{\bx}(\bx) = \int n_{\bx, \by}(\bx, \by)\,\diff \by.
+			p_{\bx}(\bx) = \int p_{\bx, \by}(\bx, \by)\,\diff \by.
 		\end{equation*}
 		Einen ausführlichen Beweis finden Sie in \cite{Bishop2006} auf den Seiten 88--89.
 	\end{myproof}
@@ -613,8 +612,7 @@
 % Aufgabe: Normale Randverteilung
 \begin{frame}{Aufgabe: Normale Randverteilung}{}
 	\begin{mytask}[task:stat-norm-marginal]
-		Betrachten Sie erneut die Verbunddichte $p_{X_1, X_2}(x_1, x_2)$
-		wie sie in Aufgabe \ref{task:stat-cond-norm} definiert wurde.
+		Betrachten Sie erneut die Situation aus Aufgabe \ref{task:stat-cond-norm}.
 		
 		Wie lautet die Dichte der Randverteilung $p_{X_1}(x_1)$?
 	\end{mytask}
