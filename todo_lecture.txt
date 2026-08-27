@@ -1,3 +1,4 @@
-- Use subscript indices for vectors and two indices in subscript for vector components z_{ij}.
-- Kein Einzug für \label bzw. neben \begin{equation}.
+- Kein Einzug für \label bzw. \label neben \begin{equation} setzen.
 - In Labels immer Kapitelbezug.
+- Nutze \param für Strichpunkt.
+- Für Dichte der Normalverteilung \normdense benutzen. 

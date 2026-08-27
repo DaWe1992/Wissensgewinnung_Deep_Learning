@@ -286,7 +286,7 @@
 				L(\btheta, \sigma^2)
 					&= p\bigl( \by \mid \bX; \btheta, \sigma^2 \bigr)
 			\\[2mm]
-					&= \prod_{n=1}^N p\bigl( y_n \mid \bx_n; \btheta, \sigma^2 \bigr)
+					&= \prod_{n=1}^N \normdense\bigl( y_n \mid \bx_n; \btheta, \sigma^2 \bigr)
 			\\[2mm]
 					&= \prod_{n=1}^N \frac{1}{\sqrt{2 \pi \sigma^2}} \cdot \exp\left(
 						-\frac{1}{2 \sigma^2} \biggl( y_n - \btheta^\top \bphi(\bx_n) \biggr)^2

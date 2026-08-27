@@ -375,15 +375,15 @@
 		
 		Die Dichte der \keyword{multivariaten Standardnormalverteilung} ist dann gegeben durch
 		\begin{equation*}
-			p_{\bx}(\bx) \coloneqq \frac{1}{(2 \pi)^{\frac{N}{2}}} \cdot \exp\left( -\frac{\Vert \bx \Vert^2}{2} \right).
+			\normdense_{\bx}(\bx) \coloneqq \frac{1}{(2 \pi)^{\frac{N}{2}}} \cdot \exp\left( -\frac{\Vert \bx \Vert^2}{2} \right).
 		\end{equation*}
 	\end{mytheo}
 
 	\begin{myproof}
 		Wegen der Unabhängigkeit der Komponenten gilt für die Verbunddichte
 		\begin{equation*}
-			p_{\bx}(\bx)
-				= \prod_{i=1}^N p_{x_i}(x_i)
+			\normdense_{\bx}(\bx)
+				= \prod_{i=1}^N \normdense_{x_i}(x_i)
 				= \prod_{i=1}^N \frac{1}{\sqrt{2 \pi}} \cdot \exp\left( -\frac{x_i^2}{2} \right)
 				= \frac{1}{(2 \pi)^{\frac{N}{2}}} \cdot \exp\left( -\frac{\sum_{i=1}^N x_i^2}{2} \right)
 				= \frac{1}{(2 \pi)^{\frac{N}{2}}} \cdot \exp\left( -\frac{\bx^\top \bx}{2} \right)
@@ -429,7 +429,7 @@
 	Durch Ziehen der Wurzel auf beiden Seiten erhalten wir also $\vert \det \bA \vert = (\det \bSigma)^{\frac{1}{2}}$. 
 	Die Dichte $p_{\by}$ nimmt damit die Form
 	\begin{equation*}
-		p_{\by}(\by) = \frac{1}{(\det \bSigma)^\frac{1}{2}} \cdot p_{\bx}\bigl( \bA^{-1} (\by - \bmu) \bigr)
+		p_{\by}(\by) = \frac{1}{(\det \bSigma)^\frac{1}{2}} \cdot \normdense_{\bx}\bigl( \bA^{-1} (\by - \bmu) \bigr)
 	\end{equation*}
 	an, wobei $p_{\bx}$ die Dichte der Standardnormalverteilung aus Satz \ref{th:std-norm-mv} ist. Wir setzen dort
 	$\bx \coloneqq \bA^{-1} (\by - \bmu)$, sodass
@@ -447,7 +447,7 @@
 		
 		Die Dichte der \keyword{multivariaten Normalverteilung} $\norm(\bmu, \bSigma)$ ist gegeben durch
 		\begin{equation*}
-			p_{\bx}(\bx) \coloneqq \frac{1}{(2 \pi)^{\frac{N}{2}} \cdot (\det \bSigma)^{\frac{1}{2}}} \cdot \exp\left(
+			\normdense_{\bx}(\bx) \coloneqq \frac{1}{(2 \pi)^{\frac{N}{2}} \cdot (\det \bSigma)^{\frac{1}{2}}} \cdot \exp\left(
 				-\frac{1}{2} (\bx - \bmu)^\top \bSigma^{-1} (\bx - \bmu)
 			\right).
 		\end{equation*}
@@ -586,7 +586,7 @@
 		Man erhält dieses Ergebnis durch \keyword{Marginalisierung} der Verbunddichte,
 		d.\,h. wir integrieren über alle Variablen, die uns nicht interessieren. Für die Randverteilung von $\bx$ gilt zum Beispiel
 		\begin{equation*}
-			p_{\bx}(\bx) = \int p_{\bx, \by}(\bx, \by)\,\diff \by.
+			\normdense_{\bx}(\bx) = \int \normdense_{\bx, \by}(\bx, \by)\,\diff \by.
 		\end{equation*}
 		Einen ausführlichen Beweis finden Sie in \cite{Bishop2006} auf den Seiten 88--89.
 	\end{myproof}

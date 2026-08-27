@@ -56,17 +56,19 @@
 
 % Gaussian Mixture Models
 \begin{frame}{Gaussian Mixture Models}{}
-	\begin{itemize}
-		\item Wir können ein \keyword{Gaussian Mixture Model} als eine \textit{Überlagerung mehrerer Normalverteilungen} ansehen.
-		\item Die Dichte bei $K$ Komponenten ist gegeben durch
+	\begin{mydef}[def:gmm]
+		Ein \keyword{Gaussian Mixture Model} ist eine \textit{Überlagerung mehrerer Normalverteilungen}.
+		Die Dichte bei $K$ Komponenten ist gegeben durch
 		\begin{equation} \label{eq:gmm-density}
-			p(\bx; \btheta) \coloneqq \sum_{k=1}^K \pi_k \cdot p(\bx; \bmu_k, \bSigma_k).
+			p(\bx; \btheta) \coloneqq \sum_{k=1}^K \pi_k \cdot \normdense(\bx \param \bmu_k, \bSigma_k).
 		\end{equation}
+	\end{mydef}
+	
+	\begin{itemize}
 		\item Dabei enthält $\btheta \coloneqq \bigl( \bpi, \bmu, \bSigma \bigr) \coloneqq
 			\bigl( \pi_1, \ldots, \pi_K, \bmu_1, \ldots, \bmu_K, \bSigma_1, \ldots, \bSigma_K \bigr)$ die Modellparameter.
-		\item Die \keyword{Mischkoeffizienten} $\pi_k$ stellen sicher, dass die Mixture-Dichte \textit{normiert} ist,
-			dass also $\int_{-\infty}^{+\infty} p(\bx; \btheta) = 1$ gilt.
-		\item Die $\pi_k$ erfüllen zudem
+		\item Die \keyword{Mischkoeffizienten} $\pi_k$ stellen sicher, dass $\int_{-\infty}^{+\infty} p(\bx; \btheta) = 1$ gilt.
+		\item Bei \eqref{eq:gmm-density} handelt es sich um eine \textit{Konvexkombination}, denn die $\pi_k$ erfüllen
 		\begin{equation*}
 			0 \le \pi_k \le 1
 		\qquad\text{und}\qquad
@@ -86,10 +88,10 @@
 		\begin{equation*}
 			p(\bx, \bz) = p(\bx \mid \bz) \cdot p(\bz).
 		\end{equation*}
-		\item Für die Definition der Dichte $p(\bz)$ benutzen wir die Mischkoeffizienten: $$p(z_k = 1; \pi_k) \coloneqq \pi_k.$$
+		\item Für die Definition der Dichte $p(\bz)$ benutzen wir die Mischkoeffizienten: $$p(z_k = 1) \coloneqq \pi_k.$$
 		\item Da $\bz$ ein One-Hot Vektor ist, können wir schreiben
 		\begin{equation} \label{eq:gmm-marginal-z}
-			p(\bz; \bpi) = \prod_{k=1}^K \pi_k^{z_k}.
+			p(\bz) = \prod_{k=1}^K \pi_k^{z_k}.
 		\end{equation}
 	\end{itemize}
 \end{frame}
@@ -98,21 +100,21 @@
 % Gaussian Mixture Models als Latent Variable Models (Forts.)
 \begin{frame}{Gaussian Mixture Models als Latent Variable Models (Forts.)}{}
 	\begin{itemize}
-		\item Analog definieren wir
+		\item Für die bedingte Dichte benutzen wir eine Normalverteilung der Form
 		\begin{equation*}
-			p(\bx \mid z_k = 1; \bmu_k, \bSigma_k) \coloneqq p(\bx; \bmu_k, \bSigma_k).
+			p(\bx \mid z_k = 1) \coloneqq \normdense(\bx \param \bmu_k, \bSigma_k).
 		\end{equation*}
-		\item Dies können wir ebenfalls vektorisiert ausdrücken als
+		\item Aufgrund der One-Hot Eigenschaft können wir dies ebenfalls vektorisiert ausdrücken als
 		\begin{equation} \label{eq:gmm-x-given-z}
-			p(\bx \mid \bz; \bmu, \bSigma) = \prod_{k=1}^K p(\bx; \bmu_k, \bSigma_k)^{z_k}.
+			p(\bx \mid \bz) = \prod_{k=1}^K \normdense(\bx \param \bmu_k, \bSigma_k)^{z_k}.
 		\end{equation}
-		\item Die Randdichte $p(\bx; \btheta)$ erhalten wir schließlich durch Marginalisierung in $\bz$
+		\item Die interessierende Randdichte $p(\bx; \btheta)$ erhalten wir schließlich durch Marginalisierung von $\bz$
 		\begin{equation}
 			p(\bx; \btheta)
-				= \sum_{\bz} p(\bz; \bpi) \cdot p(\bx \mid \bz; \bmu, \bSigma)
-				= \sum_{k=1}^K \pi_k \cdot p(\bx; \bmu_k, \bSigma_k).
+				= \sum_{\bz} p(\bz) \cdot p(\bx \mid \bz)
+				\overset{(\triangle)}{=} \sum_{k=1}^K \pi_k \cdot \normdense(\bx \param \bmu_k, \bSigma_k).
 		\end{equation}
-		\item Im letzten Gleichheitszeichen haben wir \eqref{eq:gmm-marginal-z} und \eqref{eq:gmm-x-given-z}
+		\item In $(\triangle)$ haben wir \eqref{eq:gmm-marginal-z} und \eqref{eq:gmm-x-given-z}
 			zusammen mit der One-Hot Eigenschaft von $\bz$ benutzt.
 	\end{itemize}
 \end{frame}
@@ -126,27 +128,31 @@
 		\item Die Variablen $\bz_n$ nennt man \keyword{latent}, da man sie nicht beobachtet.
 		\item Sei $\bz_n$ die latente Variable für Punkt $\bx_n$.
 		\item Die Aussage $z_{nk} = 1$ bedeutet dann, dass $\bx_n$ von Komponente $k$ generiert wurde.
-		\item Auf den ersten Blick wirkt die Einführung zusätzlicher Variablen nicht zielführend.
-		\item Allerdings können wir nun mit der gemeinsamen Dichte $p(\bx, \bz; \btheta)$ anstelle von $p(\bx; \btheta)$ arbeiten,
-			was zu \textit{wesentlichen Vereinfachungen} führen wird.
-		\item Insbesondere kann der \keyword{Expectation-Maximization (EM) Algorithmus} verwendet werden \\
-			(siehe nächstes Kapitel).
 	\end{itemize}
+	
+	\begin{boxGray}
+		\textbf{Bemerkung:} Auf den ersten Blick wirkt die Einführung zusätzlicher Variablen nicht zielführend. \\
+		Allerdings können wir nun mit der gemeinsamen Dichte $p(\bx, \bz; \btheta)$ anstelle von $p(\bx; \btheta)$ arbeiten,
+		was zu \textit{wesentlichen Vereinfachungen} führen wird.
+		Insbesondere kann der \keyword{Expectation-Maximization (EM) Algorithmus} verwendet werden (siehe nächstes Kapitel).
+	\end{boxGray}
 \end{frame}
 
 
 % Responsibilities
 \begin{frame}{Responsibilities}{}
 	\begin{itemize}
-		\item Nachfolgend interessieren wir uns besonders für die Posterior-Dichte $p(\bz \mid \bx; \btheta)$.
-		\item Mit $\gamma(z_k)$ bezeichnen wir die Wahrscheinlichkeit $p(z_k = 1 \mid \bx; \btheta)$.
-		\item Mit dem \textit{Satz von Bayes} gilt
+		\item Nachfolgend interessieren wir uns besonders für die Posterior-Dichte $p(\bz \mid \bx)$.
+		\item Mit $\gamma(z_k)$ bezeichnen wir die Wahrscheinlichkeit $p(z_k = 1 \mid \bx)$.
+		\item Mit dem \keyword{Satz von Bayes} gilt
 		\begin{equation} \label{eq:gmm-responsibilities}
 			\begin{aligned}
-				\gamma(z_k) \coloneqq p(z_k = 1 \mid \bx; \btheta)
+				\gamma(z_k) \coloneqq p(z_k = 1 \mid \bx)
 					&= \frac{p(z_k = 1) \cdot p(\bx \mid z_k = 1)}{\sum_{j=1}^K p(z_j = 1) \cdot p(\bx \mid z_j = 1)}
 			\\[3mm]
-					&= \frac{\pi_k \cdot \norm(\bx; \bmu_k, \bSigma_k)}{\sum_{j=1}^K \pi_j \cdot \norm(\bx; \bmu_j, \bSigma_j)}.
+					&= \frac{\pi_k \cdot \normdense(\bx \param \bmu_k, \bSigma_k)}{%
+						\sum_{j=1}^K \pi_j \cdot \normdense(\bx \param \bmu_j, \bSigma_j)
+					}.
 			\end{aligned}
 		\end{equation}
 		\item In diesem Zusammenhang ist $\pi_k$ die Apriori-Wahrscheinlichkeit für $z_k = 1$ und
@@ -189,10 +195,11 @@
 		\item Mit \eqref{eq:gmm-density} ergibt sich die Log-Likelihood Funktion des Mixture Models zu
 		\begin{equation} \label{eq:gmm-log-likelihood}
 			\begin{aligned}
-				\ln p(\bX; \btheta)
-					&= \ln\left( \prod_{n=1}^N \left( \sum_{k=1}^K \pi_k \cdot \norm(\bx_n \mid \bmu_k, \bSigma_k) \right) \right)
+				l(\btheta) \coloneqq \ln p(\bX \param \btheta)
+					&= \ln\left( \prod_{n=1}^N \left( \sum_{k=1}^K \pi_k \cdot \normdense(\bx_n \param \bmu_k, \bSigma_k) \right) \right)
 			\\[2mm]
-					&= \sum_{n=1}^N \ln\left( \sum_{k=1}^K \pi_k \cdot \norm(\bx_n \mid \bmu_k, \bSigma_k) \right).
+					&= \sum_{n=1}^N \ln\left( \sum_{k=1}^K \pi_k \cdot \normdense(\bx_n \param \bmu_k, \bSigma_k) \right)
+						= \sum_{n=1}^N \ln p(\bx_n \param \btheta).
 			\end{aligned}
 		\end{equation}
 		\item Aufgrund der Summe im Argument des Logarithmus ist \eqref{eq:gmm-log-likelihood} schwer zu optimieren.
@@ -202,23 +209,23 @@
 
 % Gradient der Log-Likelihood für die Mittelwerte
 \begin{frame}{Gradient der Log-Likelihood für die Mittelwerte}{}
-	\vspace*{-6mm}
+	\vspace*{-9mm}
 	\begin{equation} \label{eq:gmm-grad-means}
 		\begin{aligned}
-			\frac{\partial}{\partial \bmu_k} \ln p(\bX; \btheta)
-				&= \sum_{n=1}^N \frac{1}{p(\bx_n; \btheta)} \cdot \frac{\partial}{\partial \bmu_k} p(\bx_n; \btheta)
+			\frac{\partial}{\partial \bmu_k} \ln p(\bX \param \btheta)
+				&= \sum_{n=1}^N \frac{1}{p(\bx_n \param \btheta)} \cdot \frac{\partial}{\partial \bmu_k} p(\bx_n \param \btheta)
 				&& \rem{Anwendung der Kettenregel.}
 		\\[2mm]
-				&= \sum_{n=1}^N \left( \frac{1}{p(\bx_n; \btheta)} \cdot
-					\sum_{j=1}^K \pi_j \frac{\partial}{\partial \bmu_k} \norm(\bx_n; \bmu_j, \bSigma_j) \right)
-				&& \rem{Einsetzen der Definition von $p(\bx_n; \btheta)$.}
+				&= \sum_{n=1}^N \left( \frac{1}{p(\bx_n \param \btheta)} \cdot
+					\sum_{j=1}^K \pi_j \frac{\partial}{\partial \bmu_k} \normdense(\bx_n \param \bmu_j, \bSigma_j) \right)
+				&& \rem{Einsetzen der Definition von $p(\bx_n \param \btheta)$.}
 		\\[2mm]
-				&= \sum_{n=1}^N \frac{\pi_k}{p(\bx_n; \btheta)} \cdot
-					\frac{\partial}{\partial \bmu_k} \norm(\bx_n; \bmu_k, \bSigma_k)
+				&= \sum_{n=1}^N \frac{\pi_k}{p(\bx_n \param \btheta)} \cdot
+					\frac{\partial}{\partial \bmu_k} \normdense(\bx_n \param \bmu_k, \bSigma_k)
 				&& \rem{Nur $k$-ter Summand hängt von $\bmu_k$ ab.}
 		\\[2mm]
-				&= \sum_{n=1}^N \frac{\pi_k \cdot \norm(\bx_n; \bmu_k, \bSigma_k)}{
-					\sum_{j=1}^K \pi_j \cdot \norm(\bx_n; \bmu_j, \bSigma_j)} \cdot \bSigma_k^{-1} (\bx_n - \bmu_k)
+				&\overset{(\square)}{=} \sum_{n=1}^N \frac{\pi_k \cdot \normdense(\bx_n \param \bmu_k, \bSigma_k)}{
+					\sum_{j=1}^K \pi_j \cdot \normdense(\bx_n \param \bmu_j, \bSigma_j)} \cdot \bSigma_k^{-1} (\bx_n - \bmu_k)
 				&& \rem{Kettenregel für Exponentialfunktion.}
 		\\[2mm]
 				&= \sum_{n=1}^N \gamma(z_{nk}) \cdot \bSigma_k^{-1} (\bx_n - \bmu_k)
@@ -228,20 +235,34 @@
 \end{frame}
 
 
+% Aufgabe: Gradient der Log-Likelihood für die Mittelwerte
+\begin{frame}{Aufgabe: Gradient der Log-Likelihood für die Mittelwerte}{}
+	\begin{mytask}[task:gmm-grad-means]
+		Machen Sie sich den Schritt $(\square)$ in \eqref{eq:gmm-grad-means} klar.
+	\end{mytask}
+\end{frame}
+
+
 % Lösung für die Mittelwerte
 \begin{frame}{Lösung für die Mittelwerte}{}
 	\begin{itemize}
-		\item Wir setzen den Gradienten \eqref{eq:gmm-grad-means} Null, lösen nach $\bmu_k$ auf und erhalten
+		\item Wir setzen den Gradienten \eqref{eq:gmm-grad-means} Null, lösen nach $\bmu_k$ auf und erhalten schließlich
 		\begin{equation} \label{eq:gmm-update-means}
-			\sum_{n=1}^N \gamma(z_{nk}) \cdot \bSigma_k^{-1} (\bx_n - \bmu_k) \overset{!}{=} 0
+			\sum_{n=1}^N \gamma(z_{nk}) \cdot \bSigma_k^{-1} (\bx_n - \bmu_k) \overset{!}{=} \0
 		\quad\Longleftrightarrow\quad
 			\bmu_k = \frac{1}{N_k} \sum_{n=1}^N \gamma(z_{nk}) \cdot \bx_n.
 		\end{equation}
-		\item Hierbei ist $N_k$ die Summe der Responsibilities der $k$-ten Komponente, also $$N_k \coloneqq \sum_{n=1}^N \gamma(z_{nk}).$$
-		\item Der Mittelwert $\bmu_k$ der $k$-ten Komponente ergibt sich also durch ein \textit{gewichtetes arithmetisches Mittel}
-			der Punkte $\{ \bx_n \}$, wobei die Gewichtungsfaktoren gerade die Aposteriori-Wahrscheinlichkeiten dafür sind,
-			dass $\bx_n$ durch die $k$-te Komponente generiert wurde.
+		\item Hierbei ist $N_k$ die Summe der Responsibilities der $k$-ten Komponente, also
+		\begin{equation*}
+			N_k \coloneqq \sum_{n=1}^N \gamma(z_{nk}).
+		\end{equation*}
 	\end{itemize}
+	
+	\begin{boxGray}
+		\textbf{Interpretation:} Der Mittelwert $\bmu_k$ der $k$-ten Komponente ergibt sich also durch ein
+		\textit{gewichtetes arithmetisches Mittel} der Punkte $\{ \bx_n \}$, wobei die Gewichte gerade die
+		Aposteriori-Wahrscheinlichkeiten dafür sind, dass $\bx_n$ durch die $k$-te Komponente generiert wurde.
+	\end{boxGray}
 \end{frame}
 
 
@@ -265,17 +286,19 @@
 % Optimierung bezüglich der Mischkoeffizienten
 \begin{frame}{Optimierung bezüglich der Mischkoeffizienten}{}
 	\begin{itemize}
-		\item Bei der Optimierung bezüglich der Mischkoeffizienten $\pi_k$ müssen wir zusätzlich die Normierungsbedingung beachten:
-			$$\sum_{k=1}^K \pi_k = 1.$$
-		\item Es handelt sich also um ein \textit{restringiertes Optimierungsproblem}.
-		\item Die \keyword{Lagrange-Funktion} ist
+		\item Bei der Optimierung bezüglich der Mischkoeffizienten $\pi_k$ müssen wir zusätzlich die Normierungsbedingung beachten
+		\begin{equation*}
+			\sum_{k=1}^K \pi_k = 1.
+		\end{equation*}
+		\item Es handelt sich also um ein \textit{Optimierungsproblem unter Nebenbedingungen}.
+		\item Die \keyword{Lagrange-Funktion} des Problems ergibt sich zu
 		\begin{equation} \label{eq:gmm-mixing-lagrange}
 			\begin{aligned}
 				\lagrange(\btheta, \lambda)
-					&= \ln p(\bX; \btheta) + \lambda\left( \sum_{k=1}^K \pi_k - 1 \right)
+					&= \ln p(\bX \param \btheta) + \lambda\left( \sum_{k=1}^K \pi_k - 1 \right)
 			\\[2mm]
-					&= \sum_{n=1}^N \ln\left( \sum_{k=1}^K \pi_k \cdot \norm(\bx_n \mid \bmu_k, \bSigma_k) \right)
-						+ \lambda\left( \sum_{k=1}^K \pi_k - 1 \right)
+					&= \sum_{n=1}^N \ln\left( \sum_{k=1}^K \pi_k \cdot \normdense(\bx_n \param \bmu_k, \bSigma_k) \right)
+						+ \lambda\left( \sum_{k=1}^K \pi_k - 1 \right).
 			\end{aligned}
 		\end{equation}
 	\end{itemize}
@@ -288,15 +311,15 @@
 	\begin{equation} \label{eq:gmm-grad-mixing}
 		\begin{aligned}
 			\frac{\partial}{\partial \pi_k} \lagrange(\btheta, \lambda)
-				&= \frac{\partial}{\partial \pi_k} \ln p(\bX; \btheta)
+				&= \frac{\partial}{\partial \pi_k} \ln p(\bX \param \btheta)
 					+ \lambda \cdot \frac{\partial}{\partial \pi_k} \left( \sum_{k=1}^K \pi_k - 1 \right)
 				&& \rem{Linearität des Differenzialoperators.}
 		\\[2mm]
-				&= \sum_{n=1}^N \frac{1}{p(\bx_n; \btheta)} \cdot \frac{\partial}{\partial \pi_k} p(\bx_n; \bpi, \bmu, \bSigma) + \lambda
+				&= \sum_{n=1}^N \frac{1}{p(\bx_n \param \btheta)} \cdot \frac{\partial}{\partial \pi_k} p(\bx_n \param \btheta) + \lambda
 				&& \rem{Anwendung der Kettenregel.}
 		\\[2mm]
-				&= \frac{1}{\pi_k} \sum_{n=1}^N \frac{\pi_k \cdot \norm(\bx_n; \bmu_k, \bSigma_k)}{
-					\sum_{j=1}^K \pi_j \cdot \norm(\bx_n; \bmu_j, \bSigma_j)
+				&= \frac{1}{\pi_k} \sum_{n=1}^N \frac{\pi_k \cdot \normdense(\bx_n \param \bmu_k, \bSigma_k)}{
+					\sum_{j=1}^K \pi_j \cdot \normdense(\bx_n \param \bmu_j, \bSigma_j)
 				} + \lambda
 				&& \rem{Zähler und Nenner mit $\pi_k$ erweitern.}
 		\\[2mm]
@@ -341,7 +364,8 @@
 		\item Bei den Lösungsformeln \eqref{eq:gmm-update-means}, \eqref{eq:gmm-update-cov} und \eqref{eq:gmm-update-mixing}
 			handelt es sich \textit{nicht um geschlossene Lösungsformeln} \textbf{(!)}, da die Gewichte $\gamma(z_{nk})$ von den anderen
 			Parametern abhängen.
-		\item Allerdings legen die Ergebnisse ein einfaches \textit{iteratives Verfahren} nahe, den \keyword{Expectation-Maximization (EM) Algorithmus}.
+		\item Allerdings legen die Ergebnisse ein einfaches \textit{iteratives Verfahren} nahe,
+			den \keyword{Expectation-Maximization (EM) Algorithmus}.
 		\item Dieser besteht aus zwei Phasen, die \keyword{Expectation-Phase (E-Schritt)} und die \keyword{Maximization-Phase (M-Schritt)}.
 		\item Im E-Schritt werden die Werte $\gamma(z_{nk})$ bei gegebenen Parametern $\bpi_k, \bmu_k, \bSigma_k$ bestimmt.
 		\item Im darauffolgenden M-Schritt werden die Parameter mit den neuen Werten $\gamma(z_{nk})$ aufdatiert.
@@ -360,7 +384,7 @@
 		}{0.3}{%
 			\includegraphics[scale=0.85]{./img/gmm/gmm_em_alg_c}
 		}
-		\caption{Visualisierung EM für GMMs. Siehe \cite{Bishop2024}, Seite 473.}
+		\caption{Visualisierung des EM Verfahrens für GMMs. Siehe \cite{Bishop2024}, Seite 473.}
 	\end{figure}
 \end{frame}
 
@@ -375,7 +399,7 @@
 		}{0.3}{%
 			\includegraphics[scale=0.85]{./img/gmm/gmm_em_alg_f}
 		}
-		\caption{Visualisierung EM für GMMs. Siehe \cite{Bishop2024}, Seite 473.}
+		\caption{Visualisierung des EM Verfahrens für GMMs. Siehe \cite{Bishop2024}, Seite 473.}
 	\end{figure}
 \end{frame}
 
@@ -384,12 +408,13 @@
 \begin{frame}{EM Algorithmus für GMMs}{}
 	\begin{myalg}
 		\begin{enumerate}
-			\item Initialisiere die Parameter $\{ \pi_k \}$, $\{ \bmu_k \}$ und $\{ \bSigma_k \}$ (entweder zufällig oder mit Vorwissen). 
+			\item Initialisiere die Parameter $\{ \pi_k \}$, $\{ \bmu_k \}$ und $\{ \bSigma_k \}$ \textit{(entweder zufällig oder mit Vorwissen)}. 
 			\item \textbf{E-Schritt:} Berechne die Responsibilities für alle $n$ und alle $k$ gemäß
 			\begin{equation*}
-			\footnotesize
 				\gamma(z_{nk})
-					\coloneqq \frac{\pi_k \cdot \norm(\bx_n; \bmu_k, \bSigma_k)}{\sum_{j=1}^K \pi_j \cdot \norm(\bx_n; \bmu_j, \bSigma_j)}.
+					\coloneqq \frac{\pi_k \cdot \normdense(\bx_n \param \bmu_k, \bSigma_k)}{%
+						\sum_{j=1}^K \pi_j \cdot \normdense(\bx_n \param \bmu_j, \bSigma_j)
+					}.
 			\end{equation*}
 			\item \textbf{M-Schritt:} Aktualisiere die Parameter, wobei $N_k \coloneqq \sum_{n=1}^N \gamma(z_{nk})$
 			\begin{equation*}
