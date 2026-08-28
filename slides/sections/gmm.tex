@@ -60,14 +60,14 @@
 		Ein \keyword{Gaussian Mixture Model} ist eine \textit{Überlagerung mehrerer Normalverteilungen}.
 		Die Dichte bei $K$ Komponenten ist gegeben durch
 		\begin{equation} \label{eq:gmm-density}
-			p(\bx; \btheta) \coloneqq \sum_{k=1}^K \pi_k \cdot \normdense(\bx \param \bmu_k, \bSigma_k).
+			p(\bx \param \btheta) \coloneqq \sum_{k=1}^K \pi_k \cdot \normdense(\bx \param \bmu_k, \bSigma_k).
 		\end{equation}
 	\end{mydef}
 	
 	\begin{itemize}
 		\item Dabei enthält $\btheta \coloneqq \bigl( \bpi, \bmu, \bSigma \bigr) \coloneqq
 			\bigl( \pi_1, \ldots, \pi_K, \bmu_1, \ldots, \bmu_K, \bSigma_1, \ldots, \bSigma_K \bigr)$ die Modellparameter.
-		\item Die \keyword{Mischkoeffizienten} $\pi_k$ stellen sicher, dass $\int_{-\infty}^{+\infty} p(\bx; \btheta) = 1$ gilt.
+		\item Die \keyword{Mischkoeffizienten} $\pi_k$ stellen sicher, dass $\int_{-\infty}^{+\infty} p(\bx \param \btheta) = 1$ gilt.
 		\item Bei \eqref{eq:gmm-density} handelt es sich um eine \textit{Konvexkombination}, denn die $\pi_k$ erfüllen
 		\begin{equation*}
 			0 \le \pi_k \le 1
@@ -108,9 +108,9 @@
 		\begin{equation} \label{eq:gmm-x-given-z}
 			p(\bx \mid \bz) = \prod_{k=1}^K \normdense(\bx \param \bmu_k, \bSigma_k)^{z_k}.
 		\end{equation}
-		\item Die interessierende Randdichte $p(\bx; \btheta)$ erhalten wir schließlich durch Marginalisierung von $\bz$
+		\item Die interessierende Randdichte $p(\bx \param \btheta)$ erhalten wir schließlich durch Marginalisierung von $\bz$
 		\begin{equation}
-			p(\bx; \btheta)
+			p(\bx \param \btheta)
 				= \sum_{\bz} p(\bz) \cdot p(\bx \mid \bz)
 				\overset{(\triangle)}{=} \sum_{k=1}^K \pi_k \cdot \normdense(\bx \param \bmu_k, \bSigma_k).
 		\end{equation}
@@ -132,7 +132,7 @@
 	
 	\begin{boxGray}
 		\textbf{Bemerkung:} Auf den ersten Blick wirkt die Einführung zusätzlicher Variablen nicht zielführend. \\
-		Allerdings können wir nun mit der gemeinsamen Dichte $p(\bx, \bz; \btheta)$ anstelle von $p(\bx; \btheta)$ arbeiten,
+		Allerdings können wir nun mit der gemeinsamen Dichte $p(\bx, \bz \param \btheta)$ anstelle von $p(\bx \param \btheta)$ arbeiten,
 		was zu \textit{wesentlichen Vereinfachungen} führen wird.
 		Insbesondere kann der \keyword{Expectation-Maximization (EM) Algorithmus} verwendet werden (siehe nächstes Kapitel).
 	\end{boxGray}
