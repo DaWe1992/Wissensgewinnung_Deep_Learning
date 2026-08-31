@@ -26,9 +26,10 @@
 % Problemstellung (Forts.)
 \begin{frame}{Problemstellung (Forts.)}{}
 	\begin{itemize}
-		\item Mit $\{ \bX, \bZ \}$ bezeichnen wir den \keyword{vollständigen} Datensatz, $\bX$ alleine nennen wir hingegen \keyword{unvollständig}.
-		\item Analog nennen wir $\ln p(\bX, \bZ \param \btheta)$ die \keyword{vollständige Log-Likelihood} und $\ln p(\bX \param \btheta)$ die
-			\keyword{unvollständige Log-Likelihood}.
+		\item Mit $\{ \bX, \bZ \}$ bezeichnen wir den \keyword{vollständigen} Datensatz, $\bX$ alleine nennen wir
+			hingegen \keyword{unvollständig}.
+		\item Analog nennen wir $\ln p(\bX, \bZ \param \btheta)$ die \keyword{vollständige Log-Likelihood} und
+			$\ln p(\bX \param \btheta)$ die \keyword{unvollständige Log-Likelihood}.
 	\end{itemize}
 \end{frame}
 
@@ -45,8 +46,9 @@
 	\end{itemize}
 
 	\begin{boxGray}
-		\keyword{E-Phase:} Bestimme den Erwartungswert von $\ln p(\bX, \bZ \param \btheta)$ unter der Posterior-Verteilung der latenten Variablen
-		$p(\bZ \mid \bX \param \bthetaOld)$. Die Erwartungswertfunktion bildet eine untere Schranke für $\ln p(\bX \param \btheta)$.
+		\keyword{E-Phase:} Bestimme den Erwartungswert von $\ln p(\bX, \bZ \param \btheta)$ unter der Posterior-Verteilung
+		der latenten Variablen n$p(\bZ \mid \bX \param \bthetaOld)$. Die Erwartungswertfunktion bildet eine
+		untere Schranke für $\ln p(\bX \param \btheta)$.
 	\end{boxGray}
 
 	\begin{boxGray}
@@ -462,18 +464,18 @@
 
 % Gaussian Mixture Models und EM
 \begin{frame}{Gaussian Mixture Models und EM}{}
+	Wir wenden das allgemeine EM-Framework nun auf GMMs an:
 	\begin{itemize}
-		\item Wir wenden das allgemeine EM-Framework nun auf GMMs an.
-		\item Im E-Schritt benötigen wir die Aposteriori-Verteilung $p(\bZ \mid \bX \param \btheta)$ der latenten Variablen, wobei
+		\item Im \textit{E-Schritt} benötigen wir die Posterior-Verteilung $p(\bZ \mid \bX \param \btheta)$ der latenten Variablen, wobei
 			$\btheta \coloneqq \bigl( \bpi, \bmu, \bSigma \bigr) \coloneqq
 			\bigl( \pi_1, \ldots, \pi_K, \bmu_1, \ldots, \bmu_K, \bSigma_1, \ldots, \bSigma_K \bigr)$ ist.
-		\item Diese können wir mit \eqref{eq:gmm-marginal-z}, \eqref{eq:gmm-x-given-z} und dem Satz von Bayes bestimmen zu
+		\item Diese können wir mit \eqref{eq:gmm-marginal-z}, \eqref{eq:gmm-x-given-z} und dem \textit{Satz von Bayes} bestimmen zu
 		\begin{equation*}
 			p(\bZ \mid \bX \param \btheta)
-				\propto \prod_{n=1}^N \prod_{k=1}^K \bigl[ \pi_k \cdot \norm(\bx_n \param \bmu_k, \bSigma_k) \bigr]^{z_{nk}}.
+				\propto \prod_{n=1}^N \prod_{k=1}^K \bigl[ \pi_k \cdot \normdense(\bx_n \param \bmu_k, \bSigma_k) \bigr]^{z_{nk}}.
 		\end{equation*}
-		\item Als nächstes stellen wir die erwartete vollständige Log-Likelihood auf, wobei der Erwartungswert bezüglich der
-			Aposteriori-Verteilung $p(\bZ \mid \bX \param \btheta)$ zu berechnen ist.
+		\item Als nächstes stellen wir die \textit{erwartete vollständige Log-Likelihood} auf, wobei der Erwartungswert bezüglich der
+			Posterior-Verteilung $p(\bZ \mid \bX \param \btheta)$ zu berechnen ist.
 		\item Dazu benötigen wir allerdings noch ein Zwischenergebnis, das wir auf der nächsten Folie bereitstellen.
 	\end{itemize}
 \end{frame}
@@ -485,42 +487,48 @@
 		\item Es gilt der Zusammenhang
 		\begin{equation} \label{eq:gmm-latent-var-expected-value}
 			\begin{aligned}
-				\E_{\bZ \sim p(\bZ \mid \bX \param \btheta)}[z_{nk}]
+				\E_{\bZ \sim p(\bZ\,\mid\,\bX \param \btheta)}[z_{nk}]
 					&= \frac{
-						\displaystyle\sum_{\bz_n} z_{nk} \prod_{k'=1}^K \bigl[ \pi_{k'} \cdot \norm(\bx_n \param \bmu_{k'}, \bSigma_{k'}) \bigr]^{z_{nk'}}
+						\displaystyle\sum_{\bz_n} z_{nk} \prod_{k'=1}^K \bigl[ \pi_{k'}
+							\cdot \normdense(\bx_n \param \bmu_{k'}, \bSigma_{k'}) \bigr]^{z_{nk'}}
 					}{
-						\displaystyle\sum_{\bz_n} \prod_{j=1}^K \bigl[ \pi_j \cdot \norm(\bx_n \param \bmu_j, \bSigma_j) \bigr]^{z_{nj}}
+						\displaystyle\sum_{\bz_n} \prod_{j=1}^K \bigl[ \pi_j
+							\cdot \normdense(\bx_n \param \bmu_j, \bSigma_j) \bigr]^{z_{nj}}
 					}
 			\\[2mm]
-					&= \frac{\pi_k \cdot \norm(\bx_n \param \bmu_k, \bSigma_k)}{\displaystyle\sum_{j=1}^K \pi_j \cdot \norm(\bx_n \param \bmu_j, \bSigma_j)}
+					&= \frac{
+						\pi_k \cdot \normdense(\bx_n \param \bmu_k, \bSigma_k)
+					}{
+						\displaystyle\sum_{j=1}^K \pi_j \cdot \normdense(\bx_n \param \bmu_j, \bSigma_j)
+					}
 						= \gamma(z_{nk}).
 			\end{aligned}
 		\end{equation}
-		\item Der Erwartungswert der Indikator-Variablen $z_{nk}$ unter der Aposteriori-Verteilung von $\bZ$
-			ergibt sich also gerade als die jeweilige Responsibility $\gamma(z_{nk})$.
+		\item Der Erwartungswert der Indikator-Variablen $z_{nk}$ unter der Posterior-Verteilung von $\bZ$
+			stellt sich also gerade als die jeweilige Responsibility $\gamma(z_{nk})$ heraus.
 	\end{itemize}
 \end{frame}
 
 
 % Gaussian Mixture Models und EM (Forts.)
 \begin{frame}{Gaussian Mixture Models und EM (Forts.)}{}
-	Hiermit können wir nun die \keyword{erwartete vollständige Log-Likelihood} (Funktion $Q$) aufstellen
+	Hiermit können wir nun die \textit{erwartete vollständige Log-Likelihood} (Funktion $Q$) aufstellen
 	\begin{equation} \label{eq:gmm-expected-complete-log-likelihood}
 		\begin{aligned}
-			\E_{\bZ \sim p(\bZ \mid \bX \param \btheta)}\bigl[ \ln p(\bX, \bZ \param \btheta) \bigr]
+			\E_{\bZ \sim p(\bZ\,\mid\,\bX \param \btheta)}\bigl[ \ln p(\bX, \bZ \param \btheta) \bigr]
 				&= \E\left[
-					\ln \prod_{n=1}^N \prod_{k=1}^K \pi_k^{z_{nk}} \cdot \norm(\bx_n \param \bmu_k, \bSigma_k)^{z_{nk}}
+					\ln \prod_{n=1}^N \prod_{k=1}^K \pi_k^{z_{nk}} \cdot \normdense(\bx_n \param \bmu_k, \bSigma_k)^{z_{nk}}
 				\right]
 		\\[2mm]
 				&= \E\left[
-					\sum_{n=1}^N \sum_{k=1}^K z_{nk} \cdot \bigl\{ \ln \pi_k + \ln \norm(\bx_n \param \bmu_k, \bSigma_k) \bigr\}
+					\sum_{n=1}^N \sum_{k=1}^K z_{nk} \cdot \bigl\{ \ln \pi_k + \ln \normdense(\bx_n \param \bmu_k, \bSigma_k) \bigr\}
 				\right]
 				&& \rem{Logarithmengesetze.}
 		\\[2mm]
-				&= \sum_{n=1}^N \sum_{k=1}^K \E[z_{nk}] \cdot \bigl\{ \ln \pi_k + \ln \norm(\bx_n \param \bmu_k, \bSigma_k) \bigr\}
+				&= \sum_{n=1}^N \sum_{k=1}^K \E[z_{nk}] \cdot \bigl\{ \ln \pi_k + \ln \normdense(\bx_n \param \bmu_k, \bSigma_k) \bigr\}
 				&& \rem{Linearität von $\E$.}
 		\\[2mm]
-				&= \sum_{n=1}^N \sum_{k=1}^K \gamma(z_{nk}) \cdot \bigl\{ \ln \pi_k + \ln \norm(\bx_n \param \bmu_k, \bSigma_k) \bigr\}
+				&= \sum_{n=1}^N \sum_{k=1}^K \gamma(z_{nk}) \cdot \bigl\{ \ln \pi_k + \ln \normdense(\bx_n \param \bmu_k, \bSigma_k) \bigr\}
 				&& \rem{Anwendung von \eqref{eq:gmm-latent-var-expected-value}}.
 		\end{aligned}
 	\end{equation}
@@ -530,17 +538,19 @@
 % Gaussian Mixture Models und EM (Forts.)
 \begin{frame}{Gaussian Mixture Models und EM (Forts.)}{}
 	\begin{itemize}
-		\item Die Funktion \eqref{eq:gmm-expected-complete-log-likelihood} müssen wir nun im M-Schritt bezüglich der Parameter maximieren.
+		\item Die Funktion \eqref{eq:gmm-expected-complete-log-likelihood} müssen wir nun im \textit{M-Schritt} bezüglich der Parameter maximieren.
 		\item \textbf{Beispielhaft:} Gradient bezüglich $\bmu_k$
 		\begin{align*}
-			\frac{\partial}{\partial \bmu_k} \sum_{n=1}^N \sum_{j=1}^K \gamma(z_{nj}) \cdot
-				\bigl\{ \ln \pi_j + \ln \norm(\bx_n \param \bmu_j, \bSigma_j) \bigr\}
-			&= \sum_{n=1}^N \gamma(z_{nk}) \cdot \frac{\partial}{\partial \bmu_k} \ln \norm(\bx_n \param \bmu_k, \bSigma_k)
+			\frac{\partial}{\partial \bmu_k} \sum_{n=1}^N \sum_{j=1}^K \gamma(z_{nj})
+			\cdot \bigl\{ \ln \pi_j + \ln \normdense(\bx_n \param \bmu_j, \bSigma_j) \bigr\}
+				&= \sum_{n=1}^N \gamma(z_{nk}) \cdot \frac{\partial}{\partial \bmu_k} \ln \normdense(\bx_n \param \bmu_k, \bSigma_k)
 		\\[2mm]
-			&= \sum_{n=1}^N \gamma(z_{nk}) \cdot \frac{\norm(\bx_n \param \bmu_k, \bSigma_k)}{\norm(\bx_n \param \bmu_k, \bSigma_k)}
-				\cdot \bSigma_k^{-1} (\bx_n - \bmu_k)
+				&= \sum_{n=1}^N \gamma(z_{nk}) \cdot \frac{
+					\normdense(\bx_n \param \bmu_k, \bSigma_k)
+				}{
+					\normdense(\bx_n \param \bmu_k, \bSigma_k)} \cdot \bSigma_k^{-1} (\bx_n - \bmu_k)
 		\\[2mm]
-			&= \sum_{n=1}^N \gamma(z_{nk}) \cdot \bSigma_k^{-1} (\bx_n - \bmu_k).
+				&= \sum_{n=1}^N \gamma(z_{nk}) \cdot \bSigma_k^{-1} (\bx_n - \bmu_k).
 		\end{align*}
 		\item Vergleiche hierzu die Herleitung in \eqref{eq:gmm-grad-means}.
 	\end{itemize}
@@ -550,8 +560,11 @@
 % Gaussian Mixture Models und EM (Forts.)
 \begin{frame}{Gaussian Mixture Models und EM (Forts.)}{}
 	\begin{itemize}
-		\item Nullsetzen und Auflösen nach $\bmu_k$ ergibt $$\bmu_k = \frac{1}{N_k} \sum_{n=1}^N \gamma(z_{nk}) \cdot \bx_n.$$
-		\item Dies hat dieselbe Form wie \eqref{eq:gmm-update-means}.
+		\item Nullsetzen und Auflösen nach $\bmu_k$ ergibt
+		\begin{equation*}
+			\bmu_k = \frac{1}{N_k} \sum_{n=1}^N \gamma(z_{nk}) \cdot \bx_n.
+		\end{equation*}
+		\item Dieses Ergebnis hat dieselbe Form wie \eqref{eq:gmm-update-means}.
 		\item Die anderen Formeln ergeben sich analog.
 	\end{itemize}
 \end{frame}

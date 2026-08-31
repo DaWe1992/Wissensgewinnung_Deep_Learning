@@ -53,8 +53,7 @@
 					&= \Vert \ba \Vert^2 + \Vert \bb \Vert^2 - 2 \ba^\top \bb
 			\end{aligned}
 		\end{equation}
-		und zum Anderen aufgrund des \keyword{Kosinussatzes} (Verallgemeinerung des Satzes von Pythagoras)
-		aus der Geometrie
+		und zum Anderen aufgrund des \keyword{Kosinussatzes} (Verallgemeinerung des Satzes des Pythagoras) aus der Geometrie
 		\begin{equation} \label{eq:pca-geom-scalar-product-2}
 			\Vert \ba - \bb \Vert^2
 				= \Vert \ba \Vert^2 + \Vert \bb \Vert^2
@@ -62,8 +61,7 @@
 		\end{equation}
 		Setzt man die Ausdrücke \eqref{eq:pca-geom-scalar-product-1} und \eqref{eq:pca-geom-scalar-product-2} für
 		$\Vert \ba - \bb \Vert^2$ gleich, subtrahiert auf beiden Seiten $\Vert \ba \Vert^2 + \Vert \bb \Vert^2$ und
-		dividiert durch $-2$, so ergibt sich $\ba^\top \bb = \Vert \ba \Vert \cdot \Vert \bb \Vert \cdot \cos \angle(\ba, \bb)$,
-		die Behauptung.
+		dividiert durch $-2$, so ergibt sich $\ba^\top \bb = \Vert \ba \Vert \cdot \Vert \bb \Vert \cdot \cos \angle(\ba, \bb)$, die Behauptung.
 	\end{myproof}
 \end{frame}
 
@@ -76,9 +74,8 @@
 	\end{mytheo}
 
 	\begin{myproof}
-		Wenn die Vektoren $\ba$ und $\bb$ orthogonal, d.\,h. senkrecht, aufeinander stehen, dann gilt
-		$\cos \angle(\ba, \bb) = 0$, da die Kosinus-Funktion bei $\pi/2$ (entspricht 90°) eine Nullstelle hat.
-		Mit Satz \ref{th:pca-geom-scalar-product} folgt
+		Wenn die Vektoren $\ba$ und $\bb$ orthogonal, d.\,h. senkrecht, aufeinander stehen, dann gilt $\cos \angle(\ba, \bb) = 0$,
+		da die Kosinus-Funktion bei $\pi/2$ (entspricht 90°) eine Nullstelle hat. Mit Satz \ref{th:pca-geom-scalar-product} folgt
 		\begin{equation*}
 			\ba^\top \bb
 				= \Vert \ba \Vert^2 \cdot \Vert \bb \Vert^2 \cdot \cos \angle(\ba, \bb)
@@ -101,8 +98,7 @@
 	\end{mytheo}
 
 	\begin{myproof}
-		Es müssen zwei Bedingungen erfüllt sein. Einerseits ist der Projektionsvektor
-		$\bp \coloneqq \proj_{\ba} \bb$ der Anteil von $\bb$,
+		Es müssen zwei Bedingungen erfüllt sein: Einerseits ist der Projektionsvektor $\bp \coloneqq \proj_{\ba} \bb$ der Anteil von $\bb$,
 		der in Richtung $\ba$ zeigt, sodass dieser eine Stauchung bzw. Streckung von $\ba$ ist. Mit $k \in \R$ gilt also
 		\begin{equation} \label{eq:pca-orth-proj-1}
 			\bp = k \cdot \ba.
@@ -112,7 +108,7 @@
 		\begin{equation} \label{eq:pca-orth-proj-2}
 			(\bb - \bp)^\top \ba = 0.
 		\end{equation}
-		Einsetzen von \eqref{eq:pca-orth-proj-1} in \eqref{eq:pca-orth-proj-2} und auflösen nach $k$ ergibt
+		Einsetzen von \eqref{eq:pca-orth-proj-1} in \eqref{eq:pca-orth-proj-2} und Auflösen nach $k$ ergibt
 		$(\bb - k \cdot \ba)^\top \ba = 0 \Longleftrightarrow k = \frac{\ba^\top \bb}{\Vert \ba \Vert^2}$.
 		Dieses Ergebnis setzen wir in \eqref{eq:pca-orth-proj-1} ein und erhalten die Behauptung.
 	\end{myproof}
@@ -123,9 +119,11 @@
 \begin{frame}{Orthogonale Projektion von Vektoren (Forts.)}{}
 	\begin{figure}
 		\input{./tikz/pca/vector_projection}
-		\caption{Projektion des Vektors $\bb \in \R^2$ auf den Vektor $\ba \in \R^2$.
-		Im Kontext der PCA ist der Vektor $\ba$ der Principal Subspace $\bu_1$ und $\bb$ ist ein Datenpunkt,
-		der auf diesen Raum projiziert wird.}
+		\caption{%
+			Projektion des Vektors $\bb \in \R^2$ auf den Vektor $\ba \in \R^2$.
+			Im Kontext der PCA ist der Vektor $\ba$ der Principal Subspace $\bu_1$ und $\bb$ ist ein Datenpunkt,
+			der auf diesen Raum projiziert wird.
+		}
 	\end{figure}
 \end{frame}
 
@@ -136,13 +134,13 @@
 		\item Interessieren wir uns nur für die \textit{Länge des Projektionsvektors}, so betrachten wir seine Norm
 		\begin{equation}
 			\Vert \proj_{\ba} \bb \Vert
-				= \frac{\ba^\top \bb}{\Vert \ba \Vert^2} \Vert \ba \Vert
-				= \frac{\ba^\top \bb}{\Vert \ba \Vert}.
+				= \frac{\vert \ba^\top \bb \vert}{\Vert \ba \Vert^2} \Vert \ba \Vert
+				= \frac{\vert \ba^\top \bb \vert}{\Vert \ba \Vert}.
 		\end{equation}
 		\item Gilt zudem $\Vert \ba \Vert = 1$ (dann ist $\ba$ ein Einheitsvektor),
 			so ergibt sich die Länge des Projektionsvektors einfach als das Skalarprodukt der beteiligten Vektoren
 		\begin{equation}
-			\Vert \proj_{\ba} \bb \Vert = \ba^\top \bb.
+			\Vert \proj_{\ba} \bb \Vert = \vert \ba^\top \bb \vert.
 		\end{equation}
 		\item Wir gehen im Folgenden davon aus, dass die \keyword{Principal Components} $\{ \bu_i \}$ normiert sind.
 	\end{itemize}
@@ -168,9 +166,7 @@
 	\end{itemize}
 
 	\begin{boxGray}
-		\begin{center}
-			\textbf{Ziel:} Finde $\bu_1$ so, dass die Varianz der Projektionen $\{ \tilde{x}_n \}$ maximal wird.
-		\end{center}
+		\textbf{Ziel:} Finde $\bu_1$ so, dass die Varianz der Projektionen $\{ \tilde{x}_n \}$ maximal wird.
 	\end{boxGray}
 \end{frame}
 
@@ -178,7 +174,7 @@
 % Projektion von Mittelwert und Varianz
 \begin{frame}{Projektion von Mittelwert und Varianz}{}
 	\begin{itemize}
-		\item Der Mittelwert der projizierten Daten ist analog gegeben durch
+		\item Der \keyword{Mittelwert} der projizierten Daten ist analog gegeben durch
 		\begin{equation} \label{eq:pca-projection-mean}
 			\bu_1^\top \bxmean,
 		\qquad\text{mit}\qquad
@@ -227,7 +223,7 @@
 \begin{frame}{Maximierung der projizierten Varianz}{}
 	\begin{itemize}
 		\item Unser Ziel ist nun die Maximierung der projizierten Varianz $\bu_1^\top \bS \bu_1$ in $\bu_1$.
-		\item \textbf{Problem:} Dieses Maximierungsproblem ist unbeschränkt.
+		\item \textbf{Problem:} Dieses Maximierungsproblem ist \textit{unbeschränkt}.
 		\item Wir können diesen Ausdruck stets vergrößern, indem wir die Komponenten von $\bu_1$ vergrößern.
 		\item Um dies zu verhindern, fordern wir, dass $\Vert \bu_1 \Vert = 1$ gilt.
 	\end{itemize}
@@ -259,7 +255,7 @@
 	\begin{mytask}
 		Zeigen Sie die Gültigkeit von \eqref{eq:pca-eigenvalue-problem}, indem Sie das
 		Optimierungsproblem \eqref{eq:pca-max-var-problem} lösen. Stellen Sie hierzu die Lagrange-Funktion des Problems auf
-		und finden Sie deren stationären Punkte.
+		und finden Sie deren stationäre Punkte.
 	\end{mytask}
 \end{frame}
 
@@ -292,7 +288,7 @@
 		\item Wir benutzen als $\bu_2$ einen normierten Eigenvektor von $\bS$ zum zweitgrößten Eigenwert $\lambda_2$.
 		\item Wir benutzen als $\bu_3$ einen normierten Eigenvektor von $\bS$ zum drittgrößten Eigenwert $\lambda_3$.
 		\item Dies führen wir solange fort, bis wir die vorgegebenen $D$ Komponenten erreicht haben.
-		\item Wir fassen die Vektoren $\bu_1, \bu_2, \ldots, \bu_D$ in einer Matrix $\bV \in \R^{M \times D}$ zusammen.
+		\item Wir fassen die Vektoren $\bu_1, \bu_2, \ldots, \bu_D$ dann spaltenweise in einer Matrix $\bV \in \R^{M \times D}$ zusammen.
 		\item Die Projektionen $\bXtilde \in \R^{N \times D}$ der Daten $\bX \in \R^{N \times M}$ erhalten wir dann mittels
 		\begin{equation}
 			\bXtilde = \bX \bV.
@@ -308,10 +304,9 @@
 	\end{mytheo}
 
 	\begin{myproof}
-		Dies folgt direkt aus der Orthogonalität der Eigenvektoren von symmetrischen Matrizen zu verschiedenen Eigenwerten.
+		Dies folgt direkt aus der Orthogonalität der Eigenvektoren symmetrischer Matrizen zu verschiedenen Eigenwerten.
 		Seien also $\lambda_1$ und $\lambda_2$ mit $\lambda_1 \ne \lambda_2$ zwei voneinander verschiedene Eigenwerte
-		von $\bS$. Dann erfüllen diese die Gleichungen $\bS \bu_1 = \lambda_1 \bu_1$ und $\bS \bu_2 = \lambda_2 \bu_2$.
-		Damit gilt
+		von $\bS$. Dann erfüllen diese die Gleichungen $\bS \bu_1 = \lambda_1 \bu_1$ und $\bS \bu_2 = \lambda_2 \bu_2$. Damit gilt
 		\begin{equation} \label{eq:pca-princ-comp-orth-1}
 			\bigl( \bS \bu_1 \bigr)^\top \bu_2
 				= \bigl( \lambda_1 \bu_1 \bigr)^\top \bu_2

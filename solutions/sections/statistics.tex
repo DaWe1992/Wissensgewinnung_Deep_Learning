@@ -179,7 +179,7 @@ Um zu beweisen, dass die Gamma-Verteilung der konjugierte Prior für den Paramet
 \begin{equation*}
 	L(\lambda)
 		= \prod_{n=1}^N \frac{\lambda^{x_n}}{x_n!} e^{-\lambda}
-		\propto \lambda^{\sum_{n=1}^N x_i} \cdot e^{-N \lambda}.
+		\propto \lambda^{\sum_{n=1}^N x_n} \cdot e^{-N \lambda}.
 \end{equation*}
 \textbf{Prior (Gamma):} Nun nehmen wir an, dass $\lambda$ vor Beobachtung der Daten einer Gamma-Verteilung folgt. Diese verfügt über die Parameter $\alpha$ (Form) und $\beta$ (Raten-/Skalenparameter). Hier gilt
 \begin{equation*}
@@ -190,7 +190,7 @@ Um zu beweisen, dass die Gamma-Verteilung der konjugierte Prior für den Paramet
 Mit dem Satz von Bayes ist die Posterior-Verteilung proportional zum Produkt aus Likelihood und Prior, d.\,h.
 \begin{align*}
 	p(\lambda \mid \bx)
-		&\propto \lambda^{\sum_{n=1}^N x_i} \cdot e^{-N \lambda} \cdot \lambda^{\alpha - 1} \cdot e^{-\beta \lambda}
+		&\propto \lambda^{\sum_{n=1}^N x_n} \cdot e^{-N \lambda} \cdot \lambda^{\alpha - 1} \cdot e^{-\beta \lambda}
 \\[2mm]
 		&= \lambda^{\left( \alpha + \sum_{n=1}^N x_n \right) - 1} \cdot e^{-(\beta + N) \lambda}.
 \end{align*}
