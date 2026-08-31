@@ -172,7 +172,7 @@
 		\item Für die Anwendung des EM-Algorithmus benötigen wir die Dichte
 			$p(\bz \mid \bx) = n(\bz \mid \bx; \bmu_{\bz\,\mid\,\bx}, \bSigma_{\bz\,\mid\,\bx})$.
 		\item Diese können wir aus der Verbundverteilung \eqref{eq:ppca-expectation-joint-dist-detail}
-			mittels Satz \ref{th:cond-norm} berechnen.
+			mittels Satz \ref{th:stat-cond-norm} berechnen.
 		\item Zunächst definieren wir zwei Matrizen, die wir häufig benötigen werden
 		\begin{align}
 		\label{eq:ppca-C}
@@ -249,7 +249,7 @@
 % Bestimmung des Posteriors (Forts.)
 \begin{frame}{Bestimmung des Posteriors (Forts.)}{}
 	\begin{itemize}
-		\item Nun haben wir alles zusammen, um den Posterior mit Satz \ref{th:cond-norm} auszurechnen.
+		\item Nun haben wir alles zusammen, um den Posterior mit Satz \ref{th:stat-cond-norm} auszurechnen.
 		\item Wir beginnen mit dem bedingten Erwartungswert $\bmu_{\bz\,\mid\,\bx}$
 		\begin{equation}
 			\begin{aligned}
@@ -283,7 +283,7 @@
 	\end{boxGray}
 	
 	\begin{boxGray}
-		\textbf{Bemerkung:} Dasselbe Ergebnis erhält man, wenn man den Satz von Bayes \ref{th:bayes-norm}
+		\textbf{Bemerkung:} Dasselbe Ergebnis erhält man, wenn man den Satz von Bayes \ref{th:stat-bayes-norm}
 		auf $\bz \sim \norm(\0, \bI)$ und $\bx \mid \bz \sim \norm\bigl( \bW \bz + \bmu, \sigma^2 \bI \bigr)$ anwendet.
 	\end{boxGray}
 	

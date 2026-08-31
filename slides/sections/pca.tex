@@ -371,13 +371,17 @@
 % Minimum-Error Formulierung
 \begin{frame}{Minimum-Error Formulierung}{}
 	\begin{itemize}
-		\item Wir betrachten im Folgenden eine weitere Formulierung der PCA, welche auf der \textit{Minimierung des Projektionsfehlers} basiert,
-			die \keyword{Minimum-Error} Formulierung.
+		\item Wir betrachten im Folgenden eine weitere Formulierung der PCA, welche auf der
+			\textit{Minimierung des Projektionsfehlers} basiert, die \keyword{Minimum-Error} Formulierung.
 		\item Dazu seien $\{ \bu_i \}$ mit $i = 1, 2, \ldots, M$ \textit{orthonormale Basisvektoren}, d.\,h.
 		\begin{equation} \label{eq:pca-orthonormality}
-			\bu_i^\top \bu_j = \delta_{ij} \qquad \forall\,i, j.
+			\bu_i^\top \bu_j = \delta_{ij} \coloneqq \begin{cases}
+				1 & \text{if}\quad i= j 		\\
+				0 & \text{if}\quad i \ne j
+			\end{cases} \qquad \forall\,i, j.
 		\end{equation}
-		\item Die Basis $\{ \bu_i \}$ ist \textit{vollständig}, weshalb sich jedes $\bx_n$ \textit{eindeutig} als Linearkombination der $\bu_i$ darstellen lässt
+		\item Die Basis $\{ \bu_i \}$ ist \textit{vollständig}, weshalb sich jedes $\bx_n$ \textit{eindeutig} als Linearkombination
+			der $\bu_i$ darstellen lässt
 		\begin{equation} \label{eq:pca-linear-combination}
 			\bx_n = \sum_{i=1}^M \alpha_{ni} \bu_i.
 		\end{equation}
@@ -402,7 +406,7 @@
 
 % Visualisierung: Basiswechsel
 \begin{frame}{Visualisierung: Basiswechsel}{}
-
+	tbd
 \end{frame}
 
 
@@ -415,7 +419,7 @@
 		\end{equation}
 		\item Die $\{ z_{ni} \}$ hängen dabei von den Punkten $\{ \bx_n \}$ ab, die $\{ b_i \}$ sind dagegen unabhängig.
 		\item Wir möchten die $\{ \bu_i \}$, die $\{ z_{ni} \}$ und die $\{ b_i \}$ so wählen, dass der \keyword{Projektionsfehler} minimal wird.
-		\item Diesen definieren wir als die durchschnittliche quadratische Abweichung der $\{ \bx_n \}$ und den $\{ \bxtilde_n \}$.
+		\item Diesen definieren wir als die \textit{mittlere quadratische Abweichung} der $\{ \bx_n \}$ und den $\{ \bxtilde_n \}$.
 	\end{itemize}
 	
 	\begin{boxGray}
@@ -448,7 +452,7 @@
 
 % Visualisierung: Projektionsfehler
 \begin{frame}{Visualisierung: Projektionsfehler}{}
-
+	tbd
 \end{frame}
 
 
@@ -461,7 +465,8 @@
 		\begin{equation}
 			\bx_n - \bxtilde_n = \sum_{i=D+1}^M \left\{ (\bx_n - \bxmean)^\top \bu_i \right\} \bu_i.
 		\end{equation}
-		\item Dies substituieren wir schließlich in die Fehlerfunktion \eqref{eq:pca-projection-error}. Es gilt
+		\item Dies substituieren wir schließlich in die Fehlerfunktion \eqref{eq:pca-projection-error}.
+		\item Es gilt
 		\begin{equation} \label{eq:pca-projection-error-2}
 			J
 				= \frac{1}{N} \sum_{n=1}^N \sum_{i=D+1}^M \bigl( \bx_n^\top \bu_i - \bxmean^\top \bu_i \bigr)^2
@@ -478,7 +483,8 @@
 	\begin{itemize}
 		\item Wir müssen den Ausdruck \eqref{eq:pca-projection-error-2} minimieren.
 		\item Wieder muss eine Nebenbedingung eingeführt werden, um nicht das Ergebnis $\bu_i = \0$ zu erhalten.
-		\item Die Nebenbedingungen ergeben sich aus der vorausgesetzten \textit{Orthonormalität} \eqref{eq:pca-orthonormality} der $\{ \bu_i \}$.
+		\item Die Nebenbedingungen ergeben sich aus der vorausgesetzten \textit{Orthonormalität}
+			\eqref{eq:pca-orthonormality} der $\{ \bu_i \}$.
 		\item Der Einfachheit halber betrachten wir den Fall $M = 2$ und $D = 1$.
 		\item In diesem Fall erhalten wir die Lagrange-Funktion
 		\begin{equation}
@@ -500,67 +506,18 @@
 % Minimierung des Projektionsfehlers (Forts.)
 \begin{frame}{Minimierung des Projektionsfehlers (Forts.)}{}
 	\begin{itemize}
-		\item Der Fehler wird in diesem Fall also minimal, wenn man für $\bu_2$ einen normalisierten Eigenvektor zum kleineren Eigenwert benutzt.
-		\item Für allgemeines $M$ und $D$ erhält man den minimalen Fehler $J$, indem man die $\{ \bu_i \}$ als normierte Eigenvektoren
-			von $\bS$ wählt.
+		\item Der Fehler wird in diesem Fall also minimal,
+			wenn man für die Projektion einen Eigenvektor zum größten Eigenwert benutzt.
+		\item Für allgemeines $M$ und $D$ erhält man den minimalen Fehler $J$, indem man für die Projektion normierte
+		 	Eigenvektoren von $\bS$ zu den $D$ größten Eigenwerten wählt.
 		\item Für alle $i = 1, 2, \ldots, M$ müssen die $\{ \bu_i \}$ also erfüllen
 		\begin{equation}
 			\bS \bu_i = \lambda_i \bu_i.
 		\end{equation}
-		\item Für den Fehler $J$ gilt dann
+		\item Der Fehler $J$ ergibt sich dann als Summe der Eigenwerte jener Eigenvektoren,
+			die für die Projektion nicht berücksichtigt wurden.
 		\begin{equation}
 			J = \sum_{i=D+1}^M \lambda_i.
 		\end{equation}
 	\end{itemize}
-\end{frame}
-
-
-% Minimierung des Projektionsfehlers (Forts.)
-\begin{frame}{Minimierung des Projektionsfehlers (Forts.)}{}
-	\begin{boxGray}
-		Man projiziert die Daten also auf den Raum, welcher durch die $D$ Eigenvektoren zu den größten Eigenwerten aufgespannt wird.
-		Der Fehler ergibt sich dann als die Summe jener Eigenwerte, deren Eigenvektoren nicht für die Projektion benutzt wurden.
-	\end{boxGray}
-\end{frame}
-
-
-% SUBSECTION: Anwendungen der PCA
-\subsection{Anwendungen der PCA}
-
-% Datenkompression
-\begin{frame}{Datenkompression}{}
-	\begin{figure}
-		\centering
-		\includegraphics[scale=1.00]{./img/pca/handwritten_digit_eigenvectors}
-		\caption{Anwendung der PCA auf einen Datensatz bestehend aus 6.000 Bildern mit $28 \times 28$ Pixeln. Positive Werte sind blau,
-			negative Werte gelb dargestellt.
-			Siehe \cite{Bishop2024}, Seite 502.}
-	\end{figure}
-\end{frame}
-
-
-% Datenkompression (Forts.)
-\begin{frame}{Datenkompression (Forts.)}{}
-	\begin{figure}[H]
-		\divideTwo{0.49}{
-			\centering
-			\includegraphics[scale=0.85]{./img/pca/handwritten_digit_eigenvalue_spectrum}			
-		}{0.49}{
-			\centering
-			\includegraphics[scale=0.85]{./img/pca/handwritten_digit_error_measure}
-		}
-		\caption{(a) Plot des Spektrums der Eigenwerte in absteigender Sortierung. (b) Plot der Summe der verworfenen Eigenwerte (Fehler $J$).
-			Siehe \cite{Bishop2024}, Seite 503.}
-	\end{figure}
-\end{frame}
-
-
-% Datenkompression (Forts.)
-\begin{frame}{Datenkompression (Forts.)}{}
-	\begin{figure}
-		\centering
-		\includegraphics[scale=1.00]{./img/pca/handwritten_digit_reconstruction}
-		\caption{Reduktion eines Elements des Datensatzes auf verschiedene Dimensionen. Bishop benutzt $M$ anstelle von $D$ für die Dimension
-			des Unterraums. Siehe \cite{Bishop2024}, Seite 502.}
-	\end{figure}
 \end{frame}
