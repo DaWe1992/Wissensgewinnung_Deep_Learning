@@ -27,7 +27,7 @@
 
 % PPCA als generatives Modell
 \begin{frame}{PPCA als generatives Modell}{}
-	Die PPCA kann als \textit{generatives Modell} aufgefasst werden:
+	Die PPCA kann als \keyword{generatives Modell} aufgefasst werden:
 	\begin{itemize}
 		\item Zunächst wählen wir ein $\bz$ gemäß \eqref{eq:ppca-dist-z}.
 		\item Dann ziehen wir die beobachtete Variable $\bx$ aus der Verteilung \eqref{eq:ppca-dist-x-given-z}.
@@ -55,6 +55,9 @@
 \end{frame}
 
 
+% SUBSECTION: Bestimmung der Verbunddichte
+\subsection{Bestimmung der Verbunddichte}
+
 % Bestimmung der Verbunddichte
 \begin{frame}{Bestimmung der Verbunddichte}{}
 	\begin{itemize}
@@ -62,11 +65,11 @@
 			der beobachteten und latenten Variablen.
 		\item Mit der Produktregel für Wahrscheinlichkeiten ist
 		\begin{equation} \label{eq:ppca-joint-dist}
-			p(\bz, \bx) = n(\bx \mid \bz) \cdot n(\bz).
+			p(\bz, \bx) = \normdense(\bx \mid \bz) \cdot \normdense(\bz).
 		\end{equation}
 		\item Da es sich bei \eqref{eq:ppca-joint-dist} um ein Produkt von Normalverteilungen handelt,
 			sind die Zufallsvariablen auch gemeinsam normalverteilt.
-		\item Es ist also $p(\bz, \bx) = n(\bz, \bx; \bnu, \bSigma)$ beziehungsweise
+		\item Es ist also $p(\bz, \bx) = \normdense(\bz, \bx; \bnu, \bSigma)$ beziehungsweise
 		\begin{equation}
 			\begin{pmatrix} \bz \\ \bx \end{pmatrix} \sim \norm(\bnu, \bSigma).
 		\end{equation}
@@ -132,7 +135,7 @@
 	
 	\begin{boxGray}
 		\textbf{Zusammenfassung:} Für die gemeinsame Verteilung von $\bz$ und $\bx$ erhalten wir also
-		\begin{equation} \label{eq:ppca-expectation-joint-dist-detail}
+		\begin{equation} \label{eq:ppca-joint-dist}
 			\begin{aligned}
 				\begin{pmatrix} \bz \\ \bx \end{pmatrix}
 					&\sim \norm(\bnu, \bSigma)
@@ -147,6 +150,9 @@
 	\end{boxGray}
 \end{frame}
 
+
+% SUBSECTION: Bestimmung des Posteriors der latenten Variablen
+\subsection{Bestimmung des Posteriors der latenten Variablen}
 
 % Woodbury Matrix-Identität
 \begin{frame}{Woodbury Matrix-Identität}{}
@@ -171,7 +177,7 @@
 	\begin{itemize}
 		\item Für die Anwendung des EM-Algorithmus benötigen wir die Dichte
 			$p(\bz \mid \bx) = n(\bz \mid \bx; \bmu_{\bz\,\mid\,\bx}, \bSigma_{\bz\,\mid\,\bx})$.
-		\item Diese können wir aus der Verbundverteilung \eqref{eq:ppca-expectation-joint-dist-detail}
+		\item Diese können wir aus der Verbundverteilung \eqref{eq:ppca-joint-dist}
 			mittels Satz \ref{th:stat-cond-norm} berechnen.
 		\item Zunächst definieren wir zwei Matrizen, die wir häufig benötigen werden
 		\begin{align}
@@ -293,3 +299,99 @@
 		in der Regel $D \ll M$ ist.
 	\end{boxGray}
 \end{frame}
+
+
+% SUBSECTION: Bestimmung der Likelihood
+\subsection{Bestimmung der Likelihood}
+
+% Bestimmung der Likelihood
+\begin{frame}{Bestimmung der Likelihood}{}
+	\begin{itemize}
+		\item Eine Möglichkeit zur Bestimmung der Parameter des PPCA-Modells ist die \textit{Maximierung der Likelihood}.
+		\item Hierfür benötigen wir einen Ausdruck für die Dichte $p(\bx)$ der beobachteten Daten $\bx$.
+		\item Diesen können wir leicht aus der Verbundverteilung \eqref{eq:ppca-joint-dist} bestimmen, indem wir $\bz$ marginalisieren
+			(siehe hierzu Satz \ref{th:stat-norm-marginal}).
+		\item Die Randverteilung folgt zudem einer Normalverteilung.
+	\end{itemize}
+	
+	\begin{boxGray}
+		\textbf{Randdichte der Daten:}
+		\begin{equation*}
+			p(\bx)
+				= \int_{\bz} \normdense(\bz, \bx \param \bnu, \bSigma)\,\diff \bz
+				= \normdense\bigl( \bx \param \bmu, \bW \bW^\top + \sigma^2 \bI \bigr).
+		\end{equation*}
+	\end{boxGray}
+\end{frame}
+
+
+% Log-Likelihood Funktion
+\begin{frame}{Log-Likelihood Funktion}{}
+	Wir bestimmen die Log-Likelihood Funktion:
+	\begin{equation}
+		\begin{aligned} \label{eq:ppca-log-likelihood}
+			l\bigl( \bmu, \bW, \sigma^2 \bigr)
+				&= \ln \normdense\bigl( \bX \param \bmu, \bW, \sigma^2 \bigr)
+					= \sum_{n=1}^N \ln \normdense\bigl( \bx_n \param \bmu, \bW, \sigma^2 \bigr)
+		\\[2mm]
+				&= \sum_{n=1}^N \ln\left( \frac{1}{(2 \pi)^\frac{D}{2} \cdot (\det \bC)^{\frac{1}{2}}} \cdot \exp\left\{
+					-\frac{1}{2} (\bx_n - \bmu)^\top \bC^{-1} (\bx_n - \bmu) \right\}
+				\right)
+		\\[2mm]
+				&= \sum_{n=1}^N \left(
+					-\frac{D}{2} \ln(2 \pi) - \frac{1}{2} \ln \det(\bC) - \frac{1}{2} (\bx_n - \bmu)^\top \bC^{-1} (\bx_n - \bmu)
+				\right)
+		\\[2mm]
+				&= -\frac{ND}{2} \ln(2 \pi) - \frac{N}{2} \ln \det(\bC) - \frac{1}{2} \sum_{n=1}^N (\bx_n - \bmu)^\top \bC^{-1} (\bx_n - \bmu).
+		\end{aligned}
+	\end{equation}
+\end{frame}
+
+
+% Log-Likelihood Funktion (Forts.)
+\begin{frame}{Log-Likelihood Funktion (Forts.)}{}
+	\begin{itemize}
+		\item Von der Log-Likelihood \eqref{eq:ppca-log-likelihood} können wir aufgrund der bekannten
+			Maximum-Likelihood Lösung für Normalverteilungen direkt den Schätzer für $\bmu$ ablesen
+		\begin{equation} \label{eq:ppca-estimator-mu}
+			\bmu = \bxmean \coloneqq \frac{1}{N} \sum_{n=1}^N \bx_n.
+		\end{equation}
+		\item Wir setzen daher \eqref{eq:ppca-estimator-mu} in \eqref{eq:ppca-log-likelihood} ein und erhalten
+		\begin{equation} \label{eq:ppca-log-likelihood-mu-replaced}
+			-\frac{ND}{2} \ln(2 \pi) - \frac{N}{2} \ln \det(\bC) - \frac{1}{2} \sum_{n=1}^N (\bx_n - \bxmean)^\top \bC^{-1} (\bx_n - \bxmean).
+		\end{equation}
+		\item Den Ausdruck \eqref{eq:ppca-log-likelihood-mu-replaced} wollen wir noch weiter vereinfachen.
+		\item Hierzu benötigen wir noch den Begriff der \keyword{Spur}
+	\end{itemize}
+\end{frame}
+
+
+% Intermezzo: Spur einer Matrix und deren Eigenschaften
+\begin{frame}{Intermezzo: Spur einer Matrix und deren Eigenschaften}{}
+	Um \eqref{eq:ppca-log-likelihood-mu-replaced} noch weiter zu vereinfachen, benötigen wir noch den Begriff der \keyword{Spur}:
+	\begin{mydef}[th:ppca-trace]
+		Es sei $\bA \in \R^{N \times N}$ eine quadratische Matrix. Die \keyword{Spur} (Englisch: trace) von $\bA$ ist die
+		Summe der Elemente auf der Hauptdiagonalen von $\bA$, genauer definieren wir
+		\begin{equation*}
+			\trace(\bA) \coloneqq \sum_{i=1}^N a_{ii}.
+		\end{equation*}
+	\end{mydef}
+	
+	\begin{boxGray}
+		\textbf{Bemerkung:} Im Folgenden benutzen wir häufig die \textit{zyklische Eigenschaft} der Spur.
+		Für die Matrizen $\bA$, $\bB$ und $\bC$ passender Dimension gilt
+		\begin{equation} \label{eq:ppca-trace-cyclic}
+			\trace(\bA \bB \bC) = \trace(\bC \bA \bB) = \trace(\bB \bC \bA).
+		\end{equation}
+	\end{boxGray}
+\end{frame}
+
+
+
+
+
+
+
+
+
+
