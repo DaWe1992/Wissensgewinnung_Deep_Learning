@@ -361,7 +361,7 @@
 			-\frac{ND}{2} \ln(2 \pi) - \frac{N}{2} \ln \det(\bC) - \frac{1}{2} \sum_{n=1}^N (\bx_n - \bxmean)^\top \bC^{-1} (\bx_n - \bxmean).
 		\end{equation}
 		\item Den Ausdruck \eqref{eq:ppca-log-likelihood-mu-replaced} wollen wir noch weiter vereinfachen.
-		\item Hierzu benötigen wir noch den Begriff der \keyword{Spur}
+		\item Hierzu benötigen wir noch den Begriff der \keyword{Spur}.
 	\end{itemize}
 \end{frame}
 
@@ -376,14 +376,122 @@
 			\trace(\bA) \coloneqq \sum_{i=1}^N a_{ii}.
 		\end{equation*}
 	\end{mydef}
-	
-	\begin{boxGray}
-		\textbf{Bemerkung:} Im Folgenden benutzen wir häufig die \textit{zyklische Eigenschaft} der Spur.
-		Für die Matrizen $\bA$, $\bB$ und $\bC$ passender Dimension gilt
-		\begin{equation} \label{eq:ppca-trace-cyclic}
-			\trace(\bA \bB \bC) = \trace(\bC \bA \bB) = \trace(\bB \bC \bA).
+\end{frame}
+
+
+% Intermezzo: Spur einer Matrix und deren Eigenschaften (Forts.)
+\begin{frame}{Intermezzo: Spur einer Matrix und deren Eigenschaften (Forts.)}{}
+	\begin{mytheo}
+		Ohne Beweis folgen wichtige Eigenschaften und Rechenregeln der Spur einer Matrix:
+		\begin{itemize}
+			\item Im Folgenden benutzen wir häufig die \textit{zyklische Eigenschaft} der Spur.
+				Für Matrizen $\bA$, $\bB$ und $\bC$ passender Dimension gilt nämlich
+			\begin{equation} \label{eq:ppca-trace-cyclic}
+				\trace(\bA \bB \bC) = \trace(\bC \bA \bB) = \trace(\bB \bC \bA).
+			\end{equation}
+			\item Sei $\alpha \in \R$ ein Skalar. Dann ist
+			\begin{equation} \label{eq:ppca-trace-scalar}
+				\trace(\alpha) = \alpha.
+			\end{equation}
+			\item Die Spur ist \textit{linear}, d.\,h. für $\alpha, \beta \in \R$ und Matrizen $\bA, \bB \in \R^{N \times N}$ gilt
+			\begin{equation} \label{eq:ppca-trace-linear}
+				\trace(\alpha \bA + \beta \bB) = \alpha \trace(\bA) + \beta \trace(\bB).
+			\end{equation}
+		\end{itemize}
+	\end{mytheo}
+\end{frame}
+
+
+% Log-Likelihood Funktion (Forts.)
+\begin{frame}{Log-Likelihood Funktion (Forts.)}{}
+	\begin{itemize}
+		\item Für den Summanden in \eqref{eq:ppca-log-likelihood-mu-replaced} gilt
+		\begin{equation}
+			\begin{aligned}
+				(\bx_n - \bxmean)^\top \bC^{-1} (\bx_n - \bxmean)
+					&\overset{\eqref{eq:ppca-trace-scalar}}{=} \trace\bigl( (\bx_n - \bxmean)^\top \bC^{-1} (\bx_n - \bxmean) \bigr)
+			\\[2mm]
+					&\overset{\eqref{eq:ppca-trace-cyclic}}{=} \trace\bigl( \bC^{-1} (\bx_n - \bxmean) (\bx_n - \bxmean)^\top \bigr).
+			\end{aligned}
 		\end{equation}
+		\item Hieraus folgt
+		\begin{equation}
+			\begin{aligned}
+				-\frac{1}{2} \sum_{n=1}^N (\bx_n - \bxmean)^\top \bC^{-1} (\bx_n - \bxmean)
+					&\overset{\eqref{eq:ppca-trace-linear}}{=} -\frac{1}{2} \trace\left(
+						\bC^{-1} \sum_{n=1}^N (\bx_n - \bxmean) (\bx_n - \bxmean)^\top
+					\right)
+			\\[2mm]
+					&\overset{\eqref{eq:ppca-trace-linear}}{=} -\frac{N}{2} \trace\bigl( \bC^{-1} \bS \bigr).
+			\end{aligned}
+		\end{equation}
+	\end{itemize}
+\end{frame}
+
+
+% Log-Likelihood Funktion (Forts.)
+\begin{frame}{Log-Likelihood Funktion (Forts.)}{}
+	\begin{boxGray}
+		\textbf{Zusammenfassung:} Die Log-Likelihood Funktion der PPCA lautet damit
+		\begin{equation} \label{eq:ppca-log-likelihood-final}
+			\begin{aligned}
+				l\bigl( \bW, \sigma^2 \bigr)
+					&= -\frac{ND}{2} \ln(2 \pi) - \frac{N}{2} \ln \det(\bC) - \frac{N}{2} \trace\bigl( \bC^{-1} \bS \bigr)
+			\\[2mm]
+					&= -\frac{N}{2} \Bigl\{ D \ln(2 \pi) + \ln \det(\bC) + \trace\bigl( \bC^{-1} \bS \bigr) \Bigr\}
+			\end{aligned}
+		\end{equation}
+		Dies ist dieselbe Form wie in (12.44) in \cite{Bishop2006}.
 	\end{boxGray}
+\end{frame}
+
+
+% Optimierung der Log-Likelihood Funktion
+\begin{frame}{Optimierung der Log-Likelihood Funktion}{}
+	tbd...
+\end{frame}
+
+
+% Anwendung des EM-Verfahrens
+\begin{frame}{Anwendung des EM-Verfahrens}{}
+	\begin{itemize}
+		\item Wir möchten nun die Lösung mit dem \textit{EM-Verfahren} bestimmen.
+		\item \textbf{Zur Erinnerung:} Im E-Schritt müssen wir
+			$\E_{\bZ \sim p(\bZ\,\mid\,\bX)}\left[ \ln p(\bX, \bZ \param \btheta) \right]$ bestimmen.
+		\item Mit dem \textit{Satz von Bayes} und der Linearität des Erwartungswerts können wir schreiben
+		\begin{equation}
+			\E_{\bZ \sim p(\bZ\,\mid\,\bX)}\left[ \ln p(\bX, \bZ \param \btheta) \right]
+				\propto \E_{\bZ \sim p(\bZ\,\mid\,\bX)}\left[ \ln p(\bZ) \right]
+					+ \E_{\bZ \sim p(\bZ\,\mid\,\bX)}\left[ \ln p(\bX \mid \bZ) \right]
+		\end{equation}
+		\item Wir betrachten zunächst ein einzelnes Beispiel $\bx$ mit latenter Variable $\bz$.
+		\item Hierfür gilt
+		\begin{equation}
+			\begin{aligned}
+				\ln p(\bz)
+					&= -\frac{M}{2} \ln(2 \pi) - \frac{1}{2} \bz^\top \bz
+			\\[2mm]
+					&= -\frac{M}{2} \ln(2 \pi) - \frac{1}{2} \trace\bigl( \bz \bz^\top \bigr).
+			\end{aligned}
+		\end{equation}
+	\end{itemize}
+\end{frame}
+
+
+% Anwendung des EM-Verfahrens (Forts.)
+\begin{frame}{Anwendung des EM-Verfahrens (Forts.)}{}
+	\begin{itemize}
+		\item Des Weiteren haben wir
+		\begin{equation}
+			\begin{aligned}
+				\ln p(\bx \mid \bz)
+					&= \ln\left( \frac{1}{(2 \pi)^\frac{D}{2} \det\bigl( \sigma^2 \bI \bigr)^\frac{1}{2}} \right)
+						- \frac{1}{2} (\bx - \bW \bz - \bmu)^\top \bigl( \sigma^2 \bI \bigr)^{-1} (\bx - \bW \bz - \bmu).
+			\\[2mm]
+					&= -\frac{D}{2} \ln\bigl( 2 \pi \sigma^2 \bigr) - \frac{1}{2 \sigma^2} \Vert \bx - \bW \bz - \bmu \Vert^2.
+			\end{aligned}
+		\end{equation}
+	\end{itemize}
 \end{frame}
 
 
