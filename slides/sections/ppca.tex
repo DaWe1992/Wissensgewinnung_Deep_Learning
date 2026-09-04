@@ -452,23 +452,26 @@
 \end{frame}
 
 
+% SUBSECTION: EM-Algorithmus für die PPCA
+\subsection{EM-Algorithmus für die PPCA}
+
 % Anwendung des EM-Verfahrens
 \begin{frame}{Anwendung des EM-Verfahrens}{}
 	\begin{itemize}
 		\item Wir möchten nun die Lösung mit dem \textit{EM-Verfahren} bestimmen.
 		\item \textbf{Zur Erinnerung:} Im E-Schritt müssen wir
-			$\E_{\bZ \sim p(\bZ\,\mid\,\bX)}\left[ \ln p(\bX, \bZ \param \btheta) \right]$ bestimmen.
+			$\E_{\bZ \sim \normdense(\bZ\,\mid\,\bX)}\left[ \ln \normdense(\bX, \bZ \param \btheta) \right]$ bestimmen.
 		\item Mit dem \textit{Satz von Bayes} und der Linearität des Erwartungswerts können wir schreiben
-		\begin{equation}
-			\E_{\bZ \sim p(\bZ\,\mid\,\bX)}\left[ \ln p(\bX, \bZ \param \btheta) \right]
-				\propto \E_{\bZ \sim p(\bZ\,\mid\,\bX)}\left[ \ln p(\bZ) \right]
-					+ \E_{\bZ \sim p(\bZ\,\mid\,\bX)}\left[ \ln p(\bX \mid \bZ) \right]
+		\begin{equation} \label{eq:ppca-em-expectations-general}
+			\E_{\bZ \sim \normdense(\bZ\,\mid\,\bX)}\left[ \ln \normdense(\bX, \bZ \param \btheta) \right]
+				\propto \E_{\bZ \sim \normdense(\bZ\,\mid\,\bX)}\left[ \ln \normdense(\bZ) \right]
+					+ \E_{\bZ \sim \normdense(\bZ\,\mid\,\bX)}\left[ \ln \normdense(\bX \mid \bZ) \right]
 		\end{equation}
 		\item Wir betrachten zunächst ein einzelnes Beispiel $\bx$ mit latenter Variable $\bz$.
 		\item Hierfür gilt
 		\begin{equation}
 			\begin{aligned}
-				\ln p(\bz)
+				\ln \normdense(\bz)
 					&= -\frac{M}{2} \ln(2 \pi) - \frac{1}{2} \bz^\top \bz
 			\\[2mm]
 					&= -\frac{M}{2} \ln(2 \pi) - \frac{1}{2} \trace\bigl( \bz \bz^\top \bigr).
@@ -484,16 +487,82 @@
 		\item Des Weiteren haben wir
 		\begin{equation}
 			\begin{aligned}
-				\ln p(\bx \mid \bz)
+				\ln \normdense(\bx \mid \bz)
 					&= \ln\left( \frac{1}{(2 \pi)^\frac{D}{2} \det\bigl( \sigma^2 \bI \bigr)^\frac{1}{2}} \right)
 						- \frac{1}{2} (\bx - \bW \bz - \bmu)^\top \bigl( \sigma^2 \bI \bigr)^{-1} (\bx - \bW \bz - \bmu).
 			\\[2mm]
 					&= -\frac{D}{2} \ln\bigl( 2 \pi \sigma^2 \bigr) - \frac{1}{2 \sigma^2} \Vert \bx - \bW \bz - \bmu \Vert^2.
 			\end{aligned}
 		\end{equation}
+		\item Wir multiplizieren den quadratischen Term $\Vert \bx - \bW \bz - \bmu \Vert^2$ aus
+		\begin{equation}
+			\begin{aligned}
+				\Vert \bx - \bW \bz - \bmu \Vert^2
+					&= \Vert \bx - \bmu \Vert^2 - 2 (\bx - \bmu)^\top \bW \bz + \Vert \bW \bz \Vert^2
+			\\[2mm]
+					&= \Vert \bx - \bmu \Vert^2 - 2 \bz^\top \bW^\top (\bx - \bmu) + \bz^\top \bW^\top \bW \bz
+			\\[2mm]
+					&= \Vert \bx - \bmu \Vert^2 - 2 \bz^\top \bW^\top (\bx - \bmu) + \trace\bigl( \bz \bz^\top \bW^\top \bW \bigr)
+			\end{aligned}
+		\end{equation}
 	\end{itemize}
 \end{frame}
 
+
+% Anwendung des EM-Verfahrens (Forts.)
+\begin{frame}{Anwendung des EM-Verfahrens (Forts.)}{}
+	\begin{itemize}
+		\item Mit diesen Ergebnissen können wir die Erwartungswerte aus \eqref{eq:ppca-em-expectations-general} bestimmen.
+		\item Wir erhalten mit der Linearität des Erwartungswerts
+		\begin{equation}
+			\begin{aligned}
+				\E_{\bz \sim \normdense(\bz\,\mid\,\bx)}\left[ \ln p(\bz) \right]
+					&= -\frac{M}{2} \ln(2 \pi) - \frac{1}{2} \trace\bigl( \E\bigl[ \bz \bz^\top \bigr] \bigr)
+			\\[2mm]
+				\E_{\bz \sim \normdense(\bz\,\mid\,\bx)}\left[ \ln p(\bx \mid \bz) \right]
+					&= -\frac{D}{2} \ln\bigl( 2 \pi \sigma^2 \bigr) - \frac{1}{2 \sigma^2} \Vert \bx - \bmu \Vert^2
+						+ \frac{1}{\sigma^2} \E\bigl[ \bz \bigr]^\top \bW^\top (\bx - \bmu)
+			\\[2mm]
+					&\qquad\quad - \frac{1}{2 \sigma^2} \trace\bigl( \E\bigl[ \bz \bz^\top \bW^\top \bW \bigr] \bigr)
+			\end{aligned}
+		\end{equation}
+	\end{itemize}
+\end{frame}
+
+
+% Anwendung des EM-Verfahrens (Forts.)
+\begin{frame}{Anwendung des EM-Verfahrens (Forts.)}{}
+	Durch Summation über alle Instanzen des Datensatzes erhalten wir das Endergbnis:
+	\begin{boxGray}
+		\begin{equation} \label{eq:ppca-em-expectations}
+			\begin{aligned}
+				\E_{\bZ \sim \normdense(\bZ\,\mid\,\bX)}\bigl[ \ln p\bigl( \bX, \bZ \param \bmu, \bW, \sigma^2 \bigr) \bigr]
+					&\propto -\sum_{n=1}^N \Biggl\{
+						\frac{D}{2} \ln\bigl( 2 \pi \sigma^2 \bigr) + \frac{1}{2} \trace\bigl( \E\bigl[ \bz_n \bz_n^\top \bigr] \bigr)
+				\\[2mm]
+					&\qquad\quad + \frac{1}{2 \sigma^2} \Vert \bx_n - \bmu \Vert^2
+						- \frac{1}{\sigma^2} \E[\bz_n]^\top \bW^\top (\bx_n - \bmu)
+				\\[2mm]
+					&\qquad\quad + \frac{1}{2 \sigma^2} \trace\bigl( \E\bigl[ \bz_n \bz_n^\top \bigr] \bW^\top \bW \bigr).
+					\Biggr\}
+			\end{aligned}
+		\end{equation}
+	\end{boxGray}
+	
+	\begin{boxGray}
+		\textbf{Bemerkung:} Der Ausdruck \eqref{eq:ppca-em-expectations} hängt von der Posterior-Verteilung von $\bz$
+		nur über die suffizienten Statistiken der Normalverteilung ab. Die Ausdrücke hierfür kennen wir aus
+		\eqref{eq:ppca-posterior-z-given-x}.
+	\end{boxGray}
+\end{frame}
+
+
+% Anwendung des EM-Verfahrens (Forts.)
+\begin{frame}{Anwendung des EM-Verfahrens (Forts.)}{}
+	\begin{itemize}
+		\item 
+	\end{itemize}
+\end{frame}
 
 
 
