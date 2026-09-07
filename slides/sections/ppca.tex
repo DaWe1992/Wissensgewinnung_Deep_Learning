@@ -176,7 +176,7 @@
 \begin{frame}{Bestimmung des Posteriors}{}
 	\begin{itemize}
 		\item Für die Anwendung des EM-Algorithmus benötigen wir die Dichte
-			$p(\bz \mid \bx) = n(\bz \mid \bx; \bmu_{\bz\,\mid\,\bx}, \bSigma_{\bz\,\mid\,\bx})$.
+			$p(\bz \mid \bx) = \normdense(\bz \mid \bx; \bmu_{\bz\,\mid\,\bx}, \bSigma_{\bz\,\mid\,\bx})$.
 		\item Diese können wir aus der Verbundverteilung \eqref{eq:ppca-joint-dist}
 			mittels Satz \ref{th:stat-cond-norm} berechnen.
 		\item Zunächst definieren wir zwei Matrizen, die wir häufig benötigen werden
@@ -691,6 +691,21 @@
 % EM-Algorithmus für die PPCA
 \begin{frame}{EM-Algorithmus für die PPCA}{}
 	\begin{myalg}
-	
+		\begin{enumerate}
+			\item Bestimme $\bxmean \coloneqq \frac{1}{N} \sum_{n=1}^N \bx_n$ und initialisiere $\bWOld$ und $\sigmaSqOld$ zufällig
+				\textit{(oder mit Vorwissen)}.
+			\item \textbf{E-Schritt:} Berechne für alle $n = 1, 2, \ldots, N$
+			\begin{align*}
+				\E[\bz_n]
+					&= \bM^{-1} \bWOld^\top (\bx_n - \bxmean)
+			\\[2mm]
+				\E\bigl[ \bz_n \bz_n^\top \bigr]
+					&= \sigmaSqOld \bM^{-1} + \E\bigl[ \bz_n \bigr] \E\bigl[ \bz_n \bigr]^\top.
+			\end{align*}
+			\item \textbf{M-Schritt:} Berechne die neuen Parameter mithilfe der zuvor berechneten Erwartungswerte
+				$\bWNew = \eqref{eq:ppca-m-step-W}$ und $\sigmaSqNew = \eqref{eq:ppca-m-step-sigmaSq}$.
+			\item Falls noch keine Konvergenz vorliegt, setze $\bWOld \coloneqq \bWNew$ und $\sigmaSqOld \coloneqq \sigmaSqNew$
+				und gehe zu 2.
+		\end{enumerate}
 	\end{myalg}
 \end{frame}
