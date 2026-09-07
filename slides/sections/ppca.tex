@@ -381,24 +381,47 @@
 
 % Intermezzo: Spur einer Matrix und deren Eigenschaften (Forts.)
 \begin{frame}{Intermezzo: Spur einer Matrix und deren Eigenschaften (Forts.)}{}
-	\begin{mytheo}
+	\begin{boxGray}
 		Ohne Beweis folgen wichtige Eigenschaften und Rechenregeln der Spur einer Matrix:
 		\begin{itemize}
-			\item Im Folgenden benutzen wir häufig die \textit{zyklische Eigenschaft} der Spur.
-				Für Matrizen $\bA$, $\bB$ und $\bC$ passender Dimension gilt nämlich
-			\begin{equation} \label{eq:ppca-trace-cyclic}
-				\trace(\bA \bB \bC) = \trace(\bC \bA \bB) = \trace(\bB \bC \bA).
-			\end{equation}
 			\item Sei $\alpha \in \R$ ein Skalar. Dann ist
 			\begin{equation} \label{eq:ppca-trace-scalar}
 				\trace(\alpha) = \alpha.
 			\end{equation}
+			\item Die Spur ändert sich durch Transponieren nicht, d.\,h. für die Matrix $\bA \in \R^{N \times N}$ gilt
+			\begin{equation} \label{eq:ppca-trace-transpose}
+				\trace\bigl( \bA \bigr) = \trace\bigl( \bA^\top \bigr).
+			\end{equation}
+			\item \textit{Zyklische Invarianz}: Für Matrizen $\bA$, $\bB$ und $\bC$ passender Dimension gilt
+			\begin{equation} \label{eq:ppca-trace-cyclic}
+				\trace(\bA \bB \bC) = \trace(\bC \bA \bB) = \trace(\bB \bC \bA).
+			\end{equation}
+		\end{itemize}
+	\end{boxGray}
+\end{frame}
+
+% Intermezzo: Spur einer Matrix und deren Eigenschaften (Forts.)
+\begin{frame}{Intermezzo: Spur einer Matrix und deren Eigenschaften (Forts.)}{}
+	\begin{boxGray}
+		Fortsetzung:
+		\begin{itemize}
 			\item Die Spur ist \textit{linear}, d.\,h. für $\alpha, \beta \in \R$ und Matrizen $\bA, \bB \in \R^{N \times N}$ gilt
 			\begin{equation} \label{eq:ppca-trace-linear}
 				\trace(\alpha \bA + \beta \bB) = \alpha \trace(\bA) + \beta \trace(\bB).
 			\end{equation}
+			\item Ableitungsregeln: Es gelten die Regeln
+			\begin{align}
+			\label{eq:ppca-trace-derivative-1}
+				\frac{\partial}{\partial \bA} \trace(\bA \bB)
+					&= \bB^\top
+			\\[2mm]
+			\label{eq:ppca-trace-derivative-2}
+				 \frac{\partial}{\partial \bA} \trace\bigl( \bA \bB \bA^\top \bigr)
+				 	&= 2 \bA \bB.
+					&&\rem{(falls $\bB$ symmetrisch ist)}
+			\end{align} 
 		\end{itemize}
-	\end{mytheo}
+	\end{boxGray}
 \end{frame}
 
 
@@ -455,8 +478,8 @@
 % SUBSECTION: EM-Algorithmus für die PPCA
 \subsection{EM-Algorithmus für die PPCA}
 
-% Anwendung des EM-Verfahrens
-\begin{frame}{Anwendung des EM-Verfahrens}{}
+% EM: E-Schritt
+\begin{frame}{EM: E-Schritt}{}
 	\begin{itemize}
 		\item Wir möchten nun die Lösung mit dem \textit{EM-Verfahren} bestimmen.
 		\item \textbf{Zur Erinnerung:} Im E-Schritt müssen wir
@@ -481,8 +504,8 @@
 \end{frame}
 
 
-% Anwendung des EM-Verfahrens (Forts.)
-\begin{frame}{Anwendung des EM-Verfahrens (Forts.)}{}
+% EM: E-Schritt (Forts.)
+\begin{frame}{EM: E-Schritt (Forts.)}{}
 	\begin{itemize}
 		\item Des Weiteren haben wir
 		\begin{equation}
@@ -509,8 +532,8 @@
 \end{frame}
 
 
-% Anwendung des EM-Verfahrens (Forts.)
-\begin{frame}{Anwendung des EM-Verfahrens (Forts.)}{}
+% EM: E-Schritt (Forts.)
+\begin{frame}{EM: E-Schritt (Forts.)}{}
 	\begin{itemize}
 		\item Mit diesen Ergebnissen können wir die Erwartungswerte aus \eqref{eq:ppca-em-expectations-general} bestimmen.
 		\item Wir erhalten mit der Linearität des Erwartungswerts
@@ -530,8 +553,8 @@
 \end{frame}
 
 
-% Anwendung des EM-Verfahrens (Forts.)
-\begin{frame}{Anwendung des EM-Verfahrens (Forts.)}{}
+% EM: E-Schritt (Forts.)
+\begin{frame}{EM: E-Schritt (Forts.)}{}
 	Durch Summation über alle Instanzen des Datensatzes erhalten wir das Endergbnis:
 	\begin{boxGray}
 		\begin{equation} \label{eq:ppca-em-expectations}
@@ -557,18 +580,116 @@
 \end{frame}
 
 
-% Anwendung des EM-Verfahrens (Forts.)
-\begin{frame}{Anwendung des EM-Verfahrens (Forts.)}{}
+% EM: E-Schritt (Forts.)
+\begin{frame}{EM: E-Schritt (Forts.)}{}
 	\begin{itemize}
-		\item 
+		\item Die Ausdrücke $\E\bigl[ \bz_n \bigr]$ und $\E\bigl[ \bz_n \bz_n^\top \bigr]$ lassen sich mit \eqref{eq:ppca-posterior-z-given-x}
+			leicht bestimmen.
+		\item Es ist
+		\begin{equation}
+			\begin{aligned}
+				\E\bigl[ \bz_n \bigr]
+					&= \bM^{-1} \bW^\top (\bx_n - \bxmean)
+			\\[2mm]
+				\E\bigl[ \bz_n \bz_n^\top \bigr]
+					&= \Cov\bigl[ \bz_n \bigr] + \E\bigl[ \bz_n \bigr] \E\bigl[ \bz_n \bigr]^\top
+			\\[2mm]
+					&= \sigma^2 \bM^{-1} + \E\bigl[ \bz_n \bigr] \E\bigl[ \bz_n \bigr]^\top
+			\end{aligned}
+		\end{equation}
+		\item Damit haben wir den E-Schritt abgeschlossen.
 	\end{itemize}
 \end{frame}
 
 
+% EM: M-Schritt
+\begin{frame}{EM: M-Schritt}{}
+	\begin{itemize}
+		\item Wir kommen nun zum M-Schritt, in dem wir \eqref{eq:ppca-em-expectations} in den Parametern
+			$\bW$ und $\sigma^2$ maximieren.
+		\item Für die Ableitung nach $\bW$ betrachten wir nur die Terme, die von $\bW$ abhängen
+		\begin{equation}
+			f(\bW)
+				\coloneqq \frac{1}{\sigma^2} \sum_{n=1}^N \Biggl\{
+					\E[\bz_n]^\top \bW^\top (\bx_n - \bxmean)
+					- \frac{1}{2} \trace\bigl( \E\bigl[ \bz_n \bz_n^\top \bigr] \bW^\top \bW \bigr)
+				\Biggr\}.
+		\end{equation}
+		\item Auf den ersten Term wenden wir die Spur und deren Rechenregeln an
+		\begin{equation}
+			\begin{aligned}
+				\E[\bz_n]^\top \bW^\top (\bx_n - \bxmean)
+					&\overset{\eqref{eq:ppca-trace-scalar}}{=} \trace\bigl( \E[\bz_n]^\top \bW^\top (\bx_n - \bxmean) \bigr)
+			\\[2mm]
+					&\overset{\eqref{eq:ppca-trace-cyclic}}{=} \trace\bigl( (\bx_n - \bxmean) \E[\bz_n]^\top \bW^\top \bigr)
+			\\[2mm]
+					&\overset{\eqref{eq:ppca-trace-transpose}}{=} \trace\bigl( \bW \E[\bz_n] (\bx_n - \bxmean)^\top \bigr).
+			\end{aligned}
+		\end{equation}
+	\end{itemize}
+\end{frame}
 
 
+% EM: M-Schritt (Forts.)
+\begin{frame}{EM: M-Schritt (Forts.)}{}
+	\begin{itemize}
+		\item Auf den zweiten Term wenden wir ebenfalls die zyklische Invarianz der Spur \eqref{eq:ppca-trace-cyclic} an
+		\begin{equation}
+			\trace\bigl( \E\bigl[ \bz_n \bz_n^\top \bigr] \bW^\top \bW \bigr)
+				= \trace\bigl( \bW \E\bigl[ \bz_n \bz_n^\top \bigr] \bW^\top \bigr).
+		\end{equation}
+		\item Nun haben wir beide Terme in der Form von \eqref{eq:ppca-trace-derivative-1} und \eqref{eq:ppca-trace-derivative-2}
+			und können die Ableitung daher einfach bilden
+		\begin{equation}
+			\frac{\partial}{\partial \bW} f(\bW)
+				= \frac{1}{\sigma^2} \sum_{n=1}^N \biggl\{
+					(\bx_n - \bxmean) \E[\bz_n]^\top - \bW \E\bigl[ \bz_n \bz_n^\top \bigr] \bigr)
+				\biggr\}.
+		\end{equation}
+	\end{itemize}
+	
+	\begin{mytask}
+		Zeigen Sie, dass für $\sigma^2$ gilt
+		\begin{equation}
+			\frac{\partial}{\partial \sigma^2} f\bigl( \sigma^2 \bigr)
+				= -\frac{N D}{2 \sigma^2} + \frac{1}{2 \bigl( \sigma^2 \bigr)^2} \sum_{n=1}^N \biggl\{
+					\Vert \bx_n - \bxmean \Vert^2 - 2 \E[\bz_n]^\top \bW^\top (\bx_n - \bxmean) +
+					\trace\bigl( \E\bigl[ \bz_n \bz_n^\top \bigr] \bW^\top \bW
+				\biggr\}
+		\end{equation}
+	\end{mytask}
+\end{frame}
 
 
+% EM: M-Schritt (Forts.)
+\begin{frame}{EM: M-Schritt (Forts.)}{}
+	\begin{itemize}
+		\item Nullsetzen unf Auflösen nach den jeweiligen Parametern ergibt schließlich die Aufdatierungsregeln
+			für die Parameter $\bW$ und $\sigma^2$
+		\begin{align}
+		\label{eq:ppca-m-step-W}
+			\bWNew
+				&= \left[ \sum_{n=1}^N (\bx_n - \bxmean) \E[\bz_n]^\top \right] \left[ \sum_{n=1}^N \E\bigl[ \bz_n \bz_n^\top \bigr] \right]^{-1}
+		\\[2mm]
+		\label{eq:ppca-m-step-sigmaSq}
+			\sigmaSqNew
+				&= \frac{1}{N D} \sum_{n=1}^N \biggl\{
+					\Vert \bx_n - \bxmean \Vert^2 - 2 \E[\bz_n]^\top \bWNew^\top (\bx_n - \bxmean) +
+					\trace\bigl( \E\bigl[ \bz_n \bz_n^\top \bigr] \bWNew^\top \bWNew
+				\biggr\}.
+		\end{align}
+		\item Die Parameter $\bW$ und $\sigma^2$ werden zunächst initialisiert.
+		\item Anschließend werden die Erwartungswerte $\E\bigl[ \bz_n \bigr]$ und $\E\bigl[ \bz_n \bz_n^\top \bigr]$ mit den aktuellen
+			Parametern bestimmt.
+		\item Mit den neuen Erwartungswerten bestimmen wir die neuen Parameter gemäß \eqref{eq:ppca-m-step-W}
+			und \eqref{eq:ppca-m-step-sigmaSq}.
+	\end{itemize}
+\end{frame}
 
 
-
+% EM-Algorithmus für die PPCA
+\begin{frame}{EM-Algorithmus für die PPCA}{}
+	\begin{myalg}
+	
+	\end{myalg}
+\end{frame}
