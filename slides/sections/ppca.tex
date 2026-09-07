@@ -301,8 +301,8 @@
 \end{frame}
 
 
-% SUBSECTION: Bestimmung der Likelihood
-\subsection{Bestimmung der Likelihood}
+% SUBSECTION: Bestimmung der Likelihood und exakte Lösung
+\subsection{Bestimmung der Likelihood und exakte Lösung}
 
 % Bestimmung der Likelihood
 \begin{frame}{Bestimmung der Likelihood}{}
@@ -597,6 +597,7 @@
 					&= \sigma^2 \bM^{-1} + \E\bigl[ \bz_n \bigr] \E\bigl[ \bz_n \bigr]^\top
 			\end{aligned}
 		\end{equation}
+		\item Für $\E\bigl[ \bz_n \bz_n^\top \bigr]$ haben wir die Definition der Kovarianz benutzt.
 		\item Damit haben wir den E-Schritt abgeschlossen.
 	\end{itemize}
 \end{frame}
@@ -655,7 +656,7 @@
 				= -\frac{N D}{2 \sigma^2} + \frac{1}{2 \bigl( \sigma^2 \bigr)^2} \sum_{n=1}^N \biggl\{
 					\Vert \bx_n - \bxmean \Vert^2 - 2 \E[\bz_n]^\top \bW^\top (\bx_n - \bxmean) +
 					\trace\bigl( \E\bigl[ \bz_n \bz_n^\top \bigr] \bW^\top \bW
-				\biggr\}
+				\biggr\}.
 		\end{equation}
 	\end{mytask}
 \end{frame}
