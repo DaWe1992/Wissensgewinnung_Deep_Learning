@@ -495,9 +495,9 @@
 		\begin{equation}
 			\begin{aligned}
 				\ln \normdense(\bz)
-					&= -\frac{M}{2} \ln(2 \pi) - \frac{1}{2} \bz^\top \bz
+					&= -\frac{D}{2} \ln(2 \pi) - \frac{1}{2} \bz^\top \bz
 			\\[2mm]
-					&= -\frac{M}{2} \ln(2 \pi) - \frac{1}{2} \trace\bigl( \bz \bz^\top \bigr).
+					&= -\frac{D}{2} \ln(2 \pi) - \frac{1}{2} \trace\bigl( \bz \bz^\top \bigr).
 			\end{aligned}
 		\end{equation}
 	\end{itemize}
@@ -511,10 +511,10 @@
 		\begin{equation}
 			\begin{aligned}
 				\ln \normdense(\bx \mid \bz)
-					&= \ln\left( \frac{1}{(2 \pi)^\frac{D}{2} \det\bigl( \sigma^2 \bI \bigr)^\frac{1}{2}} \right)
+					&= \ln\left( \frac{1}{(2 \pi)^\frac{M}{2} \det\bigl( \sigma^2 \bI \bigr)^\frac{1}{2}} \right)
 						- \frac{1}{2} (\bx - \bW \bz - \bmu)^\top \bigl( \sigma^2 \bI \bigr)^{-1} (\bx - \bW \bz - \bmu).
 			\\[2mm]
-					&= -\frac{D}{2} \ln\bigl( 2 \pi \sigma^2 \bigr) - \frac{1}{2 \sigma^2} \Vert \bx - \bW \bz - \bmu \Vert^2.
+					&= -\frac{M}{2} \ln\bigl( 2 \pi \sigma^2 \bigr) - \frac{1}{2 \sigma^2} \Vert \bx - \bW \bz - \bmu \Vert^2.
 			\end{aligned}
 		\end{equation}
 		\item Wir multiplizieren den quadratischen Term $\Vert \bx - \bW \bz - \bmu \Vert^2$ aus
@@ -540,10 +540,10 @@
 		\begin{equation}
 			\begin{aligned}
 				\E_{\bz \sim \normdense(\bz\,\mid\,\bx)}\left[ \ln p(\bz) \right]
-					&= -\frac{M}{2} \ln(2 \pi) - \frac{1}{2} \trace\bigl( \E\bigl[ \bz \bz^\top \bigr] \bigr)
+					&= -\frac{D}{2} \ln(2 \pi) - \frac{1}{2} \trace\bigl( \E\bigl[ \bz \bz^\top \bigr] \bigr)
 			\\[2mm]
 				\E_{\bz \sim \normdense(\bz\,\mid\,\bx)}\left[ \ln p(\bx \mid \bz) \right]
-					&= -\frac{D}{2} \ln\bigl( 2 \pi \sigma^2 \bigr) - \frac{1}{2 \sigma^2} \Vert \bx - \bmu \Vert^2
+					&= -\frac{M}{2} \ln\bigl( 2 \pi \sigma^2 \bigr) - \frac{1}{2 \sigma^2} \Vert \bx - \bmu \Vert^2
 						+ \frac{1}{\sigma^2} \E\bigl[ \bz \bigr]^\top \bW^\top (\bx - \bmu)
 			\\[2mm]
 					&\qquad\quad - \frac{1}{2 \sigma^2} \trace\bigl( \E\bigl[ \bz \bz^\top \bW^\top \bW \bigr] \bigr)
@@ -561,7 +561,7 @@
 			\begin{aligned}
 				\E_{\bZ \sim \normdense(\bZ\,\mid\,\bX)}\bigl[ \ln p\bigl( \bX, \bZ \param \bmu, \bW, \sigma^2 \bigr) \bigr]
 					&\propto -\sum_{n=1}^N \Biggl\{
-						\frac{D}{2} \ln\bigl( 2 \pi \sigma^2 \bigr) + \frac{1}{2} \trace\bigl( \E\bigl[ \bz_n \bz_n^\top \bigr] \bigr)
+						\frac{M}{2} \ln\bigl( 2 \pi \sigma^2 \bigr) + \frac{1}{2} \trace\bigl( \E\bigl[ \bz_n \bz_n^\top \bigr] \bigr)
 				\\[2mm]
 					&\qquad\quad + \frac{1}{2 \sigma^2} \Vert \bx_n - \bmu \Vert^2
 						- \frac{1}{\sigma^2} \E[\bz_n]^\top \bW^\top (\bx_n - \bmu)
@@ -703,9 +703,120 @@
 					&= \sigmaSqOld \bM^{-1} + \E\bigl[ \bz_n \bigr] \E\bigl[ \bz_n \bigr]^\top.
 			\end{align*}
 			\item \textbf{M-Schritt:} Berechne die neuen Parameter mithilfe der zuvor berechneten Erwartungswerte
-				$\bWNew = \eqref{eq:ppca-m-step-W}$ und $\sigmaSqNew = \eqref{eq:ppca-m-step-sigmaSq}$.
+				$\bWNew \coloneqq \eqref{eq:ppca-m-step-W}$ und $\sigmaSqNew \coloneqq \eqref{eq:ppca-m-step-sigmaSq}$.
 			\item Falls noch keine Konvergenz vorliegt, setze $\bWOld \coloneqq \bWNew$ und $\sigmaSqOld \coloneqq \sigmaSqNew$
 				und gehe zu 2.
 		\end{enumerate}
 	\end{myalg}
 \end{frame}
+
+
+% SUBSECTION: EM-Algorithmus für die PCA
+\subsection{EM-Algorithmus für die PCA}
+
+% Spezialfall: EM-Algorithmus für die PCA
+\begin{frame}{Spezialfall: EM-Algorithmus für die PCA}{}
+	\begin{itemize}
+		\item Einen interessanten Spezialfall erhält man, wenn man $\sigma^2 \rightarrow 0$ betrachtet.
+		\item Dieses Modell entspricht dem der \textit{Standard-PCA}.
+		\item Der Algorithmus vereinfacht sich dadurch wesentlich:
+		\begin{itemize}
+			\item Im E-Schritt muss nur noch $\E[\bz_n]$ bestimmt werden.
+			\item Im M-Schritt müssen wir nur noch $\bW$ aufdatieren ($\sigma^2$ entfällt).
+			\item Außerdem gilt $\bM = \bW^\top \bW$.
+		\end{itemize}
+		\item Wir definieren $\bXtilde \in \R^{N \times M}$ als die Matrix, deren $n$-te Zeile durch $\bx_n - \bxmean$ gegeben ist.
+		\item Zudem sei $\bOmega \in \R^{D \times N}$ die Matrix, deren $n$-te Zeile durch den Vektor $\E[\bz_n]$ gegeben ist.
+		\item Hiermit können wir den EM-Algorithmus für die PCA formulieren.
+	\end{itemize}
+\end{frame}
+
+
+% Spezialfall: EM-Algorithmus für die PCA (Forts.)
+\begin{frame}{Spezialfall: EM-Algorithmus für die PCA (Forts.)}{}
+	\begin{myalg}
+		\begin{enumerate}
+			\item Bestimme $\bxmean \coloneqq \frac{1}{N} \sum_{n=1}^N \bx_n$ und initialisiere $\bWOld$ zufällig
+				\textit{(oder mit Vorwissen)}.
+			\item \textbf{E-Schritt:} Berechne
+			\begin{equation}
+				\bOmega \coloneqq \bigl( \bWOld^\top \bWOld \bigr)^{-1} \bWOld^\top \bXtilde^\top.
+			\end{equation}
+			\item \textbf{M-Schritt:} Berechne $\bWNew$ mittels
+			\begin{equation}
+				\bWNew \coloneqq \bXtilde^\top \bOmega^\top \bigl( \bOmega \bOmega^\top \bigr)^{-1}.
+			\end{equation}
+			\item Falls noch keine Konvergenz vorliegt, setze $\bWOld \coloneqq \bWNew$ und gehe zu 2.
+		\end{enumerate}
+	\end{myalg}
+\end{frame}
+
+
+% Visualisierung: EM-Algorithmus für die PCA
+\begin{frame}{Visualisierung: EM-Algorithmus für die PCA}{}
+	\begin{figure}[H]
+		\divideThree{0.32}{
+			\centering
+			\includegraphics[scale=0.85]{./img/ppca/em_pca_a.pdf}
+		}{0.32}{
+			\centering
+			\includegraphics[scale=0.85]{./img/ppca/em_pca_b.pdf}
+		}{0.32}{
+			\centering
+			\includegraphics[scale=0.85]{./img/ppca/em_pca_c.pdf}
+		}
+		\caption{%
+			Visualisierung des EM-Verfahrens für die PCA. (a) Datensatz (grün) mit den genauen Principal Components (schwarz).
+			(b) Initialer Principal Subspace und Projektion der Daten (blau) auf denselben.
+			(c) Principal Subspace nach dem ersten M-Schritt.
+			Siehe \cite{Bishop2006}, Seite 581.}
+	\end{figure}
+\end{frame}
+
+
+% Visualisierung: EM-Algorithmus für die PCA (Forts.)
+\begin{frame}{Visualisierung: EM-Algorithmus für die PCA (Forts.)}{}
+	\begin{figure}[H]
+		\divideThree{0.32}{
+			\centering
+			\includegraphics[scale=0.85]{./img/ppca/em_pca_d.pdf}
+		}{0.32}{
+			\centering
+			\includegraphics[scale=0.85]{./img/ppca/em_pca_e.pdf}
+		}{0.32}{
+			\centering
+			\includegraphics[scale=0.85]{./img/ppca/em_pca_f.pdf}
+		}
+		\caption{%
+		Fortsetzung: (d) Nach dem darauffolgenden E-Schritt.
+		(e) Nach dem zweiten M-Schritt.
+		(f) Nach dem zweiten E-Schritt.
+		Siehe \cite{Bishop2006}, Seite 581.}
+	\end{figure}
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
