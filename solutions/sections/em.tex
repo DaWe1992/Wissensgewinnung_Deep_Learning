@@ -35,12 +35,19 @@ Laut Aufgabenstellung ist $x_1 = 1$ und $x_2 = 0$. Dies können wir direkt in da
 
 \textbf{Schritt 2: Der E-Schritt (Bestimmung des Erwartungswerts).}
 
-Wir bestimmen die Funktion $Q(\theta, \thetaOld) = \E_{z_3 \sim p(z_3\,\mid\, x_1 = 1, x_2 = 0 \param \thetaOld)} [\ln p(x_1, x_2, z_3 \param \theta)]$. Da die drei Münzwürfe \textit{stochastisch unabhängig} sind, hängt die Verteilung des fehlenden Wurfes $z_3$ nicht von den vorherigen Würfen $x_1$ und $x_2$ ab. Daher reduziert sich der Ausdruck für den Posterior $p(z_3\,\mid\,x_1 = 1, x_2 = 0 \param \thetaOld)$ auf $p(z_3 \param \thetaOld)$, denn aufgrund der Unabhängigkeit verändert die Tatsache, dass man $x_1$ und $x_2$ beobachtet, nichts an der Wahrscheinlichkeit für $z_3$. Für den Erwartungswert gilt daher $\E_{z_3 \sim p(z_3\,\mid\,x_1 = 1, x_2 = 0 \param \thetaOld)} = \thetaOld = 0.7$. Durch Einsetzen dieses Erwartungswerts für $z_3$ in die vollständige Log-Likelihood erhält man
-\begin{equation*}
+Wir bestimmen die Funktion $Q(\theta, \thetaOld) = \E_{z_3 \sim p(z_3\,\mid\, x_1 = 1, x_2 = 0 \param \thetaOld)}\bigl[ \ln p(x_1, x_2, z_3 \param \theta) \bigr]$. Da die drei Münzwürfe \textit{stochastisch unabhängig} sind, hängt die Verteilung des fehlenden Wurfes $z_3$ nicht von den vorherigen Würfen $x_1$ und $x_2$ ab. Der kompliziert aussehende Ausdruck für den Posterior $p(z_3 \mid x_1 = 1, x_2 = 0 \param \thetaOld)$ vereinfacht sich deshalb wesentlich zu $p(z_3 \param \thetaOld)$. Denn aufgrund der Unabhängigkeit verändert die Tatsache, dass man $x_1$ und $x_2$ beobachtet, nichts an der Wahrscheinlichkeit für $z_3$. Für den Erwartungswert von $z_3$ unter der Posterior-Verteilung gilt daher $\E_{z_3 \sim p(z_3 \param \thetaOld)}[z_3] = \thetaOld = 0.7$, denn $z_3$ folgt einer Bernoulli-Verteilung. Damit und mit der Linearität des Erwartungswerts erhalten wir für $Q(\theta, \thetaOld)$ den folgenden Ausdruck
+\begin{align*}
 	Q(\theta, \thetaOld)
-		= (1 + 0.7) \ln \theta + (2 - 0.7) \ln(1 - \theta)
-		= (1.7) \ln \theta + (1.3) \ln(1 - \theta).
-\end{equation*}
+		&= \E_{z_3 \sim p(z_3 \param \thetaOld)}\bigl[ \ln p(x_1, x_2, z_3 \param \theta) \bigr]
+\\[2mm]
+		&= \E_{z_3 \sim p(z_3 \param \thetaOld)}\bigl[ (1 + z_3) \ln \theta + (2 - z_3) \ln(1 - \theta) \bigr]
+\\[2mm]
+		&= (1 + \E_{z_3 \sim p(z_3 \param \thetaOld)}[z_3]) \ln \theta + (2 - \E_{z_3 \sim p(z_3 \param \thetaOld)}[z_3]) \ln(1 - \theta)
+\\[2mm]
+		&= (1 + 0.7) \ln \theta + (2 - 0.7) \ln(1 - \theta)
+\\[2mm]
+		&= 1.7 \cdot \ln \theta + 1.3 \cdot \ln(1 - \theta).
+\end{align*}
 
 \textbf{Schritt 3: Der M-Schritt (Maximierung).}
 
