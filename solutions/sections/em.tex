@@ -1,0 +1,57 @@
+% SECTION: Expectation-Maximization (EM) Algorithmus
+\section{Expectation-Maximization (EM) Algorithmus}
+
+% SOLUTION
+\subsection*{Lösung zu Aufgabe \ref{[task:em-missing-data]}}
+
+\textbf{Schritt 1: Ermittlung der vollständigen Log-Likelihood.}
+
+Da alle Münzwürfe \textit{stochastisch unabhängig} sind, ist die gemeinsame Wahrscheinlichkeit des Gesamtexperiments das Produkt der Einzelwahrscheinlichkeiten
+\begin{equation*}
+	p(X_1, X_2, Z_3 \param \theta)
+		= p(X_1 \param \theta) \cdot p(X_2 \param \theta) \cdot p(Z_3 \param \theta).
+\end{equation*}
+Jede einzelne Variable ist \textit{Bernoulli-verteilt}. Setzen wir dies ein, so erhalten wir
+\begin{align*}
+	p(X_1, X_2, Z_3 \param \theta)
+		&= \bigl[ \theta^{X_1} \cdot (1 - \theta)^{1 - X_1} \bigr]
+			\cdot \bigl[ \theta^{X_2} \cdot (1 - \theta)^{1 - X_2} \bigr]
+			\cdot \bigl[ \theta^{Z_3} \cdot (1 - \theta)^{1 - Z_3} \bigr]
+\\[2mm]
+		&= \theta^{X_1 + X_2 + Z_3} \cdot (1 - \theta)^{(1 - X_1) + (1 - X_2) + (1 - Z_3)}
+\\[2mm]
+		&= \theta^{X_1 + X_2 + Z_3} \cdot (1 - \theta)^{3 - X_1 - X_2 - Z_3}.
+\end{align*}
+Die Anwendung des Logarithmus ergibt schließlich
+\begin{equation*}
+	\ln p(X_1, X_2, Z_3 \param \theta)
+		= (X_1 + X_2 + Z_3) \ln \theta + (3 - X_1 - X_2 - Z_3) \ln(1 - \theta).
+\end{equation*}
+Laut Aufgabenstellung ist $X_1 = 1$ und $X_2 = 0$. Dies können wir direkt in das vorangehende Ergebnis einsetzen und erhalten
+\begin{equation*}
+	\ln p(X_1 = 1, X_2 = 0, Z_3 \param \theta)
+		= (1 + Z_3) \ln \theta + (2 - Z_3) \ln(1 - \theta).
+\end{equation*}
+
+\textbf{Schritt 2: Der E-Schritt (Bestimmung des Erwartungswerts).}
+
+Wir bestimmen die Funktion $Q(\theta, \thetaOld) = \E_{Z_3 \sim p(Z_3\,\mid\, X_1 = 1, X_2 = 0 \param \thetaOld)} [\ln p(X_1, X_2, Z_3 \param \theta)]$. Da die drei Münzwürfe \textit{stochastisch unabhängig} sind, hängt die Verteilung des fehlenden Wurfes $Z_3$ nicht von den vorherigen Würfen $X_1$ und $X_2$ ab. Daher reduziert sich der Posterior $p(Z_3\,\mid\, X_1 = 1, X_2 = 0 \param \thetaOld)$ auf $p(Z_3 \param \thetaOld)$, denn aufgrund der Unabhängigkeit verändert die Tatsache, dass man $X_1$ und $X_2$ beobachtet, nichts an der Wahrscheinlichkeit für $Z_3$. Für den Erwartungswert gilt daher $\E_{Z_3 \sim p(Z_3\,\mid\, X_1 = 1, X_2 = 0 \param \thetaOld)} = \thetaOld = 0.7$. Durch Einsetzen dieses Erwartungswerts für $Z_3$ in die vollständige Log-Likelihood erhält man
+\begin{equation*}
+	Q(\theta, \thetaOld)
+		= (1 + 0.7) \ln \theta + (2 - 0.7) \ln(1 - \theta)
+		= (1.7) \ln \theta + (1.3) \ln(1 - \theta).
+\end{equation*}
+
+\textbf{Schritt 3: Der M-Schritt (Maximierung).}
+
+Wir maximieren nun $Q(\theta, \thetaOld)$ bezüglich $\theta$, um $\thetaNew$ zu erhalten. Dazu bilden wir die Ableitung nach $\theta$ und setzen diese gleich Null. Es ist
+\begin{equation*}
+	\frac{\partial}{\partial \theta} Q(\theta, \thetaOld)
+		= \frac{1.7}{\theta} - \frac{1.3}{1 - \theta} \overset{!}{=} 0.
+\end{equation*}
+Durch Auflösen nach $\theta$ erhalten wir $\thetaNew = \frac{1.7}{3} \approx 0.567$. Führt man noch weitere Iterationen aus, so konvergiert das Verfahren bei $\theta^* = 0.5$.
+
+\textbf{Interpretation:} Wir haben einen Erfolg und einen Misserfolg beobachtet. Der nicht beobachtete Wurf geht zusätzlich mit dem Erwartungswert von 0.7 ein, sodass wir den neuen Parameter erhalten, indem wir die Gesamtanzahl der Köpfe (1.7) durch die Anzahl der Würfe (3) teilen.
+
+
+\newpage
