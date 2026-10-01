@@ -232,7 +232,7 @@
 		\textbf{Maximierungsproblem für die PCA:}
 		\begin{equation} \label{eq:pca-max-var-problem}
 			\begin{aligned}
-				\text{Maximiere} 	&\qquad \bu_1 \bS \bu_1
+				\text{Maximiere} 	&\qquad \bu_1^\top \bS \bu_1
 			\\[2mm]
 				\text{unter} 		&\qquad \Vert \bu_1 \Vert = 1.
 			\end{aligned}
@@ -252,7 +252,7 @@
 		\item Der Lagrange-Multiplikator $\lambda_1$ ist der zugehörige Eigenwert.
 	\end{itemize}
 
-	\begin{mytask}
+	\begin{mytask}[task:pca-derivation-eigenvalue-problem]
 		Zeigen Sie die Gültigkeit von \eqref{eq:pca-eigenvalue-problem}, indem Sie das
 		Optimierungsproblem \eqref{eq:pca-max-var-problem} lösen. Stellen Sie hierzu die Lagrange-Funktion des Problems auf
 		und finden Sie deren stationäre Punkte.
@@ -355,7 +355,7 @@
 
 % PCA-Algorithmus (Forts.)
 \begin{frame}{PCA-Algorithmus (Forts.)}{}
-	\begin{mytask}
+	\begin{mytask}[task:pca-algorithm]
 		Es sei der zweidimensionale Datensatz
 		\begin{equation*}
 			\bX \coloneqq \begin{pmatrix} 1 & 4 \\ 4 & 1 \\ 1 & 1 \end{pmatrix} \in \R^{3 \times 2}
@@ -444,7 +444,7 @@
 		\end{equation}
 	\end{itemize}
 
-	\begin{mytask}
+	\begin{mytask}[task:pca-minimum-error]
 		Bestätigen Sie die Formeln \eqref{eq:pca-min-proj-error-z} und \eqref{eq:pca-min-proj-error-b} durch Nachrechnen.
 	\end{mytask}
 \end{frame}

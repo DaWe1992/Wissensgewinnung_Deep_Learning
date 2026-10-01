@@ -1,0 +1,33 @@
+% SECTION: Principal Component Analysis (PCA)
+\section{Principal Component Analysis (PCA)}
+
+% SOLUTION
+\subsection*{Lösung zu Aufgabe \ref{task:pca-derivation-eigenvalue-problem}}
+
+Wir stellen zunächst die Lagrange-Funktion auf. Diese lautet
+\begin{equation*}
+	\lagrange(\bu_1, \lambda_1)
+		= \bu_1^\top \bS \bu_1 + \lambda_1 \bigl( \bu_1^\top \bu_1 - 1 \bigr).
+\end{equation*}
+Die partielle Ableitung von $\lagrange$ nach $\bu_1$ ist
+\begin{equation*}
+	\frac{\partial}{\partial \bu_1} \lagrange(\bu_1, \lambda_1)
+		= 2 \bS \bu_1 - 2 \lambda_1 \bu_1.
+\end{equation*}
+Wir setzen Null und lösen nach $\bu_1$ auf. Wir erhalten schließlich das Eigenwertproblem
+\begin{equation*}
+	\bS \bu_1 = \lambda_1 \bu_1.
+\end{equation*}
+
+
+% SOLUTION
+\subsection*{Lösung zu Aufgabe \ref{task:pca-algorithm}}
+
+
+% SOLUTION
+\subsection*{Lösung zu Aufgabe \ref{task:pca-minimum-error}}
+
+
+
+
+\newpage
